@@ -6,5 +6,8 @@
         <file>ExitPage.qml</file>
         <file>OpenMenuButton.qml</file>
         <file>ConfigPage.qml</file>
+        <file>HeaderRow.qml</file>
+        <file>ButtonRow.qml</file>
+        <file>FooterRow.qml</file>
     </qresource>
 </RCC>
