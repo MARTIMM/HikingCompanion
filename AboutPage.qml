@@ -3,7 +3,7 @@ import QtQuick.Window 2.3
 import QtQuick.Controls 2.4
 import QtQuick.Layouts 1.3
 
-Page {
+Rectangle {
   id: aboutPage
 
   anchors.fill: parent
@@ -13,10 +13,7 @@ Page {
   property alias openMenuButton: openMenuButton
   OpenMenuButton { id: openMenuButton }
 
-
-  contentData: [
-    Text {
-      text: qsTr("About")
-    }
-  ]
+  Text {
+    text: qsTr("About")
+  }
 }
