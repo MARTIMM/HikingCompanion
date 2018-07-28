@@ -21,7 +21,7 @@ Window {
 
   // some variables to be used in the design
   property int columnWidth: 210
-  property Page currentPage: mapPage
+  property Rectangle currentPage: mapPage
 
   // defined in a file
   property alias openMenuButton: openMenuButton
@@ -33,7 +33,7 @@ Window {
 
   // Pages are in separate files
   property alias configPage: configPage
-  MapPage { id: configPage }
+  ConfigPage { id: configPage }
 
   property alias aboutPage: aboutPage
   AboutPage { id: aboutPage }
@@ -89,7 +89,7 @@ Window {
     anchors.right: parent.right
     anchors.rightMargin: 0
 
-    ToolButton {
+    Button {
       id: mapButton
 
       width: parent.width
@@ -98,9 +98,9 @@ Window {
       text: qsTr("🗺 Map")
 
       anchors.left: parent.left
-      anchors.leftMargin: 0
+      //anchors.leftMargin: 0
       anchors.top: parent.top
-      anchors.topMargin: 0
+      anchors.topMargin: 1
 
       font.pointSize: 23
       font.bold: true
@@ -116,7 +116,7 @@ Window {
       }
     }
 
-    ToolButton {
+    Button {
       id: configButton
 
       width: parent.width
@@ -125,35 +125,36 @@ Window {
       text: qsTr("🛠 Config")
 
       anchors.left: parent.left
-      anchors.leftMargin: 0
+      //anchors.leftMargin: 0
       anchors.top: mapButton.bottom
-      anchors.topMargin: 0
+      anchors.topMargin: 1
 
       font.pointSize: 23
       font.bold: true
 
       onClicked: {
-        if ( currentPage !== mapPage ) {
+        if ( currentPage !== configPage ) {
           currentPage.visible = false
-          mapPage.visible = true
-          currentPage = mapPage
+          configPage.visible = true
+          currentPage = configPage
         }
 
         menuAnimateClose.start()
       }
     }
 
-    ToolButton {
+    Button {
       id: aboutButton
-      text: qsTr("👥 About")
 
       width: parent.width
       display: AbstractButton.TextOnly
 
+      text: qsTr("👥 About")
+
       anchors.left: parent.left
-      anchors.leftMargin: 0
+      //anchors.leftMargin: 0
       anchors.top: configButton.bottom
-      anchors.topMargin: 0
+      anchors.topMargin: 1
 
       font.pointSize: 23
       font.bold: true
@@ -169,15 +170,16 @@ Window {
       }
     }
 
-    ToolButton {
+    Button {
       id: exitButton
-      text: qsTr("⏻ Exit")
 
       width: parent.width
       display: AbstractButton.TextOnly
 
+      text: qsTr("⏻ Exit")
+
       anchors.bottom: parent.bottom
-      anchors.bottomMargin: 0
+      anchors.bottomMargin: 1
 
       font.bold: true
       font.pointSize: 23
