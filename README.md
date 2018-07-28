@@ -1,8 +1,20 @@
-# HikingCompanion
+# HikingCompanion Mobile Application
 
 ## Purpose
 Purpose of this app is to have a companion program suitable for showing tracks and additional information about those tracks. It is the intention to get those tracks from other app installations or from your own recorded tracks and added pictures and notes. So this program would become an all purpose vehicle for displaying external tracks. While its name would suggest that long walks are intended, a city walk showing the hot items of that place would equally be possible.
 
+At first use, not much can be done with the program. Another app must be installed too. This is a specially designed app holding track data and extra information such as notes and photos. Then, when such an app is installed, the app can be referred to by using some sort of name from this HikingCompanion application.
+
+When the HikingCompanion is not installed yet, the installation process of a tracking app should also install the HikingCompanion app.
+
+A tracking app should hold any or all of the following data
+* The route of the walk
+* Notes about interesting features along the route
+* Pictures showing the environment of points on the route
+* Map tiles and feature cache information
+* Places to eat and/or stay and web addresses to make reservations.
+
+## History
 This mobile app is a re-try of the previously developed SufiTrail app where I stumbled upon problems using the methods at hand. After some searches and some good suggestions from a good friend of mine, a new setup is tried with `Qt` using the tool `qtcreator`.
 
 I am still working through some series of acceptance tests but it looks hopeful. Below, a series of acceptance tests needed for this app and also the development for the implementation of the app is shown.
@@ -17,7 +29,7 @@ This app will be placed in the app store when ready.
 ## Acceptance tests for this project
 Below, there are a series of tests which is also used as the progress in the learning curve I have to go through. The most important device to work for are android devices. Ios devices would be nice but is a later problem.
 
-<progress max=47 value="20" />
+<progress max=48 value="22" />
 
 * [x] Android SDK, NDK and OpenJDK installation using Android Studio and linux installation tools.
 * [ ] Xcode for ios
@@ -37,24 +49,24 @@ Below, there are a series of tests which is also used as the progress in the lea
   * Input processing
     * [x] Text input and show input
     * [x] Html or Rich text
-    * [x] Buttons and action
+    * [x] Scroll and wrap text
+    * [x] Toolbar and normal buttons and processing
     * [ ] Radio buttons and show result
     * [ ] Check buttons and show result
-    * [ ] Make use of javascript for processing
+    * [x] Make use of javascript for processing of events
     * [ ] Showing lists
     * [ ] Generating a list
     * [ ] Tables
 
   * Navigation. There are several implementations possible
-    * [x] Show a menu. This is done using a `Column` class wherein `ToolButton`s are placed.
-    * [x] Multipages. Pages are created in separate files using the `Page` class.
-    * [x] Select pages.
+    * [x] Show a menu. This is done using a `Column` component wherein `ToolButton` components are placed.
+    * [x] Multipages. Pages are created in separate files using the `Page` component.
+    * [x] Selecting pages from the menu.
 
 * Integration of QML and C++. See for info [here][qtc-c++].
   * [x] Create a class with some variables and methods using <QObject> and other external modules
   * [x] Use the class in a QML description
   * [x] Debugging using qDebug() and using <QDebug>
-
 
 * [x] Go into an existing directory using QDir
 * [x] Open, read, write and create a file using QFile
@@ -88,18 +100,18 @@ Below, there are a series of tests which is also used as the progress in the lea
   * [ ] Desktop widget
 
 
-# Progress of application
-Next, the progress is shown here. Several entries are also in the acceptance tests to see if those things are possible. The acceptance tests are also directly connected to what the app must be capable of.
+# Progress of the application
+Next, the developing progress is shown here. Several entries are also in the acceptance tests to see if those things are possible because the purpose of the acceptance tests are to find out what Qt and the qtcreator tool is capable of.
 
 ## Events and devices to listen to
-<progress value="3" max="7" />
+<progress value="0" max="7" />
 
 There are several events which occur upon changing conditions in a device. These events must be captured for further actions.
-* [ ] Battery condition to warn user of battery low state. App might dim display or other options to save energy.
-* [x] Gps information to get current location.
-* [x] Network on and off line mode to update map and feature cache as well as send user data to a server
+* [ ] Battery condition to warn user of battery low state. App might dim display or perform other actions to save energy.
+* [ ] Gps information to get current location.
+* [ ] Network on and off line mode to update map and feature cache as well as send user data to a server
 * [ ] Device compass to show map correctly pointing the map-north to the real north.
-* [x] Resize events to change from portrait to landscape mode and back. Responsive. Needed to display everything in proper sizes.
+* [ ] Resize events to change from portrait to landscape mode and back. Responsive. Needed to display everything in proper sizes.
 * [ ] Camera to add a picture as a point on the map when saved.
 * [ ] Time and clock.
 
@@ -107,48 +119,43 @@ There are several events which occur upon changing conditions in a device. These
 
 Caching of data is needed for those moments that there is no network available.
 
-<progress value='4' max='6' />
+<progress value='0' max='4' />
 
-* [x] At start up and network is on, caching must start. Caching must be inhibited when network is off or very slow.
-* [ ] Store data to check for revisiting the caching process.
+* [ ] At start up and network is on and a track is installed, caching must start. Caching must be inhibited when network is off or very slow.
+* [ ] Store data (like date and time) to check for revisiting the caching process.
 * Tile caching.
-  * [ ] Make caching process visible.
-  * [x] Make a list of tile coordinates needed to cache at several zoom levels. Make estimation of total size.
-  * [x] The program `mkCacheTileArray.pl6` generates a module in the file `SufiCacheData.js` wherein the information is stored.
-  * [x] Another module in `SufiCache.js` inherits the data and uses it to create the directory tree for the tile images and downloads the tile images into these.
+  * [ ] Make caching process visible when done for the first time. This can be a long process. Low resolution tiles are cached for places such as the current location when it is off track. Make use of the cache information provided by the installed track app.
 * Feature caching.
-* Try to get weather forecast and cache this information too.
+    * [ ] Cache features using the information provided by the installed track app.
+* Try to get weather forecast and cache (short term) this information too.
 
-# What the application must do
-* When starting the program, the app must show a splash screen with the sufitrail emblem on it while the program gets ready in the background. Let the splash screen be shown for at least 5 seconds or longer as needed.
-* When the program is initialized it must show the map of the current location using the gps information of the device. One of the buttons shown on the screen can open a menu and direct the user to other pages of the program.
+## The Menu
+<progress value="2" max="4" />
 
-# The pages of the application
+* [x] Pressing the menu button `☰` shown on the map or other pages, will open a pane from the side to show a menu of options. A click on an entry will show another page. When selecting an entry, the menu is closed and a page will appear.
+* [ ] Each page may have a button `🏠` to the map page. Pressing that will return to the map page
+
+* [x] Layout of menu.
+* [ ] Layout of all pages must be coherent and matching the pages and colors from the book.
+
+## The pages of the application
 A series of screen descriptions the application can show.
 
-## Display on tablet screen
-<progress value="1" max="2" />
+### Display on tablet screen
+<progress value="0" max="2" />
 
-* [x] An icon of the sufitrail guy with green field in the back must be shown. Like **==>>** <img src="../Data/Images/AppLogo/logo-met-groen-klein-1.png" width="60px" height="60px"/>
+* [ ] An icon must be designed
 * [ ] A widget showing small part of a chart?
 
-## Splash screen
-<progress value="1" max="4" />
+### Splash screen
+<progress value="0" max="4" />
 
-A splash screen is always nice to display information in such a way that it makes a connection between the hiking and biking literature published by the Sufi trail group. The other purpose is that the application can start in the background and when it is ready, the splash screen is removed.
+When starting the program, the app must show a splash screen with a nice hiking picture on it while the program gets ready in the background. When it is, the splash screen is removed.
 
-  * [x] Show a screen with a Sufi trail icon. Keep this displayed until everything is initialized. This provides for a better user experience.
+  * [ ] Show a screen with a nice picture. Keep this displayed until everything is initialized. This provides for a better user experience.
   * [ ] Show a progress bar.
   * [ ] Show text displaying the task it is executing
   * [ ] Image must be made complete with some text
-
-### The Menu
-<progress value="0" max="2" />
-
-Pressing the menu button ☰ shown on the map, will open a pane from the side to show a menu of options. A click on an entry will show a page. Each page may have a shortcut to the home page: **Map** next to a menu button. When selecting an entry, the menu is closed and a page will appear.
-
-  * [ ] Layout of menu.
-  * [ ] Layout of all pages must be coherent and matching the pages and colors from the book.
 
 ####  The pages to select from the menu
 
