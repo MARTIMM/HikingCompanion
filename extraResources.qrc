@@ -1,5 +1,8 @@
 <RCC>
     <qresource prefix="/">
+        <file>Images/logo-met-groen-klein-1.png</file>
+    </qresource>
+    <qresource prefix="/">
         <file>Docs/exitText.html</file>
     </qresource>
     <qresource prefix="/" lang="nl">
