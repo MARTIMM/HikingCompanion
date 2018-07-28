@@ -2,12 +2,13 @@ import QtQuick 2.11
 import QtQuick.Window 2.3
 import QtQuick.Controls 2.4
 import QtQuick.Layouts 1.3
-//import io.github.martimm.textload 1.0
 import io.github.martimm.HikingCompanion.textload 1.0
 
-Page {
+Rectangle {
   id: exitPage
 
+  width: parent.width
+  height: parent.height
   anchors.fill: parent
   visible: false
 
@@ -15,119 +16,85 @@ Page {
   property alias openMenuButton: openMenuButton
   OpenMenuButton { id: openMenuButton }
 
-  //property bool textLoaded: false
   TextLoad {
     id: exitTextData
     setFilename: ":/Docs/exitText.html"
     onFileRead: {
       exitText.text = TextLoad.text
-      //textLoaded = true
     }
   }
 
-  contentData: [
+  property alias headerRow: headerRow
+  HeaderRow {
+    id: headerRow
 
-    Row {
-      id: headerRow
+    // only anchor to the top. height is known
+    anchors.top: parent.top
 
-      height: 20
+    headerRowText: qsTr("exit page")
+  }
 
-      Text {
-        text: qsTr("Exit Page")
-        horizontalAlignment: Text.AlignHCenter
-      }
+  Flickable {
+    id: flickable
 
-      anchors.right: parent.right
-      anchors.rightMargin: 0
-      anchors.left: parent.left
-      anchors.leftMargin: 0
+    // clip content when going outside content borders
+    clip: true
+
+    // take away some space for the vertical scrollbar
+    width: parent.width - 10
+    height: parent.height - headerRow.height -
+            buttonRow.height - footerRow.height
+
+    contentWidth: parent.width - 10
+    contentHeight: exitText.height
+
+    // anchor to the top and bottom because height is
+    // variable
+    anchors.top: headerRow.bottom
+    anchors.bottom: buttonRow.top
+
+    Text {
+      id: exitText
+
+      width: parent.width
+      height: parent.height
+
       anchors.top: parent.top
-      anchors.topMargin: 0
-    },
-
- //   ColumnLayout {
- /*     ScrollView {
-        ScrollBar.horizontal.policy: ScrollBar.AlwaysOff
-        ScrollBar.vertical.interactive: true
-        ScrollBar.horizontal.interactive: false
-        width: parent.width
-*/
-    Flickable {
-
-      anchors.top: headerRow.bottom
-      anchors.topMargin: 10
-      anchors.bottom: saveButton.top
-      anchors.bottomMargin: 10
-      anchors.rightMargin: 10
-      anchors.leftMargin: 10
-
-      Text {
-        id: exitText
-
-        width: exitPage.width
-        //height: parent.height
-
-        wrapMode: Text.WordWrap
-        text: exitTextData.text
-        font.pixelSize: 18
-      }
-
-      //ScrollBar.vertical: ScrollBar { }
-//      }
-    },
-
-    Button {
-      id: saveButton
-
-      z: 2
-
-      text: qsTr("Save Track")
-      visible: true
-      display: AbstractButton.TextOnly
-      enabled: false
-
-      anchors.right: stopButton.left
-      anchors.rightMargin: 10
-      anchors.bottom: footerRow.top
-      anchors.bottomMargin: 10
-    },
-
-    Button {
-      id: stopButton
-
-      z: 2
-
-      text: qsTr("Exit")
-      display: AbstractButton.TextOnly
-      visible: true
-
-      //anchors.bottom: parent.bottom
-      anchors.bottom: footerRow.top
-      anchors.bottomMargin: 10
-      anchors.right: parent.right
-      anchors.rightMargin: 10
-
-      onClicked: {
-        root.close()
-      }
-    },
-
-    Row {
-      id: footerRow
-
-      height: 20
-
-      Text {
-        text: qsTr("Exit Page")
-        horizontalAlignment: Text.AlignRight
-      }
-
-      anchors.right: parent.right
-      anchors.rightMargin: 0
-      anchors.left: parent.left
-      anchors.leftMargin: 0
       anchors.bottom: parent.bottom
-      anchors.bottomMargin: 0
+
+      wrapMode: Text.WordWrap
+      text: exitTextData.text
+      font.pixelSize: 18
     }
-  ]
+
+    ScrollBar.vertical: ScrollBar {
+      width: 10
+      parent: flickable.parent
+
+      anchors.top: flickable.top
+      anchors.left: flickable.right
+      anchors.bottom: flickable.bottom
+
+      policy: ScrollBar.AlwaysOn
+    }
+  }
+
+  property alias buttonRow: buttonRow
+  ButtonRow {
+    id: buttonRow
+
+    // anchor only to the bottom because height of this and
+    // footer row are known
+    anchors.bottom: footerRow.top
+  }
+
+  property alias footerRow: footerRow
+  FooterRow {
+    id: footerRow
+
+    // only anchor to the bottom
+    anchors.bottom: parent.bottom
+
+    footerRowText: qsTr("exit page")
+  }
 }
