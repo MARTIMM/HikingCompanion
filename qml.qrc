@@ -1,0 +1,10 @@
+<RCC>
+    <qresource prefix="/">
+        <file>main.qml</file>
+        <file>MapPage.qml</file>
+        <file>AboutPage.qml</file>
+        <file>ExitPage.qml</file>
+        <file>OpenMenuButton.qml</file>
+        <file>ConfigPage.qml</file>
+    </qresource>
+</RCC>
