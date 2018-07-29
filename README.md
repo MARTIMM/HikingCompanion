@@ -32,7 +32,7 @@ This app will be placed in the app store when ready.
 ## Acceptance tests for this project
 Below, there are a series of tests which is also used as the progress in the learning curve I have to go through. The most important device to work for are android devices. Ios devices would be nice but is a later problem.
 
-<progress max=48 value="22" />
+<progress max=45 value="25" />
 
 * [x] Android SDK, NDK and OpenJDK installation using Android Studio and linux installation tools.
 * [ ] Xcode for ios
@@ -82,19 +82,12 @@ Below, there are a series of tests which is also used as the progress in the lea
   * [ ] Save XML from DOM tree
 
 * Map processing
-  * [ ] Show a map
-  * [ ] Move and zoom the map
-  * Add information to map
-    * [ ] Add a track using lines
-    * [ ] Add features using icons
-    * [ ] Make features clickable
+  * [x] Show a map
+  * [x] Move, rotate and zoom the map
+  * [x] Tilting a map
 
-* Device sensors
-  * [ ] Location
-  * [ ] Compass
-  * [ ] Orientation
-  * [ ] Battery
-  * [ ] network device, online/offline
+* Accessing device sensors
+  * [ ] Example test for GPS location
 
 * Miscellaneous
   * [ ] Language switching using QLocale. See also Resources.
@@ -162,14 +155,14 @@ When starting the program, the app must show a splash screen with a nice hiking 
 
 ####  The pages to select from the menu
 
-  * **Map**: Show map.
-  * **Info**: Show route information
-  * **Tracks**: Select a track.
-  * **Feature** Show history, or other info.
-  * **Gps**: Record your track data.
-  * **Config**: Configuration of user and program data.
-  * **About**: Show a page with version, people and contacts.
-  * **Exit**: Close the application.
+  * **🗺 Map**: Show map.
+  * **ℹ Info**: Show route information
+  * **🚶 Tracks**: Select a track.
+  * **⌘ Feature** Show history, or other info.
+  * **🌐 Gps**: Record your track data.
+  * **🛠 Config**: Configuration of user and program data.
+  * **👥 About**: Show a page with version, people and contacts.
+  * **⏻ Exit**: Close the application.
 
 ## Map page
 <progress value="1" max="15" />
@@ -178,24 +171,24 @@ The map page is also the home page.
 
   * [x] Page created
   * Map. The map is displayed over the full width and height of the device.
-    * [ ] Map displayed, move around with swipe.
-    * [ ] Map should fill page automatically.
-    * [ ] Map, Menu and buttons must be adjusted when device is rotated.
+    * [x] Map displayed, move around with swipe.
+    * [x] Map should fill page automatically.
+    * [x] Map, Menu and buttons must be adjusted when device is rotated.
     * [ ] Show features for starting scale of map.
-    * [ ] Map layer for hightlines and/or shades
+    * [ ] Map layer for heightlines and/or shades
     * [ ] Show current location.
-    * [ ] A dashed line is shown from urrent location to closest point on the track to show that the hiker wanders off route.
+    * [ ] A dashed line is shown from current location to closest point on the track to show that the hiker wanders off route.
+    * [x] zooming by pinching (on mobile device).
   * Zoom buttons. The buttons are placed on the left side.
     * [ ] zooming with buttons.
-    * [ ] zooming by pinching (on mobile device).
     * [ ] Reveal more features when zooming in.
     * [ ] Remove features when zooming out.
   * North arrow button on the top right side.
     * [ ] Click action aligns map to the north.
   * Open menu button ☰. Button is placed just below the north arrow.
-    * [ ] Click action shows the menu on the right side of the page.
+    * [x] Click action shows the menu on the right side of the page.
   * Open street map attribute on the bottom right of the map.
-    * [ ] OSM attribution is displayed.
+    * [x] OSM attribution is displayed.
 
 ## The info page
 <progress value="0" max="2" />
@@ -295,6 +288,8 @@ The app uses gpx data from a file to read track information. It is shown and zoo
 
 ## Changes
 
+* 0.5.0
+  * Map page shows map.
 * 0.4.0
   * Factoring out several items from main.qml
   * The exitPage shows some text which is scrollable and wraps on word boundaries.
