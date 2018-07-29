@@ -6,12 +6,14 @@ import QtQuick.Layouts 1.3
 Button {
   id: openMenuButton
 
-  x: 600
-  y: 0
+  property int buttonSize: 20
+  property int pointSize: 20
+
+  // stay above any page
   z: 2
 
-  width: 18
-  height: 18
+  width: buttonSize
+  height: buttonSize
 
   visible: false
   display: AbstractButton.TextOnly
@@ -25,7 +27,7 @@ Button {
 
   font.capitalization: Font.MixedCase
   font.bold: true
-  font.pointSize: 16
+  font.pointSize: pointSize
 
   onClicked: {
     menuAnimateOpen.start()
