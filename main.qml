@@ -1,15 +1,18 @@
-/*
+/* ----------------------------------------------------------------------------
   Author: Marcel Timmerman
   License: ...
   Copyright: © Sultanstrail 2018
   Copyright: © Sufitrail 2018
+
+  This is the main page where the root of the gui tree is described. This is
+  mainly an empty page area wherein pages and a menu are referenced.
 */
 
 import QtQuick 2.11
 import QtQuick.Window 2.3
 import QtQuick.Controls 2.4
-import QtQuick.Layouts 1.3
 
+// ----------------------------------------------------------------------------
 Window {
   id: root
 
@@ -19,25 +22,24 @@ Window {
 
   title: qsTr("Your Hiking Companion")
 
-  // cannot be placed in MenuEntryButton because every button would get
-  // this property. comparing with new page will always be the same then.
+  // Cannot be placed in MenuEntryButton because every button would get
+  // this property. Comparing with new page will always be the same then.
   property Rectangle currentPage: Rectangle {id: emptyCurrentPage}
 
-  // alias must be defined here. otherwise the button will
-  // be located in the menu when placed elsewhere
+  // alias must be defined here because the animation must work on the
+  // Column properties
   property alias openMenuButton: openMenuButton
   OpenMenuButton { id: openMenuButton }
 
-  // some variables to be used in the design. also these must
-  // be placed here because otherwise the pages are placed
-  // in the menu when placed below in the Column
+  // Some variables to be used in the design. The page references must
+  // be placed here because otherwise the pages are shown in the menu
+  // when placed below in the Column
   property int columnWidth: 210
 
   // Pages are in separate files
   property alias mapPage: mapPage
   MapPage { id: mapPage }
 
-  // Pages are in separate files
   property alias configPage: configPage
   ConfigPage { id: configPage }
 
