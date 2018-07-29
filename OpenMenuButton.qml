@@ -31,4 +31,21 @@ Button {
     menuAnimateOpen.start()
     openMenuButton.visible = false
   }
+
+  // Open and close menu animation
+  SequentialAnimation {
+    id: menuAnimateOpen
+    NumberAnimation {
+      target: menu
+      property: "width"
+      duration: 1000
+      from: 0
+      to: columnWidth
+      easing.type: Easing.OutBounce
+    }
+
+    onStopped: {
+      openMenuButton.visible = false
+    }
+  }
 }

@@ -1,8 +1,8 @@
 /*
   Author: Marcel Timmerman
   License: ...
+  Copyright: © Sultanstrail 2018
   Copyright: © Sufitrail 2018
-
 */
 
 import QtQuick 2.11
@@ -19,13 +19,19 @@ Window {
 
   title: qsTr("Your Hiking Companion")
 
-  // some variables to be used in the design
-  property int columnWidth: 210
-  property Rectangle currentPage: mapPage
+  // cannot be placed in MenuEntryButton because every button would get
+  // this property. comparing with new page will always be the same then.
+  property Rectangle currentPage: Rectangle {id: emptyCurrentPage}
 
-  // defined in a file
+  // alias must be defined here. otherwise the button will
+  // be located in the menu when placed elsewhere
   property alias openMenuButton: openMenuButton
   OpenMenuButton { id: openMenuButton }
+
+  // some variables to be used in the design. also these must
+  // be placed here because otherwise the pages are placed
+  // in the menu when placed below in the Column
+  property int columnWidth: 210
 
   // Pages are in separate files
   property alias mapPage: mapPage
@@ -41,160 +47,45 @@ Window {
   property alias exitPage: exitPage
   ExitPage { id: exitPage }
 
-  // Open and close menu animation
-
-  SequentialAnimation {
-    id: menuAnimateOpen
-    NumberAnimation {
-      target: menu
-      property: "width"
-      duration: 1000
-      from: 0
-      to: columnWidth
-      easing.type: Easing.OutBounce
-    }
-
-    onStopped: {
-      openMenuButton.visible = false
-    }
-  }
-
-  SequentialAnimation {
-    id: menuAnimateClose
-    NumberAnimation {
-      target: menu
-      property: "width"
-      duration: 1000
-      from: columnWidth
-      to: 0
-      easing.type: Easing.OutBounce
-    }
-
-    onStopped: {
-      openMenuButton.visible = true
-    }
-  }
-
   // Menu
   Column {
     id: menu
 
-    y: 0
     width: 0
-
-    anchors.bottom: parent.bottom
-    anchors.bottomMargin: 0
-    anchors.top: parent.top
-    anchors.topMargin: 0
+    height: parent.height
     anchors.right: parent.right
-    anchors.rightMargin: 0
 
-    Button {
+    property alias mapButton: mapButton
+    MenuEntryButton {
       id: mapButton
-
-      width: parent.width
-      display: AbstractButton.TextOnly
-
       text: qsTr("🗺 Map")
-
-      anchors.left: parent.left
-      //anchors.leftMargin: 0
       anchors.top: parent.top
-      anchors.topMargin: 1
-
-      font.pointSize: 23
-      font.bold: true
-
-      onClicked: {
-        if ( currentPage !== mapPage ) {
-          currentPage.visible = false
-          mapPage.visible = true
-          currentPage = mapPage
-        }
-
-        menuAnimateClose.start()
-      }
+      onClicked: { mapButton.menuEntryClicked(mapPage); }
     }
 
-    Button {
+    property alias configButton: configButton
+    MenuEntryButton {
       id: configButton
-
-      width: parent.width
-      display: AbstractButton.TextOnly
-
       text: qsTr("🛠 Config")
-
-      anchors.left: parent.left
-      //anchors.leftMargin: 0
       anchors.top: mapButton.bottom
-      anchors.topMargin: 1
-
-      font.pointSize: 23
-      font.bold: true
-
-      onClicked: {
-        if ( currentPage !== configPage ) {
-          currentPage.visible = false
-          configPage.visible = true
-          currentPage = configPage
-        }
-
-        menuAnimateClose.start()
-      }
+      onClicked: { configButton.menuEntryClicked(configPage); }
     }
 
-    Button {
+    property alias aboutButton: aboutButton
+    MenuEntryButton {
       id: aboutButton
-
-      width: parent.width
-      display: AbstractButton.TextOnly
-
       text: qsTr("👥 About")
-
-      anchors.left: parent.left
-      //anchors.leftMargin: 0
       anchors.top: configButton.bottom
-      anchors.topMargin: 1
-
-      font.pointSize: 23
-      font.bold: true
-
-      onClicked: {
-        if ( currentPage !== aboutPage ) {
-          currentPage.visible = false
-          aboutPage.visible = true
-          currentPage = aboutPage
-        }
-
-        menuAnimateClose.start()
-      }
+      onClicked: { aboutButton.menuEntryClicked(aboutPage); }
     }
 
-    Button {
+    property alias exitButton: exitButton
+    MenuEntryButton {
       id: exitButton
-
-      width: parent.width
-      display: AbstractButton.TextOnly
-
       text: qsTr("⏻ Exit")
-
       anchors.bottom: parent.bottom
       anchors.bottomMargin: 1
-
-      font.bold: true
-      font.pointSize: 23
-
-      onClicked: {
-        if ( currentPage !== exitPage ) {
-          currentPage.visible = false
-          exitPage.visible = true
-          currentPage = exitPage
-        }
-
-        menuAnimateClose.start()
-      }
+      onClicked: { exitButton.menuEntryClicked(exitPage); }
     }
   }
-
-
 }

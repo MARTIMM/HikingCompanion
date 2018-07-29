@@ -9,5 +9,6 @@
         <file>HeaderRow.qml</file>
         <file>ButtonRow.qml</file>
         <file>FooterRow.qml</file>
+        <file>MenuEntryButton.qml</file>
     </qresource>
 </RCC>
