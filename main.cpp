@@ -8,7 +8,6 @@ int main( int argc, char *argv[]) {
   QGuiApplication app( argc, argv);
   app.setApplicationVersion("0.3.0");
   app.setApplicationDisplayName("HikingCompanion");
-  //qmlRegisterType<TextLoad>( "io.github.martimm.textload", 1, 0, "TextLoad");
   qmlRegisterType<TextLoad>( "io.github.martimm.HikingCompanion.textload", 1, 0, "TextLoad");
 
   QQmlApplicationEngine engine;
