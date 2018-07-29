@@ -13,7 +13,6 @@ Rectangle {
   visible: false
 
   // Need the menu button on this page
-  property alias openMenuButton: openMenuButton
   OpenMenuButton { id: openMenuButton }
 
   TextLoad {

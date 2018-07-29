@@ -5,11 +5,11 @@ import QtQuick.Layouts 1.3
 
 Rectangle {
   id: mapPage
+
   anchors.fill: parent
   visible: true
 
   // Need the menu button on this page
-  property alias openMenuButton: openMenuButton
   OpenMenuButton {
     id: openMenuButton
     visible: true
