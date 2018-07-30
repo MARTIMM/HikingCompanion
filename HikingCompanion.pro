@@ -15,7 +15,8 @@ DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x050000    # disables all the APIs depr
 
 SOURCES += \
     main.cpp \
-    textload.cpp
+    textload.cpp \
+    config.cpp
 
 RESOURCES += qml.qrc extraResources.qrc
 
@@ -34,4 +35,5 @@ else: unix:!android: target.path = /opt/$${TARGET}/bin
 DISTFILES +=
 
 HEADERS += \
-    textload.h
+    textload.h \
+    config.h
