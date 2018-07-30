@@ -32,7 +32,7 @@ This app will be placed in the app store when ready.
 ## Acceptance tests for this project
 Below, there are a series of tests which is also used as the progress in the learning curve I have to go through. The most important device to work for are android devices. Ios devices would be nice but is a later problem.
 
-<progress max=45 value="25" />
+<progress max=45 value="28" />
 
 * [x] Android SDK, NDK and OpenJDK installation using Android Studio and linux installation tools.
 * [ ] Xcode for ios
@@ -159,13 +159,13 @@ When starting the program, the app must show a splash screen with a nice hiking 
   * **ℹ Info**: Show route information
   * **🚶 Tracks**: Select a track.
   * **⌘ Feature** Show history, or other info.
-  * **🌐 Gps**: Record your track data.
+  * **📡 Gps**: Record your track data.
   * **🛠 Config**: Configuration of user and program data.
   * **👥 About**: Show a page with version, people and contacts.
   * **⏻ Exit**: Close the application.
 
 ## Map page
-<progress value="1" max="15" />
+<progress value="7" max="16" />
 
 The map page is also the home page.
 
@@ -175,8 +175,9 @@ The map page is also the home page.
     * [x] Map should fill page automatically.
     * [x] Map, Menu and buttons must be adjusted when device is rotated.
     * [ ] Show features for starting scale of map.
-    * [ ] Map layer for heightlines and/or shades
-    * [ ] Show current location.
+    * [ ] Map overlay for height lines and/or shades
+    * [x] Show current location
+    * [ ] Focus on that location using a button.
     * [ ] A dashed line is shown from current location to closest point on the track to show that the hiker wanders off route.
     * [x] zooming by pinching (on mobile device).
   * Zoom buttons. The buttons are placed on the left side.
@@ -225,16 +226,6 @@ The Features page is filled when a feature is clicked. First a balloon is showed
   * [ ] Show balloon with info
   * [ ] Show extra info on info page
 
-## The Config page
-
-<progress value="1" max="5" />
-
-  * [x] Page created
-  * [ ] Text message about users consent of sending data to server. Make rest of the questions available if user wants to provide personal data
-  * [ ] Username
-  * [ ] Email addresses
-  * [ ] Where to save data; on local or external memory. Make gray or remove setting if there is no ecternal memory.
-
 ## The Gps page
 This is a page where a gps track can be started.
 
@@ -250,6 +241,16 @@ This is a page where a gps track can be started.
   * [ ] Keep on disk after reinstall/update
 * [ ] Postpone tracking
 * [ ] Continue tracking
+
+## The Config page
+
+<progress value="1" max="5" />
+
+  * [x] Page created
+  * [ ] Text message about users consent of sending data to server. Make rest of the questions available if user wants to provide personal data
+  * [ ] Username
+  * [ ] Email addresses
+  * [ ] Where to save data; on local or external memory. Make gray or remove setting if there is no ecternal memory.
 
 ## The About page
 This is an overview of people involved and their tasks. Also other info can be shown such as a version number.
@@ -279,15 +280,15 @@ This should show a dialog to ask the user if he/she really wants to quit the pro
   * [ ] By what license should the project be protected
   * [ ] Privacy considerations
 
-# Track data
-The app uses gpx data from a file to read track information. It is shown and zoomed in on it when first loaded. These gpx files must be edited (by a separate program) to add some data in the `metadata` section of the gpx file.
-
-# Todo
+# To do
 
 # Bugs
 
 ## Changes
 
+* 0.6.0
+  * Current location is shown(needs improvement).
+  * Focus on current location. Must be done with button later.
 * 0.5.0
   * Map page shows map.
 * 0.4.0
