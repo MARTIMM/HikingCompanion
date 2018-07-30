@@ -6,6 +6,7 @@
 #include <QString>
 #include <QFile>
 
+// ----------------------------------------------------------------------------
 class TextLoad : public QObject
 {
   Q_OBJECT

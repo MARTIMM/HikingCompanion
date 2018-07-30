@@ -1,17 +1,21 @@
 #include "textload.h"
 
+// ----------------------------------------------------------------------------
 TextLoad::TextLoad(QObject *parent) : QObject(parent) {
   qDebug() << QString("TextLoad init");
 }
 
+// ----------------------------------------------------------------------------
 QString TextLoad::filename() {
   return _source;
 }
 
+// ----------------------------------------------------------------------------
 QString TextLoad::text() {
   return _loadedText;
 }
 
+// ----------------------------------------------------------------------------
 void TextLoad::setFilename(QString filename) {
 
   qDebug() << QString("set filename %1").arg(filename);
