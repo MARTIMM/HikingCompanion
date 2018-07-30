@@ -6,8 +6,8 @@ import QtQuick.Layouts 1.3
 Button {
   id: openMenuButton
 
-  property int buttonSize: 20
-  property int pointSize: 20
+  property int buttonSize: 24
+  property int pointSize: 24
 
   // stay above any page
   z: 2
