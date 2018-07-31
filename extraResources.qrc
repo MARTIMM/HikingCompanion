@@ -1,6 +1,12 @@
 <RCC>
     <qresource prefix="/">
         <file>Images/logo-met-groen-klein-1.png</file>
+        <file>Images/Icon/Android/hdpi.png</file>
+        <file>Images/Icon/Android/ldpi.png</file>
+        <file>Images/Icon/Android/mdpi.png</file>
+        <file>Images/Icon/Android/xhdpi.png</file>
+        <file>Images/Icon/Android/xxhdpi.png</file>
+        <file>Images/Icon/Android/xxxhdpi.png</file>
     </qresource>
     <qresource prefix="/">
         <file>Docs/exitText.html</file>
