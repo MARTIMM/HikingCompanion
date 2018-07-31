@@ -20,6 +20,7 @@ Window {
   width: 640
   height: 480
 
+  property alias configPage: configPage
   title: qsTr("Your Hiking Companion")
 
   // Cannot be placed in MenuEntryButton because every button would get
@@ -40,7 +41,7 @@ Window {
   property alias mapPage: mapPage
   MapPage { id: mapPage }
 
-  property alias configPage: configPage
+  //property alias configPage: configPage
   ConfigPage { id: configPage }
 
   property alias aboutPage: aboutPage
@@ -84,7 +85,9 @@ Window {
     property alias exitButton: exitButton
     MenuEntryButton {
       id: exitButton
-      text: qsTr("⏻ Exit")
+      text: configPage.osType == "android" ?
+              qsTr("\u23FD Exit") :
+              qsTr("\u23FB Exit")
       anchors.bottom: parent.bottom
       anchors.bottomMargin: 1
       onClicked: { exitButton.menuEntryClicked(exitPage); }
