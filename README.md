@@ -5,7 +5,7 @@
 ## Purpose
 Purpose of this app is to have a companion program suitable for showing tracks and additional information about those tracks. It is the intention to get those tracks from other app installations or from your own recorded tracks and added pictures and notes. So this program would become an all purpose vehicle for displaying external tracks. While its name would suggest that long walks are intended, a city walk showing the hot items of that place would equally be possible.
 
-At first use, not much can be done with the program. Another app must be installed too. This is a specially designed app holding track data and extra information such as notes and photos. Then, when such an app is installed, the app can be referred to by using some sort of name from this HikingCompanion application.
+At first use, not much can be done with the program. Another app must be installed too. This is a specially designed app holding track data and extra information such as notes and photos. Then, when such an app is installed, the app can be referred to by using some sort of name from this HikingCompanion application. The trail apps should always have a name starting with **HC-**. E.g. HC-Sufitrail or HC-Sultanstrail. This makes it possible to let the HikingCompanion look around on the device for these track apps.
 
 When the HikingCompanion is not installed yet, the installation process of a tracking app should also install the HikingCompanion app.
 
@@ -32,7 +32,7 @@ This app will be placed in the app store when ready.
 ## Acceptance tests for this project
 Below, there are a series of tests which is also used as the progress in the learning curve I have to go through. The most important device to work for are android devices. Ios devices would be nice but is a later problem.
 
-<progress max=45 value="28" />
+<progress max=45 value="31" />
 
 * [x] Android SDK, NDK and OpenJDK installation using Android Studio and linux installation tools.
 * [ ] Xcode for ios
@@ -87,12 +87,12 @@ Below, there are a series of tests which is also used as the progress in the lea
   * [x] Tilting a map
 
 * Accessing device sensors
-  * [ ] Example test for GPS location
+  * [x] Example test for GPS location
 
 * Miscellaneous
   * [ ] Language switching using QLocale. See also Resources.
-  * [ ] Android manifest
-  * [ ] Desktop icon
+  * [x] Android manifest
+  * [x] Desktop icon
   * [ ] Desktop widget
 
 
@@ -246,11 +246,16 @@ This is a page where a gps track can be started.
 
 <progress value="1" max="5" />
 
-  * [x] Page created
-  * [ ] Text message about users consent of sending data to server. Make rest of the questions available if user wants to provide personal data
-  * [ ] Username
+  * [ ] Make c++ module singleton.
+  * [x] Page created.
+
+  * [ ] Pulldown of found track apps on device.
+  * [ ] Load track info button to load selected track app.
+
+  * [ ] Text message about users consent of sending data to server. Make rest of the questions available if user wants to provide personal data.
+  * [ ] Username used to differenciate input from a user. This input can be photos, notes etc.
   * [ ] Email addresses
-  * [ ] Where to save data; on local or external memory. Make gray or remove setting if there is no ecternal memory.
+  * [ ] Where to save data; on local or external memory.
 
 ## The About page
 This is an overview of people involved and their tasks. Also other info can be shown such as a version number.
@@ -289,6 +294,7 @@ This should show a dialog to ask the user if he/she really wants to quit the pro
 * 0.6.0
   * Current location is shown(needs improvement).
   * Focus on current location. Must be done with button later.
+  * Manifest file generated using qtcreator. Icons are set. Must be changed!
 * 0.5.0
   * Map page shows map.
 * 0.4.0
