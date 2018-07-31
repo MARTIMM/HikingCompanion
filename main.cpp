@@ -12,11 +12,11 @@ int main( int argc, char *argv[]) {
   app.setApplicationVersion("0.6.0");
   app.setApplicationDisplayName("HikingCompanion");
 
-  qmlRegisterType<TextLoad>( "io.github.martimm.HikingCompanion.textload", 1, 0, "TextLoad");
-  qmlRegisterType<Config>( "io.github.martimm.HikingCompanion.config", 1, 0, "Config");
+  qmlRegisterType<TextLoad>( "io.github.martimm.HikingCompanion.textload", 0, 1, "TextLoad");
+  qmlRegisterType<Config>( "io.github.martimm.HikingCompanion.config", 0, 1, "Config");
 
-  Config *c = new Config();
-  qDebug() << "osType: " << c->osType();
+  // Config *c = new Config();
+  // qDebug() << "osType: " << c->osType();
 
   QQmlApplicationEngine engine;
   engine.load(QUrl(QStringLiteral("qrc:/main.qml")));
