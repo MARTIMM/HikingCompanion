@@ -12,6 +12,9 @@ Rectangle {
   // Need the menu button on this page
   OpenMenuButton { id: openMenuButton }
 
+  // and a home button
+  HomeButton { id: homeButton }
+
   Text {
     text: qsTr("About")
   }

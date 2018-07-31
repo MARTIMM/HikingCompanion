@@ -4,7 +4,8 @@ import QtQuick.Controls 2.4
 
 Button {
   id: menuEntryButton
-  
+
+
   width: parent.width
   display: AbstractButton.TextOnly
 
@@ -13,6 +14,14 @@ Button {
 
   font.pointSize: 23
   font.bold: true
+
+  function setHomePage() {
+    if ( currentPage !== mapPage ) {
+      currentPage.visible = false;
+      mapPage.visible = true;
+      currentPage = mapPage;
+    }
+  }
 
   function menuEntryClicked(requestPage) {
     if ( currentPage !== requestPage ) {
