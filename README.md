@@ -154,15 +154,17 @@ When starting the program, the app must show a splash screen with a nice hiking 
   * [ ] Image must be made complete with some text
 
 ####  The pages to select from the menu
+<progress value="3" max="8" />
 
-  * **🗺 Map**: Show map.
-  * **ℹ Info**: Show route information
-  * **🚶 Tracks**: Select a track.
-  * **⌘ Feature** Show history, or other info.
-  * **📡 Gps**: Record your track data.
-  * **🛠 Config**: Configuration of user and program data.
-  * **👥 About**: Show a page with version, people and contacts.
-  * **⏻ Exit**: Close the application.
+The menu entries
+  * [x] **🗺 Map**: Show map.
+  * [ ] **ℹ Info**: Show route information
+  * [ ] **🚶 Tracks**: Select a track.
+  * [ ] **⌘ Feature** Show history, or other info.
+  * [ ] **📡 Gps**: Record your track data.
+  * [x] **🛠 Config**: Configuration of user and program data.
+  * [x] **👥 About**: Show a page with version, people and contacts.
+  * [ ] **⏼ Exit**: Close the application. **⏽** on android because of missing character. Must check OS type.
 
 ## Map page
 <progress value="7" max="16" />
@@ -175,8 +177,8 @@ The map page is also the home page.
     * [x] Map should fill page automatically.
     * [x] Map, Menu and buttons must be adjusted when device is rotated.
     * [ ] Show features for starting scale of map.
-    * [ ] Map overlay for height lines and/or shades
-    * [x] Show current location
+    * [ ] Map overlay for height lines and/or shades.
+    * [x] Show current location.
     * [ ] Focus on that location using a button.
     * [ ] A dashed line is shown from current location to closest point on the track to show that the hiker wanders off route.
     * [x] zooming by pinching (on mobile device).
