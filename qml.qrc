@@ -10,5 +10,6 @@
         <file>ButtonRow.qml</file>
         <file>FooterRow.qml</file>
         <file>MenuEntryButton.qml</file>
+        <file>HomeButton.qml</file>
     </qresource>
 </RCC>

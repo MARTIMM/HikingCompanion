@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE QtCreatorProject>
-<!-- Written by QtCreator 4.7.0, 2018-07-31T12:44:02. -->
+<!-- Written by QtCreator 4.7.0, 2018-07-31T22:21:46. -->
 <qtcreator>
  <data>
   <variable>EnvironmentId</variable>
@@ -633,8 +633,8 @@
     <value type="QString" key="Android.AmStartArgsKey"></value>
     <valuelist type="QVariantList" key="Android.PostStartShellCmdListKey"/>
     <valuelist type="QVariantList" key="Android.PreStartShellCmdListKey"/>
-    <value type="QString" key="ProjectExplorer.ProjectConfiguration.DefaultDisplayName">HikingCompanion</value>
-    <value type="QString" key="ProjectExplorer.ProjectConfiguration.DisplayName">HikingCompanion</value>
+    <value type="QString" key="ProjectExplorer.ProjectConfiguration.DefaultDisplayName"></value>
+    <value type="QString" key="ProjectExplorer.ProjectConfiguration.DisplayName"></value>
     <value type="QString" key="ProjectExplorer.ProjectConfiguration.Id">Qt4ProjectManager.AndroidRunConfiguration:/home/marcel/Projects/Mobile/Projects/HikingCompanion/HikingCompanion/HikingCompanion.pro</value>
     <value type="uint" key="RunConfiguration.QmlDebugServerPort">3768</value>
     <value type="bool" key="RunConfiguration.UseCppDebugger">false</value>
