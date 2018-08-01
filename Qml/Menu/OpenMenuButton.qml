@@ -12,11 +12,12 @@ Button.Base {
   buttonText: qsTr("☰")
   anchors.rightMargin: 6
   visible: false
-
-  Button.onClicked: {
+/*
+  onClicked: {
     menuAnimateOpen.start()
     openMenuButton.visible = false
   }
+*/
 
   // Open and close menu animation
   SequentialAnimation {
