@@ -4,9 +4,10 @@ import QtQuick.Layouts 1.3
 
 // row placed at the bottom of a page
 Row {
-  id: footerRow
+  id: footer
 
-  property var footerRowText: qsTr("Undefined page")
+  //property var footerRowText: qsTr("Undefined page")
+  property alias footerText: footerText.text
 
   width: parent.width
   height: 20
@@ -15,7 +16,7 @@ Row {
   anchors.bottomMargin: 5
 
   Text {
-    text: footerRowText
+    id: footerText
     horizontalAlignment: Text.AlignRight
   }
 }

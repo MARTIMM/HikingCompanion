@@ -4,9 +4,10 @@ import QtQuick.Layouts 1.3
 
 // row placed on top of a page
 Row {
-  id: headerRow
+  id: header
 
-  property var headerRowText: qsTr("Undefined page")
+  //property var headerRowText: qsTr("Undefined page")
+  property alias headerText: headerText.text
 
   width: parent.width
   height: 20
@@ -15,7 +16,7 @@ Row {
   anchors.bottomMargin: 5
 
   Text {
-    text: headerRowText
+    id: headerText
     horizontalAlignment: Text.AlignHCenter
   }
 }

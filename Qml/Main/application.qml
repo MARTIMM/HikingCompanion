@@ -12,9 +12,15 @@ import QtQuick 2.11
 import QtQuick.Window 2.3
 import QtQuick.Controls 2.4
 
+import "../Page" as Page
+import "../Menu" as Menu
+import "../.."
+
 // ----------------------------------------------------------------------------
 Window {
   id: root
+
+  GlobalVariables { id: globalVariables }
 
   visible: true
   width: 640
@@ -25,12 +31,12 @@ Window {
 
   // Cannot be placed in MenuEntryButton because every button would get
   // this property. Comparing with new page will always be the same then.
-  property Rectangle currentPage: Rectangle {id: emptyCurrentPage}
+  //property Rectangle currentPage: Rectangle {id: emptyCurrentPage}
 
   // alias must be defined here because the animation must work on the
   // Column properties
-  property alias openMenuButton: openMenuButton
-  OpenMenuButton { id: openMenuButton }
+  //property alias openMenuButton: openMenuButton
+  Menu.OpenMenuButton { id: openMenuButton }
 
   // Some variables to be used in the design. The page references must
   // be placed here because otherwise the pages are shown in the menu
@@ -39,27 +45,28 @@ Window {
 
   // Pages are in separate files
   property alias mapPage: mapPage
-  MapPage { id: mapPage }
+  Page.MapPage { id: mapPage }
 
   //property alias configPage: configPage
-  ConfigPage { id: configPage }
+  Page.ConfigPage { id: configPage }
 
   property alias aboutPage: aboutPage
-  AboutPage { id: aboutPage }
+  Page.AboutPage { id: aboutPage }
 
   property alias exitPage: exitPage
-  ExitPage { id: exitPage }
+  Page.ExitPage { id: exitPage }
 
   // Menu
   Column {
     id: menu
+    clip: true
 
     width: 0
     height: parent.height
     anchors.right: parent.right
 
     property alias mapButton: mapButton
-    MenuEntryButton {
+    Menu.EntryButton {
       id: mapButton
       text: qsTr("🗺 Map")
       anchors.top: parent.top
@@ -67,7 +74,7 @@ Window {
     }
 
     property alias configButton: configButton
-    MenuEntryButton {
+    Menu.EntryButton {
       id: configButton
       text: qsTr("🛠 Config")
       anchors.top: mapButton.bottom
@@ -75,7 +82,7 @@ Window {
     }
 
     property alias aboutButton: aboutButton
-    MenuEntryButton {
+    Menu.EntryButton {
       id: aboutButton
       text: qsTr("👥 About")
       anchors.top: configButton.bottom
@@ -83,7 +90,7 @@ Window {
     }
 
     property alias exitButton: exitButton
-    MenuEntryButton {
+    Menu.EntryButton {
       id: exitButton
       text: configPage.osType == "android" ?
               qsTr("\u23FD Exit") :

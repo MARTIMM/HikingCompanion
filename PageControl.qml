@@ -1,21 +1,13 @@
-import QtQuick 2.11
-import QtQuick.Window 2.3
-import QtQuick.Controls 2.4
+import QtQuick 2.0
 
-Button {
-  id: menuEntryButton
-
-
-  width: parent.width
-  display: AbstractButton.TextOnly
-
-  anchors.topMargin: 1
-  anchors.left: parent.left
-
-  font.pointSize: 23
-  font.bold: true
+Item {
+/*
+  id: pageControl
+  property Rectangle currentPage: Rectangle {id: emptyCurrentPage}
 
   function setHomePage() {
+    console.log("homeButton clicked");
+    console.log('current: ' + currentPage + ', request: ' + requestPage);
     if ( currentPage !== mapPage ) {
       currentPage.visible = false;
       mapPage.visible = true;
@@ -35,6 +27,19 @@ Button {
     menuAnimateClose.start()
   }
 
+  // Open and close menu animation
+  SequentialAnimation {
+    id: menuAnimateOpen
+    NumberAnimation {
+      target: menu
+      property: "width"
+      duration: 1000
+      from: 0
+      to: columnWidth
+      easing.type: Easing.OutBounce
+    }
+  }
+
   SequentialAnimation {
     id: menuAnimateClose
     NumberAnimation {
@@ -50,4 +55,5 @@ Button {
       openMenuButton.visible = true
     }
   }
+*/
 }

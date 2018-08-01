@@ -2,7 +2,11 @@ import QtQuick 2.11
 import QtQuick.Window 2.3
 import QtQuick.Controls 2.4
 import QtQuick.Layouts 1.3
+
 import io.github.martimm.HikingCompanion.textload 0.1
+import "../.."
+import "../Menu" as Menu
+import "../Decoration" as Decoration
 
 Rectangle {
   id: exitPage
@@ -13,7 +17,7 @@ Rectangle {
   visible: false
 
   // Need the menu button on this page
-  OpenMenuButton { id: openMenuButton }
+  Menu.OpenMenuButton { id: openMenuButton }
 
   TextLoad {
     id: exitTextData
@@ -23,14 +27,13 @@ Rectangle {
     }
   }
 
-  property alias headerRow: headerRow
-  HeaderRow {
-    id: headerRow
+  Decoration.Header {
+    id: header
 
     // only anchor to the top. height is known
     anchors.top: parent.top
 
-    headerRowText: qsTr("exit page")
+    headerText: qsTr("exit page")
   }
 
   Flickable {
@@ -41,15 +44,15 @@ Rectangle {
 
     // take away some space for the vertical scrollbar
     width: parent.width - 10
-    height: parent.height - headerRow.height -
-            buttonRow.height - footerRow.height
+    height: parent.height - header.height -
+            buttonRow.height - footer.height
 
     contentWidth: parent.width - 10
     contentHeight: exitText.height
 
     // anchor to the top and bottom because height is
     // variable
-    anchors.top: headerRow.bottom
+    anchors.top: header.bottom
     anchors.bottom: buttonRow.top
 
     Text {
@@ -84,16 +87,14 @@ Rectangle {
 
     // anchor only to the bottom because height of this and
     // footer row are known
-    anchors.bottom: footerRow.top
+    anchors.bottom: footer.top
   }
 
-  property alias footerRow: footerRow
-  FooterRow {
-    id: footerRow
-
+  Decoration.Footer {
+    id: footer
     // only anchor to the bottom
     anchors.bottom: parent.bottom
 
-    footerRowText: qsTr("exit page")
+    footerText: qsTr("exit page")
   }
 }

@@ -5,6 +5,9 @@ import QtQuick.Controls 2.4
 import QtLocation 5.6
 import QtPositioning 5.6
 
+import "../.."
+import "../Menu" as Menu
+
 Rectangle {
   id: mapPage
 
@@ -12,7 +15,7 @@ Rectangle {
   visible: true
 
   // Need the menu button on this page
-  OpenMenuButton {
+  Menu.OpenMenuButton {
     id: openMenuButton
     visible: true
   }
