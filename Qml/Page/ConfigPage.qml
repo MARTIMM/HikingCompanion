@@ -5,7 +5,8 @@ import QtQuick.Layouts 1.3
 
 import io.github.martimm.HikingCompanion.config 0.1
 import "../.."
-import "../Menu" as Menu
+//import "../Menu" as HCMenu
+import "../Button" as HCButton
 
 
 Rectangle {
@@ -15,7 +16,7 @@ Rectangle {
   visible: false
 
   // Need the menu button on this page
-  Menu.OpenMenuButton { id: openMenuButton }
+  HCButton.OpenMenu { id: openMenu }
 
   Config {
     id: config

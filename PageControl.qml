@@ -52,7 +52,7 @@ Item {
     }
 
     onStopped: {
-      openMenuButton.visible = true
+      openMenu.visible = true
     }
   }
 */

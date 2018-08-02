@@ -12,49 +12,49 @@ import QtQuick 2.11
 import QtQuick.Window 2.3
 import QtQuick.Controls 2.4
 
-import "../Page" as Page
-import "../Menu" as Menu
-import "../.."
+import "../Page" as HCPage
+import "../Button" as HCButton
+//import "../Menu" as HCMenu
+//import ".."
+import io.github.martimm.HikingCompanion.GlobalVariables 0.1
 
 // ----------------------------------------------------------------------------
 Window {
   id: root
 
-  GlobalVariables { id: globalVariables }
+  Component.onCompleted: {
+    GlobalVariables.setMapPage(mapPage);
+    GlobalVariables.setMenu(menu);
+  }
 
   visible: true
   width: 640
   height: 480
 
-  property alias configPage: configPage
   title: qsTr("Your Hiking Companion")
 
-  // Cannot be placed in MenuEntryButton because every button would get
+  // Cannot be placed in MenuEntry because every button would get
   // this property. Comparing with new page will always be the same then.
   //property Rectangle currentPage: Rectangle {id: emptyCurrentPage}
 
   // alias must be defined here because the animation must work on the
   // Column properties
   //property alias openMenuButton: openMenuButton
-  Menu.OpenMenuButton { id: openMenuButton }
-
-  // Some variables to be used in the design. The page references must
-  // be placed here because otherwise the pages are shown in the menu
-  // when placed below in the Column
-  property int columnWidth: 210
+  //HCButton.OpenMenu { id: openMenu }
 
   // Pages are in separate files
-  property alias mapPage: mapPage
-  Page.MapPage { id: mapPage }
+  //property alias mapPage: mapPage
+  HCPage.MapPage { id: mapPage }
 
   //property alias configPage: configPage
-  Page.ConfigPage { id: configPage }
+  HCPage.ConfigPage { id: configPage }
 
-  property alias aboutPage: aboutPage
-  Page.AboutPage { id: aboutPage }
+  //property alias aboutPage: aboutPage
+  HCPage.AboutPage { id: aboutPage }
 
-  property alias exitPage: exitPage
-  Page.ExitPage { id: exitPage }
+  //property alias exitPage: exitPage
+  HCPage.ExitPage { id: exitPage }
+
 
   // Menu
   Column {
@@ -66,7 +66,7 @@ Window {
     anchors.right: parent.right
 
     property alias mapButton: mapButton
-    Menu.EntryButton {
+    HCButton.MenuEntry {
       id: mapButton
       text: qsTr("🗺 Map")
       anchors.top: parent.top
@@ -74,7 +74,7 @@ Window {
     }
 
     property alias configButton: configButton
-    Menu.EntryButton {
+    HCButton.MenuEntry {
       id: configButton
       text: qsTr("🛠 Config")
       anchors.top: mapButton.bottom
@@ -82,7 +82,7 @@ Window {
     }
 
     property alias aboutButton: aboutButton
-    Menu.EntryButton {
+    HCButton.MenuEntry {
       id: aboutButton
       text: qsTr("👥 About")
       anchors.top: configButton.bottom
@@ -90,7 +90,7 @@ Window {
     }
 
     property alias exitButton: exitButton
-    Menu.EntryButton {
+    HCButton.MenuEntry {
       id: exitButton
       text: configPage.osType == "android" ?
               qsTr("\u23FD Exit") :

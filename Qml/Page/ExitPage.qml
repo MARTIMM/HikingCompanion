@@ -5,8 +5,9 @@ import QtQuick.Layouts 1.3
 
 import io.github.martimm.HikingCompanion.textload 0.1
 import "../.."
-import "../Menu" as Menu
-import "../Decoration" as Decoration
+//import "../Menu" as HCMenu
+import "../Decoration" as HCDecoration
+import "../Button" as HCButton
 
 Rectangle {
   id: exitPage
@@ -17,7 +18,7 @@ Rectangle {
   visible: false
 
   // Need the menu button on this page
-  Menu.OpenMenuButton { id: openMenuButton }
+  HCButton.OpenMenu { id: openMenu }
 
   TextLoad {
     id: exitTextData
@@ -27,7 +28,7 @@ Rectangle {
     }
   }
 
-  Decoration.Header {
+  HCDecoration.Header {
     id: header
 
     // only anchor to the top. height is known
@@ -90,7 +91,7 @@ Rectangle {
     anchors.bottom: footer.top
   }
 
-  Decoration.Footer {
+  HCDecoration.Footer {
     id: footer
     // only anchor to the bottom
     anchors.bottom: parent.bottom

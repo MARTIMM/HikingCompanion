@@ -1,10 +1,11 @@
 import QtQuick 2.11
-import QtQuick.Window 2.3
+//import QtQuick.Window 2.3
 import QtQuick.Controls 2.4
-import QtQuick.Layouts 1.3
+//import QtQuick.Layouts 1.3
 
 import "../.."
-import "../Menu" as Menu
+//import "../Menu" as HCMenu
+import "../Button" as HCButton
 
 Rectangle {
   id: aboutPage
@@ -12,11 +13,15 @@ Rectangle {
   anchors.fill: parent
   visible: false
 
-  // Need the menu button on this page
-  Menu.OpenMenuButton { id: openMenuButton }
+  HCButton.PageButtonRow {
+    id: row
 
-  // and a home button
-  HomeButton { id: homeButton }
+    // Need the menu button on this page
+    HCButton.OpenMenu { }
+
+    // and a home button
+    HCButton.Home { }
+  }
 
   Text {
     text: qsTr("About")
