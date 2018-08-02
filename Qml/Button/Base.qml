@@ -1,34 +1,40 @@
 import QtQuick 2.0
-import QtQuick.Controls 2.4
+//import QtQuick.Controls 2.4
 //import QtQuick.Layouts 1.3
 
-Rectangle {
-  id: buttonBase;
+Item {
+  id: root;
 
-  property int buttonWidth: 10
-  property int buttonHeight: 10
-  property int pointSize: 10
+  property alias pointSize: buttonText.font.pointSize
+  property alias text: buttonText.text
+  //property alias visible: buttonArea.visible
+  signal clicked
 
-  property alias buttonText: buttonText.text
-  //property alias onClicked: clickArea.pressed
+  width: 15
+  height: 15
 
-  width: buttonWidth
-  height: buttonHeight
+  Rectangle {
+    id: buttonArea
 
-  Text {
-    id: buttonText
+    anchors.fill: parent
 
-    font {
-      family: "Source Code Pro"
-      capitalization: Font.MixedCase
-      bold: true
-      pointSize: pointSize
+    Text {
+      id: buttonText
+
+      font {
+        family: "Source Code Pro"
+        capitalization: Font.MixedCase
+        bold: true
+        pointSize: 12
+      }
     }
-  }
 
-  MouseArea {
-    id: clickArea
-    width: parent.width
-    height: parent.height
+    MouseArea {
+      id: clickArea
+      anchors.fill: parent
+      onClicked: {
+        root.clicked()
+      }
+    }
   }
 }
