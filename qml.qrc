@@ -1,20 +1,21 @@
 <RCC>
     <qresource prefix="/">
+        <file>Qml/GlobalVariables.qml</file>
         <file>Qml/Button/Base.qml</file>
+        <file>Qml/Button/Home.qml</file>
+        <file>Qml/Button/MenuEntry.qml</file>
+        <file>Qml/Button/OpenMenu.qml</file>
+        <file>Qml/Button/PageButtonRow.qml</file>
         <file>Qml/Decoration/Header.qml</file>
         <file>Qml/Decoration/Footer.qml</file>
         <file>Qml/Main/Application.qml</file>
-        <file>Qml/Menu/EntryButton.qml</file>
         <file>Qml/Menu/MainMenu.qml</file>
-        <file>Qml/Menu/OpenMenuButton.qml</file>
         <file>Qml/Page/MapPage.qml</file>
         <file>Qml/Page/AboutPage.qml</file>
         <file>Qml/Page/ExitPage.qml</file>
         <file>Qml/Page/ConfigPage.qml</file>
         <file>ButtonRow.qml</file>
-        <file>HomeButton.qml</file>
         <file>PageButtonBase.qml</file>
         <file>PageControl.qml</file>
-        <file>GlobalVariables.qml</file>
     </qresource>
 </RCC>
