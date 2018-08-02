@@ -3,22 +3,40 @@ import QtQuick 2.11
 //import QtQuick.Controls 2.4
 //import QtQuick.Layouts 1.3
 
-import "../.."
-import "../Button" as Button
+//import "../.."
+import "." as HCButton
+import io.github.martimm.HikingCompanion.GlobalVariables 0.1
 
-Button.Base {
-  id: openMenuButton
+HCButton.Base {
+  id: root
 
-  buttonText: qsTr("☰")
-  anchors.rightMargin: 6
+  width: 26
+  height: 26
+  pointSize: 24
+
+  // stay above any page
+  z: 2
+
+  text: qsTr("☰")
   visible: false
+
+  //display: AbstractButton.TextOnly
+  //clip: true
+  //padding: 0
 /*
-  onClicked: {
-    menuAnimateOpen.start()
-    openMenuButton.visible = false
+  anchors {
+    top: parent.top
+    topMargin: 6
+    right: parent.right
+    rightMargin: 6
   }
 */
+  onClicked: {
+    GlobalVariables.menuAnimateOpen.start()
+    root.visible = false
+  }
 
+/*
   // Open and close menu animation
   SequentialAnimation {
     id: menuAnimateOpen
@@ -27,10 +45,11 @@ Button.Base {
       property: "width"
       duration: 1000
       from: 0
-      to: columnWidth
+      to: GlobalVariables.columnWidth
       easing.type: Easing.OutBounce
     }
   }
+*/
 }
 
 /*

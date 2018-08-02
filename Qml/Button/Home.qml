@@ -3,17 +3,27 @@ import QtQuick 2.11
 //import QtQuick.Controls 2.4
 //import QtQuick.Layouts 1.3
 
-import "Qml/Menu" as Menu
+//import "Qml/Menu" as HCMenu
+//import "Qml/Button" as HCButton
 
-PageButtonBase {
-  id: homeButton
+import "." as HCButton
+
+HCButton.Base {
+  id: root
 
   text: qsTr("🌍")
+
+  width: 26
+  height: 26
+//  pointSize: 24
   pointSize: 12
 
-  anchors.rightMargin: 6 + buttonSize + 2
+  // stay above any page
+  z: 2
 
-  Menu.EntryButton { id: mb }
+//  anchors.rightMargin: 6 + buttonSize + 2
+
+  HCButton.MenuEntry { id: mb }
   onClicked: {
     mb.setHomePage();
     console.log("homeButton clicked");
