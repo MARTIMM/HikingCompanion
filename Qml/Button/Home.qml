@@ -1,66 +1,24 @@
 import QtQuick 2.11
-//import QtQuick.Window 2.3
-//import QtQuick.Controls 2.4
-//import QtQuick.Layouts 1.3
-
-//import "Qml/Menu" as HCMenu
-//import "Qml/Button" as HCButton
 
 import "." as HCButton
+import io.github.martimm.HikingCompanion.GlobalVariables 0.1
+import io.github.martimm.HikingCompanion.Style 0.1
 
 HCButton.Base {
   id: root
 
-  text: qsTr("🌍")
+  width: 35
+  height: 35
+  pointSize: 20
 
-  width: 26
-  height: 26
-//  pointSize: 24
-  pointSize: 12
+  text: "🌍"
+  //text: qsTr("🏠")
 
-  // stay above any page
-  z: 2
-
-//  anchors.rightMargin: 6 + buttonSize + 2
-
-  HCButton.MenuEntry { id: mb }
-  onClicked: {
-    mb.setHomePage();
-    console.log("homeButton clicked");
-  }
-}
-
-/*
-Button {
-  id: homeButton
-
-  MenuEntryButton { id: mb }
-
-  property int buttonSize: 24
-  property int pointSize: 24
-
-  // stay above any page
-  z: 2
-
-  width: buttonSize
-  height: buttonSize
-
-  visible: true
-  display: AbstractButton.TextOnly
-
-  anchors.right: parent.right
-  anchors.rightMargin: 6 + buttonSize + 2
-  anchors.top: parent.top
-  anchors.topMargin: 6
-
-  text: qsTr("🏠")
-
-  font.capitalization: Font.MixedCase
-  font.bold: true
-  font.pointSize: pointSize
+  border.width: Style.smallButtonBorder
+  radius: Style.smallButtonRadius
 
   onClicked: {
-    mb.setHomePage();
+    GlobalVariables.setHomePage();
+    //console.log("homeButton clicked");
   }
 }
-*/
