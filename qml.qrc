@@ -15,7 +15,7 @@
         <file>Qml/Page/ExitPage.qml</file>
         <file>Qml/Page/ConfigPage.qml</file>
         <file>ButtonRow.qml</file>
-        <file>PageButtonBase.qml</file>
-        <file>PageControl.qml</file>
+        <file>Qml/Style.qml</file>
+        <file>Qml/Page/Base.qml</file>
     </qresource>
 </RCC>
