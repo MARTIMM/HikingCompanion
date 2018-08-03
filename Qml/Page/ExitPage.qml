@@ -6,28 +6,42 @@ import QtQuick.Layouts 1.3
 import io.github.martimm.HikingCompanion.textload 0.1
 import "../.."
 //import "../Menu" as HCMenu
+import "." as HCPage
 import "../Decoration" as HCDecoration
 import "../Button" as HCButton
+import io.github.martimm.HikingCompanion.Style 0.1
 
-Rectangle {
+HCPage.Base {
   id: exitPage
 
-  width: parent.width
-  height: parent.height
+  Component.onCompleted: {
+    pageButtonRow.insertRowButton(
+          "../Button/OpenMenu.qml", {
+            "id": "OMOnAbout_0"
+          }
+          );
+    pageButtonRow.insertRowButton(
+          "../Button/Home.qml", {
+            "id": "OMOnAbout_1"
+          }
+          );
+  }
+
   anchors.fill: parent
   visible: false
-
-  // Need the menu button on this page
-  HCButton.OpenMenu { id: openMenu }
 
   TextLoad {
     id: exitTextData
     setFilename: ":/Docs/exitText.html"
+/*
     onFileRead: {
       exitText.text = TextLoad.text
     }
+*/
   }
 
+  text: exitTextData.text
+/*
   HCDecoration.Header {
     id: header
 
@@ -68,6 +82,7 @@ Rectangle {
       wrapMode: Text.WordWrap
       text: exitTextData.text
       font.pixelSize: 18
+      color: Style.textColor
     }
 
     ScrollBar.vertical: ScrollBar {
@@ -98,4 +113,5 @@ Rectangle {
 
     footerText: qsTr("exit page")
   }
+*/
 }

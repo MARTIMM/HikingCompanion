@@ -7,29 +7,43 @@ import io.github.martimm.HikingCompanion.config 0.1
 import "../.."
 //import "../Menu" as HCMenu
 import "../Button" as HCButton
+import "." as HCPage
+import io.github.martimm.HikingCompanion.Style 0.1
 
 
-Rectangle {
+HCPage.Base {
   id: configPage
+
+  property string osType
+
+  Component.onCompleted: {
+    pageButtonRow.insertRowButton(
+          "../Button/OpenMenu.qml", {
+            "id": "OMOnAbout_0"
+          }
+          );
+    pageButtonRow.insertRowButton(
+          "../Button/Home.qml", {
+            "id": "OMOnAbout_1"
+          }
+          );
+
+    configPage.osType = config.osType
+    console.log("osType: " + configPage.osType)
+  }
 
   anchors.fill: parent
   visible: false
-
-  // Need the menu button on this page
-  HCButton.OpenMenu { id: openMenu }
 
   Config {
     id: config
   }
 
-  property string osType
-
-  Component.onCompleted: {
-    configPage.osType = config.osType
-    console.log("osType: " + configPage.osType)
-  }
-
+  text: qsTr("Config")
+/*
   Text {
     text: qsTr("Config")
+    color: Style.textColor
   }
+*/
 }
