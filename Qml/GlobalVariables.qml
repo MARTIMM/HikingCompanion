@@ -1,3 +1,6 @@
+// See also http://imaginativethinking.ca/make-qml-component-singleton/
+// and http://doc.qt.io/qt-5/qml-qtqml-qtobject.html about locating and using
+// components from c++
 pragma Singleton
 
 import QtQuick 2.0
@@ -10,7 +13,13 @@ Item {
   id: root
 
   // Maximum width of the menu. Must be saved
-  property int columnWidth: 210
+  property int menuWidth: 210
+
+  // Current page displayed.
+  property Rectangle currentPage
+  function setCurrentPage ( newPage ) {
+    currentPage = newPage;
+  }
 
   // Map page to go to from other places
   property HCPage.MapPage mapPage
@@ -18,24 +27,41 @@ Item {
     mapPage = newMapPage;
   }
 
-
-  property Rectangle currentPage: Rectangle {id: emptyCurrentPage}
-  function setCurrentPage ( newPage ) {
-    currentPage = newPage;
+  // Set page to home page. The home pages will not have this button.
+  function setHomePage() {
+    console.log("homeButton clicked");
+    console.log('current: ' + currentPage);
+    currentPage.visible = false;
+    mapPage.visible = true;
+    setCurrentPage(mapPage);
+    //openMenu.visible = true
   }
-
+/*
   property HCButton.OpenMenu openMenu
   function setOpenMenu ( newOpenMenu ) {
     openMenu = newOpenMenu;
   }
+*/
 
   property Column menu
   function setMenu ( newMenu ) {
     menu = newMenu;
   }
 
+  function menuEntryClicked(requestPage) {
+    if ( currentPage !== requestPage ) {
+      console.log('current: ' + currentPage + ', request: ' + requestPage);
+
+      currentPage.visible = false;
+      requestPage.visible = true;
+      setCurrentPage(requestPage);
+    }
+
+    menuAnimateClose.start()
+  }
 
   // Open and close menu animation
+  property alias menuAnimateOpen: menuAnimateOpen
   SequentialAnimation {
     id: menuAnimateOpen
     NumberAnimation {
@@ -43,24 +69,27 @@ Item {
       property: "width"
       duration: 1000
       from: 0
-      to: GlobalVariables.columnWidth
+      to: menuWidth
       easing.type: Easing.OutBounce
     }
   }
 
+  property alias menuAnimateClose: menuAnimateClose
   SequentialAnimation {
     id: menuAnimateClose
     NumberAnimation {
       target: menu
       property: "width"
       duration: 1000
-      from: GlobalVariables.columnWidth
+      from: menuWidth
       to: 0
       easing.type: Easing.OutBounce
     }
 
+/*
     onStopped: {
-      GlobalVariables.openMenu.visible = true
+      currentPage.openMenu.visible = true;
     }
+*/
   }
 }
