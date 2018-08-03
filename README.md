@@ -126,13 +126,14 @@ Caching of data is needed for those moments that there is no network available.
 * Try to get weather forecast and cache (short term) this information too.
 
 ## The Menu
-<progress value="2" max="4" />
+<progress value="5" max="5" />
 
+* [x] Added module for variables and styling
 * [x] Pressing the menu button `☰` shown on the map or other pages, will open a pane from the side to show a menu of options. A click on an entry will show another page. When selecting an entry, the menu is closed and a page will appear.
-* [ ] Each page may have a button `🏠`🌐 🌍 to the map page. Pressing that will return to the map page.
+* [x] Each page may have a button `🏠`🌐 🌍 to the map page. Pressing that will return to the map page.
 
 * [x] Layout of menu.
-* [ ] Layout of all pages must be coherent and matching the pages and colors from the book.
+* [x] Layout of all pages must be coherent and matching the pages and colors from the book.
 
 ## The pages of the application
 A series of screen descriptions the application can show.
