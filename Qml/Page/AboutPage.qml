@@ -3,27 +3,36 @@ import QtQuick 2.11
 import QtQuick.Controls 2.4
 //import QtQuick.Layouts 1.3
 
-import "../.."
+//import "../.."
+import "." as HCPage
 //import "../Menu" as HCMenu
 import "../Button" as HCButton
+import io.github.martimm.HikingCompanion.Style 0.1
 
-Rectangle {
+HCPage.Base {
   id: aboutPage
+
+  Component.onCompleted: {
+    pageButtonRow.insertRowButton(
+          "../Button/OpenMenu.qml", {
+            "id": "OMOnAbout_0"
+          }
+          );
+    pageButtonRow.insertRowButton(
+          "../Button/Home.qml", {
+            "id": "OMOnAbout_1"
+          }
+          );
+  }
 
   anchors.fill: parent
   visible: false
 
-  HCButton.PageButtonRow {
-    id: row
-
-    // Need the menu button on this page
-    HCButton.OpenMenu { }
-
-    // and a home button
-    HCButton.Home { }
-  }
-
+  text: qsTr("About")
+/*
   Text {
     text: qsTr("About")
+    color: Style.textColor
   }
+*/
 }
