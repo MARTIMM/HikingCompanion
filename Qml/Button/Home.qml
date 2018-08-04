@@ -7,9 +7,9 @@ import io.github.martimm.HikingCompanion.Style 0.1
 HCButton.Base {
   id: root
 
-  width: 35
-  height: 35
-  pointSize: 20
+  width: Style.smallButtonWidth
+  height: Style.smallButtonHeight
+  pointSize: 20 //Style.smallButtonPointSize
 
   text: "🌍"
   //text: qsTr("🏠")

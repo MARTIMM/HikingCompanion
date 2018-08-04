@@ -11,9 +11,9 @@ import io.github.martimm.HikingCompanion.GlobalVariables 0.1
 HCButton.Base {
   id: root
 
-  width: 35
-  height: 35
-  pointSize: 22
+  width: Style.smallButtonWidth
+  height: Style.smallButtonHeight
+  pointSize: Style.smallButtonPointSize
 
   text: qsTr("☰")
 
