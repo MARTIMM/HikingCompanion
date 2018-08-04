@@ -10,11 +10,13 @@ import io.github.martimm.HikingCompanion.Style 0.1
 HCButton.Base {
   id: root
 
-  width: parent.width
-  height: 50
+  width: GlobalVariables.menuWidth
+  height: Style.menuButtonHeight
 
   anchors.topMargin: 1
   anchors.left: parent.left
 
-  pointSize: 23
+  pointSize: Style.menuButtonPointSize
+
+  clip: true
 }
