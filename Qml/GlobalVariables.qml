@@ -3,7 +3,7 @@
 // components from c++
 pragma Singleton
 
-import QtQuick 2.0
+import QtQuick 2.11
 
 //import "Menu" as HCMenu
 import "Button" as HCButton
@@ -11,9 +11,6 @@ import "Page" as HCPage
 
 Item {
   id: root
-
-  // Maximum width of the menu. Must be saved
-  property int menuWidth: 210
 
   // Current page displayed.
   property Rectangle currentPage
@@ -42,6 +39,9 @@ Item {
     openMenu = newOpenMenu;
   }
 */
+
+  // Maximum width of the menu. Must be saved
+  property int menuWidth: 210
 
   property Column menu
   function setMenu ( newMenu ) {
