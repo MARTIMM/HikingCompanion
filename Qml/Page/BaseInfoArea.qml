@@ -6,61 +6,59 @@ import QtQuick.Layouts 1.3
 import io.github.martimm.HikingCompanion.Style 0.1
 import io.github.martimm.HikingCompanion.GlobalVariables 0.1
 
+import "." as HCPage
 import "../Button" as HCButton
 
 Rectangle {
   id: root
 
+/*
   width: parent.width
   height: parent.height
 
-  //anchors.fill: parent
+  anchors.fill: parent
+*/
   color: Style.appBackgroundColor
 
-  property alias pageToolbarRow: pageToolbarRow
-  HCButton.PageToolbarRow { id: pageToolbarRow }
-/*
+  property alias text: flickable.text
   property alias flickable: flickable
   Flickable {
     id: flickable
 
-    property alias text: pageText.text
+    // take away some space for the vertical scrollbar
+    width: parent.width - Style.scrollbarWidth
+    height: parent.height
+
+    contentWidth: parent.width - Style.scrollbarWidth
+    contentHeight: pageText.height
 
     // clip content when going outside content borders
     clip: true
 
-    // take away some space for the vertical scrollbar
-    width: parent.width - 10
-    height: parent.height - pageToolbarRow.height // -
-            //buttonRow.height - footer.height
-
-    contentWidth: width //parent.width - 10
-    contentHeight: pageText.height
-
     // anchor to the top and bottom because height is
     // variable
-    anchors.top: pageToolbarRow.bottom
-    anchors.bottom: buttonRow.top
+    anchors {
+      top: pageToolbarRow.bottom
+      bottom: parent.bottom
+      left: parent.left
+      right: parent.right
+      rightMargin: Style.scrollbarWidth
+    }
 
-    property alias pageText: pageText
+    property alias text: pageText.text
     Text {
       id: pageText
       width: parent.width
-//      height: parent.height
 
-      anchors.top: parent.top
-      anchors.bottom: parent.bottom
-
-      //anchors.fill: parent
+      anchors.fill: parent
 
       wrapMode: Text.WordWrap
-      //text: exitTextData.text
-      font.pixelSize: 18
+      font.pointSize: Style.textPointSize
       color: Style.textColor
     }
 
     ScrollBar.vertical: ScrollBar {
-      width: 10
+      width: Style.scrollbarWidth
       parent: flickable.parent
 
       anchors.top: flickable.top
@@ -70,5 +68,5 @@ Rectangle {
       policy: ScrollBar.AlwaysOn
     }
   }
-*/
 }
+
