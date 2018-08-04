@@ -261,7 +261,7 @@ This is a page where a gps track can be started.
   * [ ] Where to save data; on local or external memory.
 
 ## The About page
-This is an overview of people involved and their tasks. Also other info can be shown such as a version number.
+This is an overview of people involved and their tasks. Also other info can be shown such as a version number. This should also come from the track app.
 
 <progress value="1" max="4" />
 
