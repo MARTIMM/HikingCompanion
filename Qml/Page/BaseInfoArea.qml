@@ -12,10 +12,10 @@ import "../Button" as HCButton
 Rectangle {
   id: root
 
-/*
-  width: parent.width
+  width: parent.width - Style.scrollbarWidth
   height: parent.height
 
+/*
   anchors.fill: parent
 */
   color: Style.appBackgroundColor
@@ -25,11 +25,15 @@ Rectangle {
   Flickable {
     id: flickable
 
+    Component.onCompleted: {
+      console.log("H: " + height + ", " + contentHeight);
+    }
+
     // take away some space for the vertical scrollbar
     width: parent.width - Style.scrollbarWidth
     height: parent.height
 
-    contentWidth: parent.width - Style.scrollbarWidth
+    contentWidth: parent.width
     contentHeight: pageText.height
 
     // clip content when going outside content borders
@@ -38,7 +42,7 @@ Rectangle {
     // anchor to the top and bottom because height is
     // variable
     anchors {
-      top: pageToolbarRow.bottom
+      top: parent.top
       bottom: parent.bottom
       left: parent.left
       right: parent.right

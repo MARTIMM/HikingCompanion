@@ -26,14 +26,20 @@ HCPage.Base {
             "id": "OMOnAbout_1"
           }
           );
+
+    console.log("H EP: " + height);
   }
 
   anchors.fill: parent
+
+  width: parent.width
+  height: parent.height - pageToolbarRow.height - pageButtonRow.height
+
   visible: false
 
   HCPage.BaseInfoArea {
     width: parent.width
-    height: parent.height - pageToolbarRow.height - pageButtonRow.height
+    height: parent.height
 
     anchors {
       left: parent.left
@@ -53,6 +59,26 @@ HCPage.Base {
     }
 
     text: exitTextData.text
+  }
+
+  HCButton.PageButtonRow {
+    id: pageButtonRow
+
+    // anchor only to the bottom because height of this and
+    // footer row are known
+    anchors.bottom: parent.bottom
+
+    HCButton.PageButtonBase {
+      text: qsTr("Exit")
+      onClicked: {
+        root.close()
+      }
+    }
+
+    HCButton.PageButtonBase {
+      text: qsTr("Save Track")
+      enabled: false
+    }
   }
 /*
   HCDecoration.Header {
@@ -110,26 +136,6 @@ HCPage.Base {
     }
   }
 */
-
-  HCButton.PageButtonRow {
-    id: pageButtonRow
-
-    // anchor only to the bottom because height of this and
-    // footer row are known
-    anchors.bottom: parent.bottom
-
-    HCButton.PageButtonBase {
-      text: qsTr("Exit")
-      onClicked: {
-        root.close()
-      }
-    }
-
-    HCButton.PageButtonBase {
-      text: qsTr("Save Track")
-      enabled: false
-    }
-  }
 
 /*
   HCDecoration.Footer {
