@@ -11,7 +11,7 @@ Column {
 
   width: 0
   height: parent.height
-  z: 200
+  z: 100
   clip: true
 
   anchors.right: parent.right
