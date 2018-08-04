@@ -15,12 +15,13 @@ HCPage.Base {
   id: exitPage
 
   Component.onCompleted: {
-    pageButtonRow.insertRowButton(
+    pageToolbarRow.insertRowButton(
           "../Button/OpenMenu.qml", {
             "id": "OMOnAbout_0"
           }
           );
-    pageButtonRow.insertRowButton(
+
+    pageToolbarRow.insertRowButton(
           "../Button/Home.qml", {
             "id": "OMOnAbout_1"
           }
@@ -30,17 +31,29 @@ HCPage.Base {
   anchors.fill: parent
   visible: false
 
-  TextLoad {
-    id: exitTextData
-    setFilename: ":/Docs/exitText.html"
+  HCPage.BaseInfoArea {
+    width: parent.width
+    height: parent.height - pageToolbarRow.height - pageButtonRow.height
+
+    anchors {
+      left: parent.left
+      right: parent.right
+      top: pageToolbarRow.bottom
+      bottom: pageButtonRow.top
+    }
+
+    TextLoad {
+      id: exitTextData
+      setFilename: ":/Docs/exitText.html"
 /*
     onFileRead: {
       exitText.text = TextLoad.text
     }
 */
-  }
+    }
 
-  text: exitTextData.text
+    text: exitTextData.text
+  }
 /*
   HCDecoration.Header {
     id: header
@@ -96,16 +109,29 @@ HCPage.Base {
       policy: ScrollBar.AlwaysOn
     }
   }
+*/
 
-  property alias buttonRow: buttonRow
-  ButtonRow {
-    id: buttonRow
+  HCButton.PageButtonRow {
+    id: pageButtonRow
 
     // anchor only to the bottom because height of this and
     // footer row are known
-    anchors.bottom: footer.top
+    anchors.bottom: parent.bottom
+
+    HCButton.PageButtonBase {
+      text: qsTr("Exit")
+      onClicked: {
+        root.close()
+      }
+    }
+
+    HCButton.PageButtonBase {
+      text: qsTr("Save Track")
+      enabled: false
+    }
   }
 
+/*
   HCDecoration.Footer {
     id: footer
     // only anchor to the bottom

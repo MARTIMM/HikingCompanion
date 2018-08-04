@@ -14,7 +14,7 @@ HCPage.Base {
   id: mapPage
 
   Component.onCompleted: {
-    pageButtonRow.insertRowButton(
+    pageToolbarRow.insertRowButton(
           "../Button/OpenMenu.qml", {
             "id": "OMOnMap", "visible": true
           }

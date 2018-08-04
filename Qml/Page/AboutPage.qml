@@ -13,12 +13,12 @@ HCPage.Base {
   id: aboutPage
 
   Component.onCompleted: {
-    pageButtonRow.insertRowButton(
+    pageToolbarRow.insertRowButton(
           "../Button/OpenMenu.qml", {
             "id": "OMOnAbout_0"
           }
           );
-    pageButtonRow.insertRowButton(
+    pageToolbarRow.insertRowButton(
           "../Button/Home.qml", {
             "id": "OMOnAbout_1"
           }
@@ -28,7 +28,7 @@ HCPage.Base {
   anchors.fill: parent
   visible: false
 
-  text: qsTr("About")
+  //text: qsTr("About")
 /*
   Text {
     text: qsTr("About")

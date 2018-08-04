@@ -17,12 +17,12 @@ HCPage.Base {
   property string osType
 
   Component.onCompleted: {
-    pageButtonRow.insertRowButton(
+    pageToolbarRow.insertRowButton(
           "../Button/OpenMenu.qml", {
             "id": "OMOnAbout_0"
           }
           );
-    pageButtonRow.insertRowButton(
+    pageToolbarRow.insertRowButton(
           "../Button/Home.qml", {
             "id": "OMOnAbout_1"
           }
@@ -39,7 +39,7 @@ HCPage.Base {
     id: config
   }
 
-  text: qsTr("Config")
+  //text: qsTr("Config")
 /*
   Text {
     text: qsTr("Config")
