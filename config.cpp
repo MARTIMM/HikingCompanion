@@ -1,15 +1,11 @@
 #include "config.h"
 
 // ----------------------------------------------------------------------------
-/* Null, because instance will be initialized on demand. */
-//Config* Config::_instance = nullptr;
-
+// See also http://blog.qt.io/blog/2017/12/01/sharing-files-android-ios-qt-app/
+// to use Q_OS_IOS, Q_OS_ANDROID etc.
 // ----------------------------------------------------------------------------
 Config::Config(QObject *parent) : QObject(parent) {
   _osType = QString("unknown");
-
-  qDebug() << "KernelType: " << QSysInfo::kernelType();
-  qDebug() << "productType: " << QSysInfo::productType();
 
   QRegExp rx("\\.fc\\d*\\.");
 
@@ -33,17 +29,6 @@ Config::Config(QObject *parent) : QObject(parent) {
     _osType = "ios";
   }
 }
-
-/*
-// ----------------------------------------------------------------------------
-Config *Config::instance() {
-  if ( _instance == nullptr ) {
-    _instance = new Config;
-  }
-
-  return _instance;
-}
-*/
 
 // ----------------------------------------------------------------------------
 QString Config::osType() {
