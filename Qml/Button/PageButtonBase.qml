@@ -26,8 +26,10 @@ HCButton.Base {
     color: Style.buttonBorderColor
   }
 
+  /*
   Component.onCompleted: {
     console.log("Sizes(" + root.text + "): " + width + ", " + textMetrics.boundingRect.width);
     console.log("font: " + root.font.family + ", " + textMetrics.font.family);
   }
+  */
 }
