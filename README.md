@@ -32,7 +32,7 @@ This app will be placed in the app store when ready.
 ## Acceptance tests for this project
 Below, there are a series of tests which is also used as the progress in the learning curve I have to go through. The most important device to work for are android devices. Ios devices would be nice but is a later problem.
 
-<progress max=45 value="31" />
+<progress max=50 value="33" />
 
 * [x] Android SDK, NDK and OpenJDK installation using Android Studio and linux installation tools.
 * [ ] Xcode for ios
@@ -49,7 +49,10 @@ Below, there are a series of tests which is also used as the progress in the lea
   * [x] Build, upload and run this GUI on android device
   * [ ] Build, upload and run this GUI on ios device
 
-  * Input processing
+  * [x] Organizing qml files in directories using qml.qrc. This can be done mostly automatic from within the creator but using the editor is sometimes easier.
+  * [x] Organizing other files like images and docs are set using another `.qrc` file to make a different resource.
+
+  * Input processing.
     * [x] Text input and show input
     * [x] Html or Rich text
     * [x] Scroll and wrap text
@@ -67,14 +70,18 @@ Below, there are a series of tests which is also used as the progress in the lea
     * [x] Selecting pages from the menu.
 
 * Integration of QML and C++. See for info [here][qtc-c++].
-  * [x] Create a class with some variables and methods using <QObject> and other external modules
-  * [x] Use the class in a QML description
-  * [x] Debugging using qDebug() and using <QDebug>
+  * [x] Create a class with some variables and methods using <QObject> and other external modules.
+  * [x] Use the class in a QML description.
+  * [x] Debugging using qDebug() and using <QDebug>.
+  * [ ] Controlling UI components from C++.
 
-* [x] Go into an existing directory using QDir
-* [x] Open, read, write and create a file using QFile
-* [ ] Create, test and delete a directory using QDir
-* [ ] Build a directory tree using QDir
+* File I/O and directory manipulations
+  * [x] Go into an existing directory using QDir
+  * [x] Open, read, write and create a file using QFile
+  * [ ] Create, test and delete a directory using QDir
+  * [ ] Build a directory tree using QDir
+  * [ ] Share data between one app and another on Android.
+  * [ ] Share data between one app and another on IOS.
 
 * XML processing to read and write qpx data and configuration files.
   * [x] Read and process an XML file. See also [this doc][qtc-xml].
@@ -155,6 +162,8 @@ When starting the program, the app must show a splash screen with a nice hiking 
   * [ ] Image must be made complete with some text
 
 ####  The pages to select from the menu
+All pages are be made singleton pages to always have one copy and to keep changes made on that page.
+
 <progress value="3" max="8" />
 
 The menu entries
@@ -234,7 +243,7 @@ This is a page where a gps track can be started.
 
 <progress value="0" max="9" />
 
-  * [x] Page created
+* [x] Page created
 * [ ] Start tracking
 * Stop and save tracking
   * [ ] Convert coordinates into gpx XML text
@@ -247,18 +256,23 @@ This is a page where a gps track can be started.
 
 ## The Config page
 
-<progress value="1" max="5" />
+<progress value="1" max="10" />
 
-  * [ ] Make c++ module singleton.
   * [x] Page created.
 
-  * [ ] Pulldown of found track apps on device.
-  * [ ] Load track info button to load selected track app.
+  * One trick or another:
+    * HikingCompanion looks around for installed track apps and asks for the needed data.
+      * [ ] Pulldown of found track apps on device.
+      * [ ] Load track info button to load selected track app.
+    * HikingCompanion will started by the installed track app providing the necessary url where data can be found. Once found, copy the data to the HikingCompanion app which can be used again the next time.
+      * [ ] Check if data is already there.
+      * [ ] check timestamp to see if there is an update.
+      * [ ] Copy data if not there or older.
 
   * [ ] Text message about users consent of sending data to server. Make rest of the questions available if user wants to provide personal data.
   * [ ] Username used to differenciate input from a user. This input can be photos, notes etc.
-  * [ ] Email addresses
-  * [ ] Where to save data; on local or external memory.
+  * [ ] Email addresses.
+  * [ ] Save data on local memory.
 
 ## The About page
 This is an overview of people involved and their tasks. Also other info can be shown such as a version number. This should also come from the track app.
@@ -289,8 +303,11 @@ This should show a dialog to ask the user if he/she really wants to quit the pro
   * [ ] Privacy considerations
 
 # To do
+*
 
 # Bugs
+* Can't get the scrollbar right on the pages
+* Can't get fields properly aligned in config entry
 
 ## Changes
 
