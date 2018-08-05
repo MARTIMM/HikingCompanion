@@ -3,11 +3,11 @@ import QtQuick.Window 2.3
 import QtQuick.Controls 2.4
 import QtQuick.Layouts 1.3
 
-import io.github.martimm.HikingCompanion.textload 0.1
+import io.github.martimm.HikingCompanion.Textload 0.1
 import "../.."
 //import "../Menu" as HCMenu
 import "." as HCPage
-import "../Decoration" as HCDecoration
+import "../Parts" as HCParts
 import "../Button" as HCButton
 import io.github.martimm.HikingCompanion.Style 0.1
 
@@ -37,7 +37,7 @@ HCPage.Base {
 
   visible: false
 
-  HCPage.BaseInfoArea {
+  HCParts.InfoArea {
     width: parent.width
     height: parent.height
 
