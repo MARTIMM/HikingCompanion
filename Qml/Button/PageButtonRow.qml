@@ -4,8 +4,6 @@ import QtQuick.Controls 2.4
 import QtQuick.Layouts 1.3
 
 import "." as HCButton
-//import io.github.martimm.textload 1.0
-//import io.github.martimm.HikingCompanion.textload 0.1
 import io.github.martimm.HikingCompanion.Style 0.1
 
 Row {
