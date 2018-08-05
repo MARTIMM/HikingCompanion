@@ -13,10 +13,10 @@ int main( int argc, char *argv[]) {
   app.setApplicationDisplayName("HikingCompanion");
 
   qmlRegisterType<TextLoad>(
-        "io.github.martimm.HikingCompanion.textload", 0, 1, "TextLoad"
+        "io.github.martimm.HikingCompanion.Textload", 0, 1, "TextLoad"
         );
   qmlRegisterType<Config>(
-        "io.github.martimm.HikingCompanion.config", 0, 1, "Config"
+        "io.github.martimm.HikingCompanion.Config", 0, 1, "Config"
         );
 
   qmlRegisterSingletonType(
