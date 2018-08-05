@@ -20,7 +20,7 @@ import io.github.martimm.HikingCompanion.Style 0.1
 import io.github.martimm.HikingCompanion.GlobalVariables 0.1
 
 // ----------------------------------------------------------------------------
-Window {
+ApplicationWindow {
   id: root
 
   Component.onCompleted: {
