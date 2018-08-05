@@ -31,29 +31,35 @@ HCPage.Base {
           );
 
     configPage.osType = config.osType
-//    console.log("osType: " + configPage.osType)
+    //    console.log("osType: " + configPage.osType)
+    console.log("CP W: " + width)
   }
 
+  width: parent.width
+  height: parent.height
   anchors.fill: parent
   visible: false
-/*
+
   ListModel {
     id: itemList
 
     ListElement {
       label: qsTr("Name")
-      placeholderText: qsTr("type your name here")
+      phText: qsTr("type your name here")
     }
 
     ListElement {
       label: qsTr("Email address")
-      placeholderText: qsTr("type your email address here")
+      phText: qsTr("type your email address here")
     }
   }
-*/
 
-  Column {
+  GridView {
     id: configItems
+
+    Component.onCompleted: {
+      console.log("GV W: " + width)
+    }
 
     width: parent.width
     height: parent.height - pageToolbarRow.height - pageButtonRow.height
@@ -65,41 +71,34 @@ HCPage.Base {
       bottom: pageButtonRow.top
     }
 
-    Component.onCompleted: {
-      console.log("C W: " + width)
-    }
-
     //columns: 2
     //spacing: 2
     //flow: Grid.LeftToRight
 
-//    model: itemList
-//    delegate: Column {
+    model: itemList
+    delegate: Column {
+      Component.onCompleted: {
+        console.log("GV C W: " + width)
+      }
+
+      width: parent.width
       Row {
         width: parent.width
-//        spacing: 2
-/*
-        Rectangle {
-          Text {
-            text: "abc"
-            color: "#000"
-            anchors.left: parent.left
-            width: parent.width / 2
-            height: 20
-          }
+        //spacing: 2
+
+        HCParts.ConfigLabel {
+          text: label
+          //width: parent.width / 2
+          //height: Style.cfgTextHeight
         }
 
-        Rectangle {
-          TextField {
-            placeholderText: "pl"
-            color: "#000"
-            anchors.right: parent.right
-            width: parent.width / 2
-            height: 20
-          }
+        HCParts.ConfigInputText {
+          placeholderText: phText
+          //width: parent.width / 2
+          //height: Style.cfgTextHeight
         }
-*/
 
+        /*
         HCParts.ConfigLabel {
           id: labelOfItem
           //anchors.left: parent.left
@@ -115,8 +114,28 @@ HCPage.Base {
           width: parent.width / 2
           height: Style.cfgTextHeight
         }
+*/
 
-      //}
+        /*
+                Rectangle {
+                  Text {
+                    text: label
+                    color: "#000"
+                    width: parent.width / 2
+                    height: 20
+                  }
+                }
+
+                Rectangle {
+                  TextField {
+                    placeholderText: placeholderText
+                    color: "#000"
+                    width: parent.width / 2
+                    height: 20
+                  }
+                }
+        */
+      }
     }
   }
 

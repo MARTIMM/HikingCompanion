@@ -11,6 +11,8 @@ import io.github.martimm.HikingCompanion.Style 0.1
 
 
 Item {
+  id: root
+
 /*
   width: parent.width / 2 - 6
   height: Style.largeButtonHeight
@@ -22,10 +24,12 @@ Item {
     width: Style.smallButtonBorder
   }
 */
-  anchors.fill: parent
+  //anchors.fill: parent
+  width: parent.width / 2
+  height: Style.largeButtonHeight
 
   Component.onCompleted: {
-    console.log("CIT W: " + width)
+    console.log("CIT W: " + width + ", " + root.placeholderText)
   }
 
   property alias inputText: inputText
@@ -35,15 +39,14 @@ Item {
 
     background: Rectangle {
       color: Style.compBackgroundColor
-      /*
+      anchors.fill: parent
+/*
       radius: Style.smallButtonRadius
       border {
         color: Style.buttonBorderColor
         width: Style.smallButtonBorder
       }
-      */
-      width: parent.width
-      height: Style.largeButtonHeight
+*/
     }
 
     color: Style.textColor

@@ -12,9 +12,9 @@ import io.github.martimm.HikingCompanion.Style 0.1
 Rectangle {
   id: id
 
-  width: parent
+  width: parent.width / 2
   height: Style.largeButtonHeight
-  anchors.fill: parent
+//  anchors.fill: parent
 
   //radius: Style.smallButtonRadius
 
@@ -25,12 +25,13 @@ Rectangle {
   //}
 
   Component.onCompleted: {
-    console.log("CL W: " + width)
+    console.log("CL W: " + width + ", " + labelText.text)
   }
 
   property alias text: labelText.text
   Text {
     id: labelText
+    anchors.fill: parent
 
     color: Style.textColor
     //style: Text.Raised
