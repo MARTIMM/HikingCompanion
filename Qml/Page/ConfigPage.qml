@@ -67,6 +67,7 @@ HCPage.Base {
     }
 
     HCParts.ConfigComboBox {
+      id: language
       width: rightWidth
       model: [ "English", "Nederlands"]
     }
@@ -78,8 +79,12 @@ HCPage.Base {
     }
 
     HCParts.ConfigInputText {
+      id: name
       placeholderText: qsTr("type your name here")
       width: rightWidth
+      inputText.validator: RegExpValidator {
+        regExp: /^\w+$/
+      }
     }
 
 
@@ -89,8 +94,12 @@ HCPage.Base {
     }
 
     HCParts.ConfigInputText {
+      id: email
       placeholderText: qsTr("type your email address here")
       width: rightWidth
+      inputText.validator: RegExpValidator {
+        regExp: /^[a-zA-Z0-9.!#$%&’*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/
+      }
     }
   }
 
@@ -103,7 +112,9 @@ HCPage.Base {
 
     HCButton.PageButtonBase {
       text: qsTr("Save")
-      enabled: false
+      onClicked: {
+        console.log("Save: " + language.currentText + ", " + email.inputText.text);
+      }
     }
   }
 }
