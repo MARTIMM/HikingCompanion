@@ -303,11 +303,10 @@ This should show a dialog to ask the user if he/she really wants to quit the pro
   * [ ] Privacy considerations
 
 # To do
-*
 
 # Bugs
 * Can't get the scrollbar right on the pages
-* Can't get fields properly aligned in config entry
+* Color of text in combobox stays black
 
 ## Changes
 
