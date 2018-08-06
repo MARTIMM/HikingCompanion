@@ -12,13 +12,14 @@ Item {
 
   property alias selectItems: selectItems
   property alias model: selectItems.model
+  property alias currentText: selectItems.currentText
 
   ComboBox {
     id: selectItems
     width: parent.width
     padding: 1
 /*
-    ComboBoxStyle {
+    style: ComboBoxStyle {
       //control: selectItems
       textColor: Style.textColor
       selectedTextColor: Style.selectedTextColor
