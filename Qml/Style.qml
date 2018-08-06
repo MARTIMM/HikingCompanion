@@ -35,6 +35,8 @@ QtObject {
   // Text
   property string fontFamily: "Source Code Pro"
   property color textColor: "#fff0fa"
+  property color okTextColor: "#a0ffa0"
+  property color nokTextColor: "#ffa0a0"
   property color selectedTextColor: "#efa0ca"
   property color selectionTextColor: "#efbfcf"
   property int textPointSize: 18

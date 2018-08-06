@@ -15,12 +15,14 @@ Item {
 
   width: parent.width
   height: Style.largeButtonHeight
-//  anchors.fill: parent
+  //  anchors.fill: parent
 
   property alias inputText: inputText
   property alias placeholderText: inputText.placeholderText
+
   TextField {
     id: inputText
+    focus: true
 
     width: parent.width
     background: Rectangle {
@@ -34,13 +36,26 @@ Item {
       }
     }
 
-    color: Style.textColor
+    // Lets assume the text is still wrong or empty
+    color: Style.nokTextColor
 
     font {
       family: Style.fontFamily
       capitalization: Font.MixedCase
       //bold: true
       pointSize: Style.cfgTextPointSize
+    }
+
+    // Show visible clue if input is right or wrong
+    onTextChanged: {
+      console.log("Acceptable: " + inputText.acceptableInput);
+      if ( inputText.acceptableInput ) {
+        color = Style.okTextColor;
+      }
+
+      else {
+        color = Style.nokTextColor;
+      }
     }
   }
 }
