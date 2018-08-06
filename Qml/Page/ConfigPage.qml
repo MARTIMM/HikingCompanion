@@ -1,6 +1,6 @@
 
 import QtQuick 2.11
-import QtQuick.Controls 2.2
+//import QtQuick.Controls 2.2
 //import QtQuick.Layouts 1.3
 
 import "../.."
@@ -10,6 +10,7 @@ import "../Parts" as HCParts
 import "." as HCPage
 import io.github.martimm.HikingCompanion.Config 0.1
 import io.github.martimm.HikingCompanion.Style 0.1
+import io.github.martimm.HikingCompanion.GlobalVariables 0.1
 
 HCPage.Base {
   id: configPage
@@ -31,8 +32,7 @@ HCPage.Base {
           );
 
     configPage.osType = config.osType
-    //    console.log("osType: " + configPage.osType)
-    console.log("CP W: " + width)
+    console.log("os: " + configPage.osType)
   }
 
   width: parent.width
@@ -40,102 +40,57 @@ HCPage.Base {
   anchors.fill: parent
   visible: false
 
-  ListModel {
-    id: itemList
+  property int fieldMargin: 6
+  property int leftWidth: 3 * width / 10 - fieldMargin
+  property int rightWidth: 7 * width / 10 - fieldMargin
 
-    ListElement {
-      label: qsTr("Name")
-      phText: qsTr("type your name here")
-    }
+  Grid {
+    id: configGrid
 
-    ListElement {
-      label: qsTr("Email address")
-      phText: qsTr("type your email address here")
-    }
-  }
-
-  GridView {
-    id: configItems
-
-    Component.onCompleted: {
-      console.log("GV W: " + width)
-    }
-
+    columns: 2
     width: parent.width
     height: parent.height - pageToolbarRow.height - pageButtonRow.height
 
     anchors {
       left: parent.left
+      leftMargin: fieldMargin
       right: parent.right
+      rightMargin: fieldMargin
       top: pageToolbarRow.bottom
       bottom: pageButtonRow.top
     }
 
-    //columns: 2
-    //spacing: 2
-    //flow: Grid.LeftToRight
 
-    model: itemList
-    delegate: Column {
-      Component.onCompleted: {
-        console.log("GV C W: " + width)
-      }
+    HCParts.ConfigLabel {
+      text: qsTr("Language")
+      width: leftWidth
+    }
 
-      width: parent.width
-      Row {
-        width: parent.width
-        //spacing: 2
+    HCParts.ConfigComboBox {
+      width: rightWidth
+      model: [ "English", "Nederlands"]
+    }
 
-        HCParts.ConfigLabel {
-          text: label
-          //width: parent.width / 2
-          //height: Style.cfgTextHeight
-        }
 
-        HCParts.ConfigInputText {
-          placeholderText: phText
-          //width: parent.width / 2
-          //height: Style.cfgTextHeight
-        }
+    HCParts.ConfigLabel {
+      text: qsTr("Name")
+      width: leftWidth
+    }
 
-        /*
-        HCParts.ConfigLabel {
-          id: labelOfItem
-          //anchors.left: parent.left
-          text: qsTr("Name")
-          width: parent.width / 2
-          height: Style.cfgTextHeight
-        }
+    HCParts.ConfigInputText {
+      placeholderText: qsTr("type your name here")
+      width: rightWidth
+    }
 
-        HCParts.ConfigInputText {
-          //anchors.left: labelOfItem.right
-          //anchors.right: parent.right
-          placeholderText: qsTr("type your name here")
-          width: parent.width / 2
-          height: Style.cfgTextHeight
-        }
-*/
 
-        /*
-                Rectangle {
-                  Text {
-                    text: label
-                    color: "#000"
-                    width: parent.width / 2
-                    height: 20
-                  }
-                }
+    HCParts.ConfigLabel {
+      text: qsTr("Email address")
+      width: leftWidth
+    }
 
-                Rectangle {
-                  TextField {
-                    placeholderText: placeholderText
-                    color: "#000"
-                    width: parent.width / 2
-                    height: 20
-                  }
-                }
-        */
-      }
+    HCParts.ConfigInputText {
+      placeholderText: qsTr("type your email address here")
+      width: rightWidth
     }
   }
 
