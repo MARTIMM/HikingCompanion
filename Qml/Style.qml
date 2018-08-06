@@ -33,7 +33,10 @@ QtObject {
   property int menuButtonPointSize: 23
 
   // Text
+  property string fontFamily: "Source Code Pro"
   property color textColor: "#fff0fa"
+  property color selectedTextColor: "#efa0ca"
+  property color selectionTextColor: "#efbfcf"
   property int textPointSize: 18
 
   property int cfgTextPointSize: 16
