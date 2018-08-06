@@ -13,48 +13,31 @@ import io.github.martimm.HikingCompanion.Style 0.1
 Item {
   id: root
 
-/*
-  width: parent.width / 2 - 6
+  width: parent.width
   height: Style.largeButtonHeight
-  radius: Style.smallButtonRadius
-
-  color: Style.buttonBackgroundColor
-  border {
-    color: Style.buttonBorderColor
-    width: Style.smallButtonBorder
-  }
-*/
-  //anchors.fill: parent
-  width: parent.width / 2
-  height: Style.largeButtonHeight
-
-  Component.onCompleted: {
-    console.log("CIT W: " + width + ", " + root.placeholderText)
-  }
+//  anchors.fill: parent
 
   property alias inputText: inputText
   property alias placeholderText: inputText.placeholderText
   TextField {
     id: inputText
 
+    width: parent.width
     background: Rectangle {
       color: Style.compBackgroundColor
-      anchors.fill: parent
-/*
+
+      antialiasing: true
       radius: Style.smallButtonRadius
       border {
         color: Style.buttonBorderColor
         width: Style.smallButtonBorder
       }
-*/
     }
 
     color: Style.textColor
-    //style: Text.Raised
-    //styleColor: Style.appBackgroundColor
 
     font {
-      //family: "Source Code Pro"
+      family: Style.fontFamily
       capitalization: Font.MixedCase
       //bold: true
       pointSize: Style.cfgTextPointSize
