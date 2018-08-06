@@ -48,7 +48,6 @@ ApplicationWindow {
     HCButton.MenuEntry {
       id: mapButton
       text: qsTr("🗺 Map")
-      //anchors.top: parent.top
       onClicked: { GlobalVariables.menuEntryClicked(mapPage); }
     }
 
@@ -56,7 +55,6 @@ ApplicationWindow {
     HCButton.MenuEntry {
       id: configButton
       text: qsTr("🛠 Config")
-      //anchors.top: mapButton.bottom
       onClicked: { GlobalVariables.menuEntryClicked(configPage); }
     }
 
@@ -64,7 +62,6 @@ ApplicationWindow {
     HCButton.MenuEntry {
       id: aboutButton
       text: qsTr("👥 About")
-      //anchors.top: configButton.bottom
       onClicked: { GlobalVariables.menuEntryClicked(aboutPage); }
     }
 
@@ -74,8 +71,6 @@ ApplicationWindow {
       text: configPage.osType == "android" ?
               qsTr("\u23FD Exit") :
               qsTr("\u23FB Exit")
-      //anchors.bottom: parent.bottom
-      //anchors.bottomMargin: 1
       onClicked: { GlobalVariables.menuEntryClicked(exitPage); }
     }
   }
