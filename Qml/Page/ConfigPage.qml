@@ -8,14 +8,28 @@ import "../.."
 import "../Button" as HCButton
 import "../Parts" as HCParts
 import "." as HCPage
-import io.github.martimm.HikingCompanion.Config 0.1
+import io.github.martimm.HikingCompanion.Config 0.2
 import io.github.martimm.HikingCompanion.Style 0.1
 import io.github.martimm.HikingCompanion.GlobalVariables 0.1
 
 HCPage.Base {
   id: configPage
 
-  Config { id: config }
+  Config {
+    id: config
+    onUsernameChanged: {
+      console.log("username from data: " + config.username);
+      username.inputText.text = config.username;
+    }
+
+    onEmailChanged: {
+      email.inputText.text = config.email;
+    }
+
+    onLanguageChanged: {
+      language.currentIndex = config.language;
+    }
+  }
 
   property string osType
 
@@ -33,6 +47,8 @@ HCPage.Base {
 
     configPage.osType = config.osType
     console.log("os: " + configPage.osType)
+    var x = config.readProperties;
+    console.log("Read: " + x);
   }
 
   width: parent.width
@@ -43,6 +59,7 @@ HCPage.Base {
   property int fieldMargin: 6
   property int leftWidth: 3 * width / 10 - fieldMargin
   property int rightWidth: 7 * width / 10 - fieldMargin
+  property Grid configGrid: configGrid
 
   Grid {
     id: configGrid
@@ -79,7 +96,7 @@ HCPage.Base {
     }
 
     HCParts.ConfigInputText {
-      id: name
+      id: username
       placeholderText: qsTr("type your name here")
       width: rightWidth
       inputText.validator: RegExpValidator {
@@ -106,14 +123,14 @@ HCPage.Base {
   HCButton.PageButtonRow {
     id: pageButtonRow
 
-    // anchor only to the bottom because height of this and
-    // footer row are known
     anchors.bottom: parent.bottom
 
     HCButton.PageButtonBase {
       text: qsTr("Save")
       onClicked: {
-        console.log("Save: " + language.currentText + ", " + email.inputText.text);
+        config.language = language.currentIndex;
+        config.username = username.inputText.text;
+        config.email = email.inputText.text;
       }
     }
   }
