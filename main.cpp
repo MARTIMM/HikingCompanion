@@ -8,6 +8,10 @@
 int main( int argc, char *argv[]) {
   QCoreApplication::setAttribute(Qt::AA_EnableHighDpiScaling);
 
+  QCoreApplication::setOrganizationName("martimm");
+  QCoreApplication::setOrganizationDomain("io.github.martimm");
+  QCoreApplication::setApplicationName("HikingCompanion");
+
   QGuiApplication app( argc, argv);
   app.setApplicationVersion("0.6.0");
   app.setApplicationDisplayName("HikingCompanion");
@@ -16,7 +20,7 @@ int main( int argc, char *argv[]) {
         "io.github.martimm.HikingCompanion.Textload", 0, 1, "TextLoad"
         );
   qmlRegisterType<Config>(
-        "io.github.martimm.HikingCompanion.Config", 0, 1, "Config"
+        "io.github.martimm.HikingCompanion.Config", 0, 2, "Config"
         );
 
   qmlRegisterSingletonType(
