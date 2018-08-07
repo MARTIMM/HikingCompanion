@@ -32,7 +32,7 @@ This app will be placed in the app store when ready.
 ## Acceptance tests for this project
 Below, there are a series of tests which is also used as the progress in the learning curve I have to go through. The most important device to work for are android devices. Ios devices would be nice but is a later problem.
 
-<progress max=50 value="33" />
+<progress max=47 value="33" />
 
 * [x] Android SDK, NDK and OpenJDK installation using Android Studio and linux installation tools.
 * [ ] Xcode for ios
@@ -51,18 +51,15 @@ Below, there are a series of tests which is also used as the progress in the lea
 
   * [x] Organizing qml files in directories using qml.qrc. This can be done mostly automatic from within the creator but using the editor is sometimes easier.
   * [x] Organizing other files like images and docs are set using another `.qrc` file to make a different resource.
+  * [ ] Stylesheets
 
   * Input processing.
     * [x] Text input and show input
     * [x] Html or Rich text
     * [x] Scroll and wrap text
     * [x] Toolbar and normal buttons and processing
-    * [ ] Radio buttons and show result
-    * [ ] Check buttons and show result
+    * [ ] Other gui items like radio and check buttons, lists, tables etc.
     * [x] Make use of javascript for processing of events
-    * [ ] Showing lists
-    * [ ] Generating a list
-    * [ ] Tables
 
   * Navigation. There are several implementations possible
     * [x] Show a menu. This is done using a `Column` component wherein `Button` components are placed.
@@ -162,7 +159,6 @@ When starting the program, the app must show a splash screen with a nice hiking 
   * [ ] Image must be made complete with some text
 
 ####  The pages to select from the menu
-All pages are be made singleton pages to always have one copy and to keep changes made on that page.
 
 <progress value="3" max="8" />
 
@@ -256,23 +252,23 @@ This is a page where a gps track can be started.
 
 ## The Config page
 
-<progress value="1" max="10" />
+<progress value="4" max="10" />
 
   * [x] Page created.
 
-  * One trick or another:
+  * One trick or another to get info from another track app:
     * HikingCompanion looks around for installed track apps and asks for the needed data.
       * [ ] Pulldown of found track apps on device.
       * [ ] Load track info button to load selected track app.
-    * HikingCompanion will started by the installed track app providing the necessary url where data can be found. Once found, copy the data to the HikingCompanion app which can be used again the next time.
+    * HikingCompanion is started by the installed track app providing the necessary url where data can be found. Once found, copy the data to the HikingCompanion app which can be used again the next time.
       * [ ] Check if data is already there.
       * [ ] check timestamp to see if there is an update.
       * [ ] Copy data if not there or older.
 
   * [ ] Text message about users consent of sending data to server. Make rest of the questions available if user wants to provide personal data.
-  * [ ] Username used to differenciate input from a user. This input can be photos, notes etc.
-  * [ ] Email addresses.
-  * [ ] Save data on local memory.
+  * [x] Username used to differentiate input from a user. This input can be photos, notes etc.
+  * [x] Email addresses.
+  * [x] Save data on local memory.
 
 ## The About page
 This is an overview of people involved and their tasks. Also other info can be shown such as a version number. This should also come from the track app.
