@@ -3,9 +3,14 @@ import QtQuick.Controls 2.2
 import QtQuick.Controls.Styles 1.4
 
 import io.github.martimm.HikingCompanion.Style 0.1
+import io.github.martimm.HikingCompanion.Config 0.2
 
 Item {
   id: root
+
+  Component.onCompleted: {
+
+  }
 
   width: parent.width
   height: Style.largeButtonHeight

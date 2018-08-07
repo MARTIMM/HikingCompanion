@@ -252,6 +252,7 @@ This is a page where a gps track can be started.
 
 ## The Config page
 
+Input fields can be checked
 <progress value="4" max="10" />
 
   * [x] Page created.
@@ -299,10 +300,13 @@ This should show a dialog to ask the user if he/she really wants to quit the pro
   * [ ] Privacy considerations
 
 # To do
+* Make button presses visual
+
 
 # Bugs
 * Can't get the scrollbar right on the pages
 * Color of text in combobox stays black
+* Keyboard of android tablet in uppercase and switches back on each letter. Also numbers are not available.
 
 ## Changes
 

@@ -110,6 +110,7 @@ void Config::setEmitIt(const bool emitIt) {
 // ----------------------------------------------------------------------------
 bool Config::readProperties() {
 
+  // Todo look at Qt.platform at http://doc.qt.io/qt-5/qml-qtqml-qt.html
   // Look for settings
   QSettings settings;
   if ( settings.contains("user/username") ) {
@@ -127,5 +128,24 @@ bool Config::readProperties() {
     emit languageChanged();
   }
 
+  else {
+    _language = 0;
+  }
+
+
+  // Process language setting
+  if ( _language == 0 ) {
+
+  }
+
   return true;
 }
+
+// ----------------------------------------------------------------------------
+QString *Config::readLanguageList() {
+
+  _langArray[0] = "a";
+  _langArray[1] = "b";
+  return _langArray;
+}
+

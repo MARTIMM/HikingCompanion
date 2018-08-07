@@ -23,6 +23,7 @@ import io.github.martimm.HikingCompanion.GlobalVariables 0.1
 ApplicationWindow {
   id: root
 
+
   Component.onCompleted: {
     GlobalVariables.setMapPage(mapPage);
     GlobalVariables.setCurrentPage(mapPage);

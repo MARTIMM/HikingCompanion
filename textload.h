@@ -7,8 +7,7 @@
 #include <QFile>
 
 // ----------------------------------------------------------------------------
-class TextLoad : public QObject
-{
+class TextLoad : public QObject {
   Q_OBJECT
   Q_PROPERTY( QString filename READ filename)
   Q_PROPERTY( QString text READ text)
