@@ -13,11 +13,13 @@ Item {
   property alias selectItems: selectItems
   property alias model: selectItems.model
   property alias currentText: selectItems.currentText
+  property alias currentIndex: selectItems.currentIndex
 
   ComboBox {
     id: selectItems
     width: parent.width
     padding: 1
+    //flat: false
 /*
     style: ComboBoxStyle {
       //control: selectItems
@@ -42,34 +44,4 @@ Item {
       pointSize: Style.cfgTextPointSize
     }
   }
-
-/*
-  property alias inputText: inputText
-  property alias placeholderText: inputText.placeholderText
-  TextField {
-    id: inputText
-
-    background: Rectangle {
-      color: Style.compBackgroundColor
-      width: parent.width
-      anchors.fill: parent
-
-      antialiasing: true
-      radius: Style.smallButtonRadius
-      border {
-        color: Style.buttonBorderColor
-        width: Style.smallButtonBorder
-      }
-    }
-
-    color: Style.textColor
-
-    font {
-      family: Style.fontFamily
-      capitalization: Font.MixedCase
-      //bold: true
-      pointSize: Style.cfgTextPointSize
-    }
-  }
-*/
 }
