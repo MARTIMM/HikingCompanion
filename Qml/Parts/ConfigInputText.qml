@@ -1,14 +1,7 @@
 import QtQuick 2.11
 import QtQuick.Controls 2.2
-//import QtQuick.Layouts 1.3
 
-import "../.."
-//import "../Menu" as HCMenu
-import "../Button" as HCButton
-import "." as HCPage
-import io.github.martimm.HikingCompanion.Config 0.1
 import io.github.martimm.HikingCompanion.Style 0.1
-
 
 Item {
   id: root
