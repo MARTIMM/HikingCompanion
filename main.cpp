@@ -1,5 +1,7 @@
+#include <QApplication>
 #include <QGuiApplication>
 #include <QQmlApplicationEngine>
+#include <QInputMethod>
 
 #include "textload.h"
 #include "config.h"
@@ -12,10 +14,19 @@ int main( int argc, char *argv[]) {
   QCoreApplication::setOrganizationDomain("io.github.martimm");
   QCoreApplication::setApplicationName("HikingCompanion");
 
-  QGuiApplication app( argc, argv);
+  QApplication app( argc, argv);
   app.setApplicationVersion("0.6.0");
   app.setApplicationDisplayName("HikingCompanion");
+//  app.
 
+  // See also http://doc.qt.io/qt-5/qguiapplication.html#platformName-prop
+  // For me it could be: android, ios or xcb (x11 on linux)
+//qDebug() << "platform name: " << app.platformName();
+
+//qDebug() << app.inputMethod.isVisible();
+
+
+  // set stylesheet
   qmlRegisterType<TextLoad>(
         "io.github.martimm.HikingCompanion.Textload", 0, 1, "TextLoad"
         );
@@ -34,13 +45,10 @@ int main( int argc, char *argv[]) {
         "io.github.martimm.HikingCompanion.Style", 0, 1, "Style"
         );
 
-// Config *c = new Config();
-// qDebug() << "osType: " << c->osType();
-
   QQmlApplicationEngine engine;
   engine.load(QUrl(QStringLiteral("qrc:/Qml/Main/Application.qml")));
 
-qDebug() << engine.rootObjects();
+qDebug() << "root objects: " << engine.rootObjects();
 
   if ( engine.rootObjects().isEmpty() ) return -1;
   return app.exec();
