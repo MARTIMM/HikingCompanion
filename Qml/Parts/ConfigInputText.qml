@@ -15,7 +15,7 @@ Item {
 
   TextField {
     id: inputText
-    focus: true
+    //Setting focus will show keyboard to early focus: true
 
     width: parent.width
     background: Rectangle {
