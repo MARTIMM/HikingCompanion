@@ -5,6 +5,7 @@
 // to use Q_OS_IOS, Q_OS_ANDROID etc.
 // ----------------------------------------------------------------------------
 Config::Config(QObject *parent) : QObject(parent) {
+
   _osType = QString("unknown");
 
   QRegExp rx("\\.fc\\d*\\.");
@@ -35,24 +36,21 @@ QString Config::osType() {
   return _osType;
 }
 
+/*
+// ----------------------------------------------------------------------------
+QApplication *Config::appObject() {
+  return _appObjectPtr;
+}
+
+// ----------------------------------------------------------------------------
+void Config::setAppObject(QApplication *appObjectPtr) {
+  _appObjectPtr = appObjectPtr;  //qobject_cast<QApplication *>(appObjectPtr);
+}
+*/
+
 // ----------------------------------------------------------------------------
 QString Config::username() {
   return _username;
-}
-
-// ----------------------------------------------------------------------------
-QString Config::email() {
-  return _email;
-}
-
-// ----------------------------------------------------------------------------
-int Config::language() {
-  return _language;
-}
-
-// ----------------------------------------------------------------------------
-bool Config::emitIt() {
-  return _emitIt;
 }
 
 // ----------------------------------------------------------------------------
@@ -75,6 +73,11 @@ qDebug() << "Username: " << username;
 }
 
 // ----------------------------------------------------------------------------
+QString Config::email() {
+  return _email;
+}
+
+// ----------------------------------------------------------------------------
 void Config::setEmail( const QString email, const bool emitIt) {
   qDebug() << "Email: " << email;
   if ( _email != email ) {
@@ -86,6 +89,11 @@ void Config::setEmail( const QString email, const bool emitIt) {
 
   QSettings settings;
   settings.setValue( "user/email", email);
+}
+
+// ----------------------------------------------------------------------------
+int Config::language() {
+  return _language;
 }
 
 // ----------------------------------------------------------------------------
@@ -102,6 +110,12 @@ void Config::setLanguage( const int language, const bool emitIt) {
   settings.setValue( "sys/language", language);
 }
 
+
+// ----------------------------------------------------------------------------
+bool Config::emitIt() {
+  return _emitIt;
+}
+
 // ----------------------------------------------------------------------------
 void Config::setEmitIt(const bool emitIt) {
   _emitIt = emitIt;
@@ -110,7 +124,6 @@ void Config::setEmitIt(const bool emitIt) {
 // ----------------------------------------------------------------------------
 bool Config::readProperties() {
 
-  // Todo look at Qt.platform at http://doc.qt.io/qt-5/qml-qtqml-qt.html
   // Look for settings
   QSettings settings;
   if ( settings.contains("user/username") ) {

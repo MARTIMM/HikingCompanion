@@ -1,6 +1,7 @@
 #ifndef CONFIG_H
 #define CONFIG_H
 
+#include <QApplication>
 #include <QDebug>
 #include <QObject>
 #include <QSysInfo>
@@ -12,6 +13,7 @@
 class Config : public QObject {
   Q_OBJECT
 
+  //Q_PROPERTY( QApplication appObject READ appObject WRITE setAppObject)
   Q_PROPERTY( QString osType READ osType)
   Q_PROPERTY( QString username READ username
               WRITE setUsername NOTIFY usernameChanged
@@ -33,14 +35,20 @@ public:
   };
   Q_ENUM(Languages)
 
-  // Data to store
+  // What system
   QString osType();
-  QString username();
-  QString email();
-  int language();
 
+  //QApplication *appObject();
+  //void setAppObject(QApplication *appObjectPtr);
+
+  // Data to store
+  QString username();
   void setUsername( const QString username, const bool emitIt = false);
+
+  QString email();
   void setEmail( const QString email, const bool emitIt = false);
+
+  int language();
   void setLanguage( const int language, const bool emitIt = false);
 
   // Emit toggle
@@ -70,6 +78,9 @@ private:
 
   // length of enum languages
   QString _langArray[2];
+
+  //QApplication *_appObjectPtr;
+
 };
 
 #endif // CONFIG_H
