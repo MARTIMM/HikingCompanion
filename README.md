@@ -301,6 +301,7 @@ This should show a dialog to ask the user if he/she really wants to quit the pro
 
 # To do
 * Make button presses visual
+* Stylesheets, QStyle
 
 
 # Bugs
