@@ -9,9 +9,8 @@
 // ----------------------------------------------------------------------------
 class TextLoad : public QObject {
   Q_OBJECT
-  Q_PROPERTY( QString filename READ filename)
   Q_PROPERTY( QString text READ text)
-  Q_PROPERTY( QString setFilename WRITE setFilename NOTIFY fileRead)
+  Q_PROPERTY( QString filename READ filename WRITE setFilename NOTIFY fileRead)
 
 public:
   explicit TextLoad(QObject *parent = nullptr);

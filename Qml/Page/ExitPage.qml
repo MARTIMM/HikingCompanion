@@ -50,7 +50,7 @@ HCPage.Base {
 
     TextLoad {
       id: exitTextData
-      setFilename: ":/Docs/exitText.html"
+      filename: ":Assets/Pages/exitText.html"
 /*
     onFileRead: {
       exitText.text = TextLoad.text
