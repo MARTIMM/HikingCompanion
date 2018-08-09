@@ -1,17 +1,19 @@
 <RCC>
     <qresource prefix="/">
-        <file>Images/logo-met-groen-klein-1.png</file>
-        <file>Images/Icon/Android/hdpi.png</file>
-        <file>Images/Icon/Android/ldpi.png</file>
-        <file>Images/Icon/Android/mdpi.png</file>
-        <file>Images/Icon/Android/xhdpi.png</file>
-        <file>Images/Icon/Android/xxhdpi.png</file>
-        <file>Images/Icon/Android/xxxhdpi.png</file>
+        <file>Assets/Images/logo-met-groen-klein-1.png</file>
+        <file>Assets/Images/Icon/Android/hdpi.png</file>
+        <file>Assets/Images/Icon/Android/ldpi.png</file>
+        <file>Assets/Images/Icon/Android/mdpi.png</file>
+        <file>Assets/Images/Icon/Android/xhdpi.png</file>
+        <file>Assets/Images/Icon/Android/xxhdpi.png</file>
+        <file>Assets/Images/Icon/Android/xxxhdpi.png</file>
     </qresource>
     <qresource prefix="/">
-        <file>Docs/exitText.html</file>
+        <file>Assets/Pages/exitText.html</file>
     </qresource>
     <qresource prefix="/" lang="nl">
-        <file alias="exitText.html">Docs/exitText_nl.html</file>
+        <file alias="exitText.html">Assets/Pages/exitText_nl.html</file>
+    </qresource>
+    <qresource prefix="/">
     </qresource>
 </RCC>
