@@ -1,7 +1,7 @@
 #ifndef CONFIG_H
 #define CONFIG_H
 
-#include <QApplication>
+//#include <QApplication>
 #include <QDebug>
 #include <QObject>
 #include <QSysInfo>

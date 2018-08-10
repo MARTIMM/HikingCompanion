@@ -1,4 +1,4 @@
-QT += quick gui widgets
+QT += quick gui widgets core qml quickwidgets quickcontrols2
 CONFIG += c++11
 
 # The following define makes your compiler emit warnings if you use
@@ -15,7 +15,8 @@ DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x050000    # disables all the APIs depr
 SOURCES += \
     main.cpp \
     textload.cpp \
-    config.cpp
+    config.cpp \
+    mainwindow.cpp
 
 RESOURCES += qml.qrc extraResources.qrc
 
@@ -49,6 +50,10 @@ DISTFILES += \
 
 HEADERS += \
     textload.h \
-    config.h
+    config.h \
+    mainwindow.h
 
 ANDROID_PACKAGE_SOURCE_DIR = $$PWD/android
+
+FORMS += \
+    mainwindow.ui

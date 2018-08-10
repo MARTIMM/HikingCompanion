@@ -2,7 +2,7 @@ import QtQuick 2.11
 //import QtQuick.Controls 2.4
 //import QtQuick.Layouts 1.3
 
-import io.github.martimm.HikingCompanion.Style 0.1
+//import io.github.martimm.HikingCompanion.HCStyle 0.1
 
 Item {
   id: root;
@@ -21,15 +21,15 @@ Item {
     id: buttonArea
 
     anchors.fill: parent
-    color: Style.buttonBackgroundColor
-    border.color: Style.buttonBorderColor
+    //color: HCStyle.buttonBackgroundColor
+    //border.color: HCStyle.buttonBorderColor
 
     property alias font: buttonText.font
     Text {
       id: buttonText
-      color: Style.textColor
-      //style: Text.Raised
-      //styleColor: Style.appBackgroundColor
+      //color: HCStyle.textColor
+      //HCstyle: Text.Raised
+      //HCstyleColor: HCStyle.appBackgroundColor
 
       anchors {
         verticalCenter: parent.verticalCenter
@@ -38,9 +38,9 @@ Item {
 
       font {
         //family: "Source Code Pro"
-        capitalization: Font.MixedCase
-        bold: true
-        pointSize: 12
+        //capitalization: Font.MixedCase
+        //bold: true
+        //pointSize: 12
       }
     }
 

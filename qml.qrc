@@ -20,7 +20,7 @@
         <file>Qml/Parts/ConfigInputText.qml</file>
         <file>Qml/Parts/ConfigLabel.qml</file>
         <file>Qml/GlobalVariables.qml</file>
-        <file>Qml/Style.qml</file>
+        <file>Qml/HCStyle.qml</file>
         <file>Qml/Parts/ConfigComboBox.qml</file>
     </qresource>
 </RCC>

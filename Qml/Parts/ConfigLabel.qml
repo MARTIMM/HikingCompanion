@@ -1,26 +1,27 @@
 import QtQuick 2.11
 
-import io.github.martimm.HikingCompanion.Style 0.1
+import io.github.martimm.HikingCompanion.HCStyle 0.1
 
 Rectangle {
   id: id
 
   width: parent.width
-  height: Style.largeButtonHeight
-//  anchors.fill: parent
+  height: HCStyle.largeButtonHeight
+  //anchors.verticalCenter: parent.verticalCenter
 
-  color: Style.appBackgroundColor
+//  color: HCStyle.appBackgroundColor
 
   property alias text: labelText.text
   Text {
     id: labelText
 
-    color: Style.textColor
-
+//    color: HCStyle.textColor
+/*
     font {
-      family: Style.fontFamily
+      family: HCStyle.fontFamily
       capitalization: Font.MixedCase
-      pointSize: Style.cfgTextPointSize
+      pointSize: HCStyle.cfgTextPointSize
     }
+*/
   }
 }

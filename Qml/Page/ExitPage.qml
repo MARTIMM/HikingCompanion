@@ -9,10 +9,11 @@ import "../.."
 import "." as HCPage
 import "../Parts" as HCParts
 import "../Button" as HCButton
-import io.github.martimm.HikingCompanion.Style 0.1
+import io.github.martimm.HikingCompanion.HCStyle 0.1
 
 HCPage.Base {
   id: exitPage
+  objectName: "exitPage"
 
   Component.onCompleted: {
     pageToolbarRow.insertRowButton(
@@ -121,7 +122,7 @@ HCPage.Base {
       wrapMode: Text.WordWrap
       text: exitTextData.text
       font.pixelSize: 18
-      color: Style.textColor
+      color: HCStyle.textColor
     }
 
     ScrollBar.vertical: ScrollBar {

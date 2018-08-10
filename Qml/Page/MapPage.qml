@@ -21,8 +21,8 @@ HCPage.Base {
           );
   }
 
-  anchors.fill: parent
-  visible: true
+  //anchors.fill: parent
+  //visible: true
 
   Plugin {
     id: mapPlugin

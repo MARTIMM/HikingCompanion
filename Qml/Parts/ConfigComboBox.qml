@@ -2,7 +2,7 @@ import QtQuick 2.0
 import QtQuick.Controls 2.2
 import QtQuick.Controls.Styles 1.4
 
-import io.github.martimm.HikingCompanion.Style 0.1
+import io.github.martimm.HikingCompanion.HCStyle 0.1
 import io.github.martimm.HikingCompanion.Config 0.2
 
 Item {
@@ -13,7 +13,7 @@ Item {
   }
 
   width: parent.width
-  height: Style.largeButtonHeight
+  height: HCStyle.largeButtonHeight
 
   property alias selectItems: selectItems
   property alias model: selectItems.model
@@ -28,25 +28,27 @@ Item {
 /*
     style: ComboBoxStyle {
       //control: selectItems
-      textColor: Style.textColor
-      selectedTextColor: Style.selectedTextColor
-      selectionColor: Style.selectionTextColor
+      textColor: HCStyle.textColor
+      selectedTextColor: HCStyle.selectedTextColor
+      selectionColor: HCStyle.selectionTextColor
     }
 */
+/*
     background: Rectangle {
-      color: Style.compBackgroundColor
+      color: HCStyle.compBackgroundColor
 
-      radius: Style.smallButtonRadius
+      radius: HCStyle.smallButtonRadius
       border {
-        color: Style.buttonBorderColor
-        width: Style.smallButtonBorder
+        color: HCStyle.buttonBorderColor
+        width: HCStyle.smallButtonBorder
       }
     }
 
     font {
-      family: Style.fontFamily
+      family: HCStyle.fontFamily
       capitalization: Font.MixedCase
-      pointSize: Style.cfgTextPointSize
+      pointSize: HCStyle.cfgTextPointSize
     }
+*/
   }
 }

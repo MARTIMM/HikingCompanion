@@ -32,7 +32,7 @@ This app will be placed in the app store when ready.
 ## Acceptance tests for this project
 Below, there are a series of tests which is also used as the progress in the learning curve I have to go through. The most important device to work for are android devices. Ios devices would be nice but is a later problem.
 
-<progress max=47 value="33" />
+<progress max=47 value="34" />
 
 * [x] Android SDK, NDK and OpenJDK installation using Android Studio and linux installation tools.
 * [ ] Xcode for ios
@@ -51,7 +51,7 @@ Below, there are a series of tests which is also used as the progress in the lea
 
   * [x] Organizing qml files in directories using qml.qrc. This can be done mostly automatic from within the creator but using the editor is sometimes easier.
   * [x] Organizing other files like images and docs are set using another `.qrc` file to make a different resource.
-  * [ ] Stylesheets
+  * [x] Stylesheets. Starting project with `Application -> Qt Quick Application` cannot cope with the commands `QApplication->setStyle()` and `QApplication->setStyleSheet()`. The first could only be done via comandline arguments **-style** or manipulating the arguments list in the program. However creating a new project using `Application -> Qt Widgets Application` let the commands work. Also it was possible to include QML components into the widget structures be it a bit difficult.
 
   * Input processing.
     * [x] Text input and show input
@@ -170,7 +170,7 @@ The menu entries
   * [ ] **📡 Gps**: Record your track data.
   * [x] **🛠 Config**: Configuration of user and program data.
   * [x] **👥 About**: Show a page with version, people and contacts.
-  * [ ] **⏼ Exit**: Close the application. **⏽** on android because of missing character. Must check OS type.
+  * [ ] **⏼ Exit**: Close the application. **⏽** or **🗙** on android because of missing character. Must check OS type.
 
 ## Map page
 <progress value="7" max="16" />
@@ -300,9 +300,6 @@ This should show a dialog to ask the user if he/she really wants to quit the pro
   * [ ] Privacy considerations
 
 # To do
-* Make button presses visual
-* Stylesheets, QStyle
-
 
 # Bugs
 * Can't get the scrollbar right on the pages

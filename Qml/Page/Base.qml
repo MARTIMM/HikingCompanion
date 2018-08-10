@@ -3,7 +3,7 @@ import QtQuick 2.11
 import QtQuick.Controls 2.4
 import QtQuick.Layouts 1.3
 
-import io.github.martimm.HikingCompanion.Style 0.1
+import io.github.martimm.HikingCompanion.HCStyle 0.1
 import io.github.martimm.HikingCompanion.GlobalVariables 0.1
 
 import "../Button" as HCButton
@@ -14,8 +14,7 @@ Rectangle {
   width: parent.width
   height: parent.height
 
-  //anchors.fill: parent
-  color: Style.appBackgroundColor
+  //color: HCStyle.appBackgroundColor
 
   property alias pageToolbarRow: pageToolbarRow
   HCButton.PageToolbarRow { id: pageToolbarRow }
@@ -56,7 +55,7 @@ Rectangle {
       wrapMode: Text.WordWrap
       //text: exitTextData.text
       font.pixelSize: 18
-      color: Style.textColor
+      color: HCStyle.textColor
     }
 
     ScrollBar.vertical: ScrollBar {

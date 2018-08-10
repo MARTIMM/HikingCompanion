@@ -5,18 +5,18 @@ import QtQuick 2.11
 import "." as HCButton
 //import ".."
 import io.github.martimm.HikingCompanion.GlobalVariables 0.1
-import io.github.martimm.HikingCompanion.Style 0.1
+import io.github.martimm.HikingCompanion.HCStyle 0.1
 
 HCButton.Base {
   id: root
 
   width: GlobalVariables.menuWidth
-  height: Style.menuButtonHeight
+  height: HCStyle.menuButtonHeight
 
   anchors.topMargin: 1
   anchors.left: parent.left
 
-  pointSize: Style.menuButtonPointSize
+  pointSize: HCStyle.menuButtonPointSize
 
   clip: true
 }

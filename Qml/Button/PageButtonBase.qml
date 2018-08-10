@@ -1,30 +1,36 @@
 import QtQuick 2.11
-//import QtQuick.Controls 2.4
+import QtQuick.Controls 2.4
 //import QtQuick.Layouts 1.3
 
-import io.github.martimm.HikingCompanion.Style 0.1
-import "." as HCButton
+import io.github.martimm.HikingCompanion.HCStyle 0.1
+//import "." as HCButton
 
-HCButton.Base {
+Button {
+//  HCButton.Base {
   id: root;
 
   TextMetrics {
     id: textMetrics
     font.family: root.font.family
-    font.pointSize: Style.largeButtonPointSize
+    font.pointSize: HCStyle.largeButtonPointSize
     elide: Text.ElideNone
     //elideWidth: 100
     text: root.text
   }
 
+  //width: parent.width
+  //height: parent.height
+  //anchors.fill: parent
   width: textMetrics.boundingRect.width + 30
-  height: Style.largeButtonHeight
-  pointSize: Style.largeButtonPointSize
-  radius: Style.largeButtonRadius
+  height: HCStyle.largeButtonHeight
+  //pointSize: HCStyle.largeButtonPointSize
+  //radius: HCStyle.largeButtonRadius
+/*
   border {
-    width: Style.largeButtonBorder
-    color: Style.buttonBorderColor
+    width: HCStyle.largeButtonBorder
+    color: HCStyle.buttonBorderColor
   }
+*/
 
   /*
   Component.onCompleted: {

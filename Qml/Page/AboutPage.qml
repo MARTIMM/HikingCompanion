@@ -7,7 +7,7 @@ import QtQuick.Controls 2.4
 import "." as HCPage
 //import "../Menu" as HCMenu
 import "../Button" as HCButton
-import io.github.martimm.HikingCompanion.Style 0.1
+import io.github.martimm.HikingCompanion.HCStyle 0.1
 
 HCPage.Base {
   id: aboutPage
@@ -32,7 +32,7 @@ HCPage.Base {
 /*
   Text {
     text: qsTr("About")
-    color: Style.textColor
+    color: HCStyle.textColor
   }
 */
 }

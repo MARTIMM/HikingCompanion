@@ -9,7 +9,7 @@ import "../Button" as HCButton
 import "../Parts" as HCParts
 import "." as HCPage
 import io.github.martimm.HikingCompanion.Config 0.2
-import io.github.martimm.HikingCompanion.Style 0.1
+import io.github.martimm.HikingCompanion.HCStyle 0.1
 import io.github.martimm.HikingCompanion.GlobalVariables 0.1
 
 HCPage.Base {
@@ -81,6 +81,7 @@ HCPage.Base {
     HCParts.ConfigLabel {
       text: qsTr("Language")
       width: leftWidth
+      //anchors.topMargin: 10
     }
 
     HCParts.ConfigComboBox {

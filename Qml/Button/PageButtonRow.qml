@@ -4,12 +4,12 @@ import QtQuick.Controls 2.4
 import QtQuick.Layouts 1.3
 
 import "." as HCButton
-import io.github.martimm.HikingCompanion.Style 0.1
+import io.github.martimm.HikingCompanion.HCStyle 0.1
 
 Row {
   id: root
 
-  height: Style.largeButtonHeight + 2
+  height: HCStyle.largeButtonHeight + 2
   width: parent.width
   z: 50
 
