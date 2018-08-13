@@ -1,4 +1,5 @@
-QT += quick gui widgets core qml quickwidgets quickcontrols2
+#QT += quick gui widgets core qml quickwidgets quickcontrols2
+QT += quick qml quickcontrols2
 CONFIG += c++11
 
 # The following define makes your compiler emit warnings if you use
@@ -15,11 +16,12 @@ DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x050000    # disables all the APIs depr
 SOURCES += \
     main.cpp \
     textload.cpp \
-    config.cpp \
-    mainwindow.cpp
+    config.cpp
 
 RESOURCES += qml.qrc extraResources.qrc
-
+# \
+#    $$files(Assets/Theme/*) \
+#    $$files(Assets/Theme/HCStyle1/*)
 
 # Additional import path used to resolve QML modules in Qt Creator's code model
 QML_IMPORT_PATH =
@@ -50,10 +52,6 @@ DISTFILES += \
 
 HEADERS += \
     textload.h \
-    config.h \
-    mainwindow.h
+    config.h
 
 ANDROID_PACKAGE_SOURCE_DIR = $$PWD/android
-
-FORMS += \
-    mainwindow.ui

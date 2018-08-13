@@ -8,6 +8,7 @@
         <file>Qml/Button/PageButtonRow.qml</file>
         <file>Qml/Button/PageToolbarRow.qml</file>
         <file>Qml/Main/Application.qml</file>
+        <!--file>Qml/Main/ThemeTest.qml</file-->
         <file>Qml/Menu/MainMenu.qml</file>
         <file>Qml/Page/Base.qml</file>
         <file>Qml/Page/MapPage.qml</file>

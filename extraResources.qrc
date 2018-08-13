@@ -15,5 +15,9 @@
         <file alias="exitText.html">Assets/Pages/exitText_nl.html</file>
     </qresource>
     <qresource prefix="/">
+        <file alias="qtquickcontrols2.conf">Assets/Theme/qtquickcontrols2.conf</file>
+        <file>Assets/Theme/ThemeTest.qml</file>
+        <file>Assets/Theme/HikingCompanionTheme.qml</file>
+        <file>HCTheme1/Button.qml</file>
     </qresource>
 </RCC>
