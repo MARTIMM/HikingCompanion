@@ -6,7 +6,7 @@ pragma Singleton
 import QtQuick 2.11
 
 //import "Menu" as HCMenu
-import "Button" as HCButton
+//import "Button" as HCButton
 import "Page" as HCPage
 
 Item {

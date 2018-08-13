@@ -1,18 +1,22 @@
 
 import QtQuick 2.11
-//import QtQuick.Controls 2.2
+import QtQuick.Controls 2.2
 //import QtQuick.Layouts 1.3
+import QtQuick.Templates 2.1 as T
+
 
 import "../.."
 //import "../Menu" as HCMenu
 import "../Button" as HCButton
 import "../Parts" as HCParts
-import "." as HCPage
+//import "." as HCPage
 import io.github.martimm.HikingCompanion.Config 0.2
-import io.github.martimm.HikingCompanion.HCStyle 0.1
-import io.github.martimm.HikingCompanion.GlobalVariables 0.1
+//import io.github.martimm.HikingCompanion.HCStyle 0.1
+//import io.github.martimm.HikingCompanion.GlobalVariables 0.1
+import io.github.martimm.HikingCompanion.Theme 0.1
+//import Theme 0.1
 
-HCPage.Base {
+Rectangle {
   id: configPage
 
   Config {
@@ -32,19 +36,43 @@ HCPage.Base {
   }
 
   property string osType
+  Row {
+    id: pageToolbarRow
+
+    height: Theme.largeButtonHeight + 2
+    width: parent.width
+    z: 50
+
+    spacing: 2
+    layoutDirection: Qt.RightToLeft
+
+    anchors {
+      right: parent.right
+      rightMargin: 14
+      left: parent.left
+      leftMargin: 6
+      topMargin: 4
+      bottom: parent.bottom
+      bottomMargin: 1
+    }
+
+    HCButton.OpenMenu { }
+    HCButton.Home { }
+  }
 
   Component.onCompleted: {
+/*
     pageToolbarRow.insertRowButton(
-          "../Button/OpenMenu.qml", {
+          "qrc:OpenMenu.qml", {
             "id": "OMOnAbout_0"
           }
           );
     pageToolbarRow.insertRowButton(
-          "../Button/Home.qml", {
+          "qrc:Home.qml", {
             "id": "OMOnAbout_1"
           }
           );
-
+*/
     configPage.osType = config.osType
     console.log("os: " + configPage.osType)
     var x = config.readProperties;
@@ -125,7 +153,16 @@ HCPage.Base {
     id: pageButtonRow
 
     anchors.bottom: parent.bottom
+    Button {
+      text: qsTr("Save")
+      onClicked: {
+        config.language = language.currentIndex;
+        config.username = username.inputText.text;
+        config.email = email.inputText.text;
+      }
+    }
 
+/*
     HCButton.PageButtonBase {
       text: qsTr("Save")
       onClicked: {
@@ -134,5 +171,6 @@ HCPage.Base {
         config.email = email.inputText.text;
       }
     }
+*/
   }
 }

@@ -10,7 +10,8 @@
 
 import QtQuick 2.11
 //import QtQuick.Window 2.3
-//import QtQuick.Controls 2.4
+import QtQuick.Controls 2.4
+//import QtQuick.Controls.Material 2.1
 
 import "../Page" as HCPage
 import "../Button" as HCButton
@@ -20,10 +21,16 @@ import "../Menu" as HCMenu
 import io.github.martimm.HikingCompanion.GlobalVariables 0.1
 
 // ----------------------------------------------------------------------------
-//ApplicationWindow {
-Rectangle {
-  id: root
+//import QtQuick.Templates 2.4
+ApplicationWindow {
+//Rectangle {
+  id: applicationRoot
 
+  /* Moved to config file qtquickcontrols2.conf
+  Material.theme: Material.Dark
+  Material.foreground: Material.Purple
+  Material.background: Material.LightBlue
+  */
 
   Component.onCompleted: {
     GlobalVariables.setMapPage(mapPage);
@@ -35,7 +42,7 @@ Rectangle {
   width: 640
   height: 480
 
-  //title: qsTr("Your Hiking Companion")
+  title: qsTr("Your Hiking Companion")
 
   HCPage.MapPage { id: mapPage }
   HCPage.ConfigPage { id: configPage }

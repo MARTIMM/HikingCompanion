@@ -2,7 +2,8 @@ import QtQuick 2.11
 import QtQuick.Window 2.3
 import QtQuick.Controls 2.4
 
-import io.github.martimm.HikingCompanion.HCStyle 0.1
+//import io.github.martimm.HikingCompanion.HCStyle 0.1
+import io.github.martimm.HikingCompanion.Theme 0.1
 import io.github.martimm.HikingCompanion.GlobalVariables 0.1
 
 Column {
@@ -16,7 +17,7 @@ Column {
 
   anchors.right: parent.right
 
-
+/*
   function insertMenuButton( buttonQml, buttonSpec) {
     var component = Qt.createComponent( buttonQml, root);
     var button = component.createObject( root, buttonSpec);
@@ -28,4 +29,5 @@ Column {
 
     return button
   }
+*/
 }

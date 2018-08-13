@@ -6,37 +6,66 @@ import QtQuick.Layouts 1.3
 import io.github.martimm.HikingCompanion.Textload 0.1
 import "../.."
 //import "../Menu" as HCMenu
-import "." as HCPage
+//import "." as HCPage
 import "../Parts" as HCParts
 import "../Button" as HCButton
-import io.github.martimm.HikingCompanion.HCStyle 0.1
+import io.github.martimm.HikingCompanion.Theme 0.1
 
-HCPage.Base {
+Rectangle {
+//Pane {
+//  ColumnLayout {
   id: exitPage
-  objectName: "exitPage"
-
+//  objectName: "exitPage"
+/*
   Component.onCompleted: {
-    pageToolbarRow.insertRowButton(
-          "../Button/OpenMenu.qml", {
+    var b = pageToolbarRow.insertRowButton(
+          "qrc:Qml/Button/OpenMenu.qml", {
             "id": "OMOnAbout_0"
           }
           );
+    if ( b === null ) console.log("OpenMenu button create failed");
 
-    pageToolbarRow.insertRowButton(
-          "../Button/Home.qml", {
+    b = pageToolbarRow.insertRowButton(
+          ":Qml/Button/Home.qml", {
             "id": "OMOnAbout_1"
           }
           );
+    if ( b === null ) console.log("Home button create failed");
 
     console.log("H EP: " + height);
   }
-
+*/
   anchors.fill: parent
 
   width: parent.width
   height: parent.height - pageToolbarRow.height - pageButtonRow.height
 
   visible: false
+
+  property string osType
+  Row {
+    id: pageToolbarRow
+
+    height: Theme.largeButtonHeight + 2
+    width: parent.width
+    z: 50
+
+    spacing: 2
+    layoutDirection: Qt.RightToLeft
+
+    anchors {
+      right: parent.right
+      rightMargin: 14
+      left: parent.left
+      leftMargin: 6
+      topMargin: 4
+      bottom: parent.bottom
+      bottomMargin: 1
+    }
+
+    HCButton.OpenMenu { }
+    HCButton.Home { }
+  }
 
   HCParts.InfoArea {
     width: parent.width
@@ -62,26 +91,34 @@ HCPage.Base {
     text: exitTextData.text
   }
 
-  HCButton.PageButtonRow {
+  Row {
     id: pageButtonRow
 
     // anchor only to the bottom because height of this and
     // footer row are known
     anchors.bottom: parent.bottom
 
-    HCButton.PageButtonBase {
+    Button {
       text: qsTr("Exit")
       onClicked: {
-        root.close()
+        console.log("Exit click");
+        Qt.exit(0);
       }
+/*
+      Connections {
+        target: applicationRoot.parent
+        onClicked: Qt.close()
+      }
+*/
     }
 
-    HCButton.PageButtonBase {
+    Button {
       text: qsTr("Save Track")
       enabled: false
     }
   }
-/*
+
+  /*
   HCDecoration.Header {
     id: header
 
@@ -148,3 +185,4 @@ HCPage.Base {
   }
 */
 }
+//}

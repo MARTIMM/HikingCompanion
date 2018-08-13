@@ -2,7 +2,8 @@ import QtQuick 2.11
 import QtQuick.Controls 2.4
 //import QtQuick.Layouts 1.3
 
-import io.github.martimm.HikingCompanion.HCStyle 0.1
+//import io.github.martimm.HikingCompanion.HCStyle 0.1
+import io.github.martimm.HikingCompanion.Theme 0.1
 //import "." as HCButton
 
 Button {
@@ -12,7 +13,7 @@ Button {
   TextMetrics {
     id: textMetrics
     font.family: root.font.family
-    font.pointSize: HCStyle.largeButtonPointSize
+    font.pointSize: Theme.largeButtonPointSize
     elide: Text.ElideNone
     //elideWidth: 100
     text: root.text
@@ -22,7 +23,7 @@ Button {
   //height: parent.height
   //anchors.fill: parent
   width: textMetrics.boundingRect.width + 30
-  height: HCStyle.largeButtonHeight
+  height: Theme.largeButtonHeight
   //pointSize: HCStyle.largeButtonPointSize
   //radius: HCStyle.largeButtonRadius
 /*

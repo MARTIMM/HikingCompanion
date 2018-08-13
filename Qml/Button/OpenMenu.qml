@@ -5,17 +5,18 @@ import QtQuick.Controls 2.4
 
 //import "../.."
 //import "." as HCButton
-import io.github.martimm.HikingCompanion.HCStyle 0.1
+//import io.github.martimm.HikingCompanion.HCStyle 0.1
+import io.github.martimm.HikingCompanion.Theme 0.1
 import io.github.martimm.HikingCompanion.GlobalVariables 0.1
 
 //HCButton.Base {
 Button {
   id: root
 
-  width: HCStyle.smallButtonWidth
-  height: HCStyle.smallButtonHeight
-  //pointSize: HCStyle.smallButtonPointSize
-  display: AbstractButton.TextOnly
+  width: Theme.smallButtonWidth
+  height: Theme.smallButtonHeight
+  //pointSize: Theme.smallButtonPointSize
+  //display: AbstractButton.TextOnly
 
   text: qsTr("☰")
 

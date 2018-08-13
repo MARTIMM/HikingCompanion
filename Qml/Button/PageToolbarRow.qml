@@ -22,12 +22,12 @@ Row {
   layoutDirection: Qt.RightToLeft
 
   function insertRowButton( buttonQml, buttonSpec) {
-    var component = Qt.createComponent( buttonQml, root);
+    var component = Qt.createComponent(buttonQml);
     var button = component.createObject( root, buttonSpec);
 
     if ( button === null ) {
       // Error Handling
-      console.log("Error creating object");
+      console.log("Error creating object from " + buttonQml);
     }
 
     return button
