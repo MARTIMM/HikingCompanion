@@ -18,8 +18,8 @@ SOURCES += \
     textload.cpp \
     config.cpp
 
-RESOURCES += qml.qrc extraResources.qrc
-# \
+RESOURCES += qml.qrc extraResources.qrc #\
+#    $$files(#HCStyle1/*)
 #    $$files(Assets/Theme/*) \
 #    $$files(Assets/Theme/HCStyle1/*)
 
