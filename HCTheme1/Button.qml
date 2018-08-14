@@ -1,8 +1,9 @@
 import QtQuick 2.8
+import QtGraphicalEffects 1.0
 import QtQuick.Templates 2.1 as T
 
+import io.github.martimm.HikingCompanion.HCTheme1 0.1
 import io.github.martimm.HikingCompanion.Theme 0.1
-//import HikingCompanionTheme 0.1 as Theme
 
 T.Button {
   id: control
@@ -11,55 +12,87 @@ T.Button {
     console.log("BT");
   }
 
-  font: Theme.font
+  //font: Theme.largeBtFont
 
-  implicitWidth: Math.max(background ? background.implicitWidth : 0,
-                                       contentItem.implicitWidth + leftPadding + rightPadding)
-  implicitHeight: Math.max(background ? background.implicitHeight : 0,
-                                        contentItem.implicitHeight + topPadding + bottomPadding)
-  leftPadding: 4
-  rightPadding: 4
+  font {
+    bold: true
+    underline: false
+    //pixelSize: 14
+    pointSize: Theme.largeBtPointSize
+    family: "arial"
+  }
+
+  width: textMetrics.boundingRect.width + 30
+  height: Theme.largeBtHeight
+
+  leftPadding: 2
+  rightPadding: 2
 
   background: Rectangle {
-    id: buttonBackground
-    implicitWidth: 100
-    implicitHeight: 40
-    opacity: enabled ? 1 : 0.3
-    border.color: Theme.mainColor
-    border.width: 10
-    color: Theme.mainColorDarker
-    radius: 10
+    id: btBackground
+
+    anchors.fill: parent
+
+    opacity: enabled ? 1 : 0.7
+    color: HCTheme1.cmptBgColorD
+    border {
+      color: HCTheme1.cmptFgColorL
+      width: 2
+    }
+/*
+    LinearGradient {
+      anchors.fill: parent
+      start: Qt.point( 0, 0)
+      end: Qt.point( 0, width)
+      gradient: Gradient {
+        GradientStop { id: g0; position: 0.0; color: HCTheme1.mainBgColorL}
+        GradientStop { id: g1; position: 1.0; color: HCTheme1.mainBgColorD}
+      }
+    }
+*/
+    // radius doesn't work with gradients
+    radius: HCTheme1.cmptRdng
 
     states: [
       State {
         name: "normal"
         when: !control.down
-        PropertyChanges {
-          target: buttonBackground
-        }
+        PropertyChanges { target: btBackground}
       },
       State {
         name: "down"
         when: control.down
-        PropertyChanges {
-          target: buttonBackground
-          border.color: Theme.mainColorDarker
-        }
+        PropertyChanges { target: btBackground; color: HCTheme1.cmptBgColor}
+/*
+        PropertyChanges { target: g0; color: HCTheme1.mainBgColorD}
+        PropertyChanges { target: g1; color: HCTheme1.mainBgColorL}
+*/
       }
     ]
   }
 
+  TextMetrics {
+    id: textMetrics
+    //font.family: root.font.family
+    //font.pointSize: Theme.largeBtPointSize
+    font: control.font
+    elide: Text.ElideNone
+    //elideWidth: 100
+    text: textItem.text
+  }
+
+  property alias textItem: textItem
   contentItem: Text {
     id: textItem
     text: control.text
 
     font: control.font
     opacity: enabled ? 1.0 : 0.3
-    color: Theme.mainColor
+    color: HCTheme1.cmptFgColorLL
     horizontalAlignment: Text.AlignHCenter
     verticalAlignment: Text.AlignVCenter
-    elide: Text.ElideRight
-
+    //elide: Text.ElideRight
+    /*
     states: [
       State {
         name: "normal"
@@ -70,9 +103,10 @@ T.Button {
         when: control.down
         PropertyChanges {
           target: textItem
-          color: Theme.mainColorDarker
+          color: HCTheme1.cmptFgColor
         }
       }
     ]
+*/
   }
 }
