@@ -59,7 +59,7 @@ Rectangle {
       left: parent.left
       leftMargin: 6
       topMargin: 4
-      bottom: parent.bottom
+      bottom: parent.top
       bottomMargin: 1
     }
 
