@@ -1,36 +1,29 @@
+/*
+  Purpose of this file is to define application specific measurements like
+  positions and fonts. Available as 'Theme'
+
+  import io.github.martimm.HikingCompanion.Theme 0.1
+*/
 pragma Singleton
 
 import QtQuick 2.8
 
 QtObject {
-  readonly property color gray: "#b2b1b1"
-  readonly property color lightGray: "#dddddd"
-  readonly property color light: "#ffffff"
-  readonly property color blue: "#2d548b"
-  property color mainColor: "#17a81a"
-  readonly property color dark: "#222222"
-  readonly property color mainColorDarker: Qt.darker(mainColor, 1.5)
+
+  // Toolbar left, right, top margin. Height
+  property real tbTopMargin: 6
+  property real tbLRMargin: 6
+  property real tbHeight: 40
 
   property int baseSize: 10
 
+
+
+
+
   readonly property int smallSize: 10
   readonly property int largeSize: 16
-
-  property font font: {
-    bold: true
-    underline: false
-    pixelSize: 14
-    family: "arial"
-  }
-  /*
-  pragma Singleton
-
-  import QtQuick 2.11
-
-  // Non visible settings
-  QtObject {
-    objectName: "HCStyle"
-*/
+/*
   // Areas
   property color appBackgroundColor: "#500040"
 
@@ -40,22 +33,43 @@ QtObject {
   // Buttons
   property color buttonBackgroundColor: "#af1098"
   property color buttonBorderColor: "#fff0fa"
+*/
 
-  property int smallButtonWidth: 35
-  property int smallButtonHeight: 35
-  property int smallButtonPointSize: 22
-  property int smallButtonRadius: 10
-  property int smallButtonBorder: 1
+  // Buttons
+  property int smallBtWidth: 35
+  property int smallBtHeight: 35
+  property int smallBtPointSize: 15
+  property int smallBtRadius: 10
+  property int smallBtBorder: 1
+/*
+  property font smallBtFont: {
+    bold: true
+    underline: false
+    //pixelSize: 14
+    pointSize: smallBtPointSize
+    family: "arial"
+  }
+*/
 
-  property int largeButtonWidth: 100
-  property int largeButtonHeight: 40
-  property int largeButtonPointSize: 15
-  property int largeButtonRadius: 20
-  property int largeButtonBorder: 2
+  property int largeBtWidth: 100
+  property int largeBtHeight: 40
+  property int largeBtPointSize: 20
+  property int largeBtRadius: 20
+  property int largeBtBorder: 2
+/*
+  property font largeBtFont: {
+    bold: true
+    underline: false
+    //pixelSize: 14
+    pointSize: 100
+    family: "arial"
+  }
+*/
 
   //property int menuButtonWidth: 100
   property int menuButtonHeight: 50
   property int menuButtonPointSize: 23
+
 
   // Text
   property string fontFamily  //: "Source Code Pro"
