@@ -128,21 +128,21 @@ int main( int argc, char *argv[]) {
         "io.github.martimm.HikingCompanion.GlobalVariables", 0, 1,
         "GlobalVariables"
         );
-/**/
-  qmlRegisterSingletonType(
-        QUrl("qrc:/Qml/HCStyle.qml"),
-        "io.github.martimm.HikingCompanion.HCStyle", 0, 1, "HCStyle"
-        );
-/**/
+
   qmlRegisterSingletonType(
         QUrl("qrc:/Assets/Theme/HikingCompanionTheme.qml"),
         "io.github.martimm.HikingCompanion.Theme", 0, 1, "Theme"
         );
+  qmlRegisterSingletonType(
+        QUrl("qrc:/Assets/Theme/HCTheme1.qml"),
+        "io.github.martimm.HikingCompanion.HCTheme1", 0, 1, "HCTheme1"
+        );
+
 
 
   QQmlApplicationEngine engine;
-  engine.load(QUrl(QStringLiteral("qrc:/Qml/Main/Application.qml")));
-//  engine.load(QUrl(QStringLiteral("qrc:/Assets/Theme/ThemeTest.qml")));
+//  engine.load(QUrl(QStringLiteral("qrc:/Qml/Main/Application.qml")));
+  engine.load(QUrl(QStringLiteral("qrc:/Assets/Theme/ThemeTest.qml")));
 
   // Readable after QGuiApplication
   //qDebug() << "List of styles: " << QQuickStyle::availableStyles();
