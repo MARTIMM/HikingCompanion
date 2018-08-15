@@ -14,7 +14,8 @@ ApplicationWindow {
   width: 640
   height: 480
 
-  HCPage.AboutPage {}
+  //HCPage.AboutPage {}
+  HCPage.ConfigPage {}
 /*
   HCPage.ToolbarBasePage {
     id: ptbr

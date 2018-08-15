@@ -1,4 +1,35 @@
+import "." as HCPage
+import "../Button" as HCButton
+import "../Parts" as HCParts
+//import "../Menu" as HCMenu
 
+import io.github.martimm.HikingCompanion.Theme 0.1
+
+import QtQuick 2.11
+import QtQuick.Controls 2.4
+
+HCPage.Plain {
+  id: aboutPage
+
+  width: parent.width
+  height: parent.height
+  anchors.fill: parent
+  //visible: false
+
+  HCParts.ToolbarRow {
+    HCButton.OpenMenu {  }
+    HCButton.Home {  }
+
+    Component.onCompleted: {
+      console.log("WH: " + width + ", " + height);
+    }
+  }
+}
+
+
+
+
+/*
 import QtQuick 2.11
 import QtQuick.Controls 2.2
 //import QtQuick.Layouts 1.3
@@ -61,6 +92,7 @@ Rectangle {
   }
 
   Component.onCompleted: {
+*/
 /*
     pageToolbarRow.insertRowButton(
           "qrc:OpenMenu.qml", {
@@ -73,6 +105,7 @@ Rectangle {
           }
           );
 */
+/*
     configPage.osType = config.osType
     console.log("os: " + configPage.osType)
     var x = config.readProperties;
@@ -162,6 +195,7 @@ Rectangle {
       }
     }
 
+*/
 /*
     HCButton.PageButtonBase {
       text: qsTr("Save")
@@ -172,5 +206,7 @@ Rectangle {
       }
     }
 */
+/*
   }
 }
+*/
