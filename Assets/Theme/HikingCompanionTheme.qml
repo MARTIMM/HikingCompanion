@@ -10,17 +10,22 @@ import QtQuick 2.8
 
 QtObject {
 
-  // Toolbar left, right, top margin. Height
+  // Toolbar properties
   property real tbTopMargin: 6
   property real tbLRMargin: 6
-  property real tbHeight: 40
+  property real tbHeight: 28
+
+  // Toolbar button properties
+  property int tbBtWidth: tbHeight - 5
+  property int tbBtHeight: tbHeight - 5
+  property int tbBtPixelSize: 18
+  //property int tbBtRadius: 10
+  //property int tbBtBorder: 1
+
+
+
 
   property int baseSize: 10
-
-
-
-
-
   readonly property int smallSize: 10
   readonly property int largeSize: 16
 /*
@@ -72,7 +77,7 @@ QtObject {
 
 
   // Text
-  property string fontFamily  //: "Source Code Pro"
+  property string fontFamily: "Arial"  //: "Source Code Pro"
   property color textColor: "#fff0fa"
   property color okTextColor: "#a0ffa0"
   property color nokTextColor: "#ffa0a0"
