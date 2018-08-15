@@ -1,39 +1,44 @@
+/*
+//import "../Menu" as HCMenu
+//import "../Button" as HCButton
+import "." as HCPage
+
+import io.github.martimm.HikingCompanion.Theme 0.1
+
 import QtQuick 2.11
 import QtQuick.Controls 2.4
 //import QtQuick.Layouts 1.3
 import QtLocation 5.6
 import QtPositioning 5.6
+*/
 
-//import "../Menu" as HCMenu
-//import "../Button" as HCButton
+import "." as HCPage
+import "../Button" as HCButton
+import "../Parts" as HCParts
+
 import io.github.martimm.HikingCompanion.Theme 0.1
 
-Rectangle {
+import QtQuick 2.11
+import QtQuick.Controls 2.4
+import QtLocation 5.6
+import QtPositioning 5.6
+
+HCPage.Plain {
   id: mapPage
   visible: true
-/*
-  Row {
-    id: pageToolbarRow
-    spacing: 2
 
-    height: Theme.largeButtonHeight + 2
-    width: parent.width
-    z: 50
+  width: parent.width
+  height: parent.height
+  anchors.fill: parent
 
-    anchors {
-      top: parent.top
-      topMargin: 6
-      right: parent.right
-      rightMargin: 6
-      left: parent.left
-      leftMargin: 6
+  HCParts.ToolbarRow {
+    HCButton.OpenMenu {  }
+
+    Text {
+      text: "map page"
     }
-
-    layoutDirection: Qt.RightToLeft
-
-    HCButton.OpenMenu { }
   }
-*/
+
   Plugin {
     id: mapPlugin
     name: "osm" // "osm" // "mapboxgl", "esri", ...
@@ -65,8 +70,8 @@ Rectangle {
     z: 100
     anchors.fill: parent
     plugin: mapPlugin
-    //    center: QtPositioning.coordinate(59.91, 10.75) // Oslo
-    center: location.valid ? location.coordinate : QtPositioning.coordinate( 0, 0)
+    center: QtPositioning.coordinate(59.91, 10.75) // Oslo
+    //center: location.valid ? location.coordinate : QtPositioning.coordinate( 0, 0)
     zoomLevel: 14
   }
 
