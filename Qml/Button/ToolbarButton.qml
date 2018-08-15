@@ -8,15 +8,9 @@ Button {
 
   width: Theme.tbBtWidth
   height: Theme.tbBtHeight
-/*
-  btBackground.rounding: Theme.smallBtRadius
-  border: {
-    size: Theme.smallBtBorder
-    color: Theme.tbBorderColor
-  }
-*/
+
   font {
-    pointSize: Theme.tbBtPixelSize
+    pixelSize: Theme.tbBtPixelSize
     bold: true
     underline: false
     family: Theme.fontFamily
