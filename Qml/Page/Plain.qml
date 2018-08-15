@@ -4,21 +4,17 @@ import QtQuick.Controls 2.4
 import QtQuick.Layouts 1.3
 
 //import io.github.martimm.HikingCompanion.HCStyle 0.1
-import io.github.martimm.HikingCompanion.GlobalVariables 0.1
+//import io.github.martimm.HikingCompanion.GlobalVariables 0.1
 
-import "../Button" as HCButton
+//import "../Button" as HCButton
 
-Rectangle {
-//Pane {
+Frame {
   id: root
 
   width: parent.width
   height: parent.height
+  anchors.fill: parent
 
-  //color: HCStyle.appBackgroundColor
-
-  property alias pageToolbarRow: pageToolbarRow
-  HCButton.PageToolbarRow { id: pageToolbarRow }
 /*
   property alias flickable: flickable
   Flickable {
