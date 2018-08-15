@@ -7,22 +7,17 @@
         <file>Assets/Images/Icon/Android/xhdpi.png</file>
         <file>Assets/Images/Icon/Android/xxhdpi.png</file>
         <file>Assets/Images/Icon/Android/xxxhdpi.png</file>
-    </qresource>
-    <qresource prefix="/">
         <file>Assets/Pages/exitText.html</file>
-    </qresource>
-    <qresource prefix="/" lang="nl">
-        <file alias="exitText.html">Assets/Pages/exitText_nl.html</file>
-    </qresource>
-    <qresource prefix="/">
         <file alias="qtquickcontrols2.conf">Assets/Theme/qtquickcontrols2.conf</file>
         <file>Assets/Theme/HikingCompanionTheme.qml</file>
         <file>Assets/Theme/HCTheme1.qml</file>
         <file>Assets/Theme/ThemeTest.qml</file>
         <file>Assets/Theme/LinGradient.qml</file>
-    </qresource>
-    <qresource prefix="/">
         <file>HCTheme1/Button.qml</file>
         <file>HCTheme1/Frame.qml</file>
+        <file>Assets/Theme/LinBtGradient.qml</file>
+    </qresource>
+    <qresource lang="nl" prefix="/">
+        <file alias="exitText.html">Assets/Pages/exitText_nl.html</file>
     </qresource>
 </RCC>
