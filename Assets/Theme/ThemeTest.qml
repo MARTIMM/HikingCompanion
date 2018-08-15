@@ -1,19 +1,21 @@
-import "../../Qml/Page" as HCPage
+import "qrc:/Qml/Page" as HCPage
 import io.github.martimm.HikingCompanion.Theme 0.1
 
-import QtQuick 2.11
+import QtQuick 2.9
 import QtQuick.Controls 2.2
 import QtQuick.Window 2.3
 
+
 ApplicationWindow {
   id: root
-
   title: qsTr("Your Hiking Companion")
 
   visible: true
   width: 640
   height: 480
 
+  HCPage.AboutPage {}
+/*
   HCPage.ToolbarBasePage {
     id: ptbr
 
@@ -41,5 +43,6 @@ ApplicationWindow {
       }
     }
   }
+*/
 }
 
