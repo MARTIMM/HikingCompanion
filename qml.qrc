@@ -6,21 +6,23 @@
         <file>Qml/Button/OpenMenu.qml</file>
         <file>Qml/Button/PageButtonBase.qml</file>
         <file>Qml/Button/PageButtonRow.qml</file>
-        <file>Qml/Button/PageToolbarRow.qml</file>
+        <!--file>Qml/Button/PageToolbarRow.qml</file-->
+        <file>Qml/Button/ToolbarButton.qml</file>
         <file>Qml/Main/Application.qml</file>
         <file>Qml/Menu/MainMenu.qml</file>
-        <file>Qml/Page/Base.qml</file>
-        <file>Qml/Page/MapPage.qml</file>
         <file>Qml/Page/AboutPage.qml</file>
-        <file>Qml/Page/ExitPage.qml</file>
         <file>Qml/Page/ConfigPage.qml</file>
+        <file>Qml/Page/ExitPage.qml</file>
+        <file>Qml/Page/MapPage.qml</file>
+        <file>Qml/Page/Plain.qml</file>
+        <!--file>Qml/Page/ToolbarBasePage.qml</file-->
         <file>Qml/Parts/Footer.qml</file>
         <file>Qml/Parts/Header.qml</file>
         <file>Qml/Parts/InfoArea.qml</file>
-        <file>Qml/Parts/ConfigInputText.qml</file>
-        <file>Qml/Parts/ConfigLabel.qml</file>
-        <file>Qml/GlobalVariables.qml</file>
         <file>Qml/Parts/ConfigComboBox.qml</file>
-        <file>Qml/Page/ToolbarBasePage.qml</file>
+        <file>Qml/Parts/ConfigLabel.qml</file>
+        <file>Qml/Parts/ConfigInputText.qml</file>
+        <file>Qml/Parts/ToolbarRow.qml</file>
+        <file>Qml/GlobalVariables.qml</file>
     </qresource>
 </RCC>
