@@ -9,6 +9,7 @@
   bt    button
   cmpt  component
   tb    toolbar
+  mn    menu
 
   bg    background
   fg    foreground

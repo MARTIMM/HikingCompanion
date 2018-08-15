@@ -23,6 +23,18 @@ QtObject {
   //property int tbBtBorder: 1
 
 
+  // Menu properties
+  property int mnWidth: 210
+  //property int mnHeight: 50
+
+  // Menu button properties
+  property int mnBtWidth: mnWidth - 5
+  property int mnBtHeight: 50
+  property int mnBtPixelSize: 40
+  //property int mnBtRadius: 10
+  //property int mnBtBorder: 1
+
+
 
 
   property int baseSize: 10
