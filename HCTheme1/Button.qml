@@ -34,11 +34,14 @@ T.Button {
     anchors.fill: parent
 
     opacity: enabled ? 1 : 0.7
+
     color: HCTheme1.cmptBgColorD
     border {
       color: HCTheme1.cmptFgColorL
-      width: 2
+      width: 1
     }
+    //radius: HCTheme1.cmptRdng
+/**/
 /*
     LinearGradient {
       anchors.fill: parent
@@ -51,7 +54,7 @@ T.Button {
     }
 */
     // radius doesn't work with gradients
-    radius: HCTheme1.cmptRdng
+//    radius: HCTheme1.cmptRdng
 
     states: [
       State {
@@ -62,7 +65,7 @@ T.Button {
       State {
         name: "down"
         when: control.down
-        PropertyChanges { target: btBackground; color: HCTheme1.cmptBgColor}
+        PropertyChanges { target: btBackground; color: HCTheme1.cmptBgColorD}
 /*
         PropertyChanges { target: g0; color: HCTheme1.mainBgColorD}
         PropertyChanges { target: g1; color: HCTheme1.mainBgColorL}
