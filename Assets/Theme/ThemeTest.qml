@@ -1,4 +1,7 @@
-import "qrc:/Qml/Page" as HCPage
+import "../../Qml/Page" as HCPage
+import "../../Qml/Parts" as HCParts
+import "../../Qml/Button" as HCButton
+
 import io.github.martimm.HikingCompanion.Theme 0.1
 
 import QtQuick 2.9
@@ -14,36 +17,48 @@ ApplicationWindow {
   width: 640
   height: 480
 
-  //HCPage.AboutPage {}
-  HCPage.ConfigPage {}
-/*
-  HCPage.ToolbarBasePage {
-    id: ptbr
+  Component.onCompleted: {
+    menu.setMapPage(mapPage);
+    menu.setCurrentPage(mapPage);
+  }
 
-    //    HCPage.ToolbarBasePage.pageToolbarRow {
-    //      Button { text: "abc" }
-    //     Button { text: "def" }
-    //    }
+  HCPage.MapPage { id: mapPage }
+  HCPage.ConfigPage { id: configPage }
+  HCPage.AboutPage { id: aboutPage }
 
-    //width: parent.width
-    //height: Theme.tbHeight
+  // Menu
+  HCParts.MenuColumn {
+    id: menu
 
-    Text {
-      id: testText
-      text: "Burp"
-      anchors {
-        top: ptbr.pageToolbarRow.bottom
+    property alias mapButton: mapButton
+    HCButton.MenuButton {
+      id: mapButton
+      text: qsTr("🗺 Map")
+      onClicked: {
+        menu.menuEntryClicked(mapPage);
+        console.log("ME map");
       }
     }
 
-    Button {
-      id: testButton
-      text: "Hoi"
-      anchors {
-        top: testText.bottom
+    property alias configButton: configButton
+    HCButton.MenuButton {
+      id: configButton
+      text: qsTr("🛠 Config")
+      onClicked: {
+        menu.menuEntryClicked(configPage);
+        console.log("ME config");
+      }
+    }
+
+    property alias aboutButton: aboutButton
+    HCButton.MenuButton {
+      id: aboutButton
+      text: qsTr("👥 About")
+      onClicked: {
+        menu.menuEntryClicked(aboutPage);
+        console.log("ME about");
       }
     }
   }
-*/
 }
 
