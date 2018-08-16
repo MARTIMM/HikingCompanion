@@ -32,6 +32,8 @@ HCPage.Plain {
   anchors.fill: parent
 
   HCParts.ToolbarRow {
+    id: pageToolbarRow
+
     HCButton.OpenMenu {  }
 
     Text {
@@ -62,16 +64,20 @@ HCPage.Plain {
   Map {
     id: hikerCompanionMap
 
+    width: parent.width
+    height: parent.height
+
+    anchors.fill: parent
+
     Component.onCompleted: {
       location.start();
       hikerCompanionMap.addMapItem(currentLocationFeature)
     }
 
-    z: 100
-    anchors.fill: parent
     plugin: mapPlugin
-    center: QtPositioning.coordinate(59.91, 10.75) // Oslo
-    //center: location.valid ? location.coordinate : QtPositioning.coordinate( 0, 0)
+    center: location.valid
+            ? location.coordinate
+            : QtPositioning.coordinate(59.91, 10.75) // Oslo
     zoomLevel: 14
   }
 
@@ -81,7 +87,7 @@ HCPage.Plain {
     preferredPositioningMethods: PositionSource.AllPositioningMethods
     //name: "SerialPortNmea"
     updateInterval: 1000
-    //active: true
+    active: true
 
     onPositionChanged: {
       var coord = location.position.coordinate;
