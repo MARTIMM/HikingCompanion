@@ -16,6 +16,8 @@ HCPage.Plain {
   visible: false
 
   HCParts.ToolbarRow {
+    id: pageToolbarRow
+
     HCButton.OpenMenu {  }
     HCButton.Home {  }
 
