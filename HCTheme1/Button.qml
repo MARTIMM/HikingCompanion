@@ -8,21 +8,15 @@ import io.github.martimm.HikingCompanion.Theme 0.1
 T.Button {
   id: control
 
-  Component.onCompleted: {
-    console.log("BT");
-  }
-
-  //font: Theme.largeBtFont
-
   font {
     bold: true
     underline: false
     //pixelSize: 14
-    pointSize: Theme.largeBtPointSize
+    //pointSize: Theme.largeBtPointSize
     family: "arial"
   }
 
-  width: textMetrics.boundingRect.width + 30
+  //width: textMetrics.boundingRect.width + 30
   height: Theme.largeBtHeight
 
   leftPadding: 2
@@ -62,10 +56,11 @@ T.Button {
         when: !control.down
         PropertyChanges { target: btBackground}
       },
+
       State {
         name: "down"
         when: control.down
-        PropertyChanges { target: btBackground; color: HCTheme1.cmptBgColorD}
+        PropertyChanges { target: btBackground; color: HCTheme1.cmptBgColor}
 /*
         PropertyChanges { target: g0; color: HCTheme1.mainBgColorD}
         PropertyChanges { target: g1; color: HCTheme1.mainBgColorL}
@@ -74,6 +69,7 @@ T.Button {
     ]
   }
 
+  property alias textMetrics: textMetrics
   TextMetrics {
     id: textMetrics
     //font.family: root.font.family
