@@ -1,18 +1,32 @@
-import QtQuick 2.11
-//import QtQuick.Window 2.3
-import QtQuick.Controls 2.4
-//import QtQuick.Layouts 1.3
+import "." as HCPage
+import "../Button" as HCButton
+import "../Parts" as HCParts
 
-//import "../.."
-//import "." as HCPage
-//import "../Menu" as HCMenu
-//import "../Button" as HCButton
 import io.github.martimm.HikingCompanion.Theme 0.1
 
-Rectangle {
+import QtQuick 2.11
+import QtQuick.Controls 2.4
+
+HCPage.Plain {
   id: aboutPage
 
-  /*
+  width: parent.width
+  height: parent.height
+  anchors.fill: parent
+  visible: false
+
+  HCParts.ToolbarRow {
+    id: pageToolbarRow
+
+    HCButton.OpenMenu {  }
+    HCButton.Home {  }
+
+    Text {
+      text: "about page"
+    }
+  }
+}
+/*
   Row {
     id: root
 
@@ -53,8 +67,6 @@ Rectangle {
           );
   }
 */
-  anchors.fill: parent
-  visible: false
 
   //text: qsTr("About")
   /*
@@ -63,4 +75,3 @@ Rectangle {
     color: HCStyle.textColor
   }
 */
-}

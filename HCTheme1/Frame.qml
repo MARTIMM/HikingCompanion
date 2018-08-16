@@ -5,16 +5,14 @@ import QtQuick.Templates 2.1 as T
 import io.github.martimm.HikingCompanion.HCTheme1 0.1
 import io.github.martimm.HikingCompanion.Theme 0.1
 
+import "../Assets/Theme" as ExtraTheme
+
 T.Frame {
   id: control
 
   width: parent.width
   height: parent.height
   anchors.fill: parent
-
-  Component.onCompleted: {
-    console.log("FR");
-  }
 
   background: Rectangle {
     //id: rectBackground
@@ -25,15 +23,6 @@ T.Frame {
 */
     anchors.fill: parent
 
-    LinearGradient {
-      anchors.fill: parent
-      start: Qt.point( 0, 0)
-      end: Qt.point( 0, width)
-      gradient: Gradient {
-        GradientStop { position: 0.0; color:  HCTheme1.mainBgColorL}
-        GradientStop { position: 1.0; color:  HCTheme1.mainBgColorD}
-        //            GradientStop { position: 1.0; color:  HCTheme1.cmptBgColorD}
-      }
-    }
+    ExtraTheme.LinGradient { }
   }
 }

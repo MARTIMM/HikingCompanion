@@ -1,17 +1,15 @@
+import io.github.martimm.HikingCompanion.Theme 0.1
+
 import QtQuick 2.11
-//import QtQuick.Window 2.3
 import QtQuick.Controls 2.4
 import QtQuick.Layouts 1.3
-
-//import "." as HCButton
-//import io.github.martimm.HikingCompanion.HCStyle 0.1
-import io.github.martimm.HikingCompanion.Theme 0.1
 
 Row {
   id: root
 
-  height: Theme.largeButtonHeight + 2
+  // Row must be kept above page(1)
   width: parent.width
+  height: Theme.brHeight
   z: 50
 
   spacing: 2
@@ -19,12 +17,13 @@ Row {
 
   anchors {
     right: parent.right
-    rightMargin: 14
     left: parent.left
-    leftMargin: 6
-    topMargin: 4
     bottom: parent.bottom
-    bottomMargin: 1
+
+    rightMargin: Theme.brLRMargin
+    leftMargin: Theme.brLRMargin
+    topMargin: Theme.brTBMargin
+    bottomMargin: Theme.brTBMargin
   }
 
 
