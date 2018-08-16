@@ -31,41 +31,27 @@ HCPage.Plain {
     console.log("H EP: " + height);
   }
 */
-  anchors.fill: parent
-
   width: parent.width
-  height: parent.height - pageToolbarRow.height - pageButtonRow.height
+  height: parent.height
+  anchors.fill: parent
 
   visible: false
 
-  property string osType
-  Row {
+  HCParts.ToolbarRow {
     id: pageToolbarRow
 
-    height: Theme.largeButtonHeight + 2
-    width: parent.width
-    z: 50
-
-    spacing: 2
-    layoutDirection: Qt.RightToLeft
-
-    anchors {
-      right: parent.right
-      rightMargin: 14
-      left: parent.left
-      leftMargin: 6
-      topMargin: 4
-      bottom: parent.top
-      bottomMargin: 1
-    }
-
-    HCButton.OpenMenu { }
+    HCButton.OpenMenu {  }
     HCButton.Home { }
+
+    Text {
+      text: "Exit page"
+    }
   }
 
   HCParts.InfoArea {
     width: parent.width
     height: parent.height
+    //anchors.fill: parent
 
     anchors {
       left: parent.left
@@ -87,28 +73,22 @@ HCPage.Plain {
     text: exitTextData.text
   }
 
-  Row {
+  HCParts.PageButtonRow {
     id: pageButtonRow
 
-    // anchor only to the bottom because height of this and
-    // footer row are known
     anchors.bottom: parent.bottom
 
     Button {
+      width: textMetrics.boundingRect.width + 30
       text: qsTr("Exit")
       onClicked: {
         console.log("Exit click");
         Qt.exit(0);
       }
-/*
-      Connections {
-        target: applicationRoot.parent
-        onClicked: Qt.close()
-      }
-*/
     }
 
     Button {
+      width: textMetrics.boundingRect.width + 30
       text: qsTr("Save Track")
       enabled: false
     }
