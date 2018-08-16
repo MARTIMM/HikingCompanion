@@ -100,5 +100,5 @@ QtObject {
   property int cfgTextPointSize: 16
   property int cfgTextHeight: 20
 
-  property int scrollbarWidth: 10
+  property int sbWidth: 10
 }

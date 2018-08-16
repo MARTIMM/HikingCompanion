@@ -10,6 +10,7 @@
   cmpt  component
   tb    toolbar
   mn    menu
+  sb    scrollbar
 
   bg    background
   fg    foreground
