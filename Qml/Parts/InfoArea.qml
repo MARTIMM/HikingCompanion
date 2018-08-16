@@ -4,6 +4,7 @@ import QtQuick.Controls 2.4
 import QtQuick.Layouts 1.3
 
 import io.github.martimm.HikingCompanion.Theme 0.1
+import io.github.martimm.HikingCompanion.HCTheme1 0.1
 import io.github.martimm.HikingCompanion.GlobalVariables 0.1
 
 import "." as HCPage
@@ -16,6 +17,7 @@ Rectangle {
   height: parent.height
 
 //  color: HCStyle.appBackgroundColor
+  color: "#00000000"
 
   property alias text: flickable.text
   property alias flickable: flickable
@@ -52,6 +54,7 @@ Rectangle {
       width: parent.width
 
       anchors.fill: parent
+      color: HCTheme1.cmptFgColorL
 
       wrapMode: Text.WordWrap
 //      font.pointSize: HCStyle.textPointSize
