@@ -4,7 +4,6 @@ import io.github.martimm.HikingCompanion.Theme 0.1
 import io.github.martimm.HikingCompanion.GlobalVariables 0.1
 
 import QtQuick 2.11
-//import QtQuick.Window 2.3
 import QtQuick.Controls 2.4
 
 
@@ -14,11 +13,12 @@ import QtQuick.Controls 2.4
 
     spacing: 2
 
-    //width: 0
-    width: Theme.mnWidth
+    // Menu must be kept above page(1) and button rows(50)
+    width: 0
+    //width: Theme.mnWidth
     height: parent.height
-    //z: 10
-    //clip: true
+    z: 100
+    clip: true
 
     //anchors.right: parent.right
     anchors.left: parent.left
@@ -29,9 +29,8 @@ import QtQuick.Controls 2.4
 
     //property alias menuEntryClicked: menuEntryClicked
     function menuEntryClicked(requestPage) {
+      console.log('current: ' + GlobalVariables.currentPage + ', request: ' + requestPage);
       if ( GlobalVariables.currentPage !== requestPage ) {
-        console.log('current: ' + GlobalVariables.currentPage + ', request: ' + requestPage);
-
         GlobalVariables.currentPage.visible = false;
         requestPage.visible = true;
         GlobalVariables.setCurrentPage(requestPage);
@@ -67,7 +66,7 @@ import QtQuick.Controls 2.4
     SequentialAnimation {
       id: menuAnimateOpen
       NumberAnimation {
-        target: menu
+        target: GlobalVariables.menu
         property: "width"
         duration: 1000
         from: 0
@@ -80,7 +79,7 @@ import QtQuick.Controls 2.4
     SequentialAnimation {
       id: menuAnimateClose
       NumberAnimation {
-        target: menu
+        target: GlobalVariables.menu
         property: "width"
         duration: 1000
         from: Theme.mnWidth
