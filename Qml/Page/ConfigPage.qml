@@ -16,11 +16,27 @@ HCPage.Plain {
   visible: false
 
   HCParts.ToolbarRow {
+    id: pageToolbarRow
+
     HCButton.OpenMenu {  }
     HCButton.Home {  }
 
     Text {
       text: "config page"
+    }
+  }
+
+  HCParts.PageButtonRow {
+    id: pageButtonRow
+
+    anchors.bottom: parent.bottom
+
+    Button {
+      width: textMetrics.boundingRect.width + 30
+      text: qsTr("Save")
+      onClicked: {
+        console.log("Save click");
+      }
     }
   }
 }
