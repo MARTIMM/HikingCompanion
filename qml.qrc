@@ -5,8 +5,7 @@
         <file>Qml/Button/MenuButton.qml</file>
         <!--file>Qml/Button/MenuEntry.qml</file-->
         <file>Qml/Button/OpenMenu.qml</file>
-        <file>Qml/Button/PageButtonBase.qml</file>
-        <file>Qml/Button/PageButtonRow.qml</file>
+        <!--file>Qml/Button/PageButtonBase.qml</file-->
         <file>Qml/Button/ToolbarButton.qml</file>
         <file>Qml/Main/Application.qml</file>
         <file>Qml/Page/AboutPage.qml</file>
@@ -21,6 +20,7 @@
         <file>Qml/Parts/ConfigLabel.qml</file>
         <file>Qml/Parts/ConfigInputText.qml</file>
         <file>Qml/Parts/MenuColumn.qml</file>
+        <file>Qml/Parts/PageButtonRow.qml</file>
         <file>Qml/Parts/ToolbarRow.qml</file>
         <file>Qml/GlobalVariables.qml</file>
     </qresource>
