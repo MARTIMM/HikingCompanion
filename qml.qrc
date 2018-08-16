@@ -14,8 +14,8 @@
         <file>Qml/Page/ExitPage.qml</file>
         <file>Qml/Page/MapPage.qml</file>
         <file>Qml/Page/Plain.qml</file>
-        <file>Qml/Parts/Footer.qml</file>
-        <file>Qml/Parts/Header.qml</file>
+        <!--file>Qml/Parts/Footer.qml</file-->
+        <!--file>Qml/Parts/Header.qml</file-->
         <file>Qml/Parts/InfoArea.qml</file>
         <file>Qml/Parts/ConfigComboBox.qml</file>
         <file>Qml/Parts/ConfigLabel.qml</file>
