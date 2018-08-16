@@ -14,10 +14,6 @@ T.Frame {
   height: parent.height
   anchors.fill: parent
 
-  Component.onCompleted: {
-    console.log("FR");
-  }
-
   background: Rectangle {
     //id: rectBackground
     color: HCTheme1.mainBgColorL
