@@ -6,17 +6,18 @@
   import io.github.martimm.HikingCompanion.HCTheme1 0.1
 
   prefixes etc
+  br    buttonrow
   bt    button
   cmpt  component
-  tb    toolbar
   mn    menu
   sb    scrollbar
+  tb    toolbar
 
   bg    background
-  fg    foreground
-  rdng  rounding
-  l     lighter
   d     darker
+  fg    foreground
+  l     lighter
+  rdng  rounding
 */
 
 pragma Singleton

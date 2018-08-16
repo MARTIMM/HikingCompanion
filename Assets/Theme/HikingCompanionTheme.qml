@@ -11,7 +11,7 @@ import QtQuick 2.8
 QtObject {
 
   // Toolbar properties
-  property real tbTopMargin: 6
+  property real tbTBMargin: 6
   property real tbLRMargin: 6
   property real tbHeight: 28
 
@@ -22,6 +22,18 @@ QtObject {
   //property int tbBtRadius: 10
   //property int tbBtBorder: 1
 
+
+  // Buttonrow properties
+  property real brTBMargin: 6
+  property real brLRMargin: 6
+  property real brHeight: 40
+
+  // Toolbar button properties
+  property int brBtWidth: brHeight - 5
+  property int brBtHeight: brHeight - 5
+  property int brBtPixelSize: 34
+  //property int tbBtRadius: 10
+  //property int tbBtBorder: 1
 
   // Menu properties
   property int mnWidth: 210
