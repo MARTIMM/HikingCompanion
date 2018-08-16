@@ -3,6 +3,7 @@ import "../../Qml/Parts" as HCParts
 import "../../Qml/Button" as HCButton
 
 import io.github.martimm.HikingCompanion.Theme 0.1
+import io.github.martimm.HikingCompanion.GlobalVariables 0.1
 
 import QtQuick 2.9
 import QtQuick.Controls 2.2
@@ -11,16 +12,21 @@ import QtQuick.Window 2.3
 
 ApplicationWindow {
   id: root
+
+  Component.onCompleted: {
+    GlobalVariables.setMapPage(mapPage);
+    GlobalVariables.setCurrentPage(mapPage);
+    GlobalVariables.setMenu(menu);
+
+    //menu.setMapPage(mapPage);
+    //menu.setCurrentPage(mapPage);
+  }
+
   title: qsTr("Your Hiking Companion")
 
   visible: true
   width: 640
   height: 480
-
-  Component.onCompleted: {
-    menu.setMapPage(mapPage);
-    menu.setCurrentPage(mapPage);
-  }
 
   HCPage.MapPage { id: mapPage }
   HCPage.ConfigPage { id: configPage }
@@ -35,7 +41,7 @@ ApplicationWindow {
       id: mapButton
       text: qsTr("🗺 Map")
       onClicked: {
-        menu.menuEntryClicked(mapPage);
+        GlobalVariables.menu.menuEntryClicked(mapPage);
         console.log("ME map");
       }
     }
@@ -45,7 +51,7 @@ ApplicationWindow {
       id: configButton
       text: qsTr("🛠 Config")
       onClicked: {
-        menu.menuEntryClicked(configPage);
+        GlobalVariables.menu.menuEntryClicked(configPage);
         console.log("ME config");
       }
     }
@@ -55,7 +61,7 @@ ApplicationWindow {
       id: aboutButton
       text: qsTr("👥 About")
       onClicked: {
-        menu.menuEntryClicked(aboutPage);
+        GlobalVariables.menu.menuEntryClicked(aboutPage);
         console.log("ME about");
       }
     }
