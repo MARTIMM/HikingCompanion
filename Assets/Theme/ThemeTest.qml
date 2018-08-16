@@ -31,6 +31,7 @@ ApplicationWindow {
   HCPage.MapPage { id: mapPage }
   HCPage.ConfigPage { id: configPage }
   HCPage.AboutPage { id: aboutPage }
+  HCPage.ExitPage { id: exitPage }
 
   // Menu
   HCParts.MenuColumn {
@@ -63,6 +64,17 @@ ApplicationWindow {
       onClicked: {
         GlobalVariables.menu.menuEntryClicked(aboutPage);
         console.log("ME about");
+      }
+    }
+
+    property alias exitButton: exitButton
+    HCButton.MenuButton {
+      id: exitButton
+      text: configPage.osType === "android" ?
+              qsTr("\u23FD Exit") :
+              qsTr("\u23FB Exit")
+      onClicked: {
+        GlobalVariables.menu.menuEntryClicked(exitPage);
       }
     }
   }
