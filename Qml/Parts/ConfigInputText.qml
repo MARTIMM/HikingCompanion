@@ -1,13 +1,13 @@
 import QtQuick 2.11
 import QtQuick.Controls 2.2
 
-import io.github.martimm.HikingCompanion.HCStyle 0.1
+import io.github.martimm.HikingCompanion.Theme 0.1
 
 Item {
   id: root
 
   width: parent.width
-  height: HCStyle.largeButtonHeight
+  height: Theme.largeButtonHeight
   //  anchors.fill: parent
 
   property alias inputText: inputText
@@ -31,24 +31,24 @@ Item {
     }
 
     // Lets assume the text is still wrong or empty
-    color: HCStyle.nokTextColor
+    color: HCStyle.noktxtColor
 
     font {
       family: HCStyle.fontFamily
       capitalization: Font.MixedCase
       //bold: true
-      pointSize: HCStyle.cfgTextPointSize
+      pointSize: HCStyle.cfgtxtPointSize
     }
 */
     // Show visible clue if input is right or wrong
     onTextChanged: {
       console.log("Acceptable: " + inputText.acceptableInput);
       if ( inputText.acceptableInput ) {
-        color = HCStyle.okTextColor;
+        color = Theme.oktxtColor;
       }
 
       else {
-        color = HCStyle.nokTextColor;
+        color = Theme.noktxtColor;
       }
     }
   }
