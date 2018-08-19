@@ -49,6 +49,8 @@ HCPage.Plain {
   }
 
   HCParts.InfoArea {
+    id: exitText
+
     width: parent.width
     height: parent.height
     //anchors.fill: parent
@@ -64,9 +66,10 @@ HCPage.Plain {
       id: exitTextData
       filename: ":Assets/Pages/exitText.html"
 /*
-    onFileRead: {
-      exitText.text = TextLoad.text
-    }
+      onTextReady: {
+        console.log("Text ready...");
+        exitText.text = exitTextData.text
+      }
 */
     }
 
