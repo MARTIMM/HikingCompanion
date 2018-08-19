@@ -15,13 +15,11 @@
         <file>Assets/Theme/LinGradient.qml</file>
         <file>Assets/Theme/ThemeTest.qml</file>
         <file>HCTheme1/Button.qml</file>
-        <!--file>HCTheme1/ComboBox.qml</file-->
         <file>HCTheme1/Frame.qml</file>
         <file>HCTheme1/Label.qml</file>
         <file>HCTheme1/TextField.qml</file>
-        <!--file>HCTheme1/Switch.qml</file-->
     </qresource>
-    <qresource lang="nl" prefix="/">
+    <qresource prefix="/" lang="nl">
         <file alias="exitText.html">Assets/Pages/exitText_nl.html</file>
     </qresource>
 </RCC>
