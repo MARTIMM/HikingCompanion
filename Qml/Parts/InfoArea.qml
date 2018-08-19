@@ -10,67 +10,49 @@ import io.github.martimm.HikingCompanion.GlobalVariables 0.1
 import "." as HCPage
 import "../Button" as HCButton
 
-Rectangle {
-  id: root
+Flickable {
+  id: flickable
 
+  Component.onCompleted: {
+    console.log("H: " + height + ", " + contentHeight);
+  }
+
+  // take away some space for the vertical scrollbar
   width: parent.width - Theme.sbWidth
   height: parent.height
 
-//  color: HCStyle.appBackgroundColor
-  color: "#00000000"
+  contentWidth: parent.width
+  contentHeight: pageText.height
 
-  property alias text: flickable.text
-  property alias flickable: flickable
-  Flickable {
-    id: flickable
+  // clip content when going outside content borders
+  clip: true
 
-    Component.onCompleted: {
-      console.log("H: " + height + ", " + contentHeight);
-    }
+  // anchor to the top and bottom because height is
+  // variable
+  anchors {
+    top: parent.top
+    bottom: parent.bottom
+    left: parent.left
+    right: parent.right
+    rightMargin: Theme.sbWidth
+  }
 
-    // take away some space for the vertical scrollbar
-    width: parent.width - Theme.sbWidth
-    height: parent.height
+  property alias text: pageText.text
+  Text {
+    id: pageText
+    width: parent.width
+    color: HCTheme1.cmptFgColorL
+    wrapMode: Text.WordWrap
+  }
 
-    contentWidth: parent.width
-    contentHeight: pageText.height
+  ScrollBar.vertical: ScrollBar {
+    width: Theme.sbWidth
+    parent: flickable.parent
 
-    // clip content when going outside content borders
-    clip: true
+    anchors.top: flickable.top
+    anchors.left: flickable.right
+    anchors.bottom: flickable.bottom
 
-    // anchor to the top and bottom because height is
-    // variable
-    anchors {
-      top: parent.top
-      bottom: parent.bottom
-      left: parent.left
-      right: parent.right
-      rightMargin: Theme.sbWidth
-    }
-
-    property alias text: pageText.text
-    Text {
-      id: pageText
-      width: parent.width
-
-      anchors.fill: parent
-      color: HCTheme1.cmptFgColorL
-
-      wrapMode: Text.WordWrap
-//      font.pointSize: HCStyle.textPointSize
-//      color: HCStyle.textColor
-    }
-
-    ScrollBar.vertical: ScrollBar {
-      width: Theme.sbWidth
-      parent: flickable.parent
-
-      anchors.top: flickable.top
-      anchors.left: flickable.right
-      anchors.bottom: flickable.bottom
-
-      policy: ScrollBar.AlwaysOn
-    }
+    policy: ScrollBar.AlwaysOn
   }
 }
-
