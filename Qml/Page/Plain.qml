@@ -16,7 +16,7 @@ Frame {
     anchors.fill: parent
 
     onClicked: {
-      GlobalVariables.menu.menuAnimateClose.start();
+      if ( menu.width !== 0 ) GlobalVariables.menu.menuAnimateClose.start();
     }
   }
 }

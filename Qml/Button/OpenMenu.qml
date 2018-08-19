@@ -9,6 +9,6 @@ HCButton.ToolbarButton {
   id: root
   text: qsTr("☰")
   onClicked: {
-    GlobalVariables.menu.menuAnimateOpen.start();
+    if ( menu.width === 0 ) GlobalVariables.menu.menuAnimateOpen.start();
   }
 }
