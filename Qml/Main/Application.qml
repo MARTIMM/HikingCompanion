@@ -46,7 +46,8 @@ ApplicationWindow {
     property alias mapButton: mapButton
     HCButton.MenuButton {
       id: mapButton
-      text: qsTr("🗺 Map")
+//      text: qsTr("🗺 Map")
+      text: qsTr("Map")
       onClicked: {
         GlobalVariables.menu.menuEntryClicked(mapPage);
         console.log("ME map");
@@ -56,7 +57,8 @@ ApplicationWindow {
     property alias configButton: configButton
     HCButton.MenuButton {
       id: configButton
-      text: qsTr("🛠 Config")
+//      text: qsTr("🛠 Config")
+      text: qsTr("Config")
       onClicked: {
         GlobalVariables.menu.menuEntryClicked(configPage);
         console.log("ME config");
@@ -66,7 +68,8 @@ ApplicationWindow {
     property alias aboutButton: aboutButton
     HCButton.MenuButton {
       id: aboutButton
-      text: qsTr("👥 About")
+//      text: qsTr("👥 About")
+      text: qsTr("About")
       onClicked: {
         GlobalVariables.menu.menuEntryClicked(aboutPage);
         console.log("ME about");
@@ -76,9 +79,8 @@ ApplicationWindow {
     property alias exitButton: exitButton
     HCButton.MenuButton {
       id: exitButton
-      text: configPage.osType === "android" ?
-              qsTr("\u23FD Exit") :
-              qsTr("\u23FB Exit")
+//      text: qsTr("⏼ Exit")
+      text: qsTr("Exit")
       onClicked: {
         GlobalVariables.menu.menuEntryClicked(exitPage);
       }
