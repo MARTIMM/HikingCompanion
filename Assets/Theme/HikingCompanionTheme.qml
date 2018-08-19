@@ -46,6 +46,22 @@ QtObject {
   //property int mnBtRadius: 10
   //property int mnBtBorder: 1
 
+  // Grid config measures
+  property int cfgFieldMargin: 6
+  property int cfgRowHeight: 35
+
+  // Combobox
+  property int cbxPixelSize: 35
+  //property int cfgtxtPointSize: 16
+  //property int cfgtxtHeight: 20
+
+  // Label config properties
+  property int lblPixelSize: 20
+  property int lblFieldMargin: 6
+
+  // TextField config properties
+  property int txtfPixelSize: 20
+  property int txtfFieldMargin: 6
 
 
 
@@ -102,15 +118,15 @@ QtObject {
 
   // Text
   property string fontFamily: "Arial"  //: "Source Code Pro"
-  property color textColor: "#fff0fa"
-  property color okTextColor: "#a0ffa0"
-  property color nokTextColor: "#ffa0a0"
-  property color selectedTextColor: "#efa0ca"
-  property color selectionTextColor: "#efbfcf"
-  property int textPointSize: 18
+  property color txtColor: "#fff0fa"
+  property color oktxtColor: "#a0ffa0"
+  property color noktxtColor: "#ffa0a0"
+  property color selectedtxtColor: "#efa0ca"
+  property color selectiontxtColor: "#efbfcf"
+  property int txtPointSize: 18
 
-  property int cfgTextPointSize: 16
-  property int cfgTextHeight: 20
+  //property int cfgtxtPointSize: 16
+  //property int cfgtxtHeight: 20
 
   property int sbWidth: 10
 }

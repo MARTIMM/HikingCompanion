@@ -1,2 +1,0 @@
-module Theme
-singleton Theme 0.1 HikingCompanionTheme.qml

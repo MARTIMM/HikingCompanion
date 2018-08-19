@@ -36,7 +36,7 @@ import QtQuick.Controls 2.4
         GlobalVariables.setCurrentPage(requestPage);
       }
 
-      menuAnimateClose.start()
+      if ( menu.width !== 0 ) menuAnimateClose.start()
     }
 /*
     // Current page displayed.

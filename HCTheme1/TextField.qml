@@ -5,22 +5,26 @@ import QtQuick.Templates 2.1 as T
 import io.github.martimm.HikingCompanion.HCTheme1 0.1
 import io.github.martimm.HikingCompanion.Theme 0.1
 
-T.Button {
+T.TextField {
   id: control
+
+  width: parent.width
+  height: parent.height
+  anchors.fill: parent
+
+  horizontalAlignment: Text.AlignLeft
+  verticalAlignment: Text.AlignVCenter
+
+  leftPadding: 2
+  rightPadding: 2
 
   font {
     bold: true
     underline: false
-    //pixelSize: 14
+    pixelSize: Theme.txtfPixelSize
     //pointSize: Theme.largeBtPointSize
     family: "arial"
   }
-
-  //width: textMetrics.boundingRect.width + 30
-  height: Theme.largeBtHeight
-
-  leftPadding: 2
-  rightPadding: 2
 
   background: Rectangle {
     id: btBackground
@@ -29,7 +33,7 @@ T.Button {
 
     opacity: enabled ? 1 : 0.7
 
-    color: HCTheme1.cmptBgColorD
+    color: HCTheme1.cmptBgColor
     border {
       color: HCTheme1.cmptFgColorL
       width: 1
@@ -49,7 +53,7 @@ T.Button {
 */
     // radius doesn't work with gradients
 //    radius: HCTheme1.cmptRdng
-
+/*
     states: [
       State {
         name: "normal"
@@ -61,26 +65,11 @@ T.Button {
         name: "down"
         when: control.down
         PropertyChanges { target: btBackground; color: HCTheme1.cmptBgColor}
-/*
-        PropertyChanges { target: g0; color: HCTheme1.mainBgColorD}
-        PropertyChanges { target: g1; color: HCTheme1.mainBgColorL}
-*/
       }
     ]
+*/
   }
-
-  property alias textMetrics: textMetrics
-  TextMetrics {
-    id: textMetrics
-    //font.family: root.font.family
-    //font.pointSize: Theme.largeBtPointSize
-    font: control.font
-    elide: Text.ElideNone
-    //elideWidth: 100
-    text: control.text
-  }
-
-  property color txtColor: HCTheme1.cmptFgColorLL
+/*
   property alias textItem: textItem
   contentItem: Text {
     id: textItem
@@ -88,11 +77,12 @@ T.Button {
 
     font: control.font
     opacity: enabled ? 1.0 : 0.3
-    color: txtColor //HCTheme1.cmptFgColorLL
+    color: HCTheme1.cmptFgColorLL
     horizontalAlignment: Text.AlignHCenter
     verticalAlignment: Text.AlignVCenter
     //elide: Text.ElideRight
-    /*
+*/
+/*
     states: [
       State {
         name: "normal"
@@ -108,5 +98,5 @@ T.Button {
       }
     ]
 */
-  }
+//  }
 }

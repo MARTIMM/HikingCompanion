@@ -35,10 +35,6 @@ HCPage.Plain {
     id: pageToolbarRow
 
     HCButton.OpenMenu {  }
-
-    Text {
-      text: "map page"
-    }
   }
 
   Plugin {

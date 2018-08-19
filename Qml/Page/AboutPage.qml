@@ -22,7 +22,7 @@ HCPage.Plain {
     HCButton.Home {  }
 
     Text {
-      text: "about page"
+      text: qsTr(" About page")
     }
   }
 }

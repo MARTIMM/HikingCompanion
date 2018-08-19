@@ -70,9 +70,7 @@ ApplicationWindow {
     property alias exitButton: exitButton
     HCButton.MenuButton {
       id: exitButton
-      text: configPage.osType === "android" ?
-              qsTr("\u23FD Exit") :
-              qsTr("\u23FB Exit")
+      text: qsTr("⏼ Exit")
       onClicked: {
         GlobalVariables.menu.menuEntryClicked(exitPage);
       }
