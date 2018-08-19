@@ -77,9 +77,10 @@ T.Button {
     font: control.font
     elide: Text.ElideNone
     //elideWidth: 100
-    text: textItem.text
+    text: control.text
   }
 
+  property color txtColor: HCTheme1.cmptFgColorLL
   property alias textItem: textItem
   contentItem: Text {
     id: textItem
@@ -87,7 +88,7 @@ T.Button {
 
     font: control.font
     opacity: enabled ? 1.0 : 0.3
-    color: HCTheme1.cmptFgColorLL
+    color: txtColor //HCTheme1.cmptFgColorLL
     horizontalAlignment: Text.AlignHCenter
     verticalAlignment: Text.AlignVCenter
     //elide: Text.ElideRight
