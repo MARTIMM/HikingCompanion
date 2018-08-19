@@ -7,7 +7,7 @@ import QtQuick.Controls 2.4
 
 HCButton.ToolbarButton {
   id: root
-  text: qsTr("☰")
+  text: "☰"
   onClicked: {
     if ( menu.width === 0 ) GlobalVariables.menu.menuAnimateOpen.start();
   }

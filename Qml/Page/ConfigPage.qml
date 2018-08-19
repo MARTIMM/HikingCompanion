@@ -50,7 +50,7 @@ HCPage.Plain {
     HCButton.Home {  }
 
     Text {
-      text: "config page"
+      text: qsTr(" Configuration page")
     }
   }
 

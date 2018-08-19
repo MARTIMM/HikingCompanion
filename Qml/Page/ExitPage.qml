@@ -44,7 +44,7 @@ HCPage.Plain {
     HCButton.Home { }
 
     Text {
-      text: "Exit page"
+      text: qsTr(" Exit page")
     }
   }
 
