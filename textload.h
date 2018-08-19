@@ -9,7 +9,7 @@
 // ----------------------------------------------------------------------------
 class TextLoad : public QObject {
   Q_OBJECT
-  Q_PROPERTY( QString text READ text)
+  Q_PROPERTY( QString text READ text NOTIFY textReady)
   Q_PROPERTY( QString filename READ filename WRITE setFilename NOTIFY fileRead)
 
 public:
@@ -21,6 +21,7 @@ public:
 
 signals:
   void fileRead();
+  void textReady();
 
 public slots:
 

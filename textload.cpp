@@ -35,6 +35,6 @@ void TextLoad::setFilename(QString filename) {
   }
   f.close();
 
-  emit fileRead();
+  emit textReady();
 }
 
