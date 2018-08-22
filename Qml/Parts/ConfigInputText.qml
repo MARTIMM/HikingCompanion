@@ -42,7 +42,6 @@ Item {
 */
     // Show visible clue if input is right or wrong
     onTextChanged: {
-      console.log("Acceptable: " + inputText.acceptableInput);
       if ( inputText.acceptableInput ) {
         color = Theme.oktxtColor;
       }
