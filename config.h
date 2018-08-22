@@ -1,66 +1,63 @@
 #ifndef CONFIG_H
 #define CONFIG_H
 
-//#include <QApplication>
-#include <QDebug>
+#include "gpxmanager.h"
+
+#include <QGuiApplication>
 #include <QObject>
 #include <QSysInfo>
 #include <QRegExp>
 #include <QSettings>
 
-#define Lang_En 0
+//#define Lang_En 0
 
 class Config : public QObject {
   Q_OBJECT
 
-  //Q_PROPERTY( QApplication appObject READ appObject WRITE setAppObject)
+  //Q_PROPERTY( QGuiApplication appObject READ appObject WRITE setAppObject)
   Q_PROPERTY( QString osType READ osType)
-  Q_PROPERTY( QString username READ username
-              WRITE setUsername NOTIFY usernameChanged
-              )
-  Q_PROPERTY(QString email READ email WRITE setEmail NOTIFY emailChanged)
-  Q_PROPERTY(int language READ language WRITE setLanguage NOTIFY languageChanged)
+  Q_PROPERTY(
+      QString username READ username
+      WRITE setUsername NOTIFY usernameChanged
+      )
+  Q_PROPERTY( QString email READ email WRITE setEmail NOTIFY emailChanged)
+  Q_PROPERTY(
+      int language READ language
+      WRITE setLanguage NOTIFY languageChanged
+      )
 
-  Q_PROPERTY(bool emitIt READ emitIt WRITE setEmitIt)
-
-  Q_PROPERTY(bool readProperties READ readProperties)
-  Q_PROPERTY(QString *readLanguageList READ readLanguageList)
+  Q_PROPERTY( bool readProperties READ readProperties)
+  Q_PROPERTY( QString *readLanguageList READ readLanguageList)
 
 public:
-  explicit Config(QObject *parent = nullptr);
+  Config(QObject *parent = nullptr);
 
-  // language enumerations
-  enum Languages {
-    English, Nederlands
-  };
+  // language enumerations, only a few
+  enum Languages { English, Nederlands };
+  const static int nbrLang = 2;
   Q_ENUM(Languages)
 
   // What system
   QString osType();
-
-  //QApplication *appObject();
-  //void setAppObject(QApplication *appObjectPtr);
-
+/*
+  QGuiApplication *appObject();
+  void setAppObject(QGuiApplication *appObjectPtr);
+*/
   // Data to store
   QString username();
-  void setUsername( const QString username, const bool emitIt = false);
+  void setUsername( const QString username);
 
   QString email();
-  void setEmail( const QString email, const bool emitIt = false);
+  void setEmail( const QString email);
 
   int language();
-  void setLanguage( const int language, const bool emitIt = false);
+  void setLanguage( const int language);
 
-  // Emit toggle
-  bool emitIt();
-
-  // Read all data and emit signals
+  // Emit signals
   bool readProperties();
 
   // Read data for combobox lists
   QString *readLanguageList();
-
-  void setEmitIt(const bool emitIt = false);
 
 signals:
   void usernameChanged();
@@ -70,17 +67,18 @@ signals:
 public slots:
 
 private:
+  QGuiApplication *_appObject;
+/*
   QString _osType;
   QString _username;
   QString _email;
   int _language;
-  bool _emitIt = false;
+*/
 
   // length of enum languages
-  QString _langArray[2];
+  QString _langArray[nbrLang];
 
-  //QApplication *_appObjectPtr;
-
+  GpxManager *_gpxManager;
 };
 
 #endif // CONFIG_H
