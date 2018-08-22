@@ -34,10 +34,11 @@ ApplicationWindow {
   width: 640
   height: 480
 
-  HCPage.MapPage { id: mapPage }
-  HCPage.ConfigPage { id: configPage }
   HCPage.AboutPage { id: aboutPage }
+  HCPage.ConfigPage { id: configPage }
   HCPage.ExitPage { id: exitPage }
+  HCPage.MapPage { id: mapPage }
+  HCPage.TracksPage { id: tracksPage }
 
   // Menu
   HCParts.MenuColumn {
@@ -50,7 +51,16 @@ ApplicationWindow {
       text: qsTr("Map")
       onClicked: {
         GlobalVariables.menu.menuEntryClicked(mapPage);
-        console.log("ME map");
+      }
+    }
+
+    property alias tracksButton: tracksButton
+    HCButton.MenuButton {
+      id: tracksButton
+//      text: qsTr("🛠 Tracks")
+      text: qsTr("Tracks")
+      onClicked: {
+        GlobalVariables.menu.menuEntryClicked(tracksPage);
       }
     }
 
@@ -61,7 +71,6 @@ ApplicationWindow {
       text: qsTr("Config")
       onClicked: {
         GlobalVariables.menu.menuEntryClicked(configPage);
-        console.log("ME config");
       }
     }
 
@@ -72,7 +81,6 @@ ApplicationWindow {
       text: qsTr("About")
       onClicked: {
         GlobalVariables.menu.menuEntryClicked(aboutPage);
-        console.log("ME about");
       }
     }
 
