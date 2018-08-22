@@ -1,7 +1,6 @@
 #ifndef TEXTLOAD_H
 #define TEXTLOAD_H
 
-#include <QDebug>
 #include <QObject>
 #include <QString>
 #include <QFile>

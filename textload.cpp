@@ -1,5 +1,7 @@
 #include "textload.h"
 
+#include <QDebug>
+
 // ----------------------------------------------------------------------------
 TextLoad::TextLoad(QObject *parent) : QObject(parent) {
   qDebug() << QString("TextLoad init");
