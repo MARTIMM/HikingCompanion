@@ -1,8 +1,6 @@
 #ifndef CONFIG_H
 #define CONFIG_H
 
-#include "gpxmanager.h"
-
 #include <QGuiApplication>
 #include <QObject>
 #include <QSysInfo>
@@ -77,8 +75,6 @@ private:
 
   // length of enum languages
   QString _langArray[nbrLang];
-
-  GpxManager *_gpxManager;
 };
 
 #endif // CONFIG_H

@@ -9,8 +9,6 @@
 // ----------------------------------------------------------------------------
 Config::Config(QObject *parent) : QObject(parent) {
 
-  _gpxManager = new GpxManager();
-
   // See also http://doc.qt.io/qt-5/qguiapplication.html#platformName-prop
   // For me it could be: android, ios or xcb (x11 on linux)
   //qDebug() << "platform name: " << app.platformName();
