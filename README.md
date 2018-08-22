@@ -309,6 +309,8 @@ This should show a dialog to ask the user if he/she really wants to quit the pro
 
 ## Changes
 
+* 0.6.2 Singleton class ConfigData for storage added. Access via Config class.
+* 0.6.1 Styling is under control.
 * 0.6.0
   * Current location is shown(needs improvement).
   * Focus on current location. Must be done with button later.
