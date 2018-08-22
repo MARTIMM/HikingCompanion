@@ -21,7 +21,7 @@ HCPage.Plain {
   Component.onCompleted: {
     configPage.osType = config.osType
     console.log("os: " + configPage.osType)
-    var x = config.readProperties;
+    config.readProperties;
     console.log("Read: " + x);
   }
 
@@ -33,12 +33,12 @@ HCPage.Plain {
     }
 
     onEmailChanged: {
-      console.log(" from data: email" + config.email);
+      console.log("email from data: " + config.email);
       email.inputText.text = config.email;
     }
 
     onLanguageChanged: {
-      console.log(" from data: currentIndex" + config.currentIndex);
+      console.log("currentIndex from data: " + config.language);
       language.currentIndex = config.language;
     }
   }
@@ -179,7 +179,9 @@ HCPage.Plain {
       width: textMetrics.boundingRect.width + 30
       text: qsTr("Save")
       onClicked: {
-        console.log("Save click");
+        config.language = language.currentIndex;
+        config.username = username.inputText.text;
+        config.email = email.inputText.text;
       }
     }
   }
@@ -221,7 +223,7 @@ Rectangle {
     }
 
     onLanguageChanged: {
-      language.currentIndex = config.language;
+      language.language = config.language;
     }
   }
 
