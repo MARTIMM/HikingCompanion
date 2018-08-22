@@ -13,10 +13,22 @@ DEFINES += QT_DEPRECATED_WARNINGS
 # You can also select to disable deprecated APIs only up to a certain version of Qt.
 DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x050000    # disables all the APIs deprecated before Qt 5.0.0
 
+HEADERS += \
+    textload.h \
+    config.h \
+    configdata.h \
+    gpxmanager.h \
+    gpxfile.h \
+    singleton.h \
+    call_once.h
+
 SOURCES += \
     main.cpp \
     textload.cpp \
-    config.cpp
+    config.cpp \
+    configdata.cpp \
+    gpxmanager.cpp \
+    gpxfile.cpp
 
 RESOURCES += qml.qrc extraResources.qrc #\
 #    $$files(#HCStyle1/*)
@@ -49,9 +61,5 @@ DISTFILES += \
     android/build.gradle \
     android/gradle/wrapper/gradle-wrapper.properties \
     android/gradlew.bat
-
-HEADERS += \
-    textload.h \
-    config.h
 
 ANDROID_PACKAGE_SOURCE_DIR = $$PWD/android
