@@ -20,7 +20,8 @@ HEADERS += \
     gpxmanager.h \
     gpxfile.h \
     singleton.h \
-    call_once.h
+    call_once.h \
+    language.h
 
 SOURCES += \
     main.cpp \
@@ -28,7 +29,8 @@ SOURCES += \
     config.cpp \
     configdata.cpp \
     gpxmanager.cpp \
-    gpxfile.cpp
+    gpxfile.cpp \
+    language.cpp
 
 RESOURCES += qml.qrc extraResources.qrc #\
 #    $$files(#HCStyle1/*)
