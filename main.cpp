@@ -27,18 +27,21 @@ int main( int argc, char *argv[]) {
   app.setApplicationVersion("0.6.0");
   app.setApplicationDisplayName("HikingCompanion");
 
-  // See also http://doc.qt.io/qt-5/qguiapplication.html#platformName-prop
-  // For me it could be: android, ios or xcb (x11 on linux)
-  qDebug() << "platform name: " << app.platformName();
-
 
   // set stylesheet
   qmlRegisterType<TextLoad>(
         "io.github.martimm.HikingCompanion.Textload", 0, 1, "TextLoad"
         );
+
+
   qmlRegisterType<Config>(
         "io.github.martimm.HikingCompanion.Config", 0, 2, "Config"
         );
+
+  qmlRegisterType<Language>(
+        "io.github.martimm.HikingCompanion.Language", 0, 2, "Language"
+        );
+/**/
 
   qmlRegisterSingletonType(
         QUrl("qrc:/Qml/GlobalVariables.qml"),
@@ -55,7 +58,8 @@ int main( int argc, char *argv[]) {
         "io.github.martimm.HikingCompanion.HCTheme1", 0, 1, "HCTheme1"
         );
 
-
+  //Config *cfg = new Config();
+  //cfg.setAppObject(&app);
 
   QQmlApplicationEngine engine;
   engine.load(QUrl(QStringLiteral("qrc:/Qml/Main/Application.qml")));
