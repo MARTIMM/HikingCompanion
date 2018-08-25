@@ -9,9 +9,12 @@
 // ----------------------------------------------------------------------------
 ConfigData::ConfigData(QObject *parent) : QObject(parent) {
 
-  qDebug() << "read props: " << readProperties();
+  // get properties ready
+  readProperties();
 
+  // get the gpxManager ready
   _gpxManager = new GpxManager();
+  _gpxManager->setGpxPath("/home/marcel/Projects/Mobile/Projects/Sufitrail/Qt/Sufitrail/trackData/tracks");
 
   // See also http://doc.qt.io/qt-5/qguiapplication.html#platformName-prop
   // For me it could be: android, ios or xcb (x11 on linux)
@@ -125,12 +128,9 @@ bool ConfigData::readProperties() {
 
   return true;
 }
-/*
-// ----------------------------------------------------------------------------
-QString *ConfigData::readLanguageList() {
 
-  _langArray[0] = "a";
-  _langArray[1] = "b";
-  return _langArray;
+// ----------------------------------------------------------------------------
+GpxManager *ConfigData::gpxManager() {
+
+  return _gpxManager;
 }
-*/

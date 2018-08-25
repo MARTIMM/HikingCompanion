@@ -14,6 +14,7 @@
 class ConfigData : public QObject {
   Q_OBJECT
 
+/*
   //Q_PROPERTY( QGuiApplication appObject READ appObject WRITE setAppObject)
   Q_PROPERTY( QString osType READ osType)
   Q_PROPERTY( QString username READ username WRITE setUsername)
@@ -21,6 +22,7 @@ class ConfigData : public QObject {
   Q_PROPERTY( int language READ language WRITE setLanguage)
   Q_PROPERTY( bool readProperties READ readProperties)
   //Q_PROPERTY( QString *readLanguageList READ readLanguageList)
+*/
 
 public:
   // This class is a singleton and the constructor should be private. Problem
@@ -52,9 +54,7 @@ public:
   void setLanguage(const int language);
 
   bool readProperties();
-
-  // Read data for combobox lists
-  //QString *readLanguageList();
+  GpxManager *gpxManager();
 
 signals:
 
@@ -70,9 +70,6 @@ private:
   QString _username;
   QString _email;
   int _language;
-
-  // length of enum languages
-  QString _langArray[2];
 
   GpxManager *_gpxManager;
 };
