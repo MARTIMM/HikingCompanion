@@ -303,8 +303,6 @@ This should show a dialog to ask the user if he/she really wants to quit the pro
 # To do
 
 # Bugs
-* Can't get the scrollbar right on the pages
-* Color of text in combobox stays black
 * Keyboard of android tablet in uppercase and switches back on each letter. Also numbers are not available.
 
 ## Changes
