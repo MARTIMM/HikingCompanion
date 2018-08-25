@@ -4,6 +4,7 @@ import "../Parts" as HCParts
 
 import io.github.martimm.HikingCompanion.Theme 0.1
 import io.github.martimm.HikingCompanion.Config 0.2
+import io.github.martimm.HikingCompanion.Language 0.2
 
 import QtQuick 2.11
 import QtQuick.Controls 2.4
@@ -19,14 +20,42 @@ HCPage.Plain {
   visible: false
 
   Component.onCompleted: {
-    configPage.osType = config.osType
-    console.log("os: " + configPage.osType)
+    //configPage.osType = config.osType;
     config.readProperties;
-    console.log("Read: " + x);
+    config.setLanguageList;
+
+//    console.log("language objects: " + ll.name);
+    console.log("language list: " + config.languageList);
+/*
+    var l = config.languageList;
+    var m = configGrid.languageRow.languages.model;
+    for ( var i = 0; i < l.length; i++) {
+      console.log("language: " + l[i].name);
+      m[i] = l[i].name;
+    }
+*/
   }
+
+/*
+  Language {
+    id: ll
+    name: "abc"
+  }
+*/
 
   Config {
     id: config
+
+    // This is using languageList() to set items in Config::_languages
+    languageList: [
+      Language { name: "English" },   // using append functions from Config
+      Language { name: "Nederlands" } // to add the Language objects
+    ]
+/**/
+    onLanguageListChanged: {
+      console.log("language list changed: " + config.languageList);
+    }
+
     onUsernameChanged: {
       console.log("username from data: " + config.username);
       username.inputText.text = config.username;
@@ -57,7 +86,7 @@ HCPage.Plain {
   property int leftWidth: 3 * width / 10 - Theme.cfgFieldMargin
   property int rightWidth: 7 * width / 10 - Theme.cfgFieldMargin
 
-  //property Grid configGrid: configGrid
+  property Grid configGrid: configGrid
   Grid {
     id: configGrid
 
@@ -78,7 +107,9 @@ HCPage.Plain {
 
 
     // Selection of a language
+    property Row languageRow: languageRow
     Row {
+      id: languageRow
       width: parent.width
       height: Theme.cfgRowHeight
       spacing: 2
@@ -90,11 +121,13 @@ HCPage.Plain {
         //anchors.topMargin: 10
       }
 
+      property ComboBox languages: languages
       ComboBox {
-        id: language
+        id: languages
         width: rightWidth
         height: parent.height
-        model: [ "English", "Nederlands"]
+        //model: [ "English", "Nederlands"]
+        //model: config.readLanguageList
       }
     }
 
