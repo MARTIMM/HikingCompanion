@@ -13,8 +13,8 @@ ConfigData::ConfigData(QObject *parent) : QObject(parent) {
   readProperties();
 
   // get the gpxManager ready
-  _gpxManager = new GpxManager();
-  _gpxManager->setGpxPath("/home/marcel/Projects/Mobile/Projects/Sufitrail/Qt/Sufitrail/trackData/tracks");
+  //_gpxManager = new GpxManager();
+  //_gpxManager->setGpxPath("/home/marcel/Projects/Mobile/Projects/Sufitrail/Qt/Sufitrail/trackData/tracks");
 
   // See also http://doc.qt.io/qt-5/qguiapplication.html#platformName-prop
   // For me it could be: android, ios or xcb (x11 on linux)

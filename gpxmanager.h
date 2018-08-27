@@ -9,7 +9,7 @@
  *
  * The gpx path will be provided by the Config class.
 */
-#include "gpxfile.h"
+#include "gpxfiles.h"
 
 #include <QObject>
 #include <QQmlListProperty>
@@ -35,31 +35,33 @@ class GpxManager : public QObject {
 public:
   explicit GpxManager(QObject *parent = nullptr);
 
-  QString gpxPath();
+  //QString gpxPath();
   void setGpxPath(QString path);
 
-  int nbrGpxFiles();
-  QString gpxDescr();
-  QVector<GpxFile *> gpxFileList();
+  //int nbrGpxFiles();
+  //QString gpxDescr();
+  //QVector<GpxFile *> gpxFileList();
+  //GpxFiles *gpxFileList();
 
   //QQmlListProperty<GpxFile *> gpxFileList();
   //void setGpxFileList(QQmlListProperty<GpxFile *> *gpxFileList);
 
 signals:
-  void gpxPathChanged();
-  void gpxFileListChanged();
+  //void gpxPathChanged();
+  //void gpxFileListChanged();
 
 public slots:
 
 private:
-  QString _currentGpxFile;
-  QString _gpxPath;
-  QString _gpxDescr;
+  //QString _currentGpxFile;
+  //QString _gpxPath;
+  //QString _gpxDescr;
 
-  QVector<GpxFile *> _gpxFileList;
+  //QVector<GpxFile *> _gpxFileList;
+  GpxFiles *_gpxFiles;
 
-  void _clearGpxFileList();
-  void _appendGpxFile(GpxFile *gpxFile);
+  //void _clearGpxFileList();
+  //void _appendGpxFile(GpxFile *gpxFile);
 };
 
 #endif // GPXMANAGER_H

@@ -26,6 +26,7 @@ class Config : public QObject {
       )
 
   Q_PROPERTY( bool readProperties READ readProperties)
+  //Q_PROPERTY( QVector<GpxFile *> gpxFileList READ gpxFileList)
 
 public:
   Config(QObject *parent = nullptr);
@@ -50,6 +51,8 @@ public:
 
   int language();
   void setLanguage( const int language);
+
+  //QVector<GpxFile *> gpxFileList();
 
   // Emit signals
   bool readProperties();

@@ -92,6 +92,16 @@ void Config::setLanguage(const int language) {
   }
 }
 
+/*
+// ----------------------------------------------------------------------------
+QVector<GpxFile *> Config::gpxFileList() {
+
+  ConfigData *c = ConfigData::instance();
+
+  return c->gpxManager()->gpxFileList();
+}
+*/
+
 // ----------------------------------------------------------------------------
 // emit all property signals so as to force listeners to update their data
 bool Config::readProperties() {

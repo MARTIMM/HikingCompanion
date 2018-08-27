@@ -5,6 +5,7 @@
 #include <QDir>
 #include <QFile>
 
+/*
 // ----------------------------------------------------------------------------
 GpxManager::GpxManager(QObject *parent) : QObject(parent) {
 
@@ -22,13 +23,18 @@ QString GpxManager::gpxPath() {
 
   return _gpxPath;
 }
+*/
 
 // ----------------------------------------------------------------------------
 void GpxManager::setGpxPath(QString path) {
 
-  _gpxPath = path;
+//  _gpxPath = path;
+  if ( _gpxFiles != nullptr ) delete _gpxFiles;
+  _gpxFiles = new GpxFiles(path);
+
 //TODO test path
 
+/*
   qDebug() << "Path: " << path;
   // Read directory and select gpx files. Create a GpxFile object with it
   // and append to _gpxFileList
@@ -52,8 +58,14 @@ void GpxManager::setGpxPath(QString path) {
 
   _gpxDescr = _gpxFileList.at(0)->gpxDescr();
   qDebug() << "Found" << nbrGpxFiles() << "tracks for" << _gpxDescr;
+*/
 }
-
+/*
+// ----------------------------------------------------------------------------
+QList<GpxFiles *> GpxManager::gpxFileList() {
+  return _gpxFiles;
+}
+*/
 /*
 // ----------------------------------------------------------------------------
 QQmlListProperty<GpxFile *> GpxManager::gpxFileList() {
@@ -68,6 +80,7 @@ void GpxManager::setGpxFileList(QQmlListProperty<GpxFile *> gpxFileList) {
 }
 */
 
+/*
 // ----------------------------------------------------------------------------
 void GpxManager::_clearGpxFileList() {
 
@@ -85,3 +98,4 @@ QVector<GpxFile *> GpxManager::gpxFileList() {
 
   return _gpxFileList;
 }
+*/
