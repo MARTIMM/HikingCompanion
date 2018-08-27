@@ -15,15 +15,15 @@ QString GpxFile::gpxFilename() {
 }
 
 // ----------------------------------------------------------------------------
-QString GpxFile::gpxDescr ( ) {
+QString GpxFile::description ( ) {
 
-  return _gpxDescr;
+  return _description;
 }
 
 // ----------------------------------------------------------------------------
-QString GpxFile::trackName ( ) {
+QString GpxFile::name ( ) {
 
-  return _trackName;
+  return _name;
 }
 
 // ----------------------------------------------------------------------------
@@ -78,9 +78,9 @@ void GpxFile::_parseMetadata(QXmlStreamReader &xml) {
     if ( xml.tokenType() == QXmlStreamReader::StartElement ) {
       //qDebug() << QString("Token: %1").arg(xml.name());
       if ( xml.name() == "description" ) {
-        _gpxDescr = xml.readElementText();
+        _description = xml.readElementText();
 
-        //qDebug() << _gpxDescr;
+        //qDebug() << _description;
 
         break;
       }
@@ -101,9 +101,9 @@ void GpxFile::_parseTrackdata(QXmlStreamReader &xml) {
     if ( xml.tokenType() == QXmlStreamReader::StartElement ) {
       //qDebug() << QString("Token: %1").arg(xml.name());
       if ( xml.name() == "name" ) {
-        _trackName = xml.readElementText();
+        _name = xml.readElementText();
 
-        //qDebug() << _trackName;
+        //qDebug() << _name;
 
         break;
       }

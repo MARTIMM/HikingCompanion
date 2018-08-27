@@ -8,8 +8,8 @@
 class GpxFile : public QObject {
 
   Q_OBJECT
-//  Q_PROPERTY( QString gpxDescr READ gpxDescr)
-//  Q_PROPERTY( QString trackName READ trackName)
+  Q_PROPERTY( QString description READ description)
+  Q_PROPERTY( QString name READ name)
 
 public:
   explicit GpxFile(QObject *parent = nullptr);
@@ -17,8 +17,8 @@ public:
   QString gpxFilename();
   void setGpxFilename( QString gpxPath, QString gpxFilename);
 
-  QString gpxDescr();
-  QString trackName();
+  QString description();
+  QString name();
 
 signals:
 
@@ -27,8 +27,8 @@ public slots:
 private:
   QString _gpxFilename;
   QString _gpxPath;
-  QString _gpxDescr;
-  QString _trackName;
+  QString _description;
+  QString _name;
 
   void _parseMetadata(QXmlStreamReader &xml);
   void _parseTrackdata(QXmlStreamReader &xml);
