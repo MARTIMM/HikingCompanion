@@ -10,6 +10,7 @@
 #include "config.h"
 #include "language.h"
 #include "languages.h"
+#include "gpxfiles.h"
 
 // ----------------------------------------------------------------------------
 int main( int argc, char *argv[]) {
@@ -47,6 +48,10 @@ int main( int argc, char *argv[]) {
         "io.github.martimm.HikingCompanion.Languages", 0, 1, "Languages"
         );
 
+  qmlRegisterType<GpxFiles>(
+        "io.github.martimm.HikingCompanion.GpxFiles", 0, 1, "GpxFiles"
+        );
+
 
   qmlRegisterSingletonType(
         QUrl("qrc:/Qml/GlobalVariables.qml"),
@@ -58,6 +63,7 @@ int main( int argc, char *argv[]) {
         QUrl("qrc:/Assets/Theme/HikingCompanionTheme.qml"),
         "io.github.martimm.HikingCompanion.Theme", 0, 1, "Theme"
         );
+
   qmlRegisterSingletonType(
         QUrl("qrc:/Assets/Theme/HCTheme1.qml"),
         "io.github.martimm.HikingCompanion.HCTheme1", 0, 1, "HCTheme1"
