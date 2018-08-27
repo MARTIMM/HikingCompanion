@@ -3,11 +3,12 @@ import "../Button" as HCButton
 import "../Parts" as HCParts
 
 import io.github.martimm.HikingCompanion.Theme 0.1
-import io.github.martimm.HikingCompanion.Config 0.2
+import io.github.martimm.HikingCompanion.Config 0.3
 import io.github.martimm.HikingCompanion.Language 0.2
+import io.github.martimm.HikingCompanion.Languages 0.1
 
-import QtQuick 2.11
-import QtQuick.Controls 2.4
+import QtQuick 2.9
+import QtQuick.Controls 2.2
 
 HCPage.Plain {
   id: configPage
@@ -22,40 +23,26 @@ HCPage.Plain {
   Component.onCompleted: {
     //configPage.osType = config.osType;
     config.readProperties;
-    config.setLanguageList;
 
-//    console.log("language objects: " + ll.name);
-    console.log("language list: " + config.languageList);
-/*
-    var l = config.languageList;
-    var m = configGrid.languageRow.languages.model;
-    for ( var i = 0; i < l.length; i++) {
-      console.log("language: " + l[i].name);
-      m[i] = l[i].name;
-    }
-*/
+    console.log("language list: " + lngs.languageList);
   }
 
-/*
-  Language {
-    id: ll
-    name: "abc"
-  }
-*/
+  Languages { id: lngs }
 
   Config {
     id: config
 
     // This is using languageList() to set items in Config::_languages
+/*
     languageList: [
       Language { name: "English" },   // using append functions from Config
       Language { name: "Nederlands" } // to add the Language objects
     ]
-/**/
+*//*
     onLanguageListChanged: {
       console.log("language list changed: " + config.languageList);
     }
-
+*/
     onUsernameChanged: {
       console.log("username from data: " + config.username);
       username.inputText.text = config.username;
@@ -127,7 +114,7 @@ HCPage.Plain {
         width: rightWidth
         height: parent.height
         //model: [ "English", "Nederlands"]
-        //model: config.readLanguageList
+        model: lngs.languageList
       }
     }
 
@@ -224,7 +211,7 @@ HCPage.Plain {
 
 
 /*
-import QtQuick 2.11
+import QtQuick 2.9
 import QtQuick.Controls 2.2
 //import QtQuick.Layouts 1.3
 import QtQuick.Templates 2.1 as T

@@ -1,4 +1,4 @@
-import QtQuick 2.11
+import QtQuick 2.9
 
 import io.github.martimm.HikingCompanion.Theme 0.1
 
