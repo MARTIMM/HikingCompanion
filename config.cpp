@@ -3,6 +3,8 @@
 #include "gpxfile.h"
 
 #include <QDebug>
+#include <QQmlEngine>
+#include <QQmlComponent>
 
 // ----------------------------------------------------------------------------
 // See also http://blog.qt.io/blog/2017/12/01/sharing-files-android-ios-qt-app/
@@ -90,28 +92,6 @@ void Config::setLanguage(const int language) {
   }
 }
 
-/*
-// ----------------------------------------------------------------------------
-QQmlListProperty<QString> Config::tracks() {
-
-  ConfigData *c = ConfigData::instance();
-  _gpxFileList = c->gpxManager()->gpxFileList();
-
-  QVector<QString *> gpxTrackNames;
-  static QString s = "abc";
-  gpxTrackNames.push_back(&s);
-/ *
-  for ( int i = 0; i < _gpxFileList.count(); i++) {
-    GpxFile *gf = _gpxFileList.at(i);
-    gpxTrackNames << gf->trackName();
-  }
-* /
-
-  this->setProperty( "tracks", gpxTrackNames);
-  return QQmlListProperty<QString>( this, gpxTrackNames);
-}
-*/
-
 // ----------------------------------------------------------------------------
 // emit all property signals so as to force listeners to update their data
 bool Config::readProperties() {
@@ -121,86 +101,4 @@ bool Config::readProperties() {
   emit languageChanged();
 
   return true;
-}
-
-// ----------------------------------------------------------------------------
-void Config::setLanguageList(QQmlListProperty<Language> list) {
-  _languages.clear();
-
-  Language l;
-  l.setName("English");
-  _languages.append(&l);
-  l.setName("Nederlands");
-  _languages.append(&l);
-
-  emit languageListChanged();
-}
-
-// ----------------------------------------------------------------------------
-// Called from QML to get methods to modify stuff
-QQmlListProperty<Language> Config::languageList() {
-/*
-  Language l;
-  l.setName("English");
-  _languages.append(&l);
-  l.setName("Nederlands");
-  _languages.append(&l);
-*/
-
-  return QQmlListProperty<Language>(
-        this, this,
-        &Config::_appendLanguage,
-        &Config::_languageCount,
-        &Config::_language,
-        &Config::_clearLanguages
-        );
-}
-
-// ----------------------------------------------------------------------------
-void Config::appendLanguage(Language *l) {
-  qDebug() << "L2:" << l->name();
-  _languages.append(l);
-}
-
-// ----------------------------------------------------------------------------
-int Config::languageCount() const {
-  return _languages.count();
-}
-
-// ----------------------------------------------------------------------------
-Language *Config::language(int index) const {
-  return _languages.at(index);
-}
-
-// ----------------------------------------------------------------------------
-void Config::clearLanguages() {
-  _languages.clear();
-}
-
-// ----------------------------------------------------------------------------
-// Called from QML to add a Language object to _languages using public
-// Config::appendLanguage method.
-
-void Config::_appendLanguage( QQmlListProperty<Language> *list, Language *p) {
-
-  qDebug() << "L1:" << p->name();
-  reinterpret_cast<Config *>(list->data)->appendLanguage(p);
-}
-
-// ----------------------------------------------------------------------------
-int Config::_languageCount(QQmlListProperty<Language> *list) {
-
-  return reinterpret_cast<Config *>(list->data)->languageCount();
-}
-
-// ----------------------------------------------------------------------------
-Language *Config::_language( QQmlListProperty<Language> *list, int i) {
-
-  return reinterpret_cast<Config *>(list->data)->language(i);
-}
-
-// ----------------------------------------------------------------------------
-void Config::_clearLanguages(QQmlListProperty<Language> *list) {
-
-  reinterpret_cast<Config *>(list->data)->clearLanguages();
 }

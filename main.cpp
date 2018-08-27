@@ -8,6 +8,8 @@
 
 #include "textload.h"
 #include "config.h"
+#include "language.h"
+#include "languages.h"
 
 // ----------------------------------------------------------------------------
 int main( int argc, char *argv[]) {
@@ -24,7 +26,7 @@ int main( int argc, char *argv[]) {
   // 'QQuickStyle::setStyle("Material");'
 
   QGuiApplication app( argc, argv);
-  app.setApplicationVersion("0.6.0");
+  app.setApplicationVersion("0.6.2");
   app.setApplicationDisplayName("HikingCompanion");
 
 
@@ -33,15 +35,18 @@ int main( int argc, char *argv[]) {
         "io.github.martimm.HikingCompanion.Textload", 0, 1, "TextLoad"
         );
 
-
   qmlRegisterType<Config>(
-        "io.github.martimm.HikingCompanion.Config", 0, 2, "Config"
+        "io.github.martimm.HikingCompanion.Config", 0, 3, "Config"
         );
 
   qmlRegisterType<Language>(
         "io.github.martimm.HikingCompanion.Language", 0, 2, "Language"
         );
-/**/
+
+  qmlRegisterType<Languages>(
+        "io.github.martimm.HikingCompanion.Languages", 0, 1, "Languages"
+        );
+
 
   qmlRegisterSingletonType(
         QUrl("qrc:/Qml/GlobalVariables.qml"),
