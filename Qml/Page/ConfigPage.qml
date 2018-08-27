@@ -4,8 +4,8 @@ import "../Parts" as HCParts
 
 import io.github.martimm.HikingCompanion.Theme 0.1
 import io.github.martimm.HikingCompanion.Config 0.3
-import io.github.martimm.HikingCompanion.Language 0.2
-import io.github.martimm.HikingCompanion.Languages 0.1
+//import io.github.martimm.HikingCompanion.Language 0.2
+//import io.github.martimm.HikingCompanion.Languages 0.1
 
 import QtQuick 2.9
 import QtQuick.Controls 2.2
@@ -24,10 +24,10 @@ HCPage.Plain {
     //configPage.osType = config.osType;
     config.readProperties;
 
-    console.log("language list: " + lngs.languageList);
+//    console.log("language list: " + lngs.languageList);
   }
 
-  Languages { id: lngs }
+//  Languages { id: lngs }
 
   Config {
     id: config
@@ -113,8 +113,8 @@ HCPage.Plain {
         id: languages
         width: rightWidth
         height: parent.height
-        //model: [ "English", "Nederlands"]
-        model: lngs.languageList
+        model: [ "English", "Nederlands"]
+        //model: lngs.languageList
       }
     }
 
