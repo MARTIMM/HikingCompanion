@@ -21,7 +21,8 @@ HEADERS += \
     gpxfile.h \
     singleton.h \
     call_once.h \
-    language.h
+    language.h \
+    languages.h
 
 SOURCES += \
     main.cpp \
@@ -30,12 +31,10 @@ SOURCES += \
     configdata.cpp \
     gpxmanager.cpp \
     gpxfile.cpp \
-    language.cpp
+    language.cpp \
+    languages.cpp
 
-RESOURCES += qml.qrc extraResources.qrc #\
-#    $$files(#HCStyle1/*)
-#    $$files(Assets/Theme/*) \
-#    $$files(Assets/Theme/HCStyle1/*)
+RESOURCES += qml.qrc extraResources.qrc
 
 # Additional import path used to resolve QML modules in Qt Creator's code model
 QML_IMPORT_PATH =
