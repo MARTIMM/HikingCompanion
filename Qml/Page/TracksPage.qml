@@ -4,6 +4,7 @@ import "../Parts" as HCParts
 
 import io.github.martimm.HikingCompanion.Theme 0.1
 //import io.github.martimm.HikingCompanion.Config 0.3
+import io.github.martimm.HikingCompanion.GpxFiles 0.1
 
 import QtQuick 2.9
 import QtQuick.Controls 2.2
@@ -39,4 +40,15 @@ HCPage.Plain {
     }
   }
 
+  GpxFiles { id: gpxf }
+  ListView {
+    anchors {
+      top: pageToolbarRow.bottom
+      bottom: parent.bottom
+      left: parent.left
+      right: parent.right
+    }
+
+    model: gpxf.gpxFileList
+  }
 }
