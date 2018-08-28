@@ -40,7 +40,13 @@ HCPage.Plain {
     }
   }
 
-  GpxFiles { id: gpxf }
+  GpxFiles {
+    id: gpxf
+    Component.onCompleted: {
+      console.log("gpxfs: " + gpxf.gpxFileList);
+    }
+  }
+
   ListView {
     anchors {
       top: pageToolbarRow.bottom
@@ -50,5 +56,8 @@ HCPage.Plain {
     }
 
     model: gpxf.gpxFileList
+    delegate: Text {
+      text: name
+    }
   }
 }

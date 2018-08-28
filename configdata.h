@@ -1,7 +1,7 @@
 #ifndef CONFIGDATA_H
 #define CONFIGDATA_H
 
-#include "gpxmanager.h"
+//#include "gpxmanager.h"
 
 #include <QGuiApplication>
 #include <QObject>
@@ -54,7 +54,7 @@ public:
   void setLanguage(const int language);
 
   bool readProperties();
-  GpxManager *gpxManager();
+  //GpxManager *gpxManager();
 
 signals:
 
@@ -71,7 +71,7 @@ private:
   QString _email;
   int _language;
 
-  GpxManager *_gpxManager;
+  //GpxManager *_gpxManager;
 };
 
 #endif // CONFIGDATA_H

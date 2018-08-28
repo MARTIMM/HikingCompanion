@@ -129,8 +129,10 @@ bool ConfigData::readProperties() {
   return true;
 }
 
+/*
 // ----------------------------------------------------------------------------
 GpxManager *ConfigData::gpxManager() {
 
   return _gpxManager;
 }
+*/
