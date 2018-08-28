@@ -8,6 +8,15 @@ GpxFile::GpxFile(QObject *parent) : QObject(parent) {
 
 }
 
+/*
+// ----------------------------------------------------------------------------
+GpxFile::GpxFile(const GpxFile &src)
+  : _gpxFilename(src._gpxFilename), _gpxPath(src._gpxPath),
+    _description(src._description), _name(src._name) {
+
+}
+*/
+
 // ----------------------------------------------------------------------------
 QString GpxFile::gpxFilename() {
 
@@ -24,6 +33,12 @@ QString GpxFile::description ( ) {
 QString GpxFile::name ( ) {
 
   return _name;
+}
+
+// ----------------------------------------------------------------------------
+QString *GpxFile::namePtr() {
+
+  return &_name;
 }
 
 // ----------------------------------------------------------------------------
@@ -49,7 +64,6 @@ void GpxFile::setGpxFilename( QString gpxPath, QString gpxFilename) {
     if ( token == QXmlStreamReader::StartDocument ) continue;
 
     if ( token == QXmlStreamReader::StartElement ) {
-      //qDebug() << QString("Token: %1").arg(xml.name());
       if ( xml.name() == "metadata" ) {
         xml.readNext();
         this->_parseMetadata(xml);
@@ -76,12 +90,8 @@ void GpxFile::_parseMetadata(QXmlStreamReader &xml) {
         ) {
 
     if ( xml.tokenType() == QXmlStreamReader::StartElement ) {
-      //qDebug() << QString("Token: %1").arg(xml.name());
       if ( xml.name() == "description" ) {
         _description = xml.readElementText();
-
-        //qDebug() << _description;
-
         break;
       }
     }
@@ -99,12 +109,8 @@ void GpxFile::_parseTrackdata(QXmlStreamReader &xml) {
         ) {
 
     if ( xml.tokenType() == QXmlStreamReader::StartElement ) {
-      //qDebug() << QString("Token: %1").arg(xml.name());
       if ( xml.name() == "name" ) {
         _name = xml.readElementText();
-
-        //qDebug() << _name;
-
         break;
       }
     }

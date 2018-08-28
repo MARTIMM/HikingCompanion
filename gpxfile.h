@@ -13,12 +13,14 @@ class GpxFile : public QObject {
 
 public:
   explicit GpxFile(QObject *parent = nullptr);
+  //GpxFile(const GpxFile &src);
 
   QString gpxFilename();
   void setGpxFilename( QString gpxPath, QString gpxFilename);
 
   QString description();
   QString name();
+  QString *namePtr();
 
 signals:
 
