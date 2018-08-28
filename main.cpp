@@ -1,3 +1,9 @@
+#include "textload.h"
+#include "config.h"
+#include "language.h"
+#include "languages.h"
+#include "gpxfiles.h"
+
 //#include <QStyleFactory>
 #include <QGuiApplication>
 #include <QQmlApplicationEngine>
@@ -5,12 +11,6 @@
 //#include <QQmlComponent>
 #include <QDebug>
 //#include <QQmlProperty>
-
-#include "textload.h"
-#include "config.h"
-#include "language.h"
-#include "languages.h"
-#include "gpxfiles.h"
 
 // ----------------------------------------------------------------------------
 int main( int argc, char *argv[]) {
@@ -73,8 +73,8 @@ int main( int argc, char *argv[]) {
   //cfg.setAppObject(&app);
 
   QQmlApplicationEngine engine;
-  engine.load(QUrl(QStringLiteral("qrc:/Qml/Main/Application.qml")));
-//  engine.load(QUrl(QStringLiteral("qrc:/Assets/Theme/ThemeTest.qml")));
+//  engine.load(QUrl(QStringLiteral("qrc:/Qml/Main/Application.qml")));
+  engine.load(QUrl(QStringLiteral("qrc:/Assets/Theme/ThemeTest.qml")));
 
   // Readable after QGuiApplication
   //qDebug() << "List of styles: " << QQuickStyle::availableStyles();
