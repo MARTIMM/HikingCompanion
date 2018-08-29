@@ -3,8 +3,8 @@ import "../Page" as HCPage
 import io.github.martimm.HikingCompanion.Theme 0.1
 import io.github.martimm.HikingCompanion.GlobalVariables 0.1
 
-import QtQuick 2.11
-import QtQuick.Controls 2.4
+import QtQuick 2.9
+import QtQuick.Controls 2.2
 
 
   Column {
@@ -36,7 +36,7 @@ import QtQuick.Controls 2.4
         GlobalVariables.setCurrentPage(requestPage);
       }
 
-      menuAnimateClose.start()
+      if ( menu.width !== 0 ) menuAnimateClose.start()
     }
 /*
     // Current page displayed.

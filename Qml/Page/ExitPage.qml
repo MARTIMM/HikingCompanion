@@ -5,8 +5,8 @@ import "../Parts" as HCParts
 import io.github.martimm.HikingCompanion.Theme 0.1
 import io.github.martimm.HikingCompanion.Textload 0.1
 
-import QtQuick 2.11
-import QtQuick.Controls 2.4
+import QtQuick 2.9
+import QtQuick.Controls 2.2
 import QtQuick.Layouts 1.3
 
 HCPage.Plain {
@@ -44,11 +44,13 @@ HCPage.Plain {
     HCButton.Home { }
 
     Text {
-      text: "Exit page"
+      text: qsTr(" Exit page")
     }
   }
 
   HCParts.InfoArea {
+    id: exitText
+
     width: parent.width
     height: parent.height
     //anchors.fill: parent
@@ -64,9 +66,10 @@ HCPage.Plain {
       id: exitTextData
       filename: ":Assets/Pages/exitText.html"
 /*
-    onFileRead: {
-      exitText.text = TextLoad.text
-    }
+      onTextReady: {
+        console.log("Text ready...");
+        exitText.text = exitTextData.text
+      }
 */
     }
 

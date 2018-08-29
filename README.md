@@ -51,7 +51,7 @@ Below, there are a series of tests which is also used as the progress in the lea
 
   * [x] Organizing qml files in directories using qml.qrc. This can be done mostly automatic from within the creator but using the editor is sometimes easier.
   * [x] Organizing other files like images and docs are set using another `.qrc` file to make a different resource.
-  * [x] Stylesheets. Starting project with `Application -> Qt Quick Application` cannot cope with the commands `QApplication->setStyle()` and `QApplication->setStyleSheet()`. The first could only be done via comandline arguments **-style** or manipulating the arguments list in the program. However creating a new project using `Application -> Qt Widgets Application` let the commands work. Also it was possible to include QML components into the widget structures be it a bit difficult.
+  * [x] Stylesheets. Starting project with `Application -> Qt Quick Application` cannot cope with the commands `QApplication->setStyle()` and `QApplication->setStyleSheet()`. The first could only be done via comandline arguments **-style** or manipulating the arguments list in the program. However creating a new project using `Application -> Qt Widgets Application` let the commands work. Also it was possible to include QML components into the widget structures be it a bit difficult. Other ways of styling are now implemented.
 
   * Input processing.
     * [x] Text input and show input
@@ -77,6 +77,8 @@ Below, there are a series of tests which is also used as the progress in the lea
   * [x] Open, read, write and create a file using QFile
   * [ ] Create, test and delete a directory using QDir
   * [ ] Build a directory tree using QDir
+
+* Sharing data
   * [ ] Share data between one app and another on Android.
   * [ ] Share data between one app and another on IOS.
 
@@ -170,17 +172,16 @@ The menu entries
   * [ ] **📡 Gps**: Record your track data.
   * [x] **🛠 Config**: Configuration of user and program data.
   * [x] **👥 About**: Show a page with version, people and contacts.
-  * [ ] **⏼ Exit**: Close the application. **⏽** or **🗙** on android because of missing character. Must check OS type.
+  * [x] **⏼ Exit**: Close the application. **⏽** or **🗙** on android because of missing character. Must check OS type.
 
 ## Map page
-<progress value="7" max="16" />
+<progress value="7" max="15" />
 
 The map page is also the home page.
 
   * [x] Page created
   * Map. The map is displayed over the full width and height of the device.
     * [x] Map displayed, move around with swipe.
-    * [x] Map should fill page automatically.
     * [x] Map, Menu and buttons must be adjusted when device is rotated.
     * [ ] Show features for starting scale of map.
     * [ ] Map overlay for height lines and/or shades.
@@ -302,12 +303,12 @@ This should show a dialog to ask the user if he/she really wants to quit the pro
 # To do
 
 # Bugs
-* Can't get the scrollbar right on the pages
-* Color of text in combobox stays black
 * Keyboard of android tablet in uppercase and switches back on each letter. Also numbers are not available.
 
 ## Changes
 
+* 0.6.2 Singleton class ConfigData for storage added. Access via Config class.
+* 0.6.1 Styling is under control.
 * 0.6.0
   * Current location is shown(needs improvement).
   * Focus on current location. Must be done with button later.

@@ -1,18 +1,19 @@
-import QtQuick 2.11
+import QtQuick 2.9
+import QtQuick.Controls 2.2
 
-import io.github.martimm.HikingCompanion.HCStyle 0.1
+import io.github.martimm.HikingCompanion.Theme 0.1
 
 Rectangle {
   id: id
 
   width: parent.width
-  height: HCStyle.largeButtonHeight
+  height: Theme.largeButtonHeight
   //anchors.verticalCenter: parent.verticalCenter
 
 //  color: HCStyle.appBackgroundColor
 
   property alias text: labelText.text
-  Text {
+  Label {
     id: labelText
 
 //    color: HCStyle.textColor

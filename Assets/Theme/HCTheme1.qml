@@ -8,10 +8,15 @@
   prefixes etc
   br    buttonrow
   bt    button
+  cbx   combobox
   cmpt  component
+  lbl   label
   mn    menu
   sb    scrollbar
   tb    toolbar
+  txt   text
+  txta  textarea
+  txtf  textfield
 
   bg    background
   d     darker
@@ -22,7 +27,7 @@
 
 pragma Singleton
 
-import QtQuick 2.11
+import QtQuick 2.9
 
 // Non visible settings
 QtObject {

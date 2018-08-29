@@ -3,17 +3,61 @@ import "../Button" as HCButton
 import "../Parts" as HCParts
 
 import io.github.martimm.HikingCompanion.Theme 0.1
+import io.github.martimm.HikingCompanion.Config 0.3
+//import io.github.martimm.HikingCompanion.Language 0.2
+//import io.github.martimm.HikingCompanion.Languages 0.1
 
-import QtQuick 2.11
-import QtQuick.Controls 2.4
+import QtQuick 2.9
+import QtQuick.Controls 2.2
 
 HCPage.Plain {
-  id: aboutPage
+  id: configPage
+
+  property string osType
 
   width: parent.width
   height: parent.height
   anchors.fill: parent
   visible: false
+
+  Component.onCompleted: {
+    //configPage.osType = config.osType;
+    config.readProperties;
+
+//    console.log("language list: " + lngs.languageList);
+  }
+
+//  Languages { id: lngs }
+
+  Config {
+    id: config
+
+    // This is using languageList() to set items in Config::_languages
+/*
+    languageList: [
+      Language { name: "English" },   // using append functions from Config
+      Language { name: "Nederlands" } // to add the Language objects
+    ]
+*//*
+    onLanguageListChanged: {
+      console.log("language list changed: " + config.languageList);
+    }
+*/
+    onUsernameChanged: {
+      console.log("username from data: " + config.username);
+      username.inputText.text = config.username;
+    }
+
+    onEmailChanged: {
+      console.log("email from data: " + config.email);
+      email.inputText.text = config.email;
+    }
+
+    onLanguageChanged: {
+      console.log("currentIndex from data: " + config.language);
+      language.currentIndex = config.language;
+    }
+  }
 
   HCParts.ToolbarRow {
     id: pageToolbarRow
@@ -22,7 +66,127 @@ HCPage.Plain {
     HCButton.Home {  }
 
     Text {
-      text: "config page"
+      text: qsTr(" Configuration page")
+    }
+  }
+
+  property int leftWidth: 3 * width / 10 - Theme.cfgFieldMargin
+  property int rightWidth: 7 * width / 10 - Theme.cfgFieldMargin
+
+  property Grid configGrid: configGrid
+  Grid {
+    id: configGrid
+
+    columns: 1
+    spacing: 2
+    width: parent.width
+    height: parent.height - pageToolbarRow.height - pageButtonRow.height
+
+    anchors {
+      left: parent.left
+      right: parent.right
+      top: pageToolbarRow.bottom
+      bottom: pageButtonRow.top
+
+      leftMargin: Theme.cfgFieldMargin
+      rightMargin: Theme.cfgFieldMargin
+    }
+
+
+    // Selection of a language
+    property Row languageRow: languageRow
+    Row {
+      id: languageRow
+      width: parent.width
+      height: Theme.cfgRowHeight
+      spacing: 2
+
+      HCParts.ConfigLabel {
+        text: qsTr("Language")
+        width: leftWidth
+        height: parent.height
+        //anchors.topMargin: 10
+      }
+
+      property ComboBox languages: languages
+      ComboBox {
+        id: languages
+        width: rightWidth
+        height: parent.height
+        model: [ "English", "Nederlands"]
+        //model: lngs.languageList
+      }
+    }
+
+    // Setting consent of privacy variables
+    Row {
+      width: parent.width
+      height: Theme.cfgRowHeight
+      spacing: 2
+
+      HCParts.ConfigLabel {
+        text: qsTr("Consent")
+        width: leftWidth
+        height: parent.height
+        //anchors.topMargin: 10
+      }
+
+      HCParts.ConfigSwitch {
+        id: consent
+        width: rightWidth
+        height: parent.height
+        text: ""
+        //scale: 0.8
+        //z: 50
+      }
+    }
+
+    // Input of username
+    Row {
+      width: parent.width
+      height: Theme.cfgRowHeight
+      spacing: 2
+
+      HCParts.ConfigLabel {
+        text: qsTr("Name")
+        width: leftWidth
+        height: parent.height
+      }
+
+      HCParts.ConfigInputText {
+        id: username
+        width: rightWidth
+        height: parent.height
+
+        placeholderText: qsTr("type your name here")
+        inputText.validator: RegExpValidator {
+          regExp: /^\w+$/
+        }
+      }
+    }
+
+    // Input of email address
+    Row {
+      width: parent.width
+      height: Theme.cfgRowHeight
+      spacing: 2
+
+      HCParts.ConfigLabel {
+        text: qsTr("Email address")
+        width: leftWidth
+        height: parent.height
+      }
+
+      HCParts.ConfigInputText {
+        id: email
+        width: rightWidth
+        height: parent.height
+
+        placeholderText: qsTr("type your email address here")
+        inputText.validator: RegExpValidator {
+          regExp: /^[a-zA-Z0-9.!#$%&’*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/
+        }
+      }
     }
   }
 
@@ -35,7 +199,9 @@ HCPage.Plain {
       width: textMetrics.boundingRect.width + 30
       text: qsTr("Save")
       onClicked: {
-        console.log("Save click");
+        config.language = language.currentIndex;
+        config.username = username.inputText.text;
+        config.email = email.inputText.text;
       }
     }
   }
@@ -45,7 +211,7 @@ HCPage.Plain {
 
 
 /*
-import QtQuick 2.11
+import QtQuick 2.9
 import QtQuick.Controls 2.2
 //import QtQuick.Layouts 1.3
 import QtQuick.Templates 2.1 as T
@@ -77,7 +243,7 @@ Rectangle {
     }
 
     onLanguageChanged: {
-      language.currentIndex = config.language;
+      language.language = config.language;
     }
   }
 
@@ -106,21 +272,9 @@ Rectangle {
     HCButton.Home { }
   }
 
+*/
+/*
   Component.onCompleted: {
-*/
-/*
-    pageToolbarRow.insertRowButton(
-          "qrc:OpenMenu.qml", {
-            "id": "OMOnAbout_0"
-          }
-          );
-    pageToolbarRow.insertRowButton(
-          "qrc:Home.qml", {
-            "id": "OMOnAbout_1"
-          }
-          );
-*/
-/*
     configPage.osType = config.osType
     console.log("os: " + configPage.osType)
     var x = config.readProperties;
@@ -132,9 +286,9 @@ Rectangle {
   anchors.fill: parent
   visible: false
 
-  property int fieldMargin: 6
-  property int leftWidth: 3 * width / 10 - fieldMargin
-  property int rightWidth: 7 * width / 10 - fieldMargin
+  property int Theme.cfgFieldMargin: 6
+  property int leftWidth: 3 * width / 10 - Theme.cfgFieldMargin
+  property int rightWidth: 7 * width / 10 - Theme.cfgFieldMargin
   property Grid configGrid: configGrid
 
   Grid {
@@ -146,9 +300,9 @@ Rectangle {
 
     anchors {
       left: parent.left
-      leftMargin: fieldMargin
+      leftMargin: Theme.cfgFieldMargin
       right: parent.right
-      rightMargin: fieldMargin
+      rightMargin: Theme.cfgFieldMargin
       top: pageToolbarRow.bottom
       bottom: pageButtonRow.top
     }

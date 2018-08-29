@@ -34,10 +34,11 @@ ApplicationWindow {
   width: 640
   height: 480
 
-  HCPage.MapPage { id: mapPage }
-  HCPage.ConfigPage { id: configPage }
   HCPage.AboutPage { id: aboutPage }
+  HCPage.ConfigPage { id: configPage }
   HCPage.ExitPage { id: exitPage }
+  HCPage.MapPage { id: mapPage }
+  HCPage.TracksPage { id: tracksPage }
 
   // Menu
   HCParts.MenuColumn {
@@ -46,39 +47,48 @@ ApplicationWindow {
     property alias mapButton: mapButton
     HCButton.MenuButton {
       id: mapButton
-      text: qsTr("🗺 Map")
+//      text: qsTr("🗺 Map")
+      text: qsTr("Map")
       onClicked: {
         GlobalVariables.menu.menuEntryClicked(mapPage);
-        console.log("ME map");
+      }
+    }
+
+    property alias tracksButton: tracksButton
+    HCButton.MenuButton {
+      id: tracksButton
+//      text: qsTr("🛠 Tracks")
+      text: qsTr("Tracks")
+      onClicked: {
+        GlobalVariables.menu.menuEntryClicked(tracksPage);
       }
     }
 
     property alias configButton: configButton
     HCButton.MenuButton {
       id: configButton
-      text: qsTr("🛠 Config")
+//      text: qsTr("🛠 Config")
+      text: qsTr("Config")
       onClicked: {
         GlobalVariables.menu.menuEntryClicked(configPage);
-        console.log("ME config");
       }
     }
 
     property alias aboutButton: aboutButton
     HCButton.MenuButton {
       id: aboutButton
-      text: qsTr("👥 About")
+//      text: qsTr("👥 About")
+      text: qsTr("About")
       onClicked: {
         GlobalVariables.menu.menuEntryClicked(aboutPage);
-        console.log("ME about");
       }
     }
 
     property alias exitButton: exitButton
     HCButton.MenuButton {
       id: exitButton
-      text: configPage.osType === "android" ?
-              qsTr("\u23FD Exit") :
-              qsTr("\u23FB Exit")
+//      text: qsTr("⏼ Exit")
+      text: qsTr("Exit")
       onClicked: {
         GlobalVariables.menu.menuEntryClicked(exitPage);
       }

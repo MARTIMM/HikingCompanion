@@ -1,5 +1,7 @@
 #include "textload.h"
 
+#include <QDebug>
+
 // ----------------------------------------------------------------------------
 TextLoad::TextLoad(QObject *parent) : QObject(parent) {
   qDebug() << QString("TextLoad init");
@@ -35,6 +37,6 @@ void TextLoad::setFilename(QString filename) {
   }
   f.close();
 
-  emit fileRead();
+  emit textReady();
 }
 
