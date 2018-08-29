@@ -10,8 +10,8 @@ ApplicationWindow {
   title: qsTr("Your Hiking Companion")
 
   visible: true
-  width: 640
-  height: 480
+  width: 500
+  height: 200
 
   Component.onCompleted: {
     gpxf.readGpxFileInfo;
@@ -42,20 +42,27 @@ ApplicationWindow {
     }
   }
 
-  ComboBox {
+  ListView {
     id: lv
     //anchors.fill: parent
     width: parent.width
-    //height: parent.height
+    height: parent.height
     //visible: true
     //editable: false
 
     //model: ["a", "b"] //gpxf.gpxTrackList()
-/*
-    delegate: Text {
-      text: name
+
+    delegate: Rectangle {
+      width: parent.width
+      height: 20
+      Text { text: modelData }
+
+      Component.onCompleted: {
+        console.log("delegated: " + modelData);
+      }
+/**/
     }
-*/
+/**/
   }
 }
 
