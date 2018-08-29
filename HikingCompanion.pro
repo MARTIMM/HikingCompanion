@@ -1,5 +1,5 @@
 #QT += quick gui widgets core qml quickwidgets quickcontrols2
-QT += quick qml quickcontrols2
+QT += core quick qml quickcontrols2
 CONFIG += c++11
 
 # The following define makes your compiler emit warnings if you use
@@ -13,15 +13,30 @@ DEFINES += QT_DEPRECATED_WARNINGS
 # You can also select to disable deprecated APIs only up to a certain version of Qt.
 DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x050000    # disables all the APIs deprecated before Qt 5.0.0
 
+HEADERS += \
+    textload.h \
+    config.h \
+    configdata.h \
+    gpxmanager.h \
+    gpxfile.h \
+    singleton.h \
+    call_once.h \
+    language.h \
+    languages.h \
+    gpxfiles.h
+
 SOURCES += \
     main.cpp \
     textload.cpp \
-    config.cpp
+    config.cpp \
+    configdata.cpp \
+    gpxmanager.cpp \
+    gpxfile.cpp \
+    language.cpp \
+    languages.cpp \
+    gpxfiles.cpp
 
-RESOURCES += qml.qrc extraResources.qrc #\
-#    $$files(#HCStyle1/*)
-#    $$files(Assets/Theme/*) \
-#    $$files(Assets/Theme/HCStyle1/*)
+RESOURCES += qml.qrc extraResources.qrc
 
 # Additional import path used to resolve QML modules in Qt Creator's code model
 QML_IMPORT_PATH =
@@ -49,9 +64,5 @@ DISTFILES += \
     android/build.gradle \
     android/gradle/wrapper/gradle-wrapper.properties \
     android/gradlew.bat
-
-HEADERS += \
-    textload.h \
-    config.h
 
 ANDROID_PACKAGE_SOURCE_DIR = $$PWD/android

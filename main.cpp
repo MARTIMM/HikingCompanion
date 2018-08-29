@@ -1,3 +1,9 @@
+#include "textload.h"
+#include "config.h"
+#include "language.h"
+#include "languages.h"
+#include "gpxfiles.h"
+
 //#include <QStyleFactory>
 #include <QGuiApplication>
 #include <QQmlApplicationEngine>
@@ -5,9 +11,6 @@
 //#include <QQmlComponent>
 #include <QDebug>
 //#include <QQmlProperty>
-
-#include "textload.h"
-#include "config.h"
 
 // ----------------------------------------------------------------------------
 int main( int argc, char *argv[]) {
@@ -24,21 +27,31 @@ int main( int argc, char *argv[]) {
   // 'QQuickStyle::setStyle("Material");'
 
   QGuiApplication app( argc, argv);
-  app.setApplicationVersion("0.6.0");
+  app.setApplicationVersion("0.6.2");
   app.setApplicationDisplayName("HikingCompanion");
-
-  // See also http://doc.qt.io/qt-5/qguiapplication.html#platformName-prop
-  // For me it could be: android, ios or xcb (x11 on linux)
-  qDebug() << "platform name: " << app.platformName();
 
 
   // set stylesheet
   qmlRegisterType<TextLoad>(
         "io.github.martimm.HikingCompanion.Textload", 0, 1, "TextLoad"
         );
+
   qmlRegisterType<Config>(
-        "io.github.martimm.HikingCompanion.Config", 0, 2, "Config"
+        "io.github.martimm.HikingCompanion.Config", 0, 3, "Config"
         );
+
+  qmlRegisterType<Language>(
+        "io.github.martimm.HikingCompanion.Language", 0, 2, "Language"
+        );
+
+  qmlRegisterType<Languages>(
+        "io.github.martimm.HikingCompanion.Languages", 0, 1, "Languages"
+        );
+
+  qmlRegisterType<GpxFiles>(
+        "io.github.martimm.HikingCompanion.GpxFiles", 0, 1, "GpxFiles"
+        );
+
 
   qmlRegisterSingletonType(
         QUrl("qrc:/Qml/GlobalVariables.qml"),
@@ -50,16 +63,18 @@ int main( int argc, char *argv[]) {
         QUrl("qrc:/Assets/Theme/HikingCompanionTheme.qml"),
         "io.github.martimm.HikingCompanion.Theme", 0, 1, "Theme"
         );
+
   qmlRegisterSingletonType(
         QUrl("qrc:/Assets/Theme/HCTheme1.qml"),
         "io.github.martimm.HikingCompanion.HCTheme1", 0, 1, "HCTheme1"
         );
 
-
+  //Config *cfg = new Config();
+  //cfg.setAppObject(&app);
 
   QQmlApplicationEngine engine;
-  engine.load(QUrl(QStringLiteral("qrc:/Qml/Main/Application.qml")));
-//  engine.load(QUrl(QStringLiteral("qrc:/Assets/Theme/ThemeTest.qml")));
+//  engine.load(QUrl(QStringLiteral("qrc:/Qml/Main/Application.qml")));
+  engine.load(QUrl(QStringLiteral("qrc:/Assets/Theme/ThemeTest.qml")));
 
   // Readable after QGuiApplication
   //qDebug() << "List of styles: " << QQuickStyle::availableStyles();

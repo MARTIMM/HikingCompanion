@@ -1,4 +1,4 @@
-import QtQuick 2.11
+import QtQuick 2.9
 import QtQuick.Controls 2.2
 
 import io.github.martimm.HikingCompanion.Theme 0.1
@@ -42,7 +42,6 @@ Item {
 */
     // Show visible clue if input is right or wrong
     onTextChanged: {
-      console.log("Acceptable: " + inputText.acceptableInput);
       if ( inputText.acceptableInput ) {
         color = Theme.oktxtColor;
       }

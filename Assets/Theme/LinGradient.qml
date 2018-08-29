@@ -9,11 +9,11 @@ LinearGradient {
   start: Qt.point( 0, 0)
   end: Qt.point( 0, width)
   gradient: Gradient {
-    GradientStop { position: 0.0; color: "#ae50f0"}
-    GradientStop { position: 0.01; color: "#fef0ff"}
-    GradientStop { position: 0.03; color: "#ae50f0"}
-    GradientStop { position: 0.5; color: "#604090"}
-    GradientStop { position: 1.0; color: "#300080"}
+    GradientStop { position: 0.0; color: "#be50e0"}
+    GradientStop { position: 0.02; color: "#fef0f8"}
+    GradientStop { position: 0.07; color: "#be50e0"}
+    GradientStop { position: 0.5; color: "#6f305f"}
+    GradientStop { position: 1.0; color: "#300040"}
   }
 }
 

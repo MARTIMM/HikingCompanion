@@ -27,7 +27,7 @@
 
 pragma Singleton
 
-import QtQuick 2.11
+import QtQuick 2.9
 
 // Non visible settings
 QtObject {

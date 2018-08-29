@@ -1,4 +1,10 @@
 #include "config.h"
+#include "configdata.h"
+#include "gpxfile.h"
+
+#include <QDebug>
+#include <QQmlEngine>
+#include <QQmlComponent>
 
 // ----------------------------------------------------------------------------
 // See also http://blog.qt.io/blog/2017/12/01/sharing-files-android-ios-qt-app/
@@ -6,159 +12,103 @@
 // ----------------------------------------------------------------------------
 Config::Config(QObject *parent) : QObject(parent) {
 
-  _osType = QString("unknown");
+  // See also http://doc.qt.io/qt-5/qguiapplication.html#platformName-prop
+  // For me it could be: android, ios or xcb (x11 on linux)
+  //qDebug() << "platform name: " << app.platformName();
 
-  QRegExp rx("\\.fc\\d*\\.");
-
-  if ( QSysInfo::kernelType() == "winnt" ) {
-    _osType = "windows";
-  }
-
-  else if ( QSysInfo::productType() == "fedora" /* || ... */) {
-    _osType = "linux";
-  }
-
-  else if ( QSysInfo::productType() == "Android" ) {
-    _osType = "android";
-  }
-
-  else if ( QSysInfo::productType() == "osx" ) {
-    _osType = "mac";
-  }
-
-  else if ( QSysInfo::productType() == "ios" ) {
-    _osType = "ios";
-  }
+  //_osType = QString(app.platformName());
 }
 
 // ----------------------------------------------------------------------------
 QString Config::osType() {
-  return _osType;
+
+  ConfigData *c = ConfigData::instance();
+  return c->osType();
 }
 
 /*
 // ----------------------------------------------------------------------------
-QApplication *Config::appObject() {
-  return _appObjectPtr;
+QGuiApplication *Config::appObject() {
+  return _appObject;
 }
 
 // ----------------------------------------------------------------------------
-void Config::setAppObject(QApplication *appObjectPtr) {
-  _appObjectPtr = appObjectPtr;  //qobject_cast<QApplication *>(appObjectPtr);
+void Config::setAppObject(QGuiApplication *appObject) {
+  _appObject = appObject;  //qobject_cast<QApplication *>(appObjectPtr);
 }
 */
 
 // ----------------------------------------------------------------------------
 QString Config::username() {
-  return _username;
+
+  ConfigData *c = ConfigData::instance();
+  return c->username();
 }
 
 // ----------------------------------------------------------------------------
-/* emitIt should be false. From QML only the username can be given. So when
-   called from the storage, emitIt can be set true to signal the QML components
-   for the changes. Otherwise, set private var _emiIt first when other QML
-   components must be informed from this QML component.
-*/
-void Config::setUsername( const QString username, const bool emitIt) {
-qDebug() << "Username: " << username;
-  if ( _username != username ) {
-    _username = username;
-    if ( emitIt or _emitIt ) {
-      emit usernameChanged();
-    }
+void Config::setUsername(const QString username) {
 
-    QSettings settings;
-    settings.setValue( "user/username", username);
+  ConfigData *c = ConfigData::instance();
+
+  if ( c->username() != username ) {
+    c->setUsername(username);
+    emit usernameChanged();
   }
 }
 
 // ----------------------------------------------------------------------------
 QString Config::email() {
-  return _email;
+
+  ConfigData *c = ConfigData::instance();
+  return c->email();
 }
 
 // ----------------------------------------------------------------------------
-void Config::setEmail( const QString email, const bool emitIt) {
-  qDebug() << "Email: " << email;
-  if ( _email != email ) {
-    _email = email;
-    if ( emitIt or _emitIt ) {
-      emit emailChanged();
-    }
-  }
+void Config::setEmail(const QString email) {
 
-  QSettings settings;
-  settings.setValue( "user/email", email);
+  ConfigData *c = ConfigData::instance();
+
+  if ( c->email() != email ) {
+    c->setEmail(email);
+    emit emailChanged();
+  }
 }
 
 // ----------------------------------------------------------------------------
 int Config::language() {
-  return _language;
+
+  ConfigData *c = ConfigData::instance();
+  return c->language();
 }
 
 // ----------------------------------------------------------------------------
-void Config::setLanguage( const int language, const bool emitIt) {
-  qDebug()  << "language: " << language;
-  if ( _language != language ) {
-    _language = language;
-    if ( emitIt or _emitIt ) {
-      emit languageChanged();
-    }
-  }
+void Config::setLanguage(const int language) {
 
-  QSettings settings;
-  settings.setValue( "sys/language", language);
-}
+  ConfigData *c = ConfigData::instance();
 
-
-// ----------------------------------------------------------------------------
-bool Config::emitIt() {
-  return _emitIt;
-}
-
-// ----------------------------------------------------------------------------
-void Config::setEmitIt(const bool emitIt) {
-  _emitIt = emitIt;
-}
-
-// ----------------------------------------------------------------------------
-bool Config::readProperties() {
-
-  // Look for settings
-  QSettings settings;
-  if ( settings.contains("user/username") ) {
-    _username = settings.value("user/username").toString();
-    emit usernameChanged();
-  }
-
-  if ( settings.contains("user/email") ) {
-    _email = settings.value("user/email").toString();
-    emit emailChanged();
-  }
-
-  if ( settings.contains("sys/language") ) {
-    _language = settings.value("sys/language").toInt();
+  if ( c->language() != language ) {
+    c->setLanguage(language);
     emit languageChanged();
   }
+}
 
-  else {
-    _language = 0;
-  }
+/*
+// ----------------------------------------------------------------------------
+QVector<GpxFile *> Config::gpxFileList() {
 
+  ConfigData *c = ConfigData::instance();
 
-  // Process language setting
-  if ( _language == 0 ) {
+  return c->gpxManager()->gpxFileList();
+}
+*/
 
-  }
+// ----------------------------------------------------------------------------
+// emit all property signals so as to force listeners to update their data
+bool Config::readProperties() {
+
+  emit usernameChanged();
+  emit emailChanged();
+  emit languageChanged();
 
   return true;
 }
-
-// ----------------------------------------------------------------------------
-QString *Config::readLanguageList() {
-
-  _langArray[0] = "a";
-  _langArray[1] = "b";
-  return _langArray;
-}
-

@@ -1,25 +1,11 @@
-/*
-//import "../Menu" as HCMenu
-//import "../Button" as HCButton
-import "." as HCPage
-
-import io.github.martimm.HikingCompanion.Theme 0.1
-
-import QtQuick 2.11
-import QtQuick.Controls 2.4
-//import QtQuick.Layouts 1.3
-import QtLocation 5.6
-import QtPositioning 5.6
-*/
-
 import "." as HCPage
 import "../Button" as HCButton
 import "../Parts" as HCParts
 
 import io.github.martimm.HikingCompanion.Theme 0.1
 
-import QtQuick 2.11
-import QtQuick.Controls 2.4
+import QtQuick 2.9
+import QtQuick.Controls 2.2
 import QtLocation 5.6
 import QtPositioning 5.6
 

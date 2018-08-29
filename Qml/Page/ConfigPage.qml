@@ -3,10 +3,12 @@ import "../Button" as HCButton
 import "../Parts" as HCParts
 
 import io.github.martimm.HikingCompanion.Theme 0.1
-import io.github.martimm.HikingCompanion.Config 0.2
+import io.github.martimm.HikingCompanion.Config 0.3
+//import io.github.martimm.HikingCompanion.Language 0.2
+//import io.github.martimm.HikingCompanion.Languages 0.1
 
-import QtQuick 2.11
-import QtQuick.Controls 2.4
+import QtQuick 2.9
+import QtQuick.Controls 2.2
 
 HCPage.Plain {
   id: configPage
@@ -19,26 +21,40 @@ HCPage.Plain {
   visible: false
 
   Component.onCompleted: {
-    configPage.osType = config.osType
-    console.log("os: " + configPage.osType)
-    var x = config.readProperties;
-    console.log("Read: " + x);
+    //configPage.osType = config.osType;
+    config.readProperties;
+
+//    console.log("language list: " + lngs.languageList);
   }
+
+//  Languages { id: lngs }
 
   Config {
     id: config
+
+    // This is using languageList() to set items in Config::_languages
+/*
+    languageList: [
+      Language { name: "English" },   // using append functions from Config
+      Language { name: "Nederlands" } // to add the Language objects
+    ]
+*//*
+    onLanguageListChanged: {
+      console.log("language list changed: " + config.languageList);
+    }
+*/
     onUsernameChanged: {
       console.log("username from data: " + config.username);
       username.inputText.text = config.username;
     }
 
     onEmailChanged: {
-      console.log(" from data: email" + config.email);
+      console.log("email from data: " + config.email);
       email.inputText.text = config.email;
     }
 
     onLanguageChanged: {
-      console.log(" from data: currentIndex" + config.currentIndex);
+      console.log("currentIndex from data: " + config.language);
       language.currentIndex = config.language;
     }
   }
@@ -57,7 +73,7 @@ HCPage.Plain {
   property int leftWidth: 3 * width / 10 - Theme.cfgFieldMargin
   property int rightWidth: 7 * width / 10 - Theme.cfgFieldMargin
 
-  //property Grid configGrid: configGrid
+  property Grid configGrid: configGrid
   Grid {
     id: configGrid
 
@@ -78,7 +94,9 @@ HCPage.Plain {
 
 
     // Selection of a language
+    property Row languageRow: languageRow
     Row {
+      id: languageRow
       width: parent.width
       height: Theme.cfgRowHeight
       spacing: 2
@@ -90,11 +108,13 @@ HCPage.Plain {
         //anchors.topMargin: 10
       }
 
+      property ComboBox languages: languages
       ComboBox {
-        id: language
+        id: languages
         width: rightWidth
         height: parent.height
         model: [ "English", "Nederlands"]
+        //model: lngs.languageList
       }
     }
 
@@ -179,7 +199,9 @@ HCPage.Plain {
       width: textMetrics.boundingRect.width + 30
       text: qsTr("Save")
       onClicked: {
-        console.log("Save click");
+        config.language = language.currentIndex;
+        config.username = username.inputText.text;
+        config.email = email.inputText.text;
       }
     }
   }
@@ -189,7 +211,7 @@ HCPage.Plain {
 
 
 /*
-import QtQuick 2.11
+import QtQuick 2.9
 import QtQuick.Controls 2.2
 //import QtQuick.Layouts 1.3
 import QtQuick.Templates 2.1 as T
@@ -221,7 +243,7 @@ Rectangle {
     }
 
     onLanguageChanged: {
-      language.currentIndex = config.language;
+      language.language = config.language;
     }
   }
 

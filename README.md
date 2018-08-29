@@ -303,12 +303,12 @@ This should show a dialog to ask the user if he/she really wants to quit the pro
 # To do
 
 # Bugs
-* Can't get the scrollbar right on the pages
-* Color of text in combobox stays black
 * Keyboard of android tablet in uppercase and switches back on each letter. Also numbers are not available.
 
 ## Changes
 
+* 0.6.2 Singleton class ConfigData for storage added. Access via Config class.
+* 0.6.1 Styling is under control.
 * 0.6.0
   * Current location is shown(needs improvement).
   * Focus on current location. Must be done with button later.

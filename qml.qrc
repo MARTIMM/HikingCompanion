@@ -19,5 +19,6 @@
         <file>Qml/Parts/ToolbarRow.qml</file>
         <file>Qml/GlobalVariables.qml</file>
         <file>Qml/Parts/ConfigSwitch.qml</file>
+        <file>Qml/Page/TracksPage.qml</file>
     </qresource>
 </RCC>

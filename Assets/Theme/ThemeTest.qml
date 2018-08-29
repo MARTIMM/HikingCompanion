@@ -1,9 +1,4 @@
-import "../../Qml/Page" as HCPage
-import "../../Qml/Parts" as HCParts
-import "../../Qml/Button" as HCButton
-
-import io.github.martimm.HikingCompanion.Theme 0.1
-import io.github.martimm.HikingCompanion.GlobalVariables 0.1
+import io.github.martimm.HikingCompanion.GpxFiles 0.1
 
 import QtQuick 2.9
 import QtQuick.Controls 2.2
@@ -12,69 +7,55 @@ import QtQuick.Window 2.3
 
 ApplicationWindow {
   id: root
-
-  Component.onCompleted: {
-    GlobalVariables.setMapPage(mapPage);
-    GlobalVariables.setCurrentPage(mapPage);
-    GlobalVariables.setMenu(menu);
-
-    //menu.setMapPage(mapPage);
-    //menu.setCurrentPage(mapPage);
-  }
-
   title: qsTr("Your Hiking Companion")
 
   visible: true
   width: 640
   height: 480
 
-  HCPage.MapPage { id: mapPage }
-  HCPage.ConfigPage { id: configPage }
-  HCPage.AboutPage { id: aboutPage }
-  HCPage.ExitPage { id: exitPage }
+  Component.onCompleted: {
+    gpxf.readGpxFileInfo;
+    console.log("type model array is " + typeof lv.model);
+    console.log("type model array [0] is " + typeof lv.model[0]);
+  }
 
-  // Menu
-  HCParts.MenuColumn {
-    id: menu
-
-    property alias mapButton: mapButton
-    HCButton.MenuButton {
-      id: mapButton
-      text: qsTr("🗺 Map")
-      onClicked: {
-        GlobalVariables.menu.menuEntryClicked(mapPage);
-        console.log("ME map");
-      }
+  GpxFiles {
+    id: gpxf
+    //property QList<QString> gfl
+/*
+    Component.onCompleted: {
+      console.log("gpxfs: " + gpxf.gpxFileList);
+      console.log("nbr gpxfs: " + gpxf.gnbrGpxFiles);
     }
 
-    property alias configButton: configButton
-    HCButton.MenuButton {
-      id: configButton
-      text: qsTr("🛠 Config")
-      onClicked: {
-        GlobalVariables.menu.menuEntryClicked(configPage);
-        console.log("ME config");
-      }
+    onGpxFileListChanged: {
+      var gfl = [gpxf.gpxFileList()];
+      console.log("gpxfs event ready: " + gfl[0].length);
+      //lv.model = gfl;
     }
+*/
 
-    property alias aboutButton: aboutButton
-    HCButton.MenuButton {
-      id: aboutButton
-      text: qsTr("👥 About")
-      onClicked: {
-        GlobalVariables.menu.menuEntryClicked(aboutPage);
-        console.log("ME about");
-      }
+    onGpxFileListChanged: {
+      lv.model = gpxf.gpxTrackList();
+      console.log("gpxfs event ready: " + lv.model.length + ", " + lv.model[0]);
+      console.log("type is " + typeof lv.model[0]);
     }
+  }
 
-    property alias exitButton: exitButton
-    HCButton.MenuButton {
-      id: exitButton
-      text: qsTr("⏼ Exit")
-      onClicked: {
-        GlobalVariables.menu.menuEntryClicked(exitPage);
-      }
+  ComboBox {
+    id: lv
+    //anchors.fill: parent
+    width: parent.width
+    //height: parent.height
+    //visible: true
+    //editable: false
+
+    //model: ["a", "b"] //gpxf.gpxTrackList()
+/*
+    delegate: Text {
+      text: name
     }
+*/
   }
 }
 
