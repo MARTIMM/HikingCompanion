@@ -35,8 +35,6 @@ HCPage.Plain {
   height: parent.height
   anchors.fill: parent
 
-  visible: false
-
   HCParts.ToolbarRow {
     id: pageToolbarRow
 

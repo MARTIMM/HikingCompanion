@@ -1,8 +1,9 @@
 /* ----------------------------------------------------------------------------
   Author: Marcel Timmerman
   License: ...
-  Copyright: © Sultanstrail 2018
-  Copyright: © Sufitrail 2018
+  Copyright: © Sultanstrail 2018 .. ∞
+  Copyright: © Sufitrail 2018 .. ∞
+  Copyright: © Marcel Timmerman 2018 .. ∞
 
   This is the main page where the root of the gui tree is described. This is
   mainly an empty page area wherein pages and a menu are created.
@@ -37,7 +38,7 @@ ApplicationWindow {
   HCPage.AboutPage { id: aboutPage }
   HCPage.ConfigPage { id: configPage }
   HCPage.ExitPage { id: exitPage }
-  HCPage.MapPage { id: mapPage }
+  HCPage.MapPage { id: mapPage; visible: true }
   HCPage.TracksPage { id: tracksPage }
 
   // Menu

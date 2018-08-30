@@ -18,7 +18,6 @@ HCPage.Plain {
   width: parent.width
   height: parent.height
   anchors.fill: parent
-  visible: false
 
   Component.onCompleted: {
     //configPage.osType = config.osType;

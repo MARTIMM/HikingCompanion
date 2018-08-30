@@ -11,7 +11,6 @@ import QtPositioning 5.6
 
 HCPage.Plain {
   id: mapPage
-  visible: true
 
   width: parent.width
   height: parent.height
