@@ -8,19 +8,17 @@
 class GpxFile : public QObject {
 
   Q_OBJECT
-  Q_PROPERTY( QString description READ description)
-  Q_PROPERTY( QString name READ name)
+  Q_PROPERTY( QString description READ description CONSTANT)
+  Q_PROPERTY( QString name READ name CONSTANT)
 
 public:
   explicit GpxFile(QObject *parent = nullptr);
-  //GpxFile(const GpxFile &src);
 
   QString gpxFilename();
   void setGpxFilename( QString gpxPath, QString gpxFilename);
 
   QString description();
   QString name();
-  QString *namePtr();
 
 signals:
 

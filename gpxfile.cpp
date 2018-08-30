@@ -4,18 +4,9 @@
 #include <QFile>
 
 // ----------------------------------------------------------------------------
-GpxFile::GpxFile(QObject *parent) : QObject(parent) {
+GpxFile::GpxFile(QObject *parent) : QObject(parent) {}
 
-}
-
-/*
 // ----------------------------------------------------------------------------
-GpxFile::GpxFile(const GpxFile &src)
-  : _gpxFilename(src._gpxFilename), _gpxPath(src._gpxPath),
-    _description(src._description), _name(src._name) {
-
-}
-*/
 
 // ----------------------------------------------------------------------------
 QString GpxFile::gpxFilename() {
@@ -36,16 +27,10 @@ QString GpxFile::name ( ) {
 }
 
 // ----------------------------------------------------------------------------
-QString *GpxFile::namePtr() {
-
-  return &_name;
-}
-
-// ----------------------------------------------------------------------------
 void GpxFile::setGpxFilename( QString gpxPath, QString gpxFilename) {
 
 //Todo fiename must be tested
-  _gpxFilename =gpxFilename;
+  _gpxFilename = gpxFilename;
   _gpxPath = gpxPath;
 
   QFile gpxFile (gpxPath + "/" + gpxFilename);
@@ -57,7 +42,7 @@ void GpxFile::setGpxFilename( QString gpxPath, QString gpxFilename) {
 
   bool metaFound = false;
   bool trackFound = false;
-  QXmlStreamReader xml (&gpxFile);
+  QXmlStreamReader xml(&gpxFile);
   while ( !xml.atEnd() && !xml.hasError() ) {
     QXmlStreamReader::TokenType token = xml.readNext();
 

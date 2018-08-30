@@ -25,7 +25,7 @@ int GpxFiles::nbrGpxFiles() {
 }
 
 // ----------------------------------------------------------------------------
-QList<GpxFile *> GpxFiles::gpxFileList() {
+QList<QObject *> GpxFiles::gpxFileList() {
 
   qDebug() << "gpx file list: " << _gpxFileList.count() << "members";
   return _gpxFileList;
@@ -87,15 +87,16 @@ void GpxFiles::_setGpxFiles() {
 
     GpxFile *gf = new GpxFile();
     gf->setGpxFilename( _gpxPath, fname);
-    _appendGpxFile(gf);
+//    _appendGpxFile(gf);
+    _gpxFileList.append(gf);
 //    qDebug() << "Track: " << gf->name();
 
     _gpxTrackList.append(gf->name());
 //    qDebug() << "T: " << _gpxTrackList.count() << ", " << gf->name();
   }
 
-  _gpxDescr = _gpxFileList.at(0)->description();
-  qDebug() << "Found" << nbrGpxFiles() << "tracks for" << _gpxDescr;
+  //_gpxDescr = _gpxFileList.at(0)->description();
+  //qDebug() << "Found" << nbrGpxFiles() << "tracks for" << _gpxDescr;
 
 //  emit gpxFileListChanged();
 }

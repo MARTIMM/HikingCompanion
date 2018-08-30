@@ -5,9 +5,7 @@
 
 #include <QObject>
 #include <QVariantList>
-
-// Hè hè, finally someone with a working suggestion:
-// https://forum.qt.io/topic/43226/solved-qml-combobox-model-from-c/2
+#include <QList>
 
 class GpxFiles : public QObject {
 
@@ -26,7 +24,7 @@ public:
   ~GpxFiles();
 
   //Q_INVOKABLE QVariantList gpxFileList();
-  Q_INVOKABLE QList<GpxFile *> gpxFileList();
+  Q_INVOKABLE QList<QObject *> gpxFileList();
   Q_INVOKABLE QVariantList gpxTrackList();
   int nbrGpxFiles();
   bool readGpxFileInfo();
@@ -41,7 +39,7 @@ private:
   void _appendGpxFile(GpxFile *gpxFile);
   void _setGpxFiles();
 
-  QList<GpxFile *> _gpxFileList;
+  QList<QObject *> _gpxFileList;
   QVariantList _gpxTrackList;
   QString _gpxPath;
   QString _gpxDescr;
