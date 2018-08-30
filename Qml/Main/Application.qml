@@ -32,8 +32,12 @@ ApplicationWindow {
   title: qsTr("Your Hiking Companion")
 
   visible: true
-  width: 640
-  height: 480
+
+  // Sizes are not important because on mobile devices it always scales
+  // to the screen width and height. For desktop I use a scaled
+  // Samsung tablet size (2048 x 1536 of Samsung Galaxy Tab S2).
+  width: 600
+  height: 450
 
   HCPage.AboutPage { id: aboutPage }
   HCPage.ConfigPage { id: configPage }
