@@ -198,7 +198,7 @@ HCPage.Plain {
       width: textMetrics.boundingRect.width + 30
       text: qsTr("Save")
       onClicked: {
-        config.language = language.currentIndex;
+        config.language = languages.currentIndex;
         config.username = username.inputText.text;
         config.email = email.inputText.text;
       }
