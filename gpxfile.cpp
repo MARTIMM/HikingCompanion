@@ -7,17 +7,9 @@
 GpxFile::GpxFile(QObject *parent) : QObject(parent) {}
 
 // ----------------------------------------------------------------------------
-
-// ----------------------------------------------------------------------------
 QString GpxFile::gpxFilename() {
 
   return _gpxFilename;
-}
-
-// ----------------------------------------------------------------------------
-QString GpxFile::description ( ) {
-
-  return _description;
 }
 
 // ----------------------------------------------------------------------------
@@ -27,9 +19,11 @@ QString GpxFile::name ( ) {
 }
 
 // ----------------------------------------------------------------------------
-void GpxFile::setGpxFilename( QString gpxPath, QString gpxFilename) {
+QString GpxFile::setGpxFilename( QString gpxPath, QString gpxFilename) {
 
-//Todo fiename must be tested
+  QString description;
+
+//Todo filename must be tested
   _gpxFilename = gpxFilename;
   _gpxPath = gpxPath;
 
@@ -37,7 +31,7 @@ void GpxFile::setGpxFilename( QString gpxPath, QString gpxFilename) {
   if ( !gpxFile.open(QIODevice::ReadOnly | QIODevice::Text) ) {
 //Todo error must be shown in status on screen
     qDebug() << QString("Open gpx file %1: %2").arg(_gpxFilename).arg(gpxFile.errorString());
-    return;
+    return "";
   }
 
   bool metaFound = false;
@@ -51,24 +45,29 @@ void GpxFile::setGpxFilename( QString gpxPath, QString gpxFilename) {
     if ( token == QXmlStreamReader::StartElement ) {
       if ( xml.name() == "metadata" ) {
         xml.readNext();
-        this->_parseMetadata(xml);
+        description = _parseMetadata(xml);
         metaFound = true;
       }
 
       else if ( xml.name() == "trk" ) {
         xml.readNext();
-        this->_parseTrackdata(xml);
+        _parseTrackdata(xml);
         trackFound = true;
       }
 
       if ( metaFound && trackFound ) break;
     }
   }
+
+  return description;
 }
 
 // ----------------------------------------------------------------------------
 // process metadata in gpx file
-void GpxFile::_parseMetadata(QXmlStreamReader &xml) {
+QString GpxFile::_parseMetadata(QXmlStreamReader &xml) {
+
+  QString description;
+
   while ( !( xml.tokenType() == QXmlStreamReader::EndElement &&
              xml.name() == "metadata"
            )
@@ -76,13 +75,15 @@ void GpxFile::_parseMetadata(QXmlStreamReader &xml) {
 
     if ( xml.tokenType() == QXmlStreamReader::StartElement ) {
       if ( xml.name() == "description" ) {
-        _description = xml.readElementText();
+        description = xml.readElementText();
         break;
       }
     }
 
     xml.readNext();
   }
+
+  return description;
 }
 
 // ----------------------------------------------------------------------------
