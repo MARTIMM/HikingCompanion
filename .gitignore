@@ -1,3 +1,5 @@
 Old/*
 android/gradle*
 android/local*
+.precomp/*
+*/.precomp/*
