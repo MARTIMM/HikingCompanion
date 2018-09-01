@@ -5,7 +5,7 @@ import "../Parts" as HCParts
 //TODO: HCTheme1 settings should go to other module
 import io.github.martimm.HikingCompanion.HCTheme1 0.1
 import io.github.martimm.HikingCompanion.Theme 0.1
-//import io.github.martimm.HikingCompanion.Config 0.3
+import io.github.martimm.HikingCompanion.Config 0.3
 import io.github.martimm.HikingCompanion.GpxFiles 0.1
 
 import QtQuick 2.9
@@ -18,13 +18,9 @@ HCPage.Plain {
   height: parent.height
   anchors.fill: parent
 
-  /*
   Config {
     id: config
-
-    //tracks: [ ]
   }
-  */
 
   HCParts.ToolbarRow {
     id: pageToolbarRow
@@ -37,6 +33,7 @@ HCPage.Plain {
     }
   }
 
+  // A fixed title from the tracks description on top
   Rectangle {
     id: titleText
 
@@ -75,7 +72,7 @@ HCPage.Plain {
 
       //TODO; must come from config
       // Example previous setting
-      currentIndex = ;
+      currentIndex = config.gpxFileIndex;
 
       var entriesHeight = lv.model.length * 20;
       lv.contentHeight = 20 + entriesHeight;
@@ -136,6 +133,7 @@ HCPage.Plain {
           currentIndex = index
           //lv.model[lv.currentIndex].wrapperText.color = "red"
           tracksPage.currentIndex = currentIndex;
+//          config.gpxFileIndex = currentIndex;
           console.log("clicked: [" + index + "] " + modelData.name);
         }
       }
@@ -165,13 +163,12 @@ HCPage.Plain {
     Button {
       width: textMetrics.boundingRect.width + 30
       text: qsTr("Select")
-/*
+
       onClicked: {
-        config.language = language.currentIndex;
-        config.username = username.inputText.text;
-        config.email = email.inputText.text;
+        config.gpxFileIndex = currentIndex;
+//TODO get coordinates
+//TODO show track using coordinates
       }
-*/
     }
   }
 }

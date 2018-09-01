@@ -85,22 +85,30 @@ int Config::language() {
 void Config::setLanguage(const int language) {
 
   ConfigData *c = ConfigData::instance();
-
   if ( c->language() != language ) {
     c->setLanguage(language);
     emit languageChanged();
   }
 }
 
-/*
 // ----------------------------------------------------------------------------
-QVector<GpxFile *> Config::gpxFileList() {
+int Config::gpxFileIndex() {
 
   ConfigData *c = ConfigData::instance();
-
-  return c->gpxManager()->gpxFileList();
+  qDebug() << "return gpx f: " << c->gpxFileIndex();
+  return c->gpxFileIndex();
 }
-*/
+
+// ----------------------------------------------------------------------------
+void Config::setGpxFileIndex(int index) {
+
+qDebug() << "gpx f: " << index;
+  ConfigData *c = ConfigData::instance();
+  if ( c->gpxFileIndex() != index ) {
+    c->setGpxFileIndex(index);
+    emit gpxFileIndexChanged();
+  }
+}
 
 // ----------------------------------------------------------------------------
 // emit all property signals so as to force listeners to update their data

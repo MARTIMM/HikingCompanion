@@ -26,7 +26,10 @@ class Config : public QObject {
       )
 
   Q_PROPERTY( bool readProperties READ readProperties)
-  //Q_PROPERTY( QVector<GpxFile *> gpxFileList READ gpxFileList)
+  Q_PROPERTY(
+      int gpxFileIndex READ gpxFileIndex
+      WRITE setGpxFileIndex NOTIFY gpxFileIndexChanged
+      )
 
 public:
   Config(QObject *parent = nullptr);
@@ -52,7 +55,8 @@ public:
   int language();
   void setLanguage( const int language);
 
-  //QVector<GpxFile *> gpxFileList();
+  int gpxFileIndex();
+  void setGpxFileIndex(int index);
 
   // Emit signals
   bool readProperties();
@@ -61,6 +65,7 @@ signals:
   void usernameChanged();
   void emailChanged();
   void languageChanged();
+  void gpxFileIndexChanged();
 
 public slots:
 
