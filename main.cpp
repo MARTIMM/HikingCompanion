@@ -17,6 +17,7 @@ int main( int argc, char *argv[]) {
 
   QCoreApplication::setAttribute(Qt::AA_EnableHighDpiScaling);
 
+  // Settings used by QSettings to set a location to store its data
   QCoreApplication::setOrganizationName("martimm");
   QCoreApplication::setOrganizationDomain("io.github.martimm");
   QCoreApplication::setApplicationName("HikingCompanion");
