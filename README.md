@@ -167,7 +167,7 @@ When starting the program, the app must show a splash screen with a nice hiking 
 The menu entries
   * [x] **🗺 Map**: Show map.
   * [ ] **ℹ Info**: Show route information
-  * [ ] **🚶 Tracks**: Select a track.
+  * [x] **🚶 Tracks**: Select a track.
   * [ ] **⌘ Feature** Show history, or other info.
   * [ ] **📡 Gps**: Record your track data.
   * [x] **🛠 Config**: Configuration of user and program data.
@@ -209,12 +209,12 @@ The map page is also the home page.
   * [ ] Fill the info page after selecting a track. Previous data must be removed.
 
 ## The Tracks page
-<progress value="0" max="7" />
+<progress value="2" max="7" />
 
   Show a list of tracks from which a selection can be made. This will only be visible when a separate tracks app is installed.
 
-  * [ ] Page created
-  * [ ] Generate the page from the directory contents and the gpx track name found in those files.
+  * [x] Page created
+  * [x] Generate the page from the directory contents and the gpx track name found in those files.
   * [ ] Show map when a selection is made.
   * [ ] The route is displayed.
   * [ ] The route is centered on page. This depends if information is available in the user track.
@@ -292,6 +292,17 @@ This should show a dialog to ask the user if he/she really wants to quit the pro
   * [ ] Recorded track must be saved if still unsaved.
   * [x] Leave and stop program.
   * [ ] Keep program active in background and keep recording if started.
+
+# Languages used for the application
+
+<progress value="3" max="5" />
+
+  * [x] Every word and phrase shown to the user is processed by using qsTr().
+  * [x] All text is typed in English and is the fallback language by default.
+  * [ ] Implementing the QT translation mechanism.
+  * Supported Languages;
+    * [x] English
+    * [ ] Dutch
 
 # Other items or problems to think about
 
