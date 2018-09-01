@@ -5,12 +5,15 @@ import io.github.martimm.HikingCompanion.HCTheme1 0.1
 import io.github.martimm.HikingCompanion.Theme 0.1
 
 Rectangle {
-  id: id
+  id: root
 
   width: parent.width
   height: Theme.largeButtonHeight
 
   color: HCTheme1.cmptBgColor
+
+  property bool checked;
+  signal switched()
 
   property alias text: switchText.text
   Switch {
@@ -36,6 +39,12 @@ Rectangle {
       horizontalAlignment: Text.AlignRight
       //verticalAlignment: Text.AlignVCenter
       //elide: Text.ElideRight
+    }
+
+    onClicked: {
+console.log("Switched: " + switchText.checked);
+      root.checked = switchText.checked;
+      root.switched();
     }
 
     //width: parent.width
