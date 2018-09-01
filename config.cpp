@@ -18,13 +18,14 @@ Config::Config(QObject *parent) : QObject(parent) {
 
   //_osType = QString(app.platformName());
 }
-
+/*
 // ----------------------------------------------------------------------------
 QString Config::osType() {
 
   ConfigData *c = ConfigData::instance();
   return c->osType();
 }
+*/
 
 /*
 // ----------------------------------------------------------------------------
@@ -41,82 +42,60 @@ void Config::setAppObject(QGuiApplication *appObject) {
 // ----------------------------------------------------------------------------
 QString Config::username() {
 
-  ConfigData *c = ConfigData::instance();
-  return c->username();
+  QSettings settings;
+  qDebug() << "return gpx f: " << settings.value("user/username");
+  return settings.value( "user/username", "").toString();
 }
 
 // ----------------------------------------------------------------------------
 void Config::setUsername(const QString username) {
 
-  ConfigData *c = ConfigData::instance();
-
-  if ( c->username() != username ) {
-    c->setUsername(username);
-    emit usernameChanged();
-  }
+  QSettings settings;
+  settings.setValue( "user/username", username);
 }
 
 // ----------------------------------------------------------------------------
 QString Config::email() {
 
-  ConfigData *c = ConfigData::instance();
-  return c->email();
+  QSettings settings;
+  qDebug() << "return gpx f: " << settings.value("user/email");
+  return settings.value( "user/email", "").toString();
 }
 
 // ----------------------------------------------------------------------------
 void Config::setEmail(const QString email) {
 
-  ConfigData *c = ConfigData::instance();
-
-  if ( c->email() != email ) {
-    c->setEmail(email);
-    emit emailChanged();
-  }
+  QSettings settings;
+  settings.setValue( "user/email", email);
 }
 
 // ----------------------------------------------------------------------------
-int Config::language() {
+int Config::languageIndex() {
 
-  ConfigData *c = ConfigData::instance();
-  return c->language();
+  QSettings settings;
+  qDebug() << "return gpx f: " << settings.value("sys/language");
+  return settings.value( "sys/language", 0).toInt();
 }
 
 // ----------------------------------------------------------------------------
-void Config::setLanguage(const int language) {
+void Config::setLanguageIndex(const int index) {
 
-  ConfigData *c = ConfigData::instance();
-  if ( c->language() != language ) {
-    c->setLanguage(language);
-    emit languageChanged();
-  }
+  qDebug()  << "language: " << index;
+  QSettings settings;
+  settings.setValue( "sys/language", index);
 }
 
 // ----------------------------------------------------------------------------
 int Config::gpxFileIndex() {
-
-  ConfigData *c = ConfigData::instance();
-  qDebug() << "return gpx f: " << c->gpxFileIndex();
-  return c->gpxFileIndex();
+  QSettings settings;
+  qDebug() << "return gpx f: " << settings.value("tracks/gpxFileIndex");
+  return settings.value("tracks/gpxFileIndex").toInt();
 }
 
 // ----------------------------------------------------------------------------
 void Config::setGpxFileIndex(int index) {
 
-qDebug() << "gpx f: " << index;
-  ConfigData *c = ConfigData::instance();
-  if ( c->gpxFileIndex() != index ) {
-    c->setGpxFileIndex(index);
-    emit gpxFileIndexChanged();
-  }
-}
-
-// ----------------------------------------------------------------------------
-// emit all property signals so as to force listeners to update their data
-bool Config::readProperties() {
-
-  emit usernameChanged();
-  emit emailChanged();
-  emit languageChanged();
-
-  return true;
+  qDebug()  << "gpx file index: " << index;
+  QSettings settings;
+  settings.setValue( "tracks/gpxFileIndex", index);
 }
