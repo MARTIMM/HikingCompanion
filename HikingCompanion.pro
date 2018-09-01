@@ -20,7 +20,6 @@ HEADERS += \
     gpxfile.h \
     singleton.h \
     call_once.h \
-    language.h \
     languages.h \
     gpxfiles.h
 
@@ -30,7 +29,6 @@ SOURCES += \
     config.cpp \
     configdata.cpp \
     gpxfile.cpp \
-    language.cpp \
     languages.cpp \
     gpxfiles.cpp
 
