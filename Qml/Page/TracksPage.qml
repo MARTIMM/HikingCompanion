@@ -108,7 +108,6 @@ HCPage.Plain {
     highlightMoveDuration: 400
     highlight: Rectangle {
       width: parent.width
-      height: parent.height
 
       // Must be higher than 1 otherwise highlighting will be cut outside
       // a certain range.
