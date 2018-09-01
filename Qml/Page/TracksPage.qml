@@ -71,17 +71,17 @@ HCPage.Plain {
 
       // Set the title from the description
       //TODO; all descriptions are the same, keep this out of the GpxFile obj
-      tracksPage.trackTitle = lv.model[0].description;
+      tracksPage.trackTitle = gpxf.description;
 
       //TODO; must come from config
       // Example previous setting
-      currentIndex = 5;
+      currentIndex = ;
 
       var entriesHeight = lv.model.length * 20;
       lv.contentHeight = 20 + entriesHeight;
 
       console.log("gpxfs event ready: " + lv.model.length + ", " + lv.model[0]);
-      console.log("gpxfs description: " + lv.model[0].description);
+      console.log("gpxfs description: " + gpxf.description);
     }
   }
 
@@ -137,7 +137,6 @@ HCPage.Plain {
           //lv.model[lv.currentIndex].wrapperText.color = "red"
           tracksPage.currentIndex = currentIndex;
           console.log("clicked: [" + index + "] " + modelData.name);
-
         }
       }
 

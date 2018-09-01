@@ -18,6 +18,7 @@ class GpxFiles : public QObject {
       )
   */
   Q_PROPERTY( bool readGpxFileInfo READ readGpxFileInfo)
+  Q_PROPERTY( QString description READ description)
 
 public:
   explicit GpxFiles(QObject *parent = nullptr);
@@ -27,7 +28,11 @@ public:
   Q_INVOKABLE QList<QObject *> gpxFileList();
   Q_INVOKABLE QVariantList gpxTrackList();
   int nbrGpxFiles();
-  bool readGpxFileInfo();
+
+//TODO: must come from ConfigData
+  bool readGpxFileInfo(QString path = "/home/marcel/Projects/Mobile/Projects/Sufitrail/Qt/Sufitrail/trackData/tracks");
+
+  QString description();
 
 signals:
   void gpxFileListChanged();
@@ -35,14 +40,12 @@ signals:
 public slots:
 
 private:
-  void _clearGpxFileList();
-  void _appendGpxFile(GpxFile *gpxFile);
   void _setGpxFiles();
 
   QList<QObject *> _gpxFileList;
   QVariantList _gpxTrackList;
   QString _gpxPath;
-  QString _gpxDescr;
+  QString _description;
 };
 
 #endif // GPXFILES_H
