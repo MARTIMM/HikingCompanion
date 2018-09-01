@@ -307,6 +307,7 @@ This should show a dialog to ask the user if he/she really wants to quit the pro
 
 ## Changes
 
+* 0.7.0 Tracks page added to show tracks and make a selection.
 * 0.6.2 Singleton class ConfigData for storage added. Access via Config class.
 * 0.6.1 Styling is under control.
 * 0.6.0
