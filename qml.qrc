@@ -10,15 +10,15 @@
         <file>Qml/Page/ExitPage.qml</file>
         <file>Qml/Page/MapPage.qml</file>
         <file>Qml/Page/Plain.qml</file>
+        <file>Qml/Page/TracksPage.qml</file>
         <file>Qml/Parts/InfoArea.qml</file>
         <file>Qml/Parts/ConfigComboBox.qml</file>
         <file>Qml/Parts/ConfigLabel.qml</file>
         <file>Qml/Parts/ConfigInputText.qml</file>
+        <file>Qml/Parts/ConfigSwitch.qml</file>
         <file>Qml/Parts/MenuColumn.qml</file>
         <file>Qml/Parts/PageButtonRow.qml</file>
         <file>Qml/Parts/ToolbarRow.qml</file>
         <file>Qml/GlobalVariables.qml</file>
-        <file>Qml/Parts/ConfigSwitch.qml</file>
-        <file>Qml/Page/TracksPage.qml</file>
     </qresource>
 </RCC>

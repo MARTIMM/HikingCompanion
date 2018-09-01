@@ -17,7 +17,6 @@ HEADERS += \
     textload.h \
     config.h \
     configdata.h \
-    gpxmanager.h \
     gpxfile.h \
     singleton.h \
     call_once.h \
@@ -30,7 +29,6 @@ SOURCES += \
     textload.cpp \
     config.cpp \
     configdata.cpp \
-    gpxmanager.cpp \
     gpxfile.cpp \
     language.cpp \
     languages.cpp \
