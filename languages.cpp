@@ -5,31 +5,29 @@
 //QList<Language *> Languages::_languages;
 
 // ----------------------------------------------------------------------------
-Languages::Languages(QObject *parent) : QObject(parent) {
-
-  _languages.clear();
-
-  Language *l = new Language;
-  l->setName("English");
-  _languages.append(l);
-
-  l = new Language;
-  l->setName("Nederlands");
-  _languages.append(l);
-//languagesChanged();
-
-  qDebug() << "initialized ll:" << _languages;
-}
+Languages::Languages(QObject *parent) : QObject(parent) { }
 
 // ----------------------------------------------------------------------------
 Languages::~Languages() {
-
-  _languages.clear();
+  _languageList.clear();
 }
 
 // ----------------------------------------------------------------------------
-QList<Language *> Languages::languageList() const {
+void Languages::defineLanguages() {
 
-  qDebug() << "return ll:" << _languages;
-  return _languages;
+  _languageList.clear();
+
+  _languageList.append("English");
+  _languageList.append("Nederlands");
+  _languageList.append("Türk");
+
+  qDebug() << "initialized ll:" << _languageList;
+  emit languageListChanged();
+}
+
+// ----------------------------------------------------------------------------
+QStringList Languages::languageList() {
+
+  qDebug() << "return ll:" << _languageList;
+  return _languageList;
 }

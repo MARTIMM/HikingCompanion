@@ -4,8 +4,7 @@ import "../Parts" as HCParts
 
 import io.github.martimm.HikingCompanion.Theme 0.1
 import io.github.martimm.HikingCompanion.Config 0.3
-//import io.github.martimm.HikingCompanion.Language 0.2
-//import io.github.martimm.HikingCompanion.Languages 0.1
+import io.github.martimm.HikingCompanion.Languages 0.2
 
 import QtQuick 2.9
 import QtQuick.Controls 2.2
@@ -20,28 +19,26 @@ HCPage.Plain {
   anchors.fill: parent
 
   Component.onCompleted: {
-    languages.currentIndex = config.languageIndex;
+    // Define the list of languages after which the method will emit
+    // the languageListChanged signal
+    lngs.defineLanguages();
+
     username.inputText.text = config.username;
     email.inputText.text = config.email;
   }
 
-//  Languages { id: lngs }
+  Languages {
+    id: lngs
 
-  Config {
-    id: config
-
-    // This is using languageList() to set items in Config::_languages
-/*
-    languageList: [
-      Language { name: "English" },   // using append functions from Config
-      Language { name: "Nederlands" } // to add the Language objects
-    ]
-*//*
+    // Set the model data and the saved index of a previously
+    // chosen language
     onLanguageListChanged: {
-      console.log("language list changed: " + config.languageList);
+      configGrid.languageRow.cbx.model = lngs.languageList();
+      configGrid.languageRow.cbx.currentIndex = config.languageIndex;
     }
-*/
   }
+
+  Config { id: config }
 
   HCParts.ToolbarRow {
     id: pageToolbarRow
@@ -57,7 +54,7 @@ HCPage.Plain {
   property int leftWidth: 3 * width / 10 - Theme.cfgFieldMargin
   property int rightWidth: 7 * width / 10 - Theme.cfgFieldMargin
 
-  property Grid configGrid: configGrid
+  property alias configGrid: configGrid
   Grid {
     id: configGrid
 
@@ -78,7 +75,7 @@ HCPage.Plain {
 
 
     // Selection of a language
-    property Row languageRow: languageRow
+    property alias languageRow: languageRow
     Row {
       id: languageRow
       width: parent.width
@@ -89,16 +86,13 @@ HCPage.Plain {
         text: qsTr("Language")
         width: leftWidth
         height: parent.height
-        //anchors.topMargin: 10
       }
 
-      property ComboBox languages: languages
+      property alias cbx: cbx
       ComboBox {
-        id: languages
+        id: cbx
         width: rightWidth
         height: parent.height
-        model: [ "English", "Nederlands"]
-        //model: lngs.languageList
       }
     }
 
@@ -112,7 +106,6 @@ HCPage.Plain {
         text: qsTr("Consent")
         width: leftWidth
         height: parent.height
-        //anchors.topMargin: 10
       }
 
       HCParts.ConfigSwitch {
@@ -120,8 +113,17 @@ HCPage.Plain {
         width: rightWidth
         height: parent.height
         text: ""
-        //scale: 0.8
-        //z: 50
+        onSwitched: {
+          if ( consent.checked ) {
+            username.enabled = true;
+            email.enabled = true;
+          }
+
+          else {
+            username.enabled = false;
+            email.enabled = false;
+          }
+        }
       }
     }
 
@@ -183,7 +185,7 @@ HCPage.Plain {
       width: textMetrics.boundingRect.width + 30
       text: qsTr("Save")
       onClicked: {
-        config.languageIndex = languages.currentIndex;
+        config.languageIndex = configGrid.languageRow.cbx.currentIndex;
         config.username = username.inputText.text;
         config.email = email.inputText.text;
       }
