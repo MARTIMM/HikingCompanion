@@ -40,13 +40,13 @@ int main( int argc, char *argv[]) {
   qmlRegisterType<Config>(
         "io.github.martimm.HikingCompanion.Config", 0, 3, "Config"
         );
-
+/*
   qmlRegisterType<Language>(
         "io.github.martimm.HikingCompanion.Language", 0, 2, "Language"
         );
-
+*/
   qmlRegisterType<Languages>(
-        "io.github.martimm.HikingCompanion.Languages", 0, 1, "Languages"
+        "io.github.martimm.HikingCompanion.Languages", 0, 2, "Languages"
         );
 
   qmlRegisterType<GpxFiles>(
