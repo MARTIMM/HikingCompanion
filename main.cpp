@@ -74,8 +74,8 @@ int main( int argc, char *argv[]) {
   //cfg.setAppObject(&app);
 
   QQmlApplicationEngine engine;
-//  engine.load(QUrl(QStringLiteral("qrc:/Qml/Main/Application.qml")));
-  engine.load(QUrl(QStringLiteral("qrc:/Assets/Theme/ThemeTest.qml")));
+  engine.load(QUrl(QStringLiteral("qrc:/Qml/Main/Application.qml")));
+//  engine.load(QUrl(QStringLiteral("qrc:/Assets/Theme/ThemeTest.qml")));
 
   // Readable after QGuiApplication
   //qDebug() << "List of styles: " << QQuickStyle::availableStyles();
