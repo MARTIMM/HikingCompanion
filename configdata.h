@@ -1,28 +1,14 @@
 #ifndef CONFIGDATA_H
 #define CONFIGDATA_H
 
-//#include "gpxmanager.h"
-
 #include <QGuiApplication>
 #include <QObject>
 #include <QSysInfo>
 #include <QRegExp>
 #include <QSettings>
 
-//#define Lang_En 0
-
 class ConfigData : public QObject {
   Q_OBJECT
-
-/*
-  //Q_PROPERTY( QGuiApplication appObject READ appObject WRITE setAppObject)
-  Q_PROPERTY( QString osType READ osType)
-  Q_PROPERTY( QString username READ username WRITE setUsername)
-  Q_PROPERTY( QString email READ email WRITE setEmail)
-  Q_PROPERTY( int language READ language WRITE setLanguage)
-  Q_PROPERTY( bool readProperties READ readProperties)
-  //Q_PROPERTY( QString *readLanguageList READ readLanguageList)
-*/
 
 public:
   // This class is a singleton and the constructor should be private. Problem
@@ -53,8 +39,10 @@ public:
   int language();
   void setLanguage(const int language);
 
+  int gpxFileIndex();
+  void setGpxFileIndex(int index);
+
   bool readProperties();
-  //GpxManager *gpxManager();
 
 signals:
 
@@ -66,12 +54,11 @@ private:
 
   QGuiApplication *_appObject;
 
-  QString _osType;
-  QString _username;
-  QString _email;
-  int _language;
-
-  //GpxManager *_gpxManager;
+  QString _osType = "";
+  QString _username = "";
+  QString _email = "";
+  int _language = 0;
+  int _gpxFileIndex = 0;
 };
 
 #endif // CONFIGDATA_H

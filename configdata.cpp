@@ -12,10 +12,6 @@ ConfigData::ConfigData(QObject *parent) : QObject(parent) {
   // get properties ready
   readProperties();
 
-  // get the gpxManager ready
-  //_gpxManager = new GpxManager();
-  //_gpxManager->setGpxPath("/home/marcel/Projects/Mobile/Projects/Sufitrail/Qt/Sufitrail/trackData/tracks");
-
   // See also http://doc.qt.io/qt-5/qguiapplication.html#platformName-prop
   // For me it could be: android, ios or xcb (x11 on linux)
   //qDebug() << "platform name: " << app.platformName();
@@ -59,9 +55,8 @@ QString ConfigData::username() {
 void ConfigData::setUsername(const QString username) {
 
   if ( _username != username ) {
-    _username = username;
-
     QSettings settings;
+    _username = username;
     settings.setValue( "user/username", username);
   }
 }
@@ -75,11 +70,10 @@ QString ConfigData::email() {
 void ConfigData::setEmail(const QString email) {
 
   if ( _email != email ) {
+    QSettings settings;
     _email = email;
+    settings.setValue( "user/email", email);
   }
-
-  QSettings settings;
-  settings.setValue( "user/email", email);
 }
 
 // ----------------------------------------------------------------------------
@@ -91,13 +85,28 @@ int ConfigData::language() {
 void ConfigData::setLanguage(const int language) {
   qDebug()  << "language: " << language;
   if ( _language != language ) {
+    QSettings settings;
     _language = language;
+    settings.setValue( "sys/language", language);
   }
-
-  QSettings settings;
-  settings.setValue( "sys/language", language);
 }
 
+
+// ----------------------------------------------------------------------------
+int ConfigData::gpxFileIndex() {
+  QSettings settings;
+  return settings.value("tracks/gpxFileIndex").toInt();
+}
+
+// ----------------------------------------------------------------------------
+void ConfigData::setGpxFileIndex(int index) {
+  qDebug()  << "gpx file index: " << index;
+  if ( _gpxFileIndex != index ) {
+    QSettings settings;
+    _gpxFileIndex = index;
+    settings.setValue( "tracks/gpxFileIndex", index);
+  }
+}
 
 // ----------------------------------------------------------------------------
 bool ConfigData::readProperties() {
@@ -128,11 +137,3 @@ bool ConfigData::readProperties() {
 
   return true;
 }
-
-/*
-// ----------------------------------------------------------------------------
-GpxManager *ConfigData::gpxManager() {
-
-  return _gpxManager;
-}
-*/
