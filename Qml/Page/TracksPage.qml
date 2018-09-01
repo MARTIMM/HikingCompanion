@@ -42,7 +42,6 @@ HCPage.Plain {
     height: 40
     color: "transparent"
 
-    //border { color: "#9EDDF2"; width: 2}
     Text {
       anchors.centerIn: parent
       text: tracksPage.trackTitle
@@ -76,9 +75,6 @@ HCPage.Plain {
 
       var entriesHeight = lv.model.length * 20;
       lv.contentHeight = 20 + entriesHeight;
-
-      console.log("gpxfs event ready: " + lv.model.length + ", " + lv.model[0]);
-      console.log("gpxfs description: " + gpxf.description);
     }
   }
 
@@ -102,9 +98,7 @@ HCPage.Plain {
 
     currentIndex: tracksPage.currentIndex
 
-    //highlightResizeVelocity: 2000.0
     highlightResizeDuration: 1
-    //highlightMoveVelocity: 1000.0
     highlightMoveDuration: 400
     highlight: Rectangle {
       width: parent.width
@@ -128,17 +122,12 @@ HCPage.Plain {
       MouseArea {
         anchors.fill: parent
         onClicked: {
-          console.log("mi: " + lv.model[lv.currentIndex]);
           currentIndex = index
-          //lv.model[lv.currentIndex].wrapperText.color = "red"
           tracksPage.currentIndex = currentIndex;
-//          config.gpxFileIndex = currentIndex;
-          console.log("clicked: [" + index + "] " + modelData.name);
         }
       }
 
       color: "transparent"
-      //color: index % 2 ? "blue" : "green"
 
       Text {
         id: wrapperText
@@ -147,8 +136,6 @@ HCPage.Plain {
         verticalAlignment: Text.AlignVCenter
         horizontalAlignment: Text.AlignLeft
         text: "[" + index + "] " + modelData.name
-        //color: lv.CurrentItem ? "yellow" : "black"
-        //color: index % 2 ? "green" : "blue"
         color: HCTheme1.cmptFgColorL
       }
     }
