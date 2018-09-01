@@ -9,13 +9,6 @@
 // ----------------------------------------------------------------------------
 ConfigData::ConfigData(QObject *parent) : QObject(parent) {
 
-  // get properties ready
-  readProperties();
-
-  // See also http://doc.qt.io/qt-5/qguiapplication.html#platformName-prop
-  // For me it could be: android, ios or xcb (x11 on linux)
-  //qDebug() << "platform name: " << app.platformName();
-
   //_osType = QString(app.platformName());
 }
 
@@ -29,111 +22,13 @@ ConfigData *ConfigData::_createInstance() {
   return new ConfigData;
 }
 
-// ----------------------------------------------------------------------------
-QString ConfigData::osType() {
-  return _osType;
-}
-
 /*
 // ----------------------------------------------------------------------------
-QGuiApplication *ConfigData::appObject() {
-  return _appObject;
-}
+QString ConfigData::osType() {
+  // See also http://doc.qt.io/qt-5/qguiapplication.html#platformName-prop
+  // For me it could be: android, ios or xcb (x11 on linux)
+  //qDebug() << "platform name: " << app.platformName();
 
-// ----------------------------------------------------------------------------
-void ConfigData::setAppObject(QGuiApplication *appObject) {
-  _appObject = appObject;  //qobject_cast<QApplication *>(appObjectPtr);
+  return _osType;
 }
 */
-
-// ----------------------------------------------------------------------------
-QString ConfigData::username() {
-  return _username;
-}
-
-// ----------------------------------------------------------------------------
-void ConfigData::setUsername(const QString username) {
-
-  if ( _username != username ) {
-    QSettings settings;
-    _username = username;
-    settings.setValue( "user/username", username);
-  }
-}
-
-// ----------------------------------------------------------------------------
-QString ConfigData::email() {
-  return _email;
-}
-
-// ----------------------------------------------------------------------------
-void ConfigData::setEmail(const QString email) {
-
-  if ( _email != email ) {
-    QSettings settings;
-    _email = email;
-    settings.setValue( "user/email", email);
-  }
-}
-
-// ----------------------------------------------------------------------------
-int ConfigData::language() {
-  return _language;
-}
-
-// ----------------------------------------------------------------------------
-void ConfigData::setLanguage(const int language) {
-  qDebug()  << "language: " << language;
-  if ( _language != language ) {
-    QSettings settings;
-    _language = language;
-    settings.setValue( "sys/language", language);
-  }
-}
-
-
-// ----------------------------------------------------------------------------
-int ConfigData::gpxFileIndex() {
-  QSettings settings;
-  return settings.value("tracks/gpxFileIndex").toInt();
-}
-
-// ----------------------------------------------------------------------------
-void ConfigData::setGpxFileIndex(int index) {
-  qDebug()  << "gpx file index: " << index;
-  if ( _gpxFileIndex != index ) {
-    QSettings settings;
-    _gpxFileIndex = index;
-    settings.setValue( "tracks/gpxFileIndex", index);
-  }
-}
-
-// ----------------------------------------------------------------------------
-bool ConfigData::readProperties() {
-
-  // Look for settings
-  QSettings settings;
-  if ( settings.contains("user/username") ) {
-    _username = settings.value("user/username").toString();
-  }
-
-  if ( settings.contains("user/email") ) {
-    _email = settings.value("user/email").toString();
-  }
-
-  if ( settings.contains("sys/language") ) {
-    _language = settings.value("sys/language").toInt();
-  }
-
-  else {
-    _language = 0;
-  }
-
-
-  // Process language setting
-  if ( _language == 0 ) {
-
-  }
-
-  return true;
-}
