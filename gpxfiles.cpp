@@ -15,11 +15,13 @@ GpxFiles::~GpxFiles() {
   _gpxTrackList.clear();
 }
 
+/*
 // ----------------------------------------------------------------------------
 int GpxFiles::nbrGpxFiles() {
 
   return _gpxFileList.count();
 }
+*/
 
 // ----------------------------------------------------------------------------
 QList<QObject *> GpxFiles::gpxFileList() {
@@ -47,7 +49,7 @@ bool GpxFiles::readGpxFileInfo(QString path) {
   _gpxPath = path;
 
   _setGpxFiles();
-  emit gpxFileListChanged();
+  emit gpxFileListReady();
 
   return true;
 }
@@ -78,4 +80,21 @@ void GpxFiles::_setGpxFiles() {
     _gpxFileList.append(gf);
     _gpxTrackList.append(gf->name());
   }
+}
+
+// ----------------------------------------------------------------------------
+void GpxFiles::loadCoordinates(int index) {
+
+  qDebug() << "get coordinates from selected index: " << index;
+  _coordinateList =
+      reinterpret_cast<GpxFile *>(_gpxFileList[index])->coordinateList();
+
+  qDebug() << _coordinateList.count() << " coordinates found";
+  emit coordinatesReady();
+}
+
+// ----------------------------------------------------------------------------
+QGeoPath GpxFiles::coordinateList() {
+  qDebug() << _coordinateList.count() << " coordinates returned";
+  return QGeoPath(_coordinateList, 2.0);
 }
