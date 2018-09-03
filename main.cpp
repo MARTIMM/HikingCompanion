@@ -1,6 +1,5 @@
 #include "textload.h"
 #include "config.h"
-#include "language.h"
 #include "languages.h"
 #include "gpxfiles.h"
 
