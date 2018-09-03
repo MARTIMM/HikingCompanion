@@ -209,14 +209,14 @@ The map page is also the home page.
   * [ ] Fill the info page after selecting a track. Previous data must be removed.
 
 ## The Tracks page
-<progress value="2" max="7" />
+<progress value="4" max="7" />
 
   Show a list of tracks from which a selection can be made. This will only be visible when a separate tracks app is installed.
 
   * [x] Page created
   * [x] Generate the page from the directory contents and the gpx track name found in those files.
-  * [ ] Show map when a selection is made.
-  * [ ] The route is displayed.
+  * [x] Show map when a selection is made using a <button>Select</button>  button.
+  * [x] The route is displayed.
   * [ ] The route is centered on page. This depends if information is available in the user track.
   * [ ] The route is zoomed so as to fit the page. This depends if information is available in the user track.
   * [ ] Show dashed line from current location to closest point on the trail when off trail (further than, lets say, 1 kilometer).
@@ -316,8 +316,12 @@ This should show a dialog to ask the user if he/she really wants to quit the pro
 # Bugs
 * Keyboard of android tablet in uppercase and switches back on each letter. Also numbers are not available.
 
-## Changes
+# Changes
+## Application changes
 
+* 0.8.0
+  * A list of tracks is shown on the tracks page.
+  * A track is selectable after which the track is displayed on the map. Centering and zooming on the track must still be done.
 * 0.7.1 Config/ConfigData simplified because of use of QSettings the variables do not need to be saved/cached in the object.
 * 0.7.0 Tracks page added to show tracks and make a selection.
 * 0.6.2 Singleton class ConfigData for storage added. Access via Config class.
@@ -343,6 +347,20 @@ This should show a dialog to ask the user if he/she really wants to quit the pro
   * Building framework
 * 0.0.1
   * Start project
+
+## Test version changes on Android
+Versions of mobile devices will change slower because not every version will be directly tested on the device. The application version is that of the changes above to get an idea which level is available for the devices.
+
+| Android App Version | Android Api Version | Application Version |
+|---------------------|---------------------|---------------------|
+| 0.6.0               | 24 (7.1)            | 0.6.0               |
+
+## Test version changes on IOS
+
+| IOS App Version | IOS Api Version | Application Version |
+|---------------------|---------------------|---------------------|
+|                |             |               |
+
 
 # Contact
 
