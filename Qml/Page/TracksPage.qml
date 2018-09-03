@@ -7,6 +7,7 @@ import io.github.martimm.HikingCompanion.HCTheme1 0.1
 import io.github.martimm.HikingCompanion.Theme 0.1
 import io.github.martimm.HikingCompanion.Config 0.3
 import io.github.martimm.HikingCompanion.GpxFiles 0.1
+import io.github.martimm.HikingCompanion.GlobalVariables 0.1
 
 import QtQuick 2.9
 import QtQuick.Controls 2.2
@@ -14,13 +15,45 @@ import QtQuick.Controls 2.2
 HCPage.Plain {
   id: tracksPage
 
+  Config { id: config }
+
+  Component.onCompleted: {
+    // Get the track list ready -> onGpxFileListReady will be emitted
+    gpxf.readGpxFileInfo;
+  }
+
+  GpxFiles {
+    id: gpxf
+
+    onGpxFileListReady: {
+      // Copy the data into the model
+      lv.model = gpxf.gpxFileList();
+
+      // Set the title from the description
+      //TODO; all descriptions are the same, keep this out of the GpxFile obj
+      tracksPage.trackTitle = gpxf.description;
+
+      //TODO; must come from config
+      // Example previous setting
+      currentIndex = config.gpxFileIndex;
+
+      var entriesHeight = lv.model.length * 20;
+      lv.contentHeight = 20 + entriesHeight;
+    }
+
+    onCoordinatesReady: {
+      var path = gpxf.coordinateList();
+      var mapPage = GlobalVariables.mapPage;
+      mapPage.hikerCompanionMap.trackCourse.setPath(path);
+      //mapPage.hikerCompanionMap.center =
+      //mapPage.hikerCompanionMap.zoomLevel =
+      GlobalVariables.menu.setHomePage();
+    }
+  }
+
   width: parent.width
   height: parent.height
   anchors.fill: parent
-
-  Config {
-    id: config
-  }
 
   HCParts.ToolbarRow {
     id: pageToolbarRow
@@ -50,31 +83,6 @@ HCPage.Plain {
         pixelSize: 20
         bold: true
       }
-    }
-  }
-
-  Component.onCompleted: {
-    // get the tracks ready -> onGpxFileListChanged will be emitted
-    gpxf.readGpxFileInfo;
-  }
-
-  GpxFiles {
-    id: gpxf
-
-    onGpxFileListChanged: {
-      // Copy the data into the model
-      lv.model = gpxf.gpxFileList();
-
-      // Set the title from the description
-      //TODO; all descriptions are the same, keep this out of the GpxFile obj
-      tracksPage.trackTitle = gpxf.description;
-
-      //TODO; must come from config
-      // Example previous setting
-      currentIndex = config.gpxFileIndex;
-
-      var entriesHeight = lv.model.length * 20;
-      lv.contentHeight = 20 + entriesHeight;
     }
   }
 
@@ -152,8 +160,11 @@ HCPage.Plain {
 
       onClicked: {
         config.gpxFileIndex = currentIndex;
-//TODO get coordinates
-//TODO show track using coordinates
+
+        // Get the coordinates of the selected track and emit a
+        // signal when ready. This signal is catched on the mapPage
+        // where the coordinates are used.
+        gpxf.loadCoordinates(currentIndex);
       }
     }
   }
