@@ -3,6 +3,7 @@
 
 #include <QObject>
 #include <QXmlStreamReader>
+#include <QGeoCoordinate>
 
 // ----------------------------------------------------------------------------
 class GpxFile : public QObject {
@@ -17,6 +18,8 @@ public:
   QString setGpxFilename( QString gpxPath, QString gpxFilename);
 
   QString name();
+
+  QList<QGeoCoordinate> coordinateList();
 
 signals:
 
