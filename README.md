@@ -209,7 +209,7 @@ The map page is also the home page.
   * [ ] Fill the info page after selecting a track. Previous data must be removed.
 
 ## The Tracks page
-<progress value="4" max="7" />
+<progress value="5" max="7" />
 
   Show a list of tracks from which a selection can be made. This will only be visible when a separate tracks app is installed.
 
@@ -217,7 +217,7 @@ The map page is also the home page.
   * [x] Generate the page from the directory contents and the gpx track name found in those files.
   * [x] Show map when a selection is made using a <button>Select</button>  button.
   * [x] The route is displayed.
-  * [ ] The route is centered on page. This depends if information is available in the user track.
+  * [x] The route is centered on page. This depends if information is available in the user track.
   * [ ] The route is zoomed so as to fit the page. This depends if information is available in the user track.
   * [ ] Show dashed line from current location to closest point on the trail when off trail (further than, lets say, 1 kilometer).
 
@@ -319,6 +319,9 @@ This should show a dialog to ask the user if he/she really wants to quit the pro
 # Changes
 ## Application changes
 Versions have a letter added: D for debug version and R for a release version. When not added it is always a debug version.
+
+* 2018-09-03, 0.8.1
+  * Displayed track is now centered
 
 * 2018-09-03, 0.8.0
   * A list of tracks is shown on the tracks page.
