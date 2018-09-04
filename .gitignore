@@ -3,3 +3,4 @@ android/gradle*
 android/local*
 .precomp/*
 */.precomp/*
+*.pro.user
