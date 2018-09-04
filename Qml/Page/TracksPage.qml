@@ -19,7 +19,7 @@ HCPage.Plain {
 
   Component.onCompleted: {
     // Get the track list ready -> onGpxFileListReady will be emitted
-    gpxf.readGpxFileInfo;
+    gpxf.readGpxFileInfo();
   }
 
   GpxFiles {
@@ -45,7 +45,10 @@ HCPage.Plain {
       var path = gpxf.coordinateList();
       var mapPage = GlobalVariables.mapPage;
       mapPage.hikerCompanionMap.trackCourse.setPath(path);
-      //mapPage.hikerCompanionMap.center =
+
+      var bounds = gpxf.boundary();
+      mapPage.hikerCompanionMap.center = bounds.coordinateAt(2);
+
       //mapPage.hikerCompanionMap.zoomLevel =
       GlobalVariables.menu.setHomePage();
     }
