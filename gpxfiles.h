@@ -12,24 +12,22 @@
 class GpxFiles : public QObject {
 
   Q_OBJECT
-  Q_PROPERTY( bool readGpxFileInfo READ readGpxFileInfo)
+  //Q_PROPERTY( bool readGpxFileInfo READ readGpxFileInfo)
   Q_PROPERTY( QString description READ description)
 
 public:
   explicit GpxFiles(QObject *parent = nullptr);
   ~GpxFiles();
 
-  //Q_INVOKABLE QVariantList gpxFileList();
+//TODO: path must come from ConfigData
+  Q_INVOKABLE void readGpxFileInfo(QString path = "/home/marcel/Projects/Mobile/Projects/Sufitrail/Qt/Sufitrail/trackData/tracks");
+  QString description();
+
   Q_INVOKABLE QList<QObject *> gpxFileList();
   Q_INVOKABLE QVariantList gpxTrackList();
   Q_INVOKABLE void loadCoordinates(int index);
   Q_INVOKABLE QGeoPath coordinateList();
-//  int nbrGpxFiles();
-
-//TODO: must come from ConfigData
-  bool readGpxFileInfo(QString path = "/home/marcel/Projects/Mobile/Projects/Sufitrail/Qt/Sufitrail/trackData/tracks");
-
-  QString description();
+  Q_INVOKABLE QGeoPath boundary();
 
 signals:
   void gpxFileListReady();
@@ -47,6 +45,7 @@ private:
   QString _description;
 
   QList<QGeoCoordinate> _coordinateList;
+  QList<QGeoCoordinate> _boundary;
 };
 
 #endif // GPXFILES_H
