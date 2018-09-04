@@ -7,6 +7,7 @@ Examples of certain classes are shown here: 1) Class inheriting from QObject 2) 
 ```plantuml
 class someClass1 << (O,yellow) >>
 class someClass2 << (T,lightblue) >>
+class someClass3 << (q,#ffee88) >>
 ```
 
 ### Basic structure
@@ -15,22 +16,32 @@ The `ConfigData` is a singleton class which is used to keep all data alive and t
 ```plantuml
 class "Singleton<ConfigData>" as ConfigData << (S,#FF7700) >>
 class Config << (O,yellow) >>
-'class GpxManager << (O,yellow) >>
 class GpxFiles << (O,yellow) >>
 class GpxFile << (O,yellow) >>
+
+class "ApplicationPage" as ap << (q,#ffee88) >>
+class "MapPage" as mp << (q,#ffee88) >>
+class "TracksPage" as tp << (q,#ffee88) >>
+class "ConfigPage" as cp << (q,#ffee88) >>
 
 class call_once << (T,lightblue) >>
 class Singleton << (T,lightblue) >>
 
 
 Config *- ConfigData
-'ConfigData *- GpxManager
-ConfigData *- GpxFiles
-'GpxManager *- GpxFiles
+'ConfigData *- GpxFiles
 GpxFiles *- GpxFile
 
 call_once -- Singleton
 Singleton -- ConfigData
+
+ap --> mp
+ap -> cp
+ap --> tp
+
+cp -> Config
+tp -> GpxFiles
+tp --> mp
 ```
 
 # Code snippets
