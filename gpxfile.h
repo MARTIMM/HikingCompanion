@@ -14,21 +14,25 @@ class GpxFile : public QObject {
 public:
   explicit GpxFile(QObject *parent = nullptr);
 
-  QString gpxFilename();
-  QString setGpxFilename( QString gpxPath, QString gpxFilename);
-
   QString name();
 
+  QString gpxFilename();
+  QString gpxPath();
+  QString gpxFilePath();
+  QString setGpxFilename( QString gpxPath, QString gpxFilename);
+
   QList<QGeoCoordinate> coordinateList();
+  QList<QGeoCoordinate> boundary();
 
 signals:
 
 public slots:
 
 private:
+  QString _name;
+
   QString _gpxFilename;
   QString _gpxPath;
-  QString _name;
 
   QString _parseMetadata(QXmlStreamReader &xml);
   void _parseTrackdata(QXmlStreamReader &xml);

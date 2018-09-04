@@ -7,15 +7,17 @@
 GpxFile::GpxFile(QObject *parent) : QObject(parent) {}
 
 // ----------------------------------------------------------------------------
-QString GpxFile::gpxFilename() {
-
-  return _gpxFilename;
-}
+QString GpxFile::name ( ) { return _name; }
 
 // ----------------------------------------------------------------------------
-QString GpxFile::name ( ) {
+QString GpxFile::gpxFilename() { return _gpxFilename; }
 
-  return _name;
+// ----------------------------------------------------------------------------
+QString GpxFile::gpxPath() { return _gpxPath; }
+
+// ----------------------------------------------------------------------------
+QString GpxFile::gpxFilePath() {
+  return QString("%1/%2").arg(_gpxPath).arg(_gpxFilename);
 }
 
 // ----------------------------------------------------------------------------
@@ -111,8 +113,8 @@ void GpxFile::_parseTrackdata(QXmlStreamReader &xml) {
 QList<QGeoCoordinate> GpxFile::coordinateList() {
 
   QList<QGeoCoordinate> coordinateList;
-  int count = 0;
   coordinateList.clear();
+  int count = 0;
 
   QFile gpxFile (_gpxPath + "/" + _gpxFilename);
   if ( !gpxFile.open(QIODevice::ReadOnly | QIODevice::Text) ) {
@@ -122,48 +124,84 @@ QList<QGeoCoordinate> GpxFile::coordinateList() {
   }
 
   QXmlStreamReader xml(&gpxFile);
+  QXmlStreamReader::TokenType token;
   while ( !xml.atEnd() && !xml.hasError() ) {
-    QXmlStreamReader::TokenType token = xml.readNext();
+    token = xml.readNext();
+    if ( token == QXmlStreamReader::StartElement && xml.name() == "trkpt" ) {
+      QXmlStreamAttributes attr = xml.attributes();
+      double lat = attr.value("lat").toDouble();
+      double lon = attr.value("lon").toDouble();
+      QGeoCoordinate *gc = new QGeoCoordinate();
+      gc->setLatitude(lat);
+      gc->setLongitude(lon);
+      coordinateList.append(*gc);
 
-    if ( token == QXmlStreamReader::StartElement && xml.name() == "trk" ) {
+      qDebug() << "[" << count++ << "] lon: " << lon << ", lat: " << lat;
+      xml.readNext();
+    }
+  }
 
-      token = xml.readNext();
-      while ( !(token == QXmlStreamReader::EndElement && xml.name() == "trk") ) {
+  return coordinateList;
+}
 
-        token = xml.readNext();
-        if (token == QXmlStreamReader::StartElement && xml.name() == "trkseg") {
+// ----------------------------------------------------------------------------
+QList<QGeoCoordinate> GpxFile::boundary() {
 
-          token = xml.readNext();
-          while ( !( token == QXmlStreamReader::EndElement
-                     && xml.name() == "trkseg"
-                     )
-                  ) {
+  QList<QGeoCoordinate> coordinateList;
+  coordinateList.clear();
 
-            token = xml.readNext();
-            if ( token == QXmlStreamReader::StartElement
-                 && xml.name() == "trkpt"
-                 ) {
 
-              if ( xml.tokenType() == QXmlStreamReader::EndElement ) {
-                xml.readNext();
-                continue;
-              }
+  QFile gpxFile (_gpxPath + "/" + _gpxFilename);
+  if ( !gpxFile.open(QIODevice::ReadOnly | QIODevice::Text) ) {
+    //Todo error must be shown in status on screen
+    qDebug() << QString("Open gpx file %1: %2").arg(_gpxFilename).arg(gpxFile.errorString());
+    return coordinateList;
+  }
 
-              QXmlStreamAttributes attr = xml.attributes();
-              double lat = attr.value("lat").toDouble();
-              double lon = attr.value("lon").toDouble();
-              QGeoCoordinate *gc = new QGeoCoordinate();
-              gc->setLatitude(lat);
-              gc->setLongitude(lon);
-              coordinateList.append(*gc);
+  QXmlStreamReader xml(&gpxFile);
+  QXmlStreamReader::TokenType token;
+  while ( !xml.atEnd() && !xml.hasError() ) {
+    token = xml.readNext();
+    if ( token == QXmlStreamReader::EndElement && xml.name() == "metadata" ) {
+      break;
+    }
 
-              qDebug() << "[" << count++ << "] lon: " << lon << ", lat: " << lat;
-              xml.readNext();
-            }
-          }
-        }
+    if ( token == QXmlStreamReader::StartElement && xml.name() == "bounds" ) {
+      QXmlStreamAttributes attr = xml.attributes();
 
-      }
+      // Get top-left coordinate
+      double lat = attr.value("minlat").toDouble();
+      double lon = attr.value("minlon").toDouble();
+      QGeoCoordinate *gc = new QGeoCoordinate();
+      gc->setLatitude(lat);
+      gc->setLongitude(lon);
+      coordinateList.append(*gc);
+
+      double centerLat = lat;
+      double centerLon = lon;
+
+      qDebug() << "Min lon: " << lon << ", lat: " << lat;
+
+      // Get bottom-right coordinate
+      lat = attr.value("maxlat").toDouble();
+      lon = attr.value("maxlon").toDouble();
+      gc = new QGeoCoordinate();
+      gc->setLatitude(lat);
+      gc->setLongitude(lon);
+      coordinateList.append(*gc);
+
+      qDebug() << "Max lon: " << lon << ", lat: " << lat;
+
+      centerLat = (centerLat + lat) / 2;
+      centerLon = (centerLon + lon) / 2;
+      gc = new QGeoCoordinate();
+      gc->setLatitude(centerLat);
+      gc->setLongitude(centerLon);
+      coordinateList.append(*gc);
+
+      qDebug() << "Center lon: " << centerLon << ", lat: " << centerLat;
+
+      break;
     }
   }
 
