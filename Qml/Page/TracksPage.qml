@@ -47,7 +47,7 @@ HCPage.Plain {
       mapPage.hikerCompanionMap.trackCourse.setPath(path);
 
       var bounds = gpxf.boundary();
-      mapPage.hikerCompanionMap.center = bounds.coordinateAt(2);
+      mapPage.hikerCompanionMap.visibleRegion = bounds;
 
       //mapPage.hikerCompanionMap.zoomLevel =
       GlobalVariables.menu.setHomePage();

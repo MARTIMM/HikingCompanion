@@ -177,9 +177,6 @@ QList<QGeoCoordinate> GpxFile::boundary() {
       gc->setLongitude(lon);
       coordinateList.append(*gc);
 
-      double centerLat = lat;
-      double centerLon = lon;
-
       qDebug() << "Min lon: " << lon << ", lat: " << lat;
 
       // Get bottom-right coordinate
@@ -191,18 +188,13 @@ QList<QGeoCoordinate> GpxFile::boundary() {
       coordinateList.append(*gc);
 
       qDebug() << "Max lon: " << lon << ", lat: " << lat;
-
-      centerLat = (centerLat + lat) / 2;
-      centerLon = (centerLon + lon) / 2;
-      gc = new QGeoCoordinate();
-      gc->setLatitude(centerLat);
-      gc->setLongitude(centerLon);
-      coordinateList.append(*gc);
-
-      qDebug() << "Center lon: " << centerLon << ", lat: " << centerLat;
-
       break;
     }
+  }
+
+  //TODO If no bounds information then calculate from coordinates
+  if ( coordinateList.count() != 2 ) {
+
   }
 
   return coordinateList;
