@@ -209,7 +209,7 @@ The map page is also the home page.
   * [ ] Fill the info page after selecting a track. Previous data must be removed.
 
 ## The Tracks page
-<progress value="5" max="7" />
+<progress value="6" max="7" />
 
   Show a list of tracks from which a selection can be made. This will only be visible when a separate tracks app is installed.
 
@@ -218,7 +218,7 @@ The map page is also the home page.
   * [x] Show map when a selection is made using a <button>Select</button>  button.
   * [x] The route is displayed.
   * [x] The route is centered on page. This depends if information is available in the user track.
-  * [ ] The route is zoomed so as to fit the page. This depends if information is available in the user track.
+  * [x] The route is zoomed so as to fit the page. This depends if information is available in the user track.
   * [ ] Show dashed line from current location to closest point on the trail when off trail (further than, lets say, 1 kilometer).
 
 ## The Features page
@@ -311,17 +311,21 @@ This should show a dialog to ask the user if he/she really wants to quit the pro
   * [ ] By what license should the project be protected
   * [ ] Privacy considerations
 
+
 # To do
 
+
 # Bugs
-* Keyboard of android tablet in uppercase and switches back on each letter. Also numbers are not available.
+* Keyboard of android tablet is shown in in uppercase. Each time the keyboard is set in lowercase it switches back to uppercase after typing a letter. Also numbers are not available.
+
 
 # Changes
 ## Application changes
+
 Versions have a letter added: D for debug version and R for a release version. When not added it is always a debug version.
 
 * 2018-09-03, 0.8.1
-  * Displayed track is now centered
+  * Displayed track is now centered and zoomed
 
 * 2018-09-03, 0.8.0
   * A list of tracks is shown on the tracks page.
