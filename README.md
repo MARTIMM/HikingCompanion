@@ -318,23 +318,33 @@ This should show a dialog to ask the user if he/she really wants to quit the pro
 
 # Changes
 ## Application changes
+Versions have a letter added: D for debug version and R for a release version. When not added it is always a debug version.
 
-* 0.8.0
+* 2018-09-03, 0.8.0
   * A list of tracks is shown on the tracks page.
   * A track is selectable after which the track is displayed on the map. Centering and zooming on the track must still be done.
-* 0.7.1 Config/ConfigData simplified because of use of QSettings the variables do not need to be saved/cached in the object.
+
+* 2018-09-01, 0.7.1
+  * Config/ConfigData simplified because of use of QSettings the variables do not need to be saved/cached in the object.
+
 * 0.7.0 Tracks page added to show tracks and make a selection.
-* 0.6.2 Singleton class ConfigData for storage added. Access via Config class.
-* 0.6.1 Styling is under control.
+
+* 2018-08-22, 0.6.2
+  * Singleton class ConfigData for storage added. Access via Config class.
+
+* 0.6.1
+  * Styling is under control.
 * 0.6.0
   * Current location is shown(needs improvement).
   * Focus on current location. Must be done with button later.
   * Manifest file generated using qtcreator. Icons are set. Must be changed!
 * 0.5.0
   * Map page shows map.
-* 0.4.0
+
+* 2018-07-29, 0.4.0
   * Factoring out several items from main.qml
   * The exitPage shows some text which is scrollable and wraps on word boundaries.
+
 * 0.3.0
   * Make a page framework
   * Loading text from file into a page
