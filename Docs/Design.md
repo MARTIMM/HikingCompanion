@@ -222,3 +222,4 @@ ApplicationWindow {
 <!-- Hè hè, finally someone with a working suggestion: -->
 [cppcombobox]: https://forum.qt.io/topic/43226/solved-qml-combobox-model-from-c/2
 [cppmodels]: http://doc.qt.io/qt-5/qtquick-modelviewsdata-cppmodels.html
+[b qt state]: http://blog.qt.io/blog/2009/01/30/qt-state-machine-framework/
