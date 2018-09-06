@@ -39,7 +39,8 @@ HCPage.Plain {
     // specify OSM plugin parameters
     //PluginParameter { name: "osm.mapping.host"; value: "http://tile.thunderforest.com/landscape" }
     //PluginParameter { name: "osm.mapping.host"; value: "http://c.tiles.wmflabs.org/hillshading" }
-    PluginParameter { name: "osm.mapping.providersrepository.disabled"; value: true}
+    //PluginParameter { name: "osm.mapping.providersrepository.disabled"; value: true}
+    //PluginParameter { name: "osm.mapping.host"; value: "http://c.tiles.wmflabs.org/hillshading" }
 
     //PluginParameter { name: "osm.mapping.host"; value: "https://tile.openstreetmap.org/" }
     //PluginParameter { name: "osm.geocoding.host"; value: "https://nominatim.openstreetmap.org" }
@@ -83,8 +84,8 @@ HCPage.Plain {
     property alias trackCourse: trackCourse
     MapPolyline {
       id: trackCourse
-      line.width: 3
-      line.color: 'purple'
+      line.width: 4
+      line.color: 'red'
     }
   }
 
