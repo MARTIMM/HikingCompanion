@@ -10,9 +10,19 @@
 //#include <QQmlComponent>
 #include <QDebug>
 //#include <QQmlProperty>
+#include <QStandardPaths>
 
 // ----------------------------------------------------------------------------
 int main( int argc, char *argv[]) {
+
+  qDebug() << "App location:" << QStandardPaths::standardLocations(QStandardPaths::ApplicationsLocation);
+  qDebug() << "App data location:" << QStandardPaths::standardLocations(QStandardPaths::AppDataLocation);
+  qDebug() << "App config location:" << QStandardPaths::standardLocations(QStandardPaths::AppConfigLocation);
+  qDebug() << "Config location:" << QStandardPaths::standardLocations(QStandardPaths::ConfigLocation);
+  qDebug() << "Generic config location:" << QStandardPaths::standardLocations(QStandardPaths::GenericConfigLocation);
+  qDebug() << "Generic data location:" << QStandardPaths::standardLocations(QStandardPaths::GenericDataLocation);
+  qDebug() << "Temp data location:" << QStandardPaths::standardLocations(QStandardPaths::TempLocation);
+  qDebug() << "Download location:" << QStandardPaths::standardLocations(QStandardPaths::DownloadLocation);
 
   QCoreApplication::setAttribute(Qt::AA_EnableHighDpiScaling);
 
