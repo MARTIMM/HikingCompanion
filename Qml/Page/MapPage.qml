@@ -91,8 +91,8 @@ HCPage.Plain {
 
   PositionSource {
     id: location
-    //preferredPositioningMethods: PositionSource.SatellitePositioningMethods
-    preferredPositioningMethods: PositionSource.AllPositioningMethods
+    preferredPositioningMethods: PositionSource.SatellitePositioningMethods
+    //preferredPositioningMethods: PositionSource.AllPositioningMethods
     //name: "SerialPortNmea"
     updateInterval: 1000
     active: true
