@@ -15,6 +15,7 @@ class Config : public QObject {
 
   //Q_PROPERTY( QGuiApplication appObject READ appObject WRITE setAppObject)
   //Q_PROPERTY( QString osType READ osType)
+/*
   Q_PROPERTY(
       QString username READ username
       WRITE setUsername NOTIFY usernameChanged
@@ -25,11 +26,11 @@ class Config : public QObject {
       WRITE setLanguageIndex NOTIFY languageIndexChanged
       )
 
-  //Q_PROPERTY( bool readProperties READ readProperties)
   Q_PROPERTY(
       int gpxFileIndex READ gpxFileIndex
       WRITE setGpxFileIndex NOTIFY gpxFileIndexChanged
       )
+*/
 
 public:
   Config(QObject *parent = nullptr);
@@ -45,21 +46,9 @@ public:
   QGuiApplication *appObject();
   void setAppObject(QGuiApplication *appObjectPtr);
 */
-  // Data to store
-  QString username();
-  void setUsername( const QString username);
 
-  QString email();
-  void setEmail( const QString email);
-
-  int languageIndex();
-  void setLanguageIndex( const int index);
-
-  int gpxFileIndex();
-  void setGpxFileIndex(int index);
-
-  // Emit signals
-  //bool readProperties();
+  Q_INVOKABLE void setSetting( QString name, QString value);
+  Q_INVOKABLE QString getSetting(QString name);
 
 signals:
   void usernameChanged();

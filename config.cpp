@@ -40,62 +40,18 @@ void Config::setAppObject(QGuiApplication *appObject) {
 */
 
 // ----------------------------------------------------------------------------
-QString Config::username() {
+void Config::setSetting( QString name, QString value) {
 
+  qDebug() << "name: " << name << ", value: " << value;
   QSettings settings;
-  qDebug() << "return gpx f: " << settings.value("user/username");
-  return settings.value( "user/username", "").toString();
+  settings.setValue( name, value);
 }
 
 // ----------------------------------------------------------------------------
-void Config::setUsername(const QString username) {
+QString Config::getSetting(QString name) {
 
   QSettings settings;
-  settings.setValue( "user/username", username);
+  qDebug() << "return value for name: " << name << ", value: " << settings.value(name).toString();
+  return settings.value(name).toString();
 }
 
-// ----------------------------------------------------------------------------
-QString Config::email() {
-
-  QSettings settings;
-  qDebug() << "return gpx f: " << settings.value("user/email");
-  return settings.value( "user/email", "").toString();
-}
-
-// ----------------------------------------------------------------------------
-void Config::setEmail(const QString email) {
-
-  QSettings settings;
-  settings.setValue( "user/email", email);
-}
-
-// ----------------------------------------------------------------------------
-int Config::languageIndex() {
-
-  QSettings settings;
-  qDebug() << "return gpx f: " << settings.value("sys/language");
-  return settings.value( "sys/language", 0).toInt();
-}
-
-// ----------------------------------------------------------------------------
-void Config::setLanguageIndex(const int index) {
-
-  qDebug()  << "language: " << index;
-  QSettings settings;
-  settings.setValue( "sys/language", index);
-}
-
-// ----------------------------------------------------------------------------
-int Config::gpxFileIndex() {
-  QSettings settings;
-  qDebug() << "return gpx f: " << settings.value("tracks/gpxFileIndex");
-  return settings.value("tracks/gpxFileIndex").toInt();
-}
-
-// ----------------------------------------------------------------------------
-void Config::setGpxFileIndex(int index) {
-
-  qDebug()  << "gpx file index: " << index;
-  QSettings settings;
-  settings.setValue( "tracks/gpxFileIndex", index);
-}
