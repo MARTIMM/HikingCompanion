@@ -44,6 +44,55 @@ tp -> GpxFiles
 tp --> mp
 ```
 
+# Path settings
+A few `QStandardPaths` names are shown here which are usable for the program;
+Linux
+App location: ("/home/marcel/.local/share/applications", "/usr/share/kde-settings/kde-profile/default/share/applications", "/usr/local/share/applications", "/usr/share/applications")
+App data location: ("/home/marcel/.local/share", "/usr/share/kde-settings/kde-profile/default/share", "/usr/local/share", "/usr/share")
+App config location: ("/home/marcel/.config", "/etc/xdg", "/usr/share/kde-settings/kde-profile/default/xdg")
+Config location: ("/home/marcel/.config", "/etc/xdg", "/usr/share/kde-settings/kde-profile/default/xdg")
+Generic config location: ("/home/marcel/.config", "/etc/xdg", "/usr/share/kde-settings/kde-profile/default/xdg")
+Generic data location: ("/home/marcel/.local/share", "/usr/share/kde-settings/kde-profile/default/share", "/usr/local/share", "/usr/share")
+Temp data location: ("/tmp")
+Download location: ("/home/marcel/Downloads")
+
+Android
+D         : ../HikingCompanion/main.cpp:19 (int main(int, char**)): App data location: ("/data/user/0/io.martimm.github.HikingCompanion/files", "/storage/emulated/0/Android/data/io.martimm.github.HikingCompanion/files")
+D         : ../HikingCompanion/main.cpp:20 (int main(int, char**)): App config location: ("/data/user/0/io.martimm.github.HikingCompanion/files/settings")
+D         : ../HikingCompanion/main.cpp:21 (int main(int, char**)): Config location: ("/data/user/0/io.martimm.github.HikingCompanion/files/settings")
+D         : ../HikingCompanion/main.cpp:22 (int main(int, char**)): Generic config location: ("/data/user/0/io.martimm.github.HikingCompanion/files/settings")
+D         : ../HikingCompanion/main.cpp:23 (int main(int, char**)): Generic data location: ("/storage/emulated/0")
+D         : ../HikingCompanion/main.cpp:24 (int main(int, char**)): Temp data location: ("/data/user/0/io.martimm.github.HikingCompanion/cache")
+D         : ../HikingCompanion/main.cpp:25 (int main(int, char**)): Download location: ("/storage/emulated/0/Download", "/storage/emulated/0/Android/data/io.martimm.github.HikingCompanion/files/Download")
+
+
+# Configuration of settings
+Settings are used to store data between runs. There are several catagories to be set. E.g. program settings like a language selection is placed in a **[General]** section.
+```
+[General]
+LanguageIndex=1
+
+[User]
+EMail=mt1957@gmail.com
+Username=marcel
+
+[HikeList]
+t1=Sultanstrail
+t2=Sufitrail
+t3=City trips Haarlem
+
+[Hike.Sultanstrail]
+
+[Hike.Sufitrail]
+Root=/home/marcel/Projects/Mobile/Projects/Sufitrail/
+Tracks=Qt/Sufitrail/trackData/tracks
+GpxFileIndex=5
+
+[Hike.City trips Haarlem]
+
+
+```
+
 # Code snippets
 Working with qtcreator based on qt 5.11.1, build on July 17th 2018
 
