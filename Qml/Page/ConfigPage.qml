@@ -23,8 +23,8 @@ HCPage.Plain {
     // the languageListChanged signal
     lngs.defineLanguages();
 
-    username.inputText.text = config.getSetting("user/username");
-    email.inputText.text = config.getSetting("user/email");
+    username.inputText.text = config.getSetting("User/Username");
+    email.inputText.text = config.getSetting("User/EMail");
   }
 
   Languages {
@@ -34,7 +34,7 @@ HCPage.Plain {
     // chosen language
     onLanguageListChanged: {
       configGrid.languageRow.cbx.model = lngs.languageList();
-      configGrid.languageRow.cbx.currentIndex = parseInt(config.getSetting("sys/languageIndex"));
+      configGrid.languageRow.cbx.currentIndex = parseInt(config.getSetting("LanguageIndex"));
     }
   }
 
@@ -185,9 +185,9 @@ HCPage.Plain {
       width: textMetrics.boundingRect.width + 30
       text: qsTr("Save")
       onClicked: {
-        config.setSetting( "sys/languageIndex", configGrid.languageRow.cbx.currentIndex);
-        config.setSetting( "user/username", username.inputText.text);
-        config.setSetting( "user/email", email.inputText.text);
+        config.setSetting( "LanguageIndex", configGrid.languageRow.cbx.currentIndex);
+        config.setSetting( "User/Username", username.inputText.text);
+        config.setSetting( "User/EMail", email.inputText.text);
       }
     }
   }

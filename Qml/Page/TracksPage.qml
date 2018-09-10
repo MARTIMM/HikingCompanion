@@ -35,7 +35,7 @@ HCPage.Plain {
 
       //TODO; must come from config
       // Example previous setting
-      currentIndex = parseInt(config.getSetting("tracks/gpxFileIndex"));
+      currentIndex = parseInt(config.getSetting("Tracks/GpxFileIndex"));
 
       var entriesHeight = lv.model.length * 20;
       lv.contentHeight = 20 + entriesHeight;
@@ -162,7 +162,7 @@ HCPage.Plain {
       text: qsTr("Select")
 
       onClicked: {
-        config.setSetting( "tracks/gpxFileIndex", currentIndex.toString());
+        config.setSetting( "Tracks/GpxFileIndex", currentIndex.toString());
 
         // Get the coordinates of the selected track and emit a
         // signal when ready. This signal is catched on the mapPage
