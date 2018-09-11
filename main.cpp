@@ -23,6 +23,7 @@ int main( int argc, char *argv[]) {
   qDebug() << "Generic data location:" << QStandardPaths::standardLocations(QStandardPaths::GenericDataLocation);
   qDebug() << "Temp data location:" << QStandardPaths::standardLocations(QStandardPaths::TempLocation);
   qDebug() << "Download location:" << QStandardPaths::standardLocations(QStandardPaths::DownloadLocation);
+  qDebug() << "Documents location:" << QStandardPaths::standardLocations(QStandardPaths::DocumentsLocation);
 
   QCoreApplication::setAttribute(Qt::AA_EnableHighDpiScaling);
 
