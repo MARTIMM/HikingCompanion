@@ -14,23 +14,7 @@ class Config : public QObject {
   Q_OBJECT
 
   //Q_PROPERTY( QGuiApplication appObject READ appObject WRITE setAppObject)
-  //Q_PROPERTY( QString osType READ osType)
-/*
-  Q_PROPERTY(
-      QString username READ username
-      WRITE setUsername NOTIFY usernameChanged
-      )
-  Q_PROPERTY( QString email READ email WRITE setEmail NOTIFY emailChanged)
-  Q_PROPERTY(
-      int languageIndex READ languageIndex
-      WRITE setLanguageIndex NOTIFY languageIndexChanged
-      )
 
-  Q_PROPERTY(
-      int gpxFileIndex READ gpxFileIndex
-      WRITE setGpxFileIndex NOTIFY gpxFileIndexChanged
-      )
-*/
 
 public:
   Config(QObject *parent = nullptr);
@@ -51,15 +35,11 @@ public:
   Q_INVOKABLE QString getSetting(QString name);
 
 signals:
-  void usernameChanged();
-  void emailChanged();
-  void languageIndexChanged();
-  void gpxFileIndexChanged();
 
 public slots:
 
 private:
-  QGuiApplication *_appObject;
+//  QGuiApplication *_appObject;
 };
 
 #endif // CONFIG_H

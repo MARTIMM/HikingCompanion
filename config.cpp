@@ -18,26 +18,6 @@ Config::Config(QObject *parent) : QObject(parent) {
 
   //_osType = QString(app.platformName());
 }
-/*
-// ----------------------------------------------------------------------------
-QString Config::osType() {
-
-  ConfigData *c = ConfigData::instance();
-  return c->osType();
-}
-*/
-
-/*
-// ----------------------------------------------------------------------------
-QGuiApplication *Config::appObject() {
-  return _appObject;
-}
-
-// ----------------------------------------------------------------------------
-void Config::setAppObject(QGuiApplication *appObject) {
-  _appObject = appObject;  //qobject_cast<QApplication *>(appObjectPtr);
-}
-*/
 
 // ----------------------------------------------------------------------------
 void Config::setSetting( QString name, QString value) {
