@@ -45,26 +45,25 @@ tp --> mp
 ```
 
 # Path settings
-A few `QStandardPaths` names are shown here which are usable for the program;
-Linux
-App location: ("/home/marcel/.local/share/applications", "/usr/share/kde-settings/kde-profile/default/share/applications", "/usr/local/share/applications", "/usr/share/applications")
-App data location: ("/home/marcel/.local/share", "/usr/share/kde-settings/kde-profile/default/share", "/usr/local/share", "/usr/share")
-App config location: ("/home/marcel/.config", "/etc/xdg", "/usr/share/kde-settings/kde-profile/default/xdg")
-Config location: ("/home/marcel/.config", "/etc/xdg", "/usr/share/kde-settings/kde-profile/default/xdg")
-Generic config location: ("/home/marcel/.config", "/etc/xdg", "/usr/share/kde-settings/kde-profile/default/xdg")
-Generic data location: ("/home/marcel/.local/share", "/usr/share/kde-settings/kde-profile/default/share", "/usr/local/share", "/usr/share")
-Temp data location: ("/tmp")
-Download location: ("/home/marcel/Downloads")
 
-Android
-D         : ../HikingCompanion/main.cpp:19 (int main(int, char**)): App data location: ("/data/user/0/io.martimm.github.HikingCompanion/files", "/storage/emulated/0/Android/data/io.martimm.github.HikingCompanion/files")
-D         : ../HikingCompanion/main.cpp:20 (int main(int, char**)): App config location: ("/data/user/0/io.martimm.github.HikingCompanion/files/settings")
-D         : ../HikingCompanion/main.cpp:21 (int main(int, char**)): Config location: ("/data/user/0/io.martimm.github.HikingCompanion/files/settings")
-D         : ../HikingCompanion/main.cpp:22 (int main(int, char**)): Generic config location: ("/data/user/0/io.martimm.github.HikingCompanion/files/settings")
-D         : ../HikingCompanion/main.cpp:23 (int main(int, char**)): Generic data location: ("/storage/emulated/0")
-D         : ../HikingCompanion/main.cpp:24 (int main(int, char**)): Temp data location: ("/data/user/0/io.martimm.github.HikingCompanion/cache")
-D         : ../HikingCompanion/main.cpp:25 (int main(int, char**)): Download location: ("/storage/emulated/0/Download", "/storage/emulated/0/Android/data/io.martimm.github.HikingCompanion/files/Download")
+# Deployment test on linux
+We must try to setup an environment where we can simulate the sharing of data between applications. The main goal is to get a clear view where to place the data and which locations can be used to copy the data to. The tracking app  can also search for the HikingCompanion specific data to see if that program is installed and available for use.
 
+Data is always shared between the same user. On mobile devices there is only one user which is installing applications etc.
+
+Using the information from [this document here][std paths] and [here][android data], the following path can be of use;
+
+
+* **QStandardPaths::AppDataLocation**. This field returns a list of directories where an application can keep its data.
+  * **Linux**: `/home/marcel/.local/share`, `/usr/share/kde-settings/kde-profile/default/share`, `/usr/local/share`, `/usr/share`
+
+  * **Android**. Below, `<APPNAME>` is usually the organization name. Similarly, `<APPROOT>` is the location where this application is installed and `<APPDIR>` is the directory containing the application executable.
+    On Android this is `<APPROOT>/files` and `<USER>/<APPNAME>/files`.
+    On my tablet, where applications are stored at `/data/user/0/` and the application id or `<APPNAME>` is `io.martimm.github.HikingCompanion`, the paths are  `/data/user/0/io.martimm.github.HikingCompanion/files`, `/storage/emulated/0/Android/data/io.martimm.github.HikingCompanion/files`. The first one is private and not reachable by other apprlications but the second can be read or written by all apps.
+    To write to the external storage on Android, the android app needs the `WRITE_EXTERNAL_STORAGE` permission.
+
+  * **Ios**:
+    `<APPROOT>/Library/Application Support`. There are no examples yet to show.
 
 # Configuration of settings
 Settings are used to store data between runs. There are several catagories to be set. E.g. program settings like a language selection is placed in a **[General]** section.
@@ -272,3 +271,5 @@ ApplicationWindow {
 [cppcombobox]: https://forum.qt.io/topic/43226/solved-qml-combobox-model-from-c/2
 [cppmodels]: http://doc.qt.io/qt-5/qtquick-modelviewsdata-cppmodels.html
 [b qt state]: http://blog.qt.io/blog/2009/01/30/qt-state-machine-framework/
+[std paths]: http://doc.qt.io/qt-5/qstandardpaths.html
+[android data]: https://developer.android.com/training/data-storage/files
