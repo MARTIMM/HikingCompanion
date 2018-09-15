@@ -15,15 +15,18 @@
 // ----------------------------------------------------------------------------
 int main( int argc, char *argv[]) {
 
-  qDebug() << "App location:" << QStandardPaths::standardLocations(QStandardPaths::ApplicationsLocation);
+  qDebug() << "Argc:" << argc;
+  for ( int i = 0; i < argc; i++) {
+    qDebug() << QString("[%1]").arg(i) << argv[i];
+  }
+
+/*
   qDebug() << "App data location:" << QStandardPaths::standardLocations(QStandardPaths::AppDataLocation);
   qDebug() << "App config location:" << QStandardPaths::standardLocations(QStandardPaths::AppConfigLocation);
-  qDebug() << "Config location:" << QStandardPaths::standardLocations(QStandardPaths::ConfigLocation);
-  qDebug() << "Generic config location:" << QStandardPaths::standardLocations(QStandardPaths::GenericConfigLocation);
   qDebug() << "Generic data location:" << QStandardPaths::standardLocations(QStandardPaths::GenericDataLocation);
-  qDebug() << "Temp data location:" << QStandardPaths::standardLocations(QStandardPaths::TempLocation);
   qDebug() << "Download location:" << QStandardPaths::standardLocations(QStandardPaths::DownloadLocation);
   qDebug() << "Documents location:" << QStandardPaths::standardLocations(QStandardPaths::DocumentsLocation);
+*/
 
   QCoreApplication::setAttribute(Qt::AA_EnableHighDpiScaling);
 
@@ -41,8 +44,20 @@ int main( int argc, char *argv[]) {
   app.setApplicationVersion("0.8.1");
   app.setApplicationDisplayName("HikingCompanion");
 
+  qDebug() << "qApp argc:" << argc;
+  for ( int i = 0; i < argc; i++) {
+    qDebug() << QString("qApp [%1]").arg(i) << argv[i];
+  }
 
-  // set stylesheet
+  // If there is an extra argument, it should be a path to new
+  // hiking information which must be copied to its proper place
+  if ( qApp->arguments().count() == 2 ) {
+    Config *cfg = new Config;
+    cfg->installNewData(QString(qApp->arguments()[1]));
+
+    return 0;
+  }
+
   qmlRegisterType<TextLoad>(
         "io.github.martimm.HikingCompanion.Textload", 0, 1, "TextLoad"
         );
@@ -50,11 +65,7 @@ int main( int argc, char *argv[]) {
   qmlRegisterType<Config>(
         "io.github.martimm.HikingCompanion.Config", 0, 3, "Config"
         );
-/*
-  qmlRegisterType<Language>(
-        "io.github.martimm.HikingCompanion.Language", 0, 2, "Language"
-        );
-*/
+
   qmlRegisterType<Languages>(
         "io.github.martimm.HikingCompanion.Languages", 0, 2, "Languages"
         );
