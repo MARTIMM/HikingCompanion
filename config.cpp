@@ -5,6 +5,9 @@
 #include <QDebug>
 #include <QQmlEngine>
 #include <QQmlComponent>
+#include <QDir>
+#include <QFile>
+#include <QStandardPaths>
 
 // ----------------------------------------------------------------------------
 // See also http://blog.qt.io/blog/2017/12/01/sharing-files-android-ios-qt-app/
@@ -17,12 +20,35 @@ Config::Config(QObject *parent) : QObject(parent) {
   //qDebug() << "platform name: " << app.platformName();
 
   //_osType = QString(app.platformName());
+//QCoreApplication::arguments()
+
+  // Check the data directories. Make use of GenericDataLocation standard path
+  // and look for the directory made up by its id.
+  QString id = QCoreApplication::organizationDomain() +
+      "." + QCoreApplication::applicationName();
+  qDebug() << "Id: " << id;
+
+  // Take first directory from the list. That one is the users
+  // data directory.
+  QString dataDir = QStandardPaths::standardLocations(
+        QStandardPaths::GenericDataLocation
+        ).first() + "/" + id;
+
+  QDir dd(dataDir);
+  if ( ! dd.exists() ) dd.mkdir(dataDir);
+
+/*
+  QStringList keys = readKeys("HikeList");
+  for( int i = 0; i < keys.length(); i++) {
+    qDebug() << getSetting("HikeList/" + keys[i]);
+  }
+  qDebug() << getSetting("Hike.HaarlemNHTrips/Type");
+*/
 }
 
 // ----------------------------------------------------------------------------
 void Config::setSetting( QString name, QString value) {
 
-  qDebug() << "name: " << name << ", value: " << value;
   QSettings settings;
   settings.setValue( name, value);
 }
@@ -31,7 +57,23 @@ void Config::setSetting( QString name, QString value) {
 QString Config::getSetting(QString name) {
 
   QSettings settings;
-  qDebug() << "return value for name: " << name << ", value: " << settings.value(name).toString();
   return settings.value(name).toString();
+}
+
+// ----------------------------------------------------------------------------
+QStringList Config::readKeys(QString group) {
+
+  QSettings settings;
+  settings.beginGroup(group);
+  QStringList keys = settings.childKeys();
+  qDebug() << "returned keys for group: " << keys;
+
+  settings.endGroup();
+  return keys;
+}
+
+// ----------------------------------------------------------------------------
+void Config::installNewData(QString dataPath) {
+  qDebug() << "Install data from" << dataPath;
 }
 
