@@ -55,15 +55,25 @@ Using the information from [this document here][std paths] and [here][android da
 
 
 * **QStandardPaths::AppDataLocation**. This field returns a list of directories where an application can keep its data.
-  * **Linux**: `/home/marcel/.local/share`, `/usr/share/kde-settings/kde-profile/default/share`, `/usr/local/share`, `/usr/share`
+  * **Linux**: `~/.local/share`, `/usr/share/kde-settings/kde-profile/default/share`, `/usr/local/share`, `/usr/share`
 
-  * **Android**. Below, `<APPNAME>` is usually the organization name. Similarly, `<APPROOT>` is the location where this application is installed and `<APPDIR>` is the directory containing the application executable.
+  * **Android**: Below, `<APPNAME>` is usually the organization name. Similarly, `<APPROOT>` is the location where this application is installed and `<APPDIR>` is the directory containing the application executable.
     On Android this is `<APPROOT>/files` and `<USER>/<APPNAME>/files`.
     On my tablet, where applications are stored at `/data/user/0/` and the application id or `<APPNAME>` is `io.martimm.github.HikingCompanion`, the paths are  `/data/user/0/io.martimm.github.HikingCompanion/files`, `/storage/emulated/0/Android/data/io.martimm.github.HikingCompanion/files`. The first one is private and not reachable by other apprlications but the second can be read or written by all apps.
     To write to the external storage on Android, the android app needs the `WRITE_EXTERNAL_STORAGE` permission.
 
   * **Ios**:
     `<APPROOT>/Library/Application Support`. There are no examples yet to show.
+
+* **QStandardPaths::GenericDataLocation**. Returns a directory location where persistent data shared across applications can be stored. This is a generic value. The returned path is never empty.
+
+  This might be a better choice because it is one level lower and always writable for any app.
+
+  * **Linux**: `~/.local/share`, `/usr/local/share`, `/usr/share`
+
+  * **Android**: `<USER>` which will become `/storage/emulated/0/Android/data/`.
+
+  * **Ios**: `<APPROOT>/Documents`
 
 # Configuration of settings
 Settings are used to store data between runs. There are several catagories to be set. E.g. program settings like a language selection is placed in a **[General]** section.
@@ -78,16 +88,43 @@ Username=marcel
 [HikeList]
 t1=Sultanstrail
 t2=Sufitrail
-t3=City trips Haarlem
+t3=HaarlemNHTrips
 
 [Hike.Sultanstrail]
+Typex=🚶\x1F6B6🚴\x1F6B4
+Type=WB
+Version=0.1.0
+TranslationXML=
+SupportedLang=en
+DefaultLang=en
+Title=Sultans Trail
+ShortDescr=Ancient trail from Vienna to Istanbul
+Tracks=Sultanstrail/tracks
+GpxFileIndex=-1
 
 [Hike.Sufitrail]
-Root=/home/marcel/Projects/Mobile/Projects/Sufitrail/
-Tracks=Qt/Sufitrail/trackData/tracks
+Typex=🚶\x1F6B6
+Type=W
+Version=0.1.0
+TranslationXML=
+SupportedLang=en
+DefaultLang=en
+Title=Sufi's Pilgrimage Route
+ShortDescr=Trail from Istanbul to Konya
+Tracks=Sufitrail/tracks
 GpxFileIndex=5
 
-[Hike.City trips Haarlem]
+[Hike.HaarlemNHTrips]
+Typex=🚶\x1F6B6🚴\x1F6B4
+Type=WB
+Version=0.1.0
+TranslationXML=
+SupportedLang=en
+DefaultLang=en
+Title=Haarlem Trips
+ShortDescr=City trips in and around Haarlem North-Holland, Netherlands
+Tracks=HaarlemNHTrips/tracks
+GpxFileIndex=-1
 
 
 ```
