@@ -17,10 +17,7 @@ Config::Config(QObject *parent) : QObject(parent) {
 
   // See also http://doc.qt.io/qt-5/qguiapplication.html#platformName-prop
   // For me it could be: android, ios or xcb (x11 on linux)
-  //qDebug() << "platform name: " << app.platformName();
-
-  //_osType = QString(app.platformName());
-//QCoreApplication::arguments()
+  qDebug() << "platform name: " << qApp->platformName();
 
   // Check the data directories. Make use of GenericDataLocation standard path
   // and look for the directory made up by its id.
