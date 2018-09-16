@@ -76,57 +76,100 @@ Using the information from [this document here][std paths] and [here][android da
   * **Ios**: `<APPROOT>/Documents`
 
 # Configuration of settings
-Settings are used to store data between runs. There are several catagories to be set. E.g. program settings like a language selection is placed in a **[General]** section.
+Settings are used to store data between runs. There are several categories to be set. E.g. program settings like a language selection is placed in a **[General]** section. The location of this file depends on the system where it is running. For linux it will be `$HOME/.config/martimm/HikingCompanion.conf` and on android `/data/user/0/io.martimm.github.HickingCompanion/files/config/HikingCompanion.conf`.
+
 ```
 [General]
-LanguageIndex=1
+defaultLang=en                Fallback language when no translation is
+                              available. This means that all words must be at
+                              least be described in that language.
+supportedLang=en,nl           Language codes. Needs to be thought over.     
+ftranslation=                 Translation file
+languageindex=1               Index in pull-down of languages
 
-[User]
-EMail=mt1957@gmail.com
-Username=marcel
+selectedhikeindex=0           Index in pull-down from hikelist. Language
+                              information is set after selecting a hike. When no
+                              hike is available it sets the default to english.
 
-[HikeList]
-t1=Sultanstrail
-t2=Sufitrail
-t3=HaarlemNHTrips
+[User]                        User data
+consent=false             
+email=
+username=
 
-[Hike.Sultanstrail]
-Typex=🚶\x1F6B6🚴\x1F6B4
-Type=WB
-Version=0.1.0
-TranslationXML=
-SupportedLang=en
-DefaultLang=en
-Title=Sultans Trail
-ShortDescr=Ancient trail from Vienna to Istanbul
-Tracks=Sultanstrail/tracks
-GpxFileIndex=-1
-
-[Hike.Sufitrail]
-Typex=🚶\x1F6B6
-Type=W
-Version=0.1.0
-TranslationXML=
-SupportedLang=en
-DefaultLang=en
-Title=Sufi's Pilgrimage Route
-ShortDescr=Trail from Istanbul to Konya
-Tracks=Sufitrail/tracks
-GpxFileIndex=5
-
-[Hike.HaarlemNHTrips]
-Typex=🚶\x1F6B6🚴\x1F6B4
-Type=WB
-Version=0.1.0
-TranslationXML=
-SupportedLang=en
-DefaultLang=en
-Title=Haarlem Trips
-ShortDescr=City trips in and around Haarlem North-Holland, Netherlands
-Tracks=HaarlemNHTrips/tracks
-GpxFileIndex=-1
+[HikeList]                    List of hikes. The hikes can contain one or more
+                              tracks. The current user may save their own tracks
+                              and are code with u#. Imported hikes are coded
+                              with h#.
+h1=sometrail
+h2=...
+u3=...
 
 
+[h1.sometrail]                Specific information about this hike
+version=
+title=...
+shortdescr=...
+www=                          There might even be a website around the hike.
+
+defaultLang=en                Language information for this hike
+supportedLang=en
+translationfile=
+
+gpxfileindex=                 Index in a pull-down of tracks about this hike.
+ntracks=                      number of tracks, notes, photos and features
+nnotes=
+nphotos=
+nfeatures=
+
+[h1.track1]                   Information about the first track
+fname=                        Gpx file with all coordinates
+Type=                         bike or walk
+Length=                       Length in kilometers/Miles
+
+[h1.track2]                   Second track
+...
+
+[h2. ...]                     Second hike
+
+[u3. ...]                     Third (user created) hike
+
+...
+```
+
+When data is imported, a path to the directory is provided where a settings file is stored. This file is named `hike.conf`.
+
+```
+[General]
+version=
+
+supportedLang=en
+defaultLang=en
+translationXML=
+
+key=
+title=
+shortdescr=
+www=
+
+ntracks=
+nnotes=
+nphotos=
+nfeatures=
+
+tracksdir=Tracks              Sub-directories where data is stored.
+photodir=Photos
+notedir=Notes
+featuredir=Features
+
+[track1]
+name=
+type=
+length=
+
+[track2]
+name=
+type=
+length=
 ```
 
 # Code snippets
