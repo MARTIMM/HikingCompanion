@@ -80,11 +80,11 @@ Settings are used to store data between runs. There are several categories to be
 
 ```
 [General]
-defaultLang=en                Fallback language when no translation is
+defaultlang=en                Fallback language when no translation is
                               available. This means that all words must be at
                               least be described in that language.
-supportedLang=en,nl           Language codes. Needs to be thought over.     
-ftranslation=                 Translation file
+supportedlang=en,nl           Language codes. Needs to be thought over.
+translationfile=              Translation file
 languageindex=1               Index in pull-down of languages
 
 selectedhikeindex=0           Index in pull-down from hikelist. Language
@@ -111,8 +111,8 @@ title=...
 shortdescr=...
 www=                          There might even be a website around the hike.
 
-defaultLang=en                Language information for this hike
-supportedLang=en
+defaultlang=en                Language information for this hike
+supportedlang=en
 translationfile=
 
 gpxfileindex=                 Index in a pull-down of tracks about this hike.
@@ -123,8 +123,8 @@ nfeatures=
 
 [h1.track1]                   Information about the first track
 fname=                        Gpx file with all coordinates
-Type=                         bike or walk
-Length=                       Length in kilometers/Miles
+type=                         bike or walk
+length=                       Length in kilometers/Miles
 
 [h1.track2]                   Second track
 ...
