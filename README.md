@@ -306,11 +306,23 @@ This should show a dialog to ask the user if he/she really wants to quit the pro
 
 # Other items or problems to think about
 
-<progress value="0" max="2" />
+<progress value="4" max="11" />
 
   * [ ] By what license should the project be protected
   * [ ] Privacy considerations
-
+  * Installing tracks and other information from other sources.
+    * [x] Create directory tree
+    * [x] Add or modify hike config tables
+    * [x] Refresh track data
+    * Linux.
+      [x] Install from directory using path argument
+      [ ] Install from other container app using path argument
+    * Android
+      [ ] Install from directory using intents with path argument
+      [ ] Install from other container app using path argument
+    * Ios
+      [ ] Install from directory using ... with path argument
+      [ ] Install from other container app using path argument
 
 # To do
 
@@ -324,6 +336,9 @@ This should show a dialog to ask the user if he/she really wants to quit the pro
 
 Versions have a letter added: D for debug version and R for a release version. When not added it is always a debug version.
 
+* 2018-09-17, 0.9.0
+  * Installing track information in app data directory
+  
 * 2018-09-03, 0.8.1
   * Displayed track is now centered and zoomed
 

@@ -36,7 +36,7 @@ int main( int argc, char *argv[]) {
   // 'QQuickStyle::setStyle("Material");'
 
   QGuiApplication app( argc, argv);
-  app.setApplicationVersion("0.8.1");
+  app.setApplicationVersion("0.9.0");
   app.setApplicationDisplayName("HikingCompanion");
 
   qDebug() << "qApp argc:" << argc;
