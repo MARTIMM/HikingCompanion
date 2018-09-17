@@ -68,7 +68,7 @@ void GpxFiles::_setGpxFiles() {
   d.setNameFilters(filters);
   d.setSorting(QDir::Name);
 
-  QStringList fnames = d.entryList();
+  QStringList fnames = d.entryList(QDir::Files);
   for ( int i = 0; i < fnames.size(); i++ ) {
     GpxFile *gf = new GpxFile();
     QString description = gf->setGpxFilename( _gpxPath, fnames[i]);
