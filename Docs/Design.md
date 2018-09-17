@@ -87,7 +87,7 @@ supportedlang=en,nl           Language codes. Needs to be thought over.
 translationfile=              Translation file
 languageindex=1               Index in pull-down of languages
 
-selectedhikeindex=0           Index in pull-down from hikelist. Language
+selectedhikeindex=0           Index in pull-down from HikeList. Language
                               information is set after selecting a hike. When no
                               hike is available it sets the default to english.
 
@@ -97,18 +97,19 @@ email=
 username=
 
 [HikeList]                    List of hikes. The hikes can contain one or more
-                              tracks. The current user may save their own tracks
-                              and are code with u#. Imported hikes are coded
-                              with h#.
+                              tracks. The current user may save their own
+                              tracks. All hikes are coded with h#.
 h1=sometrail
 h2=...
-u3=...
 
 
-[h1.sometrail]                Specific information about this hike
+[h1.sometrail]                Specific information about this hike. The name
+                              <sometrail> can not be like 'trail#' because
+                              those are reserved for track information.
 version=
-title=...
-shortdescr=...
+title=                        Title of hike. Make it as unique as possible. The
+                              text is used in the pull-down list.
+shortdescr=                   Short description
 www=                          There might even be a website around the hike.
 
 defaultlang=en                Language information for this hike
@@ -125,13 +126,13 @@ nfeatures=
 fname=                        Gpx file with all coordinates
 type=                         bike or walk
 length=                       Length in kilometers/Miles
+title=                        Title of track
+shortdescr=                   Short description
 
 [h1.track2]                   Second track
 ...
 
 [h2. ...]                     Second hike
-
-[u3. ...]                     Third (user created) hike
 
 ...
 ```
