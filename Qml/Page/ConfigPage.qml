@@ -5,6 +5,7 @@ import "../Parts" as HCParts
 import io.github.martimm.HikingCompanion.Theme 0.1
 import io.github.martimm.HikingCompanion.Config 0.3
 import io.github.martimm.HikingCompanion.Languages 0.2
+import io.github.martimm.HikingCompanion.Hikes 0.1
 
 import QtQuick 2.9
 import QtQuick.Controls 2.2
@@ -20,11 +21,12 @@ HCPage.Plain {
 
   Component.onCompleted: {
     // Define the list of languages after which the method will emit
-    // the languageListChanged signal
+    // the languageListChanged signal. Do the same for tracks.
     lngs.defineLanguages();
+    hikes.defineHikeList();
 
-    username.inputText.text = config.getSetting("User/Username");
-    email.inputText.text = config.getSetting("User/EMail");
+    username.inputText.text = config.getSetting("User/username");
+    email.inputText.text = config.getSetting("User/email");
   }
 
   Languages {
@@ -33,8 +35,18 @@ HCPage.Plain {
     // Set the model data and the saved index of a previously
     // chosen language
     onLanguageListChanged: {
-      configGrid.languageRow.cbx.model = lngs.languageList();
-      configGrid.languageRow.cbx.currentIndex = parseInt(config.getSetting("LanguageIndex"));
+      configGrid.languageRow.cbx1.model = lngs.languageList();
+      configGrid.languageRow.cbx1.currentIndex = parseInt(config.getSetting("languageindex"));
+    }
+  }
+
+  Hikes {
+    id: hikes
+
+    onHikeListDefined: {
+      configGrid.hikeRow.cbx2.model = hikes.hikeList();
+      console.log("hikes: " + hikes.hikeList());
+      configGrid.hikeRow.cbx2.currentIndex = parseInt(config.getSetting("selectedhikeindex"));
     }
   }
 
@@ -88,9 +100,9 @@ HCPage.Plain {
         height: parent.height
       }
 
-      property alias cbx: cbx
+      property alias cbx1: cbx1
       ComboBox {
-        id: cbx
+        id: cbx1
         width: rightWidth
         height: parent.height
       }
@@ -174,6 +186,28 @@ HCPage.Plain {
         }
       }
     }
+
+    // Selection of a hike
+    property alias hikeRow: hikeRow
+    Row {
+      id: hikeRow
+      width: parent.width
+      height: Theme.cfgRowHeight
+      spacing: 2
+
+      HCParts.ConfigLabel {
+        text: qsTr("Hike/trips")
+        width: leftWidth
+        height: parent.height
+      }
+
+      property alias cbx2: cbx2
+      ComboBox {
+        id: cbx2
+        width: rightWidth
+        height: parent.height
+      }
+    }
   }
 
   HCParts.PageButtonRow {
@@ -185,9 +219,10 @@ HCPage.Plain {
       width: textMetrics.boundingRect.width + 30
       text: qsTr("Save")
       onClicked: {
-        config.setSetting( "LanguageIndex", configGrid.languageRow.cbx.currentIndex);
-        config.setSetting( "User/Username", username.inputText.text);
-        config.setSetting( "User/EMail", email.inputText.text);
+        config.setSetting( "languageindex", configGrid.languageRow.cbx1.currentIndex);
+        config.setSetting( "User/username", username.inputText.text);
+        config.setSetting( "User/email", email.inputText.text);
+        config.setSetting( "selectedhikeindex", configGrid.hikeRow.cbx2.currentIndex);
       }
     }
   }
