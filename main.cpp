@@ -15,11 +15,6 @@
 // ----------------------------------------------------------------------------
 int main( int argc, char *argv[]) {
 
-  qDebug() << "Argc:" << argc;
-  for ( int i = 0; i < argc; i++) {
-    qDebug() << QString("[%1]").arg(i) << argv[i];
-  }
-
 /*
   qDebug() << "App data location:" << QStandardPaths::standardLocations(QStandardPaths::AppDataLocation);
   qDebug() << "App config location:" << QStandardPaths::standardLocations(QStandardPaths::AppConfigLocation);
@@ -91,16 +86,9 @@ int main( int argc, char *argv[]) {
         "io.github.martimm.HikingCompanion.HCTheme1", 0, 1, "HCTheme1"
         );
 
-  //Config *cfg = new Config();
-  //cfg.setAppObject(&app);
-
   QQmlApplicationEngine engine;
   engine.load(QUrl(QStringLiteral("qrc:/Qml/Main/Application.qml")));
 //  engine.load(QUrl(QStringLiteral("qrc:/Assets/Theme/ThemeTest.qml")));
-
-  // Readable after QGuiApplication
-  //qDebug() << "List of styles: " << QQuickStyle::availableStyles();
-
 
   if ( engine.rootObjects().isEmpty() ) return -1;
   return app.exec();
