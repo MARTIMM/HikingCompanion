@@ -21,7 +21,8 @@ HEADERS += \
     singleton.h \
     call_once.h \
     languages.h \
-    gpxfiles.h
+    gpxfiles.h \
+    hikes.h
 
 SOURCES += \
     main.cpp \
@@ -30,7 +31,8 @@ SOURCES += \
     configdata.cpp \
     gpxfile.cpp \
     languages.cpp \
-    gpxfiles.cpp
+    gpxfiles.cpp \
+    hikes.cpp
 
 RESOURCES += qml.qrc extraResources.qrc
 

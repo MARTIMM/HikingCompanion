@@ -2,6 +2,7 @@
 #include "config.h"
 #include "languages.h"
 #include "gpxfiles.h"
+#include "hikes.h"
 
 //#include <QStyleFactory>
 #include <QGuiApplication>
@@ -63,6 +64,10 @@ int main( int argc, char *argv[]) {
 
   qmlRegisterType<Languages>(
         "io.github.martimm.HikingCompanion.Languages", 0, 2, "Languages"
+        );
+
+  qmlRegisterType<Hikes>(
+        "io.github.martimm.HikingCompanion.Hikes", 0, 1, "Hikes"
         );
 
   qmlRegisterType<GpxFiles>(
