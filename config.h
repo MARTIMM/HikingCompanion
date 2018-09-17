@@ -22,9 +22,9 @@ public:
   //Q_ENUM(Languages)
 
   Q_INVOKABLE void setSetting( QString name, QString value);
-  Q_INVOKABLE QString getSetting(QString name);
-
-  Q_INVOKABLE QStringList readKeys(QString group);
+  Q_INVOKABLE void setSetting( QString name, int value);
+  Q_INVOKABLE QString getSetting(QString name, QSettings *s = nullptr);
+  Q_INVOKABLE QStringList readKeys( QString group, QSettings *s = nullptr);
 
   void installNewData(QString dataPath);
 
@@ -38,7 +38,8 @@ private:
       QSettings *s,
       QString hikeEntryKey,
       QString hikeTableName,
-      QString hikeDir
+      QString hikeDir,
+      QString dataPath
       );
   void _removeSettings(QString group);
 
