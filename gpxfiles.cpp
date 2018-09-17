@@ -5,23 +5,13 @@
 #include <QFile>
 
 // ----------------------------------------------------------------------------
-GpxFiles::GpxFiles( QObject *parent) : QObject(parent) {
-
-}
+GpxFiles::GpxFiles( QObject *parent) : QObject(parent) { }
 
 // ----------------------------------------------------------------------------
 GpxFiles::~GpxFiles() {
   _gpxFileList.clear();
   _gpxTrackList.clear();
 }
-
-/*
-// ----------------------------------------------------------------------------
-int GpxFiles::nbrGpxFiles() {
-
-  return _gpxFileList.count();
-}
-*/
 
 // ----------------------------------------------------------------------------
 QList<QObject *> GpxFiles::gpxFileList() {

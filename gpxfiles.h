@@ -12,7 +12,6 @@
 class GpxFiles : public QObject {
 
   Q_OBJECT
-  //Q_PROPERTY( bool readGpxFileInfo READ readGpxFileInfo)
   Q_PROPERTY( QString description READ description)
 
 public:
