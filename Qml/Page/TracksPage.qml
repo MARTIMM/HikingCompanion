@@ -6,8 +6,9 @@ import "../Parts" as HCParts
 import io.github.martimm.HikingCompanion.HCTheme1 0.1
 import io.github.martimm.HikingCompanion.Theme 0.1
 import io.github.martimm.HikingCompanion.Config 0.3
-import io.github.martimm.HikingCompanion.GpxFiles 0.1
+//import io.github.martimm.HikingCompanion.GpxFiles 0.1
 import io.github.martimm.HikingCompanion.GlobalVariables 0.1
+import io.github.martimm.HikingCompanion.Hikes 0.1
 
 import QtQuick 2.9
 import QtQuick.Controls 2.2
@@ -15,13 +16,27 @@ import QtQuick.Controls 2.2
 HCPage.Plain {
   id: tracksPage
 
+  onActiveFocusChanged: {
+    console.log("active focus");
+  }
+
   Config { id: config }
 
   Component.onCompleted: {
     // Get the track list ready -> onGpxFileListReady will be emitted
-    gpxf.readGpxFileInfo();
+    //gpxf.readGpxFileInfo();
   }
 
+  signal changeTrackList()
+  onChangeTrackList: {
+    lv.model = hikes._trackList();
+  }
+
+  Hikes {
+    id: hikes
+  }
+
+/*
   GpxFiles {
     id: gpxf
 
@@ -35,7 +50,7 @@ HCPage.Plain {
 
       //TODO; must come from config
       // Example previous setting
-      currentIndex = parseInt(config.getSetting("Tracks/GpxFileIndex"));
+      //currentIndex = parseInt(config.getSetting("Tracks/gpxfileindex"));
 
       var entriesHeight = lv.model.length * 20;
       lv.contentHeight = 20 + entriesHeight;
@@ -53,6 +68,7 @@ HCPage.Plain {
       GlobalVariables.menu.setHomePage();
     }
   }
+*/
 
   width: parent.width
   height: parent.height
@@ -162,7 +178,7 @@ HCPage.Plain {
       text: qsTr("Select")
 
       onClicked: {
-        config.setSetting( "Tracks/GpxFileIndex", currentIndex.toString());
+        //config.setSetting( "Tracks/gpxfileindex", currentIndex.toString());
 
         // Get the coordinates of the selected track and emit a
         // signal when ready. This signal is catched on the mapPage
