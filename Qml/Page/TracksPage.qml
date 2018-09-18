@@ -29,7 +29,7 @@ HCPage.Plain {
 
   signal changeTrackList()
   onChangeTrackList: {
-    lv.model = hikes._trackList();
+    lv.model = hikes.trackList();
   }
 
   Hikes {
