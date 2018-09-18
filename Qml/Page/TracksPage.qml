@@ -6,7 +6,7 @@ import "../Parts" as HCParts
 import io.github.martimm.HikingCompanion.HCTheme1 0.1
 import io.github.martimm.HikingCompanion.Theme 0.1
 import io.github.martimm.HikingCompanion.Config 0.3
-//import io.github.martimm.HikingCompanion.GpxFiles 0.1
+import io.github.martimm.HikingCompanion.GpxFiles 0.1
 import io.github.martimm.HikingCompanion.GlobalVariables 0.1
 import io.github.martimm.HikingCompanion.Hikes 0.1
 
@@ -16,17 +16,20 @@ import QtQuick.Controls 2.2
 HCPage.Plain {
   id: tracksPage
 
+/*
   onActiveFocusChanged: {
     console.log("active focus");
   }
+*/
 
   Config { id: config }
 
   Component.onCompleted: {
     // Get the track list ready -> onGpxFileListReady will be emitted
     //gpxf.readGpxFileInfo();
-  }
 
+    changeTrackList();
+  }
 
   Hikes {
     id: hikes
@@ -34,6 +37,22 @@ HCPage.Plain {
 
   function changeTrackList() {
     lv.model = hikes.trackList();
+  }
+
+  GpxFiles {
+    id: gpxf
+
+    onCoordinatesReady: {
+      var path = gpxf.coordinateList();
+      var mapPage = GlobalVariables.mapPage;
+      mapPage.hikerCompanionMap.trackCourse.setPath(path);
+
+      var bounds = gpxf.boundary();
+      mapPage.hikerCompanionMap.visibleRegion = bounds;
+
+      //mapPage.hikerCompanionMap.zoomLevel =
+      GlobalVariables.menu.setHomePage();
+    }
   }
 
 /*
@@ -54,18 +73,6 @@ HCPage.Plain {
 
       var entriesHeight = lv.model.length * 20;
       lv.contentHeight = 20 + entriesHeight;
-    }
-
-    onCoordinatesReady: {
-      var path = gpxf.coordinateList();
-      var mapPage = GlobalVariables.mapPage;
-      mapPage.hikerCompanionMap.trackCourse.setPath(path);
-
-      var bounds = gpxf.boundary();
-      mapPage.hikerCompanionMap.visibleRegion = bounds;
-
-      //mapPage.hikerCompanionMap.zoomLevel =
-      GlobalVariables.menu.setHomePage();
     }
   }
 */
