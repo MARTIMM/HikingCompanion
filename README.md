@@ -211,10 +211,11 @@ The map page is also the home page.
 ## The Tracks page
 <progress value="6" max="7" />
 
-  Show a list of tracks from which a selection can be made. This will only be visible when a separate tracks app is installed.
+  Show a list of tracks from which a selection can be made. This will only be visible when one or more hike apps are installed.
 
   * [x] Page created
   * [x] Generate the page from the directory contents and the gpx track name found in those files.
+  * [x] Refresh tracks list when another hike is selected on the config page
   * [x] Show map when a selection is made using a <button>Select</button>  button.
   * [x] The route is displayed.
   * [x] The route is centered on page. This depends if information is available in the user track.
@@ -257,19 +258,10 @@ Input fields can be checked
 <progress value="4" max="10" />
 
   * [x] Page created.
-
-  * One trick or another to get info from another track app:
-    * HikingCompanion looks around for installed track apps and asks for the needed data.
-      * [ ] Pulldown of found track apps on device.
-      * [ ] Load track info button to load selected track app.
-    * HikingCompanion is started by the installed track app providing the necessary url where data can be found. Once found, copy the data to the HikingCompanion app which can be used again the next time.
-      * [ ] Check if data is already there.
-      * [ ] check timestamp to see if there is an update.
-      * [ ] Copy data if not there or older.
-
   * [ ] Text message about users consent of sending data to server. Make rest of the questions available if user wants to provide personal data.
   * [x] Username used to differentiate input from a user. This input can be photos, notes etc.
   * [x] Email addresses.
+  * [x] Pulldown of installed hikes. On save, tracks are shown on tracks page.
   * [x] Save data on local memory.
 
 ## The About page
@@ -306,13 +298,14 @@ This should show a dialog to ask the user if he/she really wants to quit the pro
 
 # Other items or problems to think about
 
-<progress value="4" max="11" />
+<progress value="5" max="12" />
 
   * [ ] By what license should the project be protected
   * [ ] Privacy considerations
   * Installing tracks and other information from other sources.
     * [x] Create directory tree
     * [x] Add or modify hike config tables
+    * [x] Install or update comparing version information
     * [x] Refresh track data
     * Linux.
       [x] Install from directory using path argument
@@ -338,7 +331,11 @@ Versions have a letter added: D for debug version and R for a release version. W
 
 * 2018-09-17, 0.9.0
   * Installing track information in app data directory
-  
+  * Create proper application config
+  * Show hike list and select a hike
+  * Show track list and select track. Show track and zoom in on track
+  * When track is selected, bounds are calculated and now also stored in config
+
 * 2018-09-03, 0.8.1
   * Displayed track is now centered and zoomed
 
