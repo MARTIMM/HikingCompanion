@@ -27,13 +27,13 @@ HCPage.Plain {
     //gpxf.readGpxFileInfo();
   }
 
-  signal changeTrackList()
-  onChangeTrackList: {
-    lv.model = hikes.trackList();
-  }
 
   Hikes {
     id: hikes
+  }
+
+  function changeTrackList() {
+    lv.model = hikes.trackList();
   }
 
 /*
@@ -162,7 +162,7 @@ HCPage.Plain {
         anchors.leftMargin: 12
         verticalAlignment: Text.AlignVCenter
         horizontalAlignment: Text.AlignLeft
-        text: "[" + index + "] " + modelData.name
+        text: "[" + index + "] " + modelData
         color: HCTheme1.cmptFgColorL
       }
     }
