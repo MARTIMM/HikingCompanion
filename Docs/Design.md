@@ -96,16 +96,15 @@ consent=false
 email=
 username=
 
-[HikeList]                    List of hikes. The hikes can contain one or more
-                              tracks. The current user may save their own
-                              tracks. All hikes are coded with h#.
+[HikeList]                    List of hikes. The hike list can contain one or
+                              more tracks. The current user may save their own
+                              tracks and will be added to this list. All hikes
+                              are coded with h#.
 h0=sometrail
 h1=...
 
 
-[h0.sometrail]                Specific information about this hike. The name
-                              <sometrail> can not be like 'trail#' because
-                              those are reserved for track information.
+[h0.sometrail]                Specific information about this hike.
 version=
 title=                        Title of hike. Make it as unique as possible. The
                               text is used in the pull-down list.
@@ -122,17 +121,17 @@ nnotes=
 nphotos=
 nfeatures=
 
-[h0.track1]                   Information about the first track
+[h0.sometrail.track1]         Information about the first track
 fname=                        Gpx file with all coordinates
 type=                         bike or walk
 length=                       Length in kilometers. Calculated while installing
 title=                        Title of track
 shortdescr=                   Short description
 
-[h0.track2]                   Second track
+[h0.sometrail.track2]         Second track
 ...
 
-[h0.Releases]                 Release notes
+[h0.sometrail.Releases]       Release notes
 0.0.1="Setup hike config"
 ...
 
