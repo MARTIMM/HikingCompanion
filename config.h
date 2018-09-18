@@ -33,7 +33,11 @@ signals:
 public slots:
 
 private:
-  void _mkNewTable( QSettings *s, QString hikeTableName);
+  void _mkNewTables(
+      QSettings *s,
+      QString hikeEntryKey,
+      QString hikeTableName
+      );
   void _refreshData(
       QSettings *s,
       QString hikeEntryKey,
