@@ -36,5 +36,11 @@ Item {
   function setMenu ( newMenu ) {
     menu = newMenu;
   }
+
+  // Tracks page to modify data from other pages
+  property HCPage.TracksPage tracksPage
+  function setTracksPage ( newTracksPage ) {
+    tracksPage = newTracksPage;
+  }
 }
 

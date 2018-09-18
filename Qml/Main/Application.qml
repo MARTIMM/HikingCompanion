@@ -27,6 +27,7 @@ ApplicationWindow {
     GlobalVariables.setMapPage(mapPage);
     GlobalVariables.setCurrentPage(mapPage);
     GlobalVariables.setMenu(menu);
+    GlobalVariables.setTracksPage(tracksPage);
   }
 
   title: qsTr("Your Hiking Companion")
