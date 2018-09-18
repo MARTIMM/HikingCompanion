@@ -124,9 +124,14 @@ nfeatures=
 [h0.sometrail.track1]         Information about the first track
 fname=                        Gpx file with all coordinates
 type=                         bike or walk
-length=                       Length in kilometers. Calculated while installing
 title=                        Title of track
 shortdescr=                   Short description
+
+length=                       Length in kilometers. Calculated when selected.
+minlon=                       Boundaries of track. Calculated when selected.
+minlat=
+maxlon=
+maxlat=
 
 [h0.sometrail.track2]         Second track
 ...
@@ -144,37 +149,32 @@ When data is imported, a path to the directory is provided where a settings file
 
 ```
 [General]
-version=
+version=                      Version of this track
 
 supportedLang=en
 defaultLang=en
 translationXML=
 
-key=
+hike=                         Name used in the HikeList and table names
 title=
 shortdescr=
 www=
 
-ntracks=
-nnotes=
-nphotos=
-nfeatures=
+tracksdir=                    Sub-directories where data is stored.
+photodir=
+notedir=
+featuredir=
 
-tracksdir=Tracks              Sub-directories where data is stored.
-photodir=Photos
-notedir=Notes
-featuredir=Features
-
-[track1]
-name=
+[track1]                      First track
+fname=                        Filename of track
 title=
 shortdescr=
 type=
 
-[track2]
+[track2]                      Second track
 ...
 
-[Releases]
+[Releases]                    Release notes about this hike
 0.0.1="Setup hike config"
 ...
 

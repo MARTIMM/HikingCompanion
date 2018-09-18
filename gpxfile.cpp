@@ -1,4 +1,5 @@
 #include "gpxfile.h"
+#include "config.h"
 
 #include <QDebug>
 #include <QFile>
@@ -251,18 +252,41 @@ QList<QGeoCoordinate> GpxFile::boundary(QList<QGeoCoordinate> coordinateList) {
 
   QList<QGeoCoordinate> bounds;
   bounds.clear();
+
   double v;
   double minlon = 10000;
   double maxlon = -10000;
   double minlat = 10000;
   double maxlat = -10000;
 
-  for ( int ci = 0; ci < coordinateList.count(); ci++) {
-    QGeoCoordinate c = coordinateList.at(ci);
-    if ( (v = c.longitude()) < minlon ) minlon = v;
-    if ( v > maxlon ) maxlon = v;
-    if ( (v = c.latitude()) < minlat ) minlat = v;
-    if ( v > maxlat ) maxlat = v;
+  Config *cfg = new Config();
+
+  QString entryKey = cfg->hikeEntryKey();
+  QString tableName = cfg->hikeTableName(entryKey);
+  int index = cfg->getSetting(tableName + "/gpxfileindex").toInt();
+  QString tracksTableName = cfg->tracksTableName( tableName, index);
+  QString x = cfg->getSetting(tracksTableName + "/minlon");
+
+  if ( x == "" ) {
+    for ( int ci = 0; ci < coordinateList.count(); ci++) {
+      QGeoCoordinate c = coordinateList.at(ci);
+      if ( (v = c.longitude()) < minlon ) minlon = v;
+      if ( v > maxlon ) maxlon = v;
+      if ( (v = c.latitude()) < minlat ) minlat = v;
+      if ( v > maxlat ) maxlat = v;
+    }
+
+    cfg->setSetting( tracksTableName + "/minlon", QString("%1").arg(minlon));
+    cfg->setSetting( tracksTableName + "/maxlon", QString("%1").arg(maxlon));
+    cfg->setSetting( tracksTableName + "/minlat", QString("%1").arg(minlat));
+    cfg->setSetting( tracksTableName + "/maxlat", QString("%1").arg(maxlat));
+  }
+
+  else {
+    minlon = cfg->getSetting(tracksTableName + "/minlon").toDouble();
+    maxlon = cfg->getSetting(tracksTableName + "/maxlon").toDouble();
+    minlat = cfg->getSetting(tracksTableName + "/minlat").toDouble();
+    maxlat = cfg->getSetting(tracksTableName + "/maxlat").toDouble();
   }
 
   QGeoCoordinate *gc = new QGeoCoordinate();
@@ -275,7 +299,7 @@ QList<QGeoCoordinate> GpxFile::boundary(QList<QGeoCoordinate> coordinateList) {
   gc->setLongitude(maxlon);
   bounds.append(*gc);
 
-  /*
+/*
 
   QFile gpxFile(gpxFilePath);
   if ( !gpxFile.open(QIODevice::ReadOnly | QIODevice::Text) ) {
