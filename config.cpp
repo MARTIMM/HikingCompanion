@@ -13,7 +13,28 @@
 // See also http://blog.qt.io/blog/2017/12/01/sharing-files-android-ios-qt-app/
 // to use Q_OS_IOS, Q_OS_ANDROID etc.
 // ----------------------------------------------------------------------------
-Config::Config(QObject *parent) : QObject(parent) { }
+Config::Config(QObject *parent) : QObject(parent) {
+
+  // See also http://doc.qt.io/qt-5/qguiapplication.html#platformName-prop
+  // For me it could be: android, ios or xcb (x11 on linux)
+  //qDebug() << "platform name: " << qApp->platformName();
+
+  // Check the data directories. Make use of GenericDataLocation standard path
+  // and look for the directory made up by its id.
+  QString id = QCoreApplication::organizationDomain() +
+      "." + QCoreApplication::applicationName();
+  //qDebug() << "Id: " << id;
+
+  // Take first directory from the list. That one is the users
+  // data directory.
+  _dataDir = QStandardPaths::standardLocations(
+        QStandardPaths::GenericDataLocation
+        ).first() + "/" + id;
+
+  QDir *dd = new QDir(_dataDir);
+  if ( ! dd->exists() ) dd->mkdir(_dataDir);
+  //qDebug() << "Data location:" << _dataDir;
+}
 
 // ----------------------------------------------------------------------------
 // Set only new string values to this applications config settings
@@ -96,28 +117,12 @@ QString Config::tracksTableName( QString hikeTableName, int trackCount) {
 }
 
 // ----------------------------------------------------------------------------
+QString Config::dataDir() {
+  return _dataDir;
+}
+
+// ----------------------------------------------------------------------------
 void Config::installNewData(QString dataPath) {
-
-  // See also http://doc.qt.io/qt-5/qguiapplication.html#platformName-prop
-  // For me it could be: android, ios or xcb (x11 on linux)
-  //qDebug() << "platform name: " << qApp->platformName();
-
-  // Check the data directories. Make use of GenericDataLocation standard path
-  // and look for the directory made up by its id.
-  QString id = QCoreApplication::organizationDomain() +
-      "." + QCoreApplication::applicationName();
-  //qDebug() << "Id: " << id;
-
-  // Take first directory from the list. That one is the users
-  // data directory.
-  _dataDir = QStandardPaths::standardLocations(
-        QStandardPaths::GenericDataLocation
-        ).first() + "/" + id;
-
-  QDir *dd = new QDir(_dataDir);
-  if ( ! dd->exists() ) dd->mkdir(_dataDir);
-  //qDebug() << "Data location:" << _dataDir;
-
 
   qDebug() << "Install data from" << dataPath;
   QSettings *s = new QSettings( dataPath + "/hike.conf", QSettings::IniFormat);
@@ -129,7 +134,7 @@ void Config::installNewData(QString dataPath) {
 
   // Create the root of the hike data dir
   QString hikeDir = _dataDir + "/" + hikename;
-  dd = new QDir(hikeDir);
+  QDir *dd = new QDir(hikeDir);
   if ( ! dd->exists() ) dd->mkdir(hikeDir);
   qDebug() << "hike root:" << hikeDir;
 
@@ -255,7 +260,7 @@ void Config::_refreshData(
   for ( int gfi = 0; gfi < nbrGpxFiles; gfi++) {
 
     // Create table
-    QString srcTrackTable = QString("Track%1").arg(gfi + 1);
+    QString srcTrackTable = QString("Track%1").arg(gfi);
     QString destTrackTable = hikeTableName + QString(".Track%1").arg(gfi);
 
     qDebug() << "src/dest table" << srcTrackTable << destTrackTable;

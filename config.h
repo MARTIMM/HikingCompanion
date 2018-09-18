@@ -31,6 +31,8 @@ public:
   QString hikeTableName(QString hikeEntryKey);
   QString tracksTableName( QString hikeTableName, int trackCount);
 
+  QString dataDir();
+
 signals:
 
 public slots:
