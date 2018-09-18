@@ -33,16 +33,17 @@ QStringList Hikes::hikeList() {
 }
 
 // ----------------------------------------------------------------------------
-void Hikes::defineTrackList() {
+QVariantList Hikes::trackList() {
 
-  // Get all entries from the hike list
+  Config *cfg = new Config();
+  QString entryKey = cfg->hikeEntryKey();
+  QString tableName = cfg->hikeTableName(entryKey);
+  int ntracks = cfg->getSetting(tableName + "/ntracks").toInt();
+  for ( int ni = 0; ni < ntracks; ni++) {
+    QString tracksTableName = cfg->tracksTableName( entryKey, tableName, ni);
+  }
+
   _trackList.clear();
-
-  emit trackListDefined();
-}
-
-// ----------------------------------------------------------------------------
-QStringList Hikes::trackList() {
-
+  _trackList.append("track 1, tralaaa");
   return _trackList;
 }

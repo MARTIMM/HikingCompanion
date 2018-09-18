@@ -2,6 +2,7 @@
 #define HIKES_H
 
 #include <QObject>
+#include <QVariantList>
 
 // ----------------------------------------------------------------------------
 class Hikes : public QObject {
@@ -13,12 +14,10 @@ public:
 
   Q_INVOKABLE void defineHikeList();
   Q_INVOKABLE QStringList hikeList();
-  Q_INVOKABLE void defineTrackList();
-  Q_INVOKABLE QStringList trackList();
+  Q_INVOKABLE QVariantList trackList();
 
 signals:
   void hikeListDefined();
-  void trackListDefined();
 
 public slots:
 
@@ -26,7 +25,7 @@ private:
   // title => hike table name. titles from the tables are shown in the drop
   // list and after selection it must be used to find the table.
   QStringList _hikeList;
-  QStringList _trackList;
+  QVariantList _trackList;
 };
 
 #endif // HIKES_H
