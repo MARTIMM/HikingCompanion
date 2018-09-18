@@ -76,6 +76,39 @@ QStringList Config::readKeys( QString group, QSettings *s) {
 }
 
 // ----------------------------------------------------------------------------
+QString Config::hikeEntryKey() {
+
+  QString hikeIndex = getSetting("selectedhikeindex");
+  return QString("h") + hikeIndex;
+}
+
+// ----------------------------------------------------------------------------
+QString Config::hikeTableName(QString hikeEntryKey) {
+
+  QString hikeKey = getSetting("HikeList/" + hikeEntryKey);
+  return hikeEntryKey + "." + hikeKey;
+}
+
+// ----------------------------------------------------------------------------
+QString Config::tracksTableName( QString hikeEntryKey, int trackCount) {
+  return tracksTableName(
+        hikeEntryKey,
+        hikeTableName(hikeEntryKey),
+        trackCount
+        );
+}
+
+// ----------------------------------------------------------------------------
+QString Config::tracksTableName(
+    QString hikeEntryKey,
+    QString hikeTableName,
+    int trackCount
+    ) {
+
+  return hikeEntryKey + QString(".%1.%2").arg(hikeTableName).arg(trackCount);
+}
+
+// ----------------------------------------------------------------------------
 void Config::installNewData(QString dataPath) {
 
   // See also http://doc.qt.io/qt-5/qguiapplication.html#platformName-prop
@@ -145,19 +178,21 @@ void Config::installNewData(QString dataPath) {
   qDebug() << "Versions old/new:" << hikeVersion << getSetting( "version", s);
   // If version of imported hike is greater, then there is work to do
   if ( hikeVersion.compare(getSetting( "version", s)) < 0 ) {
-    _mkNewTables( s, hikeEntryKey, hikeTableName);
-    _refreshData( s, hikeEntryKey, hikeTableName, hikeDir, dataPath);
+    _mkNewTables( s, hikeTableName);
+    _refreshData( s, hikeTableName, hikeDir, dataPath);
   }
 }
 
 // ----------------------------------------------------------------------------
-// Remove keys from this applications config settings.
-void Config::_mkNewTables(
-    QSettings *s,
-    QString hikeEntryKey,
-    QString hikeTableName
-    ) {
+// Create new tables. One for the hike and one for its release notes
+void Config::_mkNewTables( QSettings *s, QString hikeTableName ) {
 
+  // Remove the hike table and the releases table
+  _removeSettings(hikeTableName);
+  QString releaseTableName = hikeTableName + ".Releases";
+  _removeSettings(releaseTableName);
+
+  // Keys needed for the hike table
   QStringList keys = {
     "version", "title", "shortdescr", "www", "defaultlang",
     "supportedlang", "translationfile"
@@ -168,9 +203,10 @@ void Config::_mkNewTables(
     setSetting( hikeTableName + "/" + keys[ki], v);
   }
 
+  // Default the first track is selected
   setSetting( hikeTableName + "/gpxfileindex", 0);
 
-  QString releaseTableName = QString(hikeEntryKey) + "." + "Releases";
+  // Release notes table
   QStringList releaseKeys = readKeys( "Releases", s);
   for ( int ri = 0; ri < releaseKeys.count(); ri++) {
     setSetting(
@@ -183,7 +219,6 @@ void Config::_mkNewTables(
 // ----------------------------------------------------------------------------
 void Config::_refreshData(
     QSettings *s,
-    QString hikeEntryKey,
     QString hikeTableName,
     QString hikeDir,
     QString dataPath
@@ -201,7 +236,7 @@ void Config::_refreshData(
     for ( int gfi = 0; gfi < gpxFiles.count(); gfi++) {
 
       // Remove table
-      QString trackTableName = hikeEntryKey + QString(".Track%1").arg(gfi + 1);
+      QString trackTableName = hikeTableName + QString(".Track%1").arg(gfi + 1);
       qDebug() << "Remove table" << trackTableName;
       _removeSettings(trackTableName);
 
@@ -227,19 +262,25 @@ void Config::_refreshData(
   //QStringList newGpxFiles = sgd->entryList( QDir::Files, QDir::Name);
   //for ( int gfi = 0; gfi < newGpxFiles.count(); gfi++) {
 
+  // Maximum number of files possible
   int nbrGpxFiles = sgd->entryList(QDir::Files).count();
+  int nbrDefinedGpxFiles = 0;
   for ( int gfi = 0; gfi < nbrGpxFiles; gfi++) {
 
     // Create table
     QString srcTrackTable = QString("Track%1").arg(gfi + 1);
-    QString destTrackTable = hikeEntryKey + QString(".Track%1").arg(gfi + 1);
+    QString destTrackTable = hikeTableName + QString(".Track%1").arg(gfi + 1);
 
     qDebug() << "src/dest table" << srcTrackTable << destTrackTable;
 
     // If there are no keys for this table, we are done
     QStringList trackKeys = readKeys( srcTrackTable, s);
-    if ( trackKeys.count() == 0 ) break;
+    if ( trackKeys.count() == 0 ) {
+      nbrDefinedGpxFiles = gfi;
+      break;
+    }
 
+    //Todo Lenght must be calculated
     QStringList keys = {
       "fname", "title", "shortdescr", "type", "length",
     };
@@ -258,7 +299,7 @@ void Config::_refreshData(
     qDebug() << "copy" << sourceGpxDirectory + "/" + fname;
   }
 
-  setSetting( hikeTableName + "/ntracks", nbrGpxFiles);
+  setSetting( hikeTableName + "/ntracks", nbrDefinedGpxFiles);
 
 
   hikeSubdir = QString(hikeDir + "/Photos");

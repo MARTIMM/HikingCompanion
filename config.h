@@ -24,23 +24,26 @@ public:
   Q_INVOKABLE void setSetting( QString name, QString value);
   Q_INVOKABLE void setSetting( QString name, int value);
   Q_INVOKABLE QString getSetting(QString name, QSettings *s = nullptr);
-  Q_INVOKABLE QStringList readKeys( QString group, QSettings *s = nullptr);
 
+  QStringList readKeys( QString group, QSettings *s = nullptr);
   void installNewData(QString dataPath);
+  QString hikeEntryKey();
+  QString hikeTableName(QString hikeEntryKey);
+  QString tracksTableName( QString hikeEntryKey, int trackCount);
+  QString tracksTableName(
+      QString hikeEntryKey,
+      QString hikeTableName,
+      int trackCount
+      );
 
 signals:
 
 public slots:
 
 private:
-  void _mkNewTables(
-      QSettings *s,
-      QString hikeEntryKey,
-      QString hikeTableName
-      );
+  void _mkNewTables( QSettings *s,  QString hikeTableName);
   void _refreshData(
       QSettings *s,
-      QString hikeEntryKey,
       QString hikeTableName,
       QString hikeDir,
       QString dataPath
