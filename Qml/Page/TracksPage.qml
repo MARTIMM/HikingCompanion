@@ -37,6 +37,10 @@ HCPage.Plain {
 
   function changeTrackList() {
     lv.model = hikes.trackList();
+    currentIndex = config.getGpxFileIndexSetting();
+
+    var entriesHeight = lv.model.length * 20;
+    lv.contentHeight = 20 + entriesHeight;
   }
 
   GpxFiles {
@@ -185,7 +189,7 @@ HCPage.Plain {
       text: qsTr("Select")
 
       onClicked: {
-        //config.setSetting( "Tracks/gpxfileindex", currentIndex.toString());
+        config.setGpxFileIndexSetting(currentIndex);
 
         // Get the coordinates of the selected track and emit a
         // signal when ready. This signal is catched on the mapPage

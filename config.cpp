@@ -122,6 +122,22 @@ QString Config::dataDir() {
 }
 
 // ----------------------------------------------------------------------------
+int Config::getGpxFileIndexSetting() {
+
+  QString entryKey = hikeEntryKey();
+  QString tableName = hikeTableName(entryKey);
+  return getSetting( tableName + "/gpxfileindex").toInt();
+}
+
+// ----------------------------------------------------------------------------
+void Config::setGpxFileIndexSetting(int currentIndex) {
+
+  QString entryKey = hikeEntryKey();
+  QString tableName = hikeTableName(entryKey);
+  setSetting( tableName + "/gpxfileindex", currentIndex);
+}
+
+// ----------------------------------------------------------------------------
 void Config::installNewData(QString dataPath) {
 
   qDebug() << "Install data from" << dataPath;
