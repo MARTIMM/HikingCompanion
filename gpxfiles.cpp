@@ -1,4 +1,5 @@
 #include "gpxfiles.h"
+#include "config.h"
 
 #include <QDebug>
 #include <QDir>
@@ -32,6 +33,7 @@ QString GpxFiles::description() {
   return _description;
 }
 
+/*
 // ----------------------------------------------------------------------------
 void GpxFiles::readGpxFileInfo(QString path) {
 
@@ -41,6 +43,7 @@ void GpxFiles::readGpxFileInfo(QString path) {
   _setGpxFiles();
   emit gpxFileListReady();
 }
+*/
 
 // ----------------------------------------------------------------------------
 void GpxFiles::_setGpxFiles() {
@@ -54,7 +57,7 @@ void GpxFiles::_setGpxFiles() {
   QRegExp rx("\\.gpx$");
 
   QStringList filters = { "*.gpx" };
-  QDir d (_gpxPath);
+  QDir d(_gpxPath);
   d.setNameFilters(filters);
   d.setSorting(QDir::Name);
 
@@ -74,6 +77,24 @@ void GpxFiles::_setGpxFiles() {
 void GpxFiles::loadCoordinates(int index) {
 
   qDebug() << "get coordinates from selected index: " << index;
+
+  Config *cfg = new Config();
+  QString entryKey = cfg->hikeEntryKey();
+  QString tableName = cfg->hikeTableName(entryKey);
+  QString tracksTableName = cfg->tracksTableName( tableName, index);
+
+  QString hikeName = cfg->getSetting("HikeList/" + entryKey);
+  QString gpxFile =
+      cfg->dataDir() + "/" + hikeName + "/Tracks/" +
+      cfg->getSetting(tracksTableName + "/fname");
+
+  _coordinateList = GpxFile::coordinateList(gpxFile);
+  qDebug() << _coordinateList.count() << " coordinates found";
+  _boundary = GpxFile::boundary(_coordinateList);
+  qDebug() << _boundary.count() << " boundaries set";
+
+  emit coordinatesReady();
+/*
   _coordinateList =
       reinterpret_cast<GpxFile *>(_gpxFileList[index])->coordinateList();
 
@@ -83,6 +104,7 @@ void GpxFiles::loadCoordinates(int index) {
   qDebug() << _boundary.count() << " boundaries set";
 
   emit coordinatesReady();
+*/
 }
 
 // ----------------------------------------------------------------------------

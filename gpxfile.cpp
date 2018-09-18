@@ -112,6 +112,9 @@ void GpxFile::_parseTrackdata(QXmlStreamReader &xml) {
 // Read the list of coordinates from the gpx file and return the list
 QList<QGeoCoordinate> GpxFile::coordinateList() {
 
+  return GpxFile::coordinateList(_gpxPath + "/" + _gpxFilename);
+
+/*
   QList<QGeoCoordinate> coordinateList;
   coordinateList.clear();
   int count = 0;
@@ -142,11 +145,53 @@ QList<QGeoCoordinate> GpxFile::coordinateList() {
   }
 
   return coordinateList;
+*/
+}
+
+// ----------------------------------------------------------------------------
+// Read the list of coordinates from the gpx file and return the list
+QList<QGeoCoordinate> GpxFile::coordinateList(QString gpxFilePath) {
+
+  QList<QGeoCoordinate> coordinateList;
+  coordinateList.clear();
+  int count = 0;
+
+  QFile gpxFile(gpxFilePath);
+  if ( !gpxFile.open(QIODevice::ReadOnly | QIODevice::Text) ) {
+    //Todo error must be shown in status on screen
+    qDebug() << QString("Open gpx file %1: %2").arg(gpxFilePath).arg(gpxFile.errorString());
+    return coordinateList;
+  }
+
+  QXmlStreamReader xml(&gpxFile);
+  QXmlStreamReader::TokenType token;
+  while ( !xml.atEnd() && !xml.hasError() ) {
+    token = xml.readNext();
+    if ( token == QXmlStreamReader::StartElement && xml.name() == "trkpt" ) {
+      QXmlStreamAttributes attr = xml.attributes();
+      double lat = attr.value("lat").toDouble();
+      double lon = attr.value("lon").toDouble();
+      QGeoCoordinate *gc = new QGeoCoordinate();
+      gc->setLatitude(lat);
+      gc->setLongitude(lon);
+      coordinateList.append(*gc);
+
+      qDebug() << "[" << count++ << "] lon: " << lon << ", lat: " << lat;
+      xml.readNext();
+    }
+  }
+
+  return coordinateList;
 }
 
 // ----------------------------------------------------------------------------
 QList<QGeoCoordinate> GpxFile::boundary() {
 
+  return GpxFile::boundary(
+        GpxFile::coordinateList(_gpxPath + "/" + _gpxFilename)
+        );
+
+/*
   QList<QGeoCoordinate> coordinateList;
   coordinateList.clear();
 
@@ -198,4 +243,85 @@ QList<QGeoCoordinate> GpxFile::boundary() {
   }
 
   return coordinateList;
+*/
+}
+
+// ----------------------------------------------------------------------------
+QList<QGeoCoordinate> GpxFile::boundary(QList<QGeoCoordinate> coordinateList) {
+
+  QList<QGeoCoordinate> bounds;
+  bounds.clear();
+  double v;
+  double minlon = 10000;
+  double maxlon = -10000;
+  double minlat = 10000;
+  double maxlat = -10000;
+
+  for ( int ci = 0; ci < coordinateList.count(); ci++) {
+    QGeoCoordinate c = coordinateList.at(ci);
+    if ( (v = c.longitude()) < minlon ) minlon = v;
+    if ( v > maxlon ) maxlon = v;
+    if ( (v = c.latitude()) < minlat ) minlat = v;
+    if ( v > maxlat ) maxlat = v;
+  }
+
+  QGeoCoordinate *gc = new QGeoCoordinate();
+  gc->setLatitude(minlat);
+  gc->setLongitude(minlon);
+  bounds.append(*gc);
+
+  gc = new QGeoCoordinate();
+  gc->setLatitude(maxlat);
+  gc->setLongitude(maxlon);
+  bounds.append(*gc);
+
+  /*
+
+  QFile gpxFile(gpxFilePath);
+  if ( !gpxFile.open(QIODevice::ReadOnly | QIODevice::Text) ) {
+    //Todo error must be shown in status on screen
+    qDebug() << QString("Open gpx file %1: %2").arg(gpxFilePath).arg(gpxFile.errorString());
+    return coordinateList;
+  }
+  QXmlStreamReader xml(&gpxFile);
+  QXmlStreamReader::TokenType token;
+  while ( !xml.atEnd() && !xml.hasError() ) {
+    token = xml.readNext();
+    if ( token == QXmlStreamReader::EndElement && xml.name() == "metadata" ) {
+      break;
+    }
+
+    if ( token == QXmlStreamReader::StartElement && xml.name() == "bounds" ) {
+      QXmlStreamAttributes attr = xml.attributes();
+
+      // Get top-left coordinate
+      double lat = attr.value("minlat").toDouble();
+      double lon = attr.value("minlon").toDouble();
+      QGeoCoordinate *gc = new QGeoCoordinate();
+      gc->setLatitude(lat);
+      gc->setLongitude(lon);
+      coordinateList.append(*gc);
+
+      qDebug() << "Min lon: " << lon << ", lat: " << lat;
+
+      // Get bottom-right coordinate
+      lat = attr.value("maxlat").toDouble();
+      lon = attr.value("maxlon").toDouble();
+      gc = new QGeoCoordinate();
+      gc->setLatitude(lat);
+      gc->setLongitude(lon);
+      coordinateList.append(*gc);
+
+      qDebug() << "Max lon: " << lon << ", lat: " << lat;
+      break;
+    }
+  }
+
+  //TODO If no bounds information then calculate from coordinates
+  if ( coordinateList.count() != 2 ) {
+
+  }
+*/
+
+  return bounds;
 }

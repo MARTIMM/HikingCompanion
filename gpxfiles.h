@@ -19,7 +19,7 @@ public:
   ~GpxFiles();
 
 //TODO: path must come from ConfigData
-  Q_INVOKABLE void readGpxFileInfo(QString path = "/home/marcel/Projects/Mobile/Projects/Sufitrail/Qt/Sufitrail/trackData/tracks");
+  //Q_INVOKABLE void readGpxFileInfo(QString path = "/home/marcel/Projects/Mobile/Projects/Sufitrail/Qt/Sufitrail/trackData/tracks");
   QString description();
 
   Q_INVOKABLE QList<QObject *> gpxFileList();

@@ -22,7 +22,9 @@ public:
   QString setGpxFilename( QString gpxPath, QString gpxFilename);
 
   QList<QGeoCoordinate> coordinateList();
+  static QList<QGeoCoordinate> coordinateList(QString gpxFilePath);
   QList<QGeoCoordinate> boundary();
+  static QList<QGeoCoordinate> boundary(QList<QGeoCoordinate> coordinateList);
 
 signals:
 
