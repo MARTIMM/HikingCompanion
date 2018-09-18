@@ -6,6 +6,7 @@ import io.github.martimm.HikingCompanion.Theme 0.1
 import io.github.martimm.HikingCompanion.Config 0.3
 import io.github.martimm.HikingCompanion.Languages 0.2
 import io.github.martimm.HikingCompanion.Hikes 0.1
+import io.github.martimm.HikingCompanion.GlobalVariables 0.1
 
 import QtQuick 2.9
 import QtQuick.Controls 2.2
@@ -223,6 +224,8 @@ HCPage.Plain {
         config.setSetting( "User/username", username.inputText.text);
         config.setSetting( "User/email", email.inputText.text);
         config.setSetting( "selectedhikeindex", configGrid.hikeRow.cbx2.currentIndex);
+
+        GlobalVariables.tracksPage.changeTrackList();
       }
     }
   }
