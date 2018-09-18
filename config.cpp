@@ -90,22 +90,9 @@ QString Config::hikeTableName(QString hikeEntryKey) {
 }
 
 // ----------------------------------------------------------------------------
-QString Config::tracksTableName( QString hikeEntryKey, int trackCount) {
-  return tracksTableName(
-        hikeEntryKey,
-        hikeTableName(hikeEntryKey),
-        trackCount
-        );
-}
+QString Config::tracksTableName( QString hikeTableName, int trackCount) {
 
-// ----------------------------------------------------------------------------
-QString Config::tracksTableName(
-    QString hikeEntryKey,
-    QString hikeTableName,
-    int trackCount
-    ) {
-
-  return hikeEntryKey + QString(".%1.%2").arg(hikeTableName).arg(trackCount);
+  return QString("%1.Track%2").arg(hikeTableName).arg(trackCount);
 }
 
 // ----------------------------------------------------------------------------
@@ -269,7 +256,7 @@ void Config::_refreshData(
 
     // Create table
     QString srcTrackTable = QString("Track%1").arg(gfi + 1);
-    QString destTrackTable = hikeTableName + QString(".Track%1").arg(gfi + 1);
+    QString destTrackTable = hikeTableName + QString(".Track%1").arg(gfi);
 
     qDebug() << "src/dest table" << srcTrackTable << destTrackTable;
 

@@ -29,12 +29,7 @@ public:
   void installNewData(QString dataPath);
   QString hikeEntryKey();
   QString hikeTableName(QString hikeEntryKey);
-  QString tracksTableName( QString hikeEntryKey, int trackCount);
-  QString tracksTableName(
-      QString hikeEntryKey,
-      QString hikeTableName,
-      int trackCount
-      );
+  QString tracksTableName( QString hikeTableName, int trackCount);
 
 signals:
 
