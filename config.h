@@ -26,6 +26,7 @@ public:
   Q_INVOKABLE QString getSetting(QString name, QSettings *s = nullptr);
   Q_INVOKABLE void setGpxFileIndexSetting(int currentIndex);
   Q_INVOKABLE int getGpxFileIndexSetting();
+  Q_INVOKABLE void cleanupTracks();
 
   QStringList readKeys( QString group, QSettings *s = nullptr);
   void installNewData(QString dataPath);

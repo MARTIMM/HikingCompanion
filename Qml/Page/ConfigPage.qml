@@ -223,9 +223,15 @@ HCPage.Plain {
         config.setSetting( "languageindex", configGrid.languageRow.cbx1.currentIndex);
         config.setSetting( "User/username", username.inputText.text);
         config.setSetting( "User/email", email.inputText.text);
-        config.setSetting( "selectedhikeindex", configGrid.hikeRow.cbx2.currentIndex);
 
-        GlobalVariables.tracksPage.changeTrackList();
+        if ( configGrid.hikeRow.cbx2.model.length === 0 ) {
+          config.cleanupTracks();
+        }
+
+        else {
+          config.setSetting( "selectedhikeindex", configGrid.hikeRow.cbx2.currentIndex);
+          GlobalVariables.tracksPage.changeTrackList();
+        }
       }
     }
   }

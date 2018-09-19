@@ -8,6 +8,7 @@
 #include <QDir>
 #include <QFile>
 #include <QStandardPaths>
+#include <QRegExp>
 
 // ----------------------------------------------------------------------------
 // See also http://blog.qt.io/blog/2017/12/01/sharing-files-android-ios-qt-app/
@@ -33,7 +34,24 @@ Config::Config(QObject *parent) : QObject(parent) {
 
   QDir *dd = new QDir(_dataDir);
   if ( ! dd->exists() ) dd->mkdir(_dataDir);
-  //qDebug() << "Data location:" << _dataDir;
+  qDebug() << "Data location:" << _dataDir;
+}
+
+// ----------------------------------------------------------------------------
+// Cleanup tracks information in config when there are no entries
+// in the hike list. This is to prevent linguering entries to disturb
+// later config changes.
+void Config::cleanupTracks() {
+
+  QRegExp rx("^(h\\d+|h\\.)");
+  QSettings *settings = new QSettings();
+  QStringList topLevelKeys = settings->childGroups();
+  for ( int hi = 0; hi < topLevelKeys.count(); hi++ ) {
+    if ( topLevelKeys[hi].contains(rx) ) {
+      qDebug() << "Remove keys of" << topLevelKeys[hi];
+      _removeSettings(topLevelKeys[hi]);
+    }
+  }
 }
 
 // ----------------------------------------------------------------------------
