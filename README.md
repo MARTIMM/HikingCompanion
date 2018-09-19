@@ -335,6 +335,7 @@ Versions have a letter added: D for debug version and R for a release version. W
   * Show hike list and select a hike
   * Show track list and select track. Show track and zoom in on track
   * When track is selected, bounds are calculated and now also stored in config
+  * Several cleanup phases when lists are empty
 
 * 2018-09-03, 0.8.1
   * Displayed track is now centered and zoomed
