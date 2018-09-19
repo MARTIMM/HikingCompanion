@@ -158,7 +158,12 @@ void Config::setGpxFileIndexSetting(int currentIndex) {
 // ----------------------------------------------------------------------------
 void Config::installNewData(QString dataPath) {
 
-  qDebug() << "Install data from" << dataPath;
+  qDebug() << "Install data from" << dataPath + "/hike.conf";
+  if ( ! QFile::exists(dataPath + "/hike.conf") ) {
+    qDebug() << dataPath + "/hike.conf does not exist";
+    return;
+  }
+
   QSettings *s = new QSettings( dataPath + "/hike.conf", QSettings::IniFormat);
 
   QString hikename = getSetting( "hike", s);
