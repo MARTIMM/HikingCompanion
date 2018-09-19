@@ -268,6 +268,7 @@ QList<QGeoCoordinate> GpxFile::boundary(QList<QGeoCoordinate> coordinateList) {
   QString x = cfg->getSetting(tracksTableName + "/minlon");
 
   if ( x == "" ) {
+    qDebug() << "Calculate boundaries and store in settings";
     for ( int ci = 0; ci < coordinateList.count(); ci++) {
       QGeoCoordinate c = coordinateList.at(ci);
       if ( (v = c.longitude()) < minlon ) minlon = v;
@@ -283,6 +284,7 @@ QList<QGeoCoordinate> GpxFile::boundary(QList<QGeoCoordinate> coordinateList) {
   }
 
   else {
+    qDebug() << "Found boundaries in settings";
     minlon = cfg->getSetting(tracksTableName + "/minlon").toDouble();
     maxlon = cfg->getSetting(tracksTableName + "/maxlon").toDouble();
     minlat = cfg->getSetting(tracksTableName + "/minlat").toDouble();
