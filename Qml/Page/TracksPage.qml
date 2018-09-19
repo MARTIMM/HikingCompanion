@@ -37,10 +37,17 @@ HCPage.Plain {
 
   function changeTrackList() {
     lv.model = hikes.trackList();
-    currentIndex = config.getGpxFileIndexSetting();
+    if ( lv.model.length === 0 ) {
+      lv.contentHeight = 0;
+      selectButton.enabled = false;
+    }
 
-    var entriesHeight = lv.model.length * 20;
-    lv.contentHeight = 20 + entriesHeight;
+    else {
+      currentIndex = config.getGpxFileIndexSetting();
+      var entriesHeight = lv.model.length * 20;
+      lv.contentHeight = 20 + entriesHeight;
+      selectButton.enabled = true;
+    }
   }
 
   GpxFiles {
@@ -185,6 +192,7 @@ HCPage.Plain {
     anchors.bottom: parent.bottom
 
     Button {
+      id: selectButton
       width: textMetrics.boundingRect.width + 30
       text: qsTr("Select")
 
