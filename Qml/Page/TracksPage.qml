@@ -16,26 +16,18 @@ import QtQuick.Controls 2.2
 HCPage.Plain {
   id: tracksPage
 
-/*
-  onActiveFocusChanged: {
-    console.log("active focus");
-  }
-*/
-
   Config { id: config }
+  Hikes { id: hikes }
 
   Component.onCompleted: {
-    // Get the track list ready -> onGpxFileListReady will be emitted
-    //gpxf.readGpxFileInfo();
-
+    // Get the track list. Here it is prepared on startup.
     changeTrackList();
   }
 
-  Hikes {
-    id: hikes
-  }
-
   function changeTrackList() {
+    // Get the track list and check if empty. If empty, the select button
+    // must be disabled. If not empty, set the previous selected entry
+    // in the tracklist.
     lv.model = hikes.trackList();
     if ( lv.model.length === 0 ) {
       lv.contentHeight = 0;
@@ -53,15 +45,20 @@ HCPage.Plain {
   GpxFiles {
     id: gpxf
 
+    // Function is triggered when click event on the select button
+    // calls loadCoordinates function.
     onCoordinatesReady: {
+      // Get the path of coordinates and show on map
       var path = gpxf.coordinateList();
       var mapPage = GlobalVariables.mapPage;
       mapPage.hikerCompanionMap.trackCourse.setPath(path);
 
+      // Get the boundaries of the set of coordinates to zoom in
+      // on the track shown on the map
       var bounds = gpxf.boundary();
       mapPage.hikerCompanionMap.visibleRegion = bounds;
 
-      //mapPage.hikerCompanionMap.zoomLevel =
+      // Make map visible
       GlobalVariables.menu.setHomePage();
     }
   }

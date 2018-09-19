@@ -18,8 +18,6 @@ public:
   explicit GpxFiles(QObject *parent = nullptr);
   ~GpxFiles();
 
-//TODO: path must come from ConfigData
-  //Q_INVOKABLE void readGpxFileInfo(QString path = "/home/marcel/Projects/Mobile/Projects/Sufitrail/Qt/Sufitrail/trackData/tracks");
   QString description();
 
   Q_INVOKABLE QList<QObject *> gpxFileList();
@@ -29,7 +27,6 @@ public:
   Q_INVOKABLE QGeoPath boundary();
 
 signals:
-  void gpxFileListReady();
   void coordinatesReady();
 
 public slots:

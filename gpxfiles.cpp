@@ -33,18 +33,6 @@ QString GpxFiles::description() {
   return _description;
 }
 
-/*
-// ----------------------------------------------------------------------------
-void GpxFiles::readGpxFileInfo(QString path) {
-
-//TODO test path
-  _gpxPath = path;
-
-  _setGpxFiles();
-  emit gpxFileListReady();
-}
-*/
-
 // ----------------------------------------------------------------------------
 void GpxFiles::_setGpxFiles() {
 
@@ -94,17 +82,6 @@ void GpxFiles::loadCoordinates(int index) {
   qDebug() << _boundary.count() << " boundaries set";
 
   emit coordinatesReady();
-/*
-  _coordinateList =
-      reinterpret_cast<GpxFile *>(_gpxFileList[index])->coordinateList();
-
-  qDebug() << _coordinateList.count() << " coordinates found";
-
-  _boundary = reinterpret_cast<GpxFile *>(_gpxFileList[index])->boundary();
-  qDebug() << _boundary.count() << " boundaries set";
-
-  emit coordinatesReady();
-*/
 }
 
 // ----------------------------------------------------------------------------
