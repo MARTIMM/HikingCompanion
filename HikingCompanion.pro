@@ -48,7 +48,9 @@ else: unix:!android: target.path = /opt/$${TARGET}/bin
 !isEmpty(target.path): INSTALLS += target
 
 android {
-DISTFILES += \
+  QT += androidextras
+
+  DISTFILES += \
     android/AndroidManifest.xml \
     android/gradle/wrapper/gradle-wrapper.jar \
     android/gradlew \
@@ -64,5 +66,9 @@ DISTFILES += \
     android/gradle/wrapper/gradle-wrapper.properties \
     android/gradlew.bat
 
-ANDROID_PACKAGE_SOURCE_DIR = $$PWD/android
+  DISTFILES += android/src/utils/HCAndroidUtils.java
+
+
+  ANDROID_PACKAGE_SOURCE_DIR = $$PWD/android
 }
+
