@@ -61,6 +61,16 @@
             <!-- extract android style -->
     </activity>
 
+    <!-- sharing activity -->
+    <activity android:name=".utils.HCAndroidUtils">
+
+      <intent-filter>
+        <action android:name="android.intent.action.SEND"/>
+        <category android:name="android.intent.category.DEFAULT"/>
+        <data android:mimeType="text/plain"/>
+      </intent-filter>
+    </activity>
+
     <!-- For adding service(s) please check: https://wiki.qt.io/AndroidServices -->
 
     </application>
