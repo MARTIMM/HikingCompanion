@@ -12,6 +12,7 @@
 #include <QDebug>
 //#include <QQmlProperty>
 #include <QStandardPaths>
+#include <QSharedMemory>
 
 // ----------------------------------------------------------------------------
 int main( int argc, char *argv[]) {
@@ -53,6 +54,34 @@ int main( int argc, char *argv[]) {
 
     return 0;
   }
+
+  // When there is no argument, check if there is some data in a shared
+  // memory segment
+  else {
+    QSharedMemory smForPath(QString("HikingCompanionPath"));
+    if ( smForPath.attach() ) {
+
+      qDebug() << "HC Attached to sm";
+      smForPath.lock();
+
+      QString path(reinterpret_cast<const char *>(smForPath.data()));
+
+      qDebug() << "Got path:" << path;
+
+      smForPath.unlock();
+      smForPath.detach();
+
+      Config *cfg = new Config;
+      cfg->installNewData(path);
+
+      return 0;
+    }
+
+    else {
+      qDebug() << "HC Not attached to sm" << smForPath.errorString();
+    }
+  }
+
 
   qmlRegisterType<TextLoad>(
         "io.github.martimm.HikingCompanion.Textload", 0, 1, "TextLoad"

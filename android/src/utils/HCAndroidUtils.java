@@ -36,6 +36,8 @@ public class HCAndroidUtils extends Activity {
   @Override
   protected void onCreate (Bundle savedInstanceState) {
 
+    super.onCreate(savedInstanceState);
+
     Log.d("HC Android utils", "onCreate reseived intent");
 
 /*

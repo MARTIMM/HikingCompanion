@@ -61,7 +61,10 @@
             <!-- extract android style -->
     </activity>
 
-    <!-- sharing activity -->
+    <!--
+      Install track data activity
+      Java file installed at <HC-root>/android/src/utils/HCAndroidUtils.java
+    -->
     <activity android:name=".utils.HCAndroidUtils">
 
       <intent-filter>
