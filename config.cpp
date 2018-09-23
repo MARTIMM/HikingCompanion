@@ -28,12 +28,14 @@ Config::Config(QObject *parent) : QObject(parent) {
 
   // Take first directory from the list. That one is the users
   // data directory.
+  // linux: /home/marcel/.local/share/martimm/HikingCompanion
+  // android: /data/user/0/io.martimm.github.HikingCompanion/files
   _dataDir = QStandardPaths::standardLocations(
-        QStandardPaths::GenericDataLocation
-        ).first() + "/" + id;
+        QStandardPaths::AppDataLocation
+        ).first();
 
   QDir *dd = new QDir(_dataDir);
-  if ( ! dd->exists() ) dd->mkdir(_dataDir);
+  if ( ! dd->exists() ) dd->mkpath(_dataDir);
   qDebug() << "Data location:" << _dataDir;
 }
 
@@ -174,7 +176,7 @@ void Config::installNewData(QString dataPath) {
   // Create the root of the hike data dir
   QString hikeDir = _dataDir + "/" + hikename;
   QDir *dd = new QDir(hikeDir);
-  if ( ! dd->exists() ) dd->mkdir(hikeDir);
+  if ( ! dd->exists() ) dd->mkpath(hikeDir);
   qDebug() << "hike root:" << hikeDir;
 
 
@@ -279,7 +281,7 @@ void Config::_refreshData(
 
   else {
     qDebug() << "Create dir " << hikeSubdir;
-    dd->mkdir(hikeSubdir);
+    dd->mkpath(hikeSubdir);
   }
 
   // Add tracks to empty directory and create tables
@@ -335,19 +337,19 @@ void Config::_refreshData(
 
   hikeSubdir = QString(hikeDir + "/Photos");
   dd = new QDir(hikeSubdir);
-  if ( ! dd->exists() ) dd->mkdir(hikeSubdir);
+  if ( ! dd->exists() ) dd->mkpath(hikeSubdir);
   setSetting( hikeTableName + "/nphotos", 0);
   qDebug() << "hike photos:" << hikeSubdir;
 
   hikeSubdir = hikeDir + "/Notes";
   dd = new QDir(hikeSubdir);
-  if ( ! dd->exists() ) dd->mkdir(hikeSubdir);
+  if ( ! dd->exists() ) dd->mkpath(hikeSubdir);
   setSetting( hikeTableName + "/nnotes", 0);
   qDebug() << "hike notes:" << hikeSubdir;
 
   hikeSubdir = hikeDir + "/Features";
   dd = new QDir(hikeSubdir);
-  if ( ! dd->exists() ) dd->mkdir(hikeSubdir);
+  if ( ! dd->exists() ) dd->mkpath(hikeSubdir);
   setSetting( hikeTableName + "/nfeatures", 0);
   qDebug() << "hike features:" << hikeSubdir;
 

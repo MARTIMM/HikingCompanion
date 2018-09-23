@@ -106,10 +106,11 @@ h1=...
 
 [h0.sometrail]                Specific information about this hike.
 version=
-title=                        Title of hike. Make it as unique as possible. The
-                              text is used in the pull-down list.
+title=                        Title of hike. Make it as unique as possible.
+                              The text is used in the hikes pull-down list.
 shortdescr=                   Short description
 www=                          There might even be a website around the hike.
+email=                        Set when user has saved his/her own hike
 
 defaultlang=en                Language information for this hike
 supportedlang=en
@@ -124,7 +125,8 @@ nfeatures=
 [h0.sometrail.track1]         Information about the first track
 fname=                        Gpx file with all coordinates
 type=                         bike or walk
-title=                        Title of track
+title=                        Title of track. The text is used in the
+                              tracks list.
 shortdescr=                   Short description
 
 length=                       Length in kilometers. Calculated when selected.
@@ -145,12 +147,13 @@ maxlat=
 ...
 ```
 
-When data is imported, a path to the directory is provided where a settings file is stored. This file is named `hike.conf`.
+When external hike data must be imported, a path to the directory must be provided where a settings file is stored. This file is named `hike.conf`.
 
 ```
 [General]
-version=                      Version of this track
-
+version=                      Version of this track. The hike name and version
+                              are compared to check if the data is already
+                              installed or needs to be updated.
 supportedLang=en
 defaultLang=en
 translationXML=
