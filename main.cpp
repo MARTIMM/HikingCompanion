@@ -30,7 +30,7 @@ int main( int argc, char *argv[]) {
   // 'QQuickStyle::setStyle("Material");'
 
   QGuiApplication app( argc, argv);
-  app.setApplicationVersion("0.9.0");
+  app.setApplicationVersion("0.9.1");
   app.setApplicationDisplayName("HikingCompanion");
 
   qDebug() << "App data location:" << QStandardPaths::standardLocations(QStandardPaths::AppDataLocation);
