@@ -51,6 +51,7 @@ private:
   void _removeSettings(QString group);
 
   QString _dataDir;
+  QSettings *_settings;
 };
 
 #endif // CONFIG_H

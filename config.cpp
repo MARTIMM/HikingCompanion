@@ -37,6 +37,9 @@ Config::Config(QObject *parent) : QObject(parent) {
   QDir *dd = new QDir(_dataDir);
   if ( ! dd->exists() ) dd->mkpath(_dataDir);
   qDebug() << "Data location:" << _dataDir;
+
+  _settings = new QSettings();
+  _settings->setIniCodec("UTF-8");
 }
 
 // ----------------------------------------------------------------------------
@@ -46,8 +49,7 @@ Config::Config(QObject *parent) : QObject(parent) {
 void Config::cleanupTracks() {
 
   QRegExp rx("^(h\\d+|h\\.)");
-  QSettings *settings = new QSettings();
-  QStringList topLevelKeys = settings->childGroups();
+  QStringList topLevelKeys = _settings->childGroups();
   for ( int hi = 0; hi < topLevelKeys.count(); hi++ ) {
     if ( topLevelKeys[hi].contains(rx) ) {
       qDebug() << "Remove keys of" << topLevelKeys[hi];
@@ -60,22 +62,18 @@ void Config::cleanupTracks() {
 // Set only new string values to this applications config settings
 void Config::setSetting( QString name, QString value) {
 
-  QSettings *settings = new QSettings();
-  //qDebug() << "SS Settings file:" << settings->fileName();
   qDebug() << QString("Set %1 to %2").arg(name).arg(value);
-  settings->setValue( name, value);
-  settings->sync();
+  _settings->setValue( name, value);
+  _settings->sync();
 }
 
 // ----------------------------------------------------------------------------
 // Set only new integer values to this applications config settings
 void Config::setSetting( QString name, int value) {
 
-  QSettings *settings = new QSettings();
-  //qDebug() << "SS Settings file:" << settings->fileName();
   qDebug() << QString("Set %1 to %2").arg(name).arg(value);
-  settings->setValue( name, value);
-  settings->sync();
+  _settings->setValue( name, value);
+  _settings->sync();
 }
 
 // ----------------------------------------------------------------------------
@@ -84,16 +82,17 @@ QString Config::getSetting( QString name, QSettings *s) {
 
   QSettings *settings;
   if ( s == nullptr ) {
-    settings = new QSettings();
+    settings = _settings;
   }
 
   else {
     settings = s;
   }
 
-  //qDebug() << "GS Settings file:" << settings->fileName();
-  qDebug() << "GS:" << name << settings->value(name).toString();
-  return settings->value(name).toString();
+  if ( settings->value(name).type() == QVariant::Invalid ) return "";
+  QString v = settings->value(name).toString();
+  qDebug() << "GS:" << name << v;
+  return v;
 }
 
 // ----------------------------------------------------------------------------
@@ -102,7 +101,7 @@ QStringList Config::readKeys( QString group, QSettings *s) {
 
   QSettings *settings;
   if ( s == nullptr ) {
-    settings = new QSettings();
+    settings = _settings;
   }
 
   else {
@@ -167,6 +166,7 @@ void Config::installNewData(QString dataPath) {
   }
 
   QSettings *s = new QSettings( dataPath + "/hike.conf", QSettings::IniFormat);
+  s->setIniCodec("UTF-8");
 
   QString hikename = getSetting( "hike", s);
   qDebug() << "Hike key" << hikename;
@@ -251,10 +251,8 @@ void Config::_mkNewTables( QSettings *s, QString hikeTableName ) {
 
 // ----------------------------------------------------------------------------
 void Config::_refreshData(
-    QSettings *s,
-    QString hikeTableName,
-    QString hikeDir,
-    QString dataPath
+    QSettings *s, QString hikeTableName,
+    QString hikeDir, QString dataPath
     ) {
 
   // Remove all data first then create all directories, if needed,
@@ -313,7 +311,7 @@ void Config::_refreshData(
       break;
     }
 
-    //Todo Lenght must be calculated
+    //TODO: Lenght must be calculated
     QStringList keys = {
       "fname", "title", "shortdescr", "type", "length",
     };
@@ -357,7 +355,6 @@ void Config::_refreshData(
 
 // ----------------------------------------------------------------------------
 void Config::_removeSettings(QString group) {
-  QSettings *settings = new QSettings();
-  settings->remove(group);
-  settings->sync();
+  _settings->remove(group);
+  _settings->sync();
 }
