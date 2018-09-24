@@ -322,12 +322,16 @@ This should show a dialog to ask the user if he/she really wants to quit the pro
 
 # Bugs
 * Keyboard of android tablet is shown in in uppercase. Each time the keyboard is set in lowercase it switches back to uppercase after typing a letter. Also numbers are not available.
-
+* Track information is not properly shown, must use utf8.
 
 # Changes
 ## Application changes
 
 Versions have a letter added: D for debug version and R for a release version. When not added it is always a debug version.
+
+* 2018-09-24, 0.9.1
+  * App can install hike data given by another app on Linux.
+  * Bug fixed: Ini files must be read using utf8 encoding
 
 * 2018-09-17, 0.9.0
   * Installing track information in app data directory
