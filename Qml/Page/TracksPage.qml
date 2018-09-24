@@ -126,7 +126,7 @@ HCPage.Plain {
   property int currentIndex
   ListView {
     id: lv
-
+    width: parent.width;
     contentWidth: parent.width
 
     anchors {
