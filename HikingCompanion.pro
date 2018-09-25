@@ -22,7 +22,8 @@ HEADERS += \
     call_once.h \
     languages.h \
     gpxfiles.h \
-    hikes.h
+    hikes.h \
+    jnitest.h
 
 SOURCES += \
     main.cpp \
@@ -32,7 +33,8 @@ SOURCES += \
     gpxfile.cpp \
     languages.cpp \
     gpxfiles.cpp \
-    hikes.cpp
+    hikes.cpp \
+    jnitest.cpp
 
 RESOURCES += qml.qrc extraResources.qrc
 
@@ -71,4 +73,7 @@ android {
 
   ANDROID_PACKAGE_SOURCE_DIR = $$PWD/android
 }
+
+DISTFILES += \
+    Jnitest.java
 

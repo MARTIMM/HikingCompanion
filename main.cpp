@@ -4,6 +4,9 @@
 #include "gpxfiles.h"
 #include "hikes.h"
 
+#include "jnitest.h"
+
+
 //#include <QStyleFactory>
 #include <QGuiApplication>
 #include <QQmlApplicationEngine>
@@ -13,9 +16,14 @@
 //#include <QQmlProperty>
 #include <QStandardPaths>
 #include <QSharedMemory>
+//#include <QAndroidActivityResultReceiver>
 
 // ----------------------------------------------------------------------------
 int main( int argc, char *argv[]) {
+
+  JniTest *t = new JniTest();
+
+  if ( true ) return 0;
 
   QCoreApplication::setAttribute(Qt::AA_EnableHighDpiScaling);
 
@@ -126,3 +134,15 @@ int main( int argc, char *argv[]) {
   if ( engine.rootObjects().isEmpty() ) return -1;
   return app.exec();
 }
+
+/*
+class ARR : public QAndroidActivityResultReceiver {
+  void handleActivityResult(
+      int receiverRequestCode, int resultCode,
+      const QAndroidJniObject &data
+      ) {
+
+    qDebug() << "Main called ***********:" << data->toString();
+  }
+};
+*/
