@@ -4,16 +4,16 @@ import org.qtproject.qt5.android.QtNative;
 
 import android.app.Activity;  // ok
 import android.content.Intent;  // ok
-import android.content.Context;
-import android.content.pm.ResolveInfo;
-import android.content.pm.PackageManager;
-import android.content.ContentResolver;
-import android.content.ComponentName;  // ok
+//import android.content.Context;
+//import android.content.pm.ResolveInfo;
+//import android.content.pm.PackageManager;
+//import android.content.ContentResolver;
+//import android.content.ComponentName;  // ok
 //import android.database.Cursor;
 //import android.provider.MediaStore;
 //import android.net.Uri;
 import android.util.Log;  // ok
-import android.os.Parcelable;  // ok
+//import android.os.Parcelable;  // ok
 //import android.os.Build;
 import android.os.Bundle;
 
@@ -24,21 +24,34 @@ import android.os.Bundle;
 //import java.io.File;
 
 import java.lang.String;  // ok
-import java.util.List;
-import java.util.ArrayList;
-import java.util.Comparator;
-import java.util.Collections;
+//import java.util.List;
+//import java.util.ArrayList;
+//import java.util.Comparator;
+//import java.util.Collections;
 
 // ----------------------------------------------------------------------------
 public class HCAndroidUtils extends Activity {
 
+  native int main2( int argc, String argv[]);
+
   // --------------------------------------------------------------------------
   @Override
   protected void onCreate (Bundle savedInstanceState) {
-
     super.onCreate(savedInstanceState);
+  }
 
-    Log.d("HC Android utils", "onCreate reseived intent");
+  // --------------------------------------------------------------------------
+  @Override
+  protected void onStart ( ) {
+
+    super.onStart();
+
+    Log.d("HC Android utils", "onStart reseived intent");
+
+    String argv[] = new String[2];
+    argv[0] = "HC";
+    argv[1] = "/storage/emulated/0";
+    main2( argv.length, argv);
 
 /*
     // Get intent, action and MIME type
