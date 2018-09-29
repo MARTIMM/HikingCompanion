@@ -32,7 +32,9 @@ import java.lang.String;  // ok
 // ----------------------------------------------------------------------------
 public class HCAndroidUtils extends Activity {
 
-  native int main2( int argc, String argv[]);
+  // --------------------------------------------------------------------------
+  // Defined in the main.cpp file as an entry into the c++ code
+  public static native void main2(String path);
 
   // --------------------------------------------------------------------------
   @Override
@@ -47,12 +49,12 @@ public class HCAndroidUtils extends Activity {
     super.onStart();
 
     Log.d("HC Android utils", "onStart reseived intent");
-
+/*
     String argv[] = new String[2];
     argv[0] = "HC";
     argv[1] = "/storage/emulated/0";
     main2( argv.length, argv);
-
+*/
 /*
     // Get intent, action and MIME type
     Intent intent = new Intent();
