@@ -13,6 +13,8 @@ DEFINES += QT_DEPRECATED_WARNINGS
 # You can also select to disable deprecated APIs only up to a certain version of Qt.
 #DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x050000    # disables all the APIs deprecated before Qt 5.0.0
 
+#INCLUDEPATH += /usr/lib/jvm/java-1.8.0-openjdk-1.8.0.181.b15-0.fc28.x86_64/include/jni.h
+
 HEADERS += \
     textload.h \
     config.h \
@@ -22,8 +24,7 @@ HEADERS += \
     call_once.h \
     languages.h \
     gpxfiles.h \
-    hikes.h \
-    jnitest.h
+    hikes.h
 
 SOURCES += \
     main.cpp \
@@ -33,8 +34,7 @@ SOURCES += \
     gpxfile.cpp \
     languages.cpp \
     gpxfiles.cpp \
-    hikes.cpp \
-    jnitest.cpp
+    hikes.cpp
 
 RESOURCES += qml.qrc extraResources.qrc
 
@@ -52,6 +52,12 @@ else: unix:!android: target.path = /opt/$${TARGET}/bin
 android {
   QT += androidextras
 
+  HEADERS +=  \
+    jnitest.h
+
+  SOURCES +=  \
+    jnitest.cpp
+
   DISTFILES += \
     android/AndroidManifest.xml \
     android/gradle/wrapper/gradle-wrapper.jar \
@@ -68,12 +74,10 @@ android {
     android/gradle/wrapper/gradle-wrapper.properties \
     android/gradlew.bat
 
-  DISTFILES += android/src/utils/HCAndroidUtils.java
+  DISTFILES += android/src/utils/HCAndroidUtils.java \
+    android/src/utils/Jnitest.java
 
 
   ANDROID_PACKAGE_SOURCE_DIR = $$PWD/android
 }
-
-DISTFILES += \
-    Jnitest.java
 
