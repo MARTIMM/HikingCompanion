@@ -1,6 +1,53 @@
 [TOC]
 
 # Designing the application
+## Use case description
+
+```plantuml
+title Global description of all that is involved
+
+'skinparam rectangle {
+'	roundCorner<<Concept>> 25
+'}
+
+actor user
+cloud "user data\ntransport" as network1
+cloud "email\ntransport" as network2
+cloud "tiles\ntransport" as network3
+node trailServer
+node tilesServer
+node emailServer
+package SufiTrailApp {
+  artifact index.html
+
+  folder tracks {
+    artifact "user\ntracks"
+    artifact "fotos\nnotes"
+  }
+
+  folder cache {
+    artifact tiles
+    artifact features
+  }
+}
+
+database SufiTrailDB {
+  storage dbUsers
+  storage dbTracks
+}
+
+user -- index.html
+SufiTrailApp -- network1
+SufiTrailApp -- tracks
+SufiTrailApp -- cache
+SufiTrailDB -- trailServer
+tilesServer -- network3
+network3 -- SufiTrailApp
+network1 - trailServer
+trailServer -- network2
+network2 -- emailServer
+```
+
 ## Diagrams showing the relations of the classes
 
 Examples of certain classes are shown here: 1) Class inheriting from QObject 2) based on templates are drawn like
@@ -49,10 +96,14 @@ tp --> mp
 # Deployment test on linux
 We must try to setup an environment where we can simulate the sharing of data between applications. The main goal is to get a clear view where to place the data and which locations can be used to copy the data to. The tracking app  can also search for the HikingCompanion specific data to see if that program is installed and available for use.
 
+The methods to share data is not the same on all OSes. For instance, I have tried to use shared memory to share the path to the public data. On Linux this works fine but on Android, which is also based on a linux version, it does not! The following methods are now used to get sharing possible.
+  * **Linux**. Shared memory is not an option anymore because Android didn't work. So I used a more simple method, namely commandline arguments. Normally there is only one argument, the programname. When there are two, the second must be the path.
+  * **Android**. The program is started by sending an Intent to perform an action. This call ends up in Java code which must call c++ code using JNI.
+  * **Ios**. ?
+
 Data is always shared between the same user. On mobile devices there is only one user which is installing applications etc.
 
 Using the information from [this document here][std paths] and [here][android data], the following path can be of use;
-
 
 * **QStandardPaths::AppDataLocation**. This field returns a list of directories where an application can keep its data.
   * **Linux**: `~/.local/share`, `/usr/share/kde-settings/kde-profile/default/share`, `/usr/local/share`, `/usr/share`
