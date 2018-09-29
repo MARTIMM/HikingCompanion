@@ -4,8 +4,11 @@
 #include "gpxfiles.h"
 #include "hikes.h"
 
+/*
+#if defined(Q_OS_ANDROID)
 #include "jnitest.h"
-
+#endif
+*/
 
 //#include <QStyleFactory>
 #include <QGuiApplication>
@@ -15,15 +18,17 @@
 #include <QDebug>
 //#include <QQmlProperty>
 #include <QStandardPaths>
-#include <QSharedMemory>
-//#include <QAndroidActivityResultReceiver>
+//#include <QSharedMemory>
 
 // ----------------------------------------------------------------------------
 int main( int argc, char *argv[]) {
 
+/*
+#if defined(Q_OS_ANDROID)
   JniTest *t = new JniTest();
-
   if ( true ) return 0;
+#endif
+*/
 
   QCoreApplication::setAttribute(Qt::AA_EnableHighDpiScaling);
 
@@ -53,6 +58,7 @@ int main( int argc, char *argv[]) {
     qDebug() << QString("qApp [%1]").arg(i) << argv[i];
   }
 
+#if defined(Q_OS_LINUX)
   // If there is an extra argument, it should be a path to new
   // hiking information which must be copied to its proper place
   if ( qApp->arguments().count() == 2 ) {
@@ -61,7 +67,9 @@ int main( int argc, char *argv[]) {
 
     return 0;
   }
+#endif
 
+/*
   // When there is no argument, check if there is some data in a shared
   // memory segment
   else {
@@ -88,7 +96,7 @@ int main( int argc, char *argv[]) {
       qDebug() << "HC Not attached to sm" << smForPath.errorString();
     }
   }
-
+*/
 
   qmlRegisterType<TextLoad>(
         "io.github.martimm.HikingCompanion.Textload", 0, 1, "TextLoad"
@@ -135,14 +143,30 @@ int main( int argc, char *argv[]) {
   return app.exec();
 }
 
-/*
-class ARR : public QAndroidActivityResultReceiver {
-  void handleActivityResult(
-      int receiverRequestCode, int resultCode,
-      const QAndroidJniObject &data
-      ) {
+#if defined(Q_OS_ANDROID)
+//#include <QAndroidActivityResultReceiver>
+//#include <QtAndroid>
+//#include <QtAndroidExtras>
+#include <QAndroidJniEnvironment>
 
-    qDebug() << "Main called ***********:" << data->toString();
-  }
-};
-*/
+extern "C" {
+JNIEXPORT void JNICALL Java_utils_Jnitest_main2__Ljava_lang_String_2 (
+     JNIEnv *env,        /* interface pointer */
+     jobject obj,        /* "this" pointer */
+     jstring jpath,      /* argument #1 */
+     ) {
+
+  /* Obtain a C-copy of the Java string */
+  jboolean copy = false;
+  const char *path = env->GetStringUTFChars( jpath, &copy);
+
+  qDebug() << "Path from hike container:" << path;
+  Config *cfg = new Config;
+  cfg->installNewData(QString(*path));
+
+  /* Now we are done with str */
+  env->ReleaseStringUTFChars( jpath, path);
+}
+}
+#endif
+
