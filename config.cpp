@@ -60,7 +60,7 @@ void Config::cleanupTracks() {
 
 // ----------------------------------------------------------------------------
 // Set only new string values to this applications config settings
-void Config::setSetting( QString name, QString value) {
+void Config::setSetting( QString name, QString value ) {
 
   qDebug() << QString("Set %1 to %2").arg(name).arg(value);
   _settings->setValue( name, value);
@@ -69,7 +69,7 @@ void Config::setSetting( QString name, QString value) {
 
 // ----------------------------------------------------------------------------
 // Set only new integer values to this applications config settings
-void Config::setSetting( QString name, int value) {
+void Config::setSetting( QString name, int value ) {
 
   qDebug() << QString("Set %1 to %2").arg(name).arg(value);
   _settings->setValue( name, value);
@@ -78,7 +78,7 @@ void Config::setSetting( QString name, int value) {
 
 // ----------------------------------------------------------------------------
 // Read values from this applications config settings or external config
-QString Config::getSetting( QString name, QSettings *s) {
+QString Config::getSetting( QString name, QSettings *s ) {
 
   QSettings *settings;
   if ( s == nullptr ) {
@@ -97,7 +97,7 @@ QString Config::getSetting( QString name, QSettings *s) {
 
 // ----------------------------------------------------------------------------
 // Read keys from this applications config settings or external config
-QStringList Config::readKeys( QString group, QSettings *s) {
+QStringList Config::readKeys( QString group, QSettings *s ) {
 
   QSettings *settings;
   if ( s == nullptr ) {
@@ -123,7 +123,7 @@ QString Config::hikeEntryKey() {
 }
 
 // ----------------------------------------------------------------------------
-QString Config::hikeTableName(QString hikeEntryKey) {
+QString Config::hikeTableName( QString hikeEntryKey ) {
 
   QString hikeKey = getSetting("HikeList/" + hikeEntryKey);
   return hikeEntryKey + "." + hikeKey;
@@ -149,7 +149,7 @@ int Config::getGpxFileIndexSetting() {
 }
 
 // ----------------------------------------------------------------------------
-void Config::setGpxFileIndexSetting(int currentIndex) {
+void Config::setGpxFileIndexSetting( int currentIndex ) {
 
   QString entryKey = hikeEntryKey();
   QString tableName = hikeTableName(entryKey);
@@ -157,15 +157,15 @@ void Config::setGpxFileIndexSetting(int currentIndex) {
 }
 
 // ----------------------------------------------------------------------------
-void Config::installNewData(QString dataPath) {
+void Config::installNewData( QString dataRootDir ) {
 
-  qDebug() << "Install data from" << dataPath + "/hike.conf";
-  if ( ! QFile::exists(dataPath + "/hike.conf") ) {
-    qDebug() << dataPath + "/hike.conf does not exist";
+  qDebug() << "Install data from" << dataRootDir + "/hike.conf";
+  if ( ! QFile::exists(dataRootDir + "/hike.conf") ) {
+    qDebug() << dataRootDir + "/hike.conf does not exist";
     return;
   }
 
-  QSettings *s = new QSettings( dataPath + "/hike.conf", QSettings::IniFormat);
+  QSettings *s = new QSettings( dataRootDir + "/hike.conf", QSettings::IniFormat);
   s->setIniCodec("UTF-8");
 
   QString hikename = getSetting( "hike", s);
@@ -176,8 +176,10 @@ void Config::installNewData(QString dataPath) {
   // Create the root of the hike data dir
   QString hikeDir = _dataDir + "/" + hikename;
   QDir *dd = new QDir(hikeDir);
-  if ( ! dd->exists() ) dd->mkpath(hikeDir);
-  qDebug() << "hike root:" << hikeDir;
+
+  qDebug() << "Remove old data from" << hikeDir;
+  dd->removeRecursively();
+  dd->mkpath(hikeDir);
 
 
   // Check its version. First get table if there is any.
@@ -212,8 +214,11 @@ void Config::installNewData(QString dataPath) {
   // If version of imported hike is greater, then there is work to do
   if ( hikeVersion.compare(getSetting( "version", s)) < 0 ) {
     _mkNewTables( s, hikeTableName);
-    _refreshData( s, hikeTableName, hikeDir, dataPath);
+    _refreshData( s, hikeTableName, hikeDir, dataRootDir);
   }
+
+  qDebug() << "Remove public hike source data";
+  dd = new QDir(dataRootDir);
 }
 
 // ----------------------------------------------------------------------------
@@ -252,7 +257,7 @@ void Config::_mkNewTables( QSettings *s, QString hikeTableName ) {
 // ----------------------------------------------------------------------------
 void Config::_refreshData(
     QSettings *s, QString hikeTableName,
-    QString hikeDir, QString dataPath
+    QString hikeDir, QString dataRootDir
     ) {
 
   // Remove all data first then create all directories, if needed,
@@ -272,8 +277,8 @@ void Config::_refreshData(
       _removeSettings(trackTableName);
 
       // Remove file
-      qDebug() << "Remove file" << gpxFiles[gfi];
-      QFile::remove(hikeSubdir + "/" + gpxFiles[gfi]);
+      //qDebug() << "Remove file" << gpxFiles[gfi];
+      //QFile::remove(hikeSubdir + "/" + gpxFiles[gfi]);
     }
   }
 
@@ -284,7 +289,7 @@ void Config::_refreshData(
 
   // Add tracks to empty directory and create tables
   // Get source directory and list of files
-  QString sourceGpxDirectory = dataPath + "/" + getSetting( "tracksdir", s);
+  QString sourceGpxDirectory = dataRootDir + "/" + getSetting( "tracksdir", s);
   QDir *sgd = new QDir(sourceGpxDirectory);
 
   qDebug() << "src hike tracks:" << sourceGpxDirectory;

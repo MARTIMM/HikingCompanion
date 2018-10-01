@@ -153,7 +153,7 @@ extern "C" {
 JNIEXPORT void JNICALL Java_utils_Jnitest_main2__Ljava_lang_String_2 (
      JNIEnv *env,        /* interface pointer */
      jobject obj,        /* "this" pointer */
-     jstring jpath,      /* argument #1 */
+     jstring jpath       /* argument #1 */
      ) {
 
   /* Obtain a C-copy of the Java string */

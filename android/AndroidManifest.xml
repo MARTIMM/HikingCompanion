@@ -59,21 +59,33 @@
                 -->
             <meta-data android:name="android.app.extract_android_style" android:value="full"/>
             <!-- extract android style -->
-    </activity>
+        </activity>
 
-    <!--
-      Install track data activity
-      Java file installed at <HC-root>/android/src/utils/HCAndroidUtils.java
-    -->
-    <activity android:name=".utils.HCAndroidUtils">
-      <intent-filter>
-        <action android:name="android.intent.action.SEND"/>
-        <category android:name="android.intent.category.DEFAULT"/>
-        <data android:mimeType="text/*"/>
-      </intent-filter>
-    </activity>
+        <!-- For adding service(s) please check: https://wiki.qt.io/AndroidServices -->
+        <!--
+          Install track data activity
+         Java file installed at <HC-root>/android/src/utils/HCAndroidUtils.java
 
-    <!-- For adding service(s) please check: https://wiki.qt.io/AndroidServices -->
+        -->
+        <service android:exported="true"
+            android:name=".utils.HCAndroidUtils"
+            android:description="@string/serviceDescription"
+            android:enabled="true"
+            android:directBootAware="false"
+            android:isolatedProcess="false"
+            android:label="@string/serviceLabel"
+            android:permission="io.martimm.github.HikingCompanion.permission.ACCESS_HIKE_INSTALL"
+            >
+          <intent-filter>
+            <action android:name="android.intent.action.SEND"/>
+            <category android:name="android.intent.category.DEFAULT"/>
+            <data android:mimeType="text/*"/>
+          </intent-filter>
+
+          <meta-data android:name="android.app.background_running"
+              android:value="true"
+              />
+        </service>
 
     </application>
 
@@ -88,8 +100,14 @@
          Remove the comment if you do not require these default features. -->
     <!-- %%INSERT_FEATURES -->
 
-<uses-permission android:name="android.permission.ACCESS_LOCATION_EXTRA_COMMANDS"/>
+    <permission android:description="@string/permissionDescription"
+        android:name="io.martimm.github.HikingCompanion.permission.ACCESS_HIKE_INSTALL"
+        android:label="@string/permissionLabel"
+        android:protectionLevel="normal"
+        />
+
+    <uses-permission android:name="android.permission.ACCESS_LOCATION_EXTRA_COMMANDS"/>
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"/>
-<uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
 </manifest>
