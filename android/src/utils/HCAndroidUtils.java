@@ -2,19 +2,58 @@ package utils;
 
 import org.qtproject.qt5.android.QtNative;
 
-import android.app.Service;
-import android.content.Intent;
-import android.os.IBinder;
-import android.util.Log;
-import android.os.Bundle;
 import java.lang.String;
 
+import android.util.Log;  // temporary for debugging
+
+import android.app.Service;
+
+import android.content.Intent;
+
+//import android.os.IBinder;
+//import android.os.Bundle;
+
 // ----------------------------------------------------------------------------
+
+
+
+
+
+
+
+
+
+
+
+
+/*
 public class HCAndroidUtils extends Service {
+  private static String LOG_TAG = "HC Service";
 
   // --------------------------------------------------------------------------
   // Defined in the main.cpp file as an entry into the c++ code
   public static native void main2(String path);
+
+  // --------------------------------------------------------------------------
+  @Override
+  public void onCreate() {
+    super.onCreate();
+    Log.v( LOG_TAG, "in onCreate");
+  }
+
+  // --------------------------------------------------------------------------
+  @Override
+  public IBinder onBind(Intent intent) {
+    Log.i( LOG_TAG, "in onBind");
+    return null;
+  }
+
+  // --------------------------------------------------------------------------
+  @Override
+  public void onDestroy() {
+    super.onDestroy();
+    Log.v( LOG_TAG, "in onDestroy");
+  }
 
   // --------------------------------------------------------------------------
   @Override
@@ -27,16 +66,10 @@ public class HCAndroidUtils extends Service {
     String path = new String(AB_dataRootDir.getCharArray("dataRootDir"));
     new HCAndroidUtils().main2(path);
 
-    Log.d( "HC Java object", "Returned from main2(): ");
+    Log.d( LOG_TAG, "Returned from main2(): ");
 
     stopService(installIntent);
     return Service.START_STICKY;
   }
-
-  // --------------------------------------------------------------------------
-  @Override
-  public IBinder onBind(Intent arg0) {
-    Log.i( "HC Java object", "Service onBind");
-    return null;
-  }
 }
+*/
