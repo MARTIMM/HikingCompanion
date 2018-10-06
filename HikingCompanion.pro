@@ -80,5 +80,6 @@ android {
 
 
   ANDROID_PACKAGE_SOURCE_DIR = $$PWD/android
+#  ANDROID_STL = c++_shared
 }
 
