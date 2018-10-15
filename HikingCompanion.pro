@@ -75,8 +75,9 @@ android {
     android/gradle/wrapper/gradle-wrapper.properties \
     android/gradlew.bat
 
-  DISTFILES += android/src/utils/HCAndroidUtils.java \
-    android/src/utils/Jnitest.java
+  DISTFILES += \
+    android/src/utils/Jnitest.java \
+    android/src/utils/AndroidProvider.java
 
 
   ANDROID_PACKAGE_SOURCE_DIR = $$PWD/android
