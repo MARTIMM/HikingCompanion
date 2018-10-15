@@ -16,7 +16,6 @@
 #include <QDebug>
 //#include <QQmlProperty>
 #include <QStandardPaths>
-//#include <QSharedMemory>
 
 // ----------------------------------------------------------------------------
 int main( int argc, char *argv[]) {
@@ -54,20 +53,8 @@ int main( int argc, char *argv[]) {
   // 'QQuickStyle::setStyle("Material");'
 
   QGuiApplication app( argc, argv);
-  app.setApplicationVersion("0.9.1");
+  app.setApplicationVersion("0.10.0");
   app.setApplicationDisplayName("HikingCompanion");
-
-/*
-  qDebug() << "App data location:" << QStandardPaths::standardLocations(QStandardPaths::AppDataLocation);
-  qDebug() << "App config location:" << QStandardPaths::standardLocations(QStandardPaths::AppConfigLocation);
-  qDebug() << "Generic data location:" << QStandardPaths::standardLocations(QStandardPaths::GenericDataLocation);
-  qDebug() << "Generic config location:" << QStandardPaths::standardLocations(QStandardPaths::GenericConfigLocation);
-
-  qDebug() << "qApp argc:" << argc;
-  for ( int i = 0; i < argc; i++) {
-    qDebug() << QString("qApp [%1]").arg(i) << argv[i];
-  }
-*/
 
   qmlRegisterType<TextLoad>(
         "io.github.martimm.HikingCompanion.Textload", 0, 1, "TextLoad"
@@ -113,69 +100,3 @@ int main( int argc, char *argv[]) {
   if ( engine.rootObjects().isEmpty() ) return -1;
   return app.exec();
 }
-
-// ============================================================================
-extern "C" {
-
-#if defined(Q_OS_ANDROID)
-
-#include <QtAndroid>
-#include <QAndroidJniEnvironment>
-
-//#include <QAndroidActivityResultReceiver>
-//#include <QtAndroidExtras>
-
-/*
-// ----------------------------------------------------------------------------
-JNIEXPORT void JNICALL Java_utils_Jnitest_main2__Ljava_lang_String_2 (
-     JNIEnv *env, jobject obj, jstring jpath
-     ) {
-
-  / * Obtain a C-copy of the Java string * /
-  jboolean copy = false;
-  const char *path = env->GetStringUTFChars( jpath, &copy);
-
-  qDebug() << "Path from hike container:" << path;
-  Config *cfg = new Config;
-  cfg->installNewData(QString(*path));
-
-  / * Now we are done with str * /
-  env->ReleaseStringUTFChars( jpath, path);
-}
-*/
-/*
-// ----------------------------------------------------------------------------
-JNIEXPORT jstring JNICALL Java_utils_TDAndroidUtils_getDataRootDir_2 (
-     JNIEnv *env,
-     jobject obj
-     ) {
-  Q_UNUSED(env)
-  Q_UNUSED(obj)
-
-  //QString drd = au->dataRootDir();
-  //qDebug() << "Sending" << drd << "to java";
-  //QAndroidJniObject jstr = QAndroidJniObject::fromString(drd);
-  QAndroidJniObject jstr = QAndroidJniObject::fromString("");
-
-  // qtcreator errors on jstr.object<jstring>(). According to the code
-  // a static cast is applied so we do that instead.
-  return static_cast<jstring>(jstr.object());
-}
-*/
-/*
-// ----------------------------------------------------------------------------
-JNIEXPORT void JNICALL Java_utils_TDAndroidUtils_moveDataPublic_2 (
-     JNIEnv *env,
-     jobject obj
-     ) {
-  Q_UNUSED(env)
-  Q_UNUSED(obj)
-
-  //UtilsInterface *ui = new UtilsInterface();
-  //ui->installHikingData();
-}
-*/
-
-#endif
-
-} // extern "C"

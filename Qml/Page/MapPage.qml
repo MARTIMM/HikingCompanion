@@ -76,15 +76,28 @@ HCPage.Plain {
 
     center: location.valid
             ? location.coordinate
-            : QtPositioning.coordinate(59.91, 10.75) // Oslo
-    zoomLevel: 5
+            : QtPositioning.coordinate( 59.91, 10.75) // Oslo
+    zoomLevel: 12
 
     // This object is set from the tracksPage after selecting a track.
     property alias trackCourse: trackCourse
     MapPolyline {
       id: trackCourse
-      line.width: 4
-      line.color: 'red'
+      line.width: 5
+      line.color: '#785a3a'
+    }
+
+    property real radius: currentLocationFeature.radius
+    property real bw: currentLocationFeature.border.width
+    function setRad() {
+      var zl = hikerCompanionMap.zoomLevel;
+      console.log("Zoomlevel: " + zl);
+      if ( zl < 4 )               { radius = 10000.0; bw = 20; }
+      if ( zl >= 4 && zl < 6 )    { radius = 1000.0; bw = 15; }
+      if ( zl >= 6 && zl < 9 )    { radius = 1000.0; bw = 10; }
+      if ( zl >= 9 && zl < 12 )   { radius = 600.0; bw = 8; }
+      if ( zl >= 12 && zl < 15 )  { radius = 400.0; bw = 6; }
+      if ( zl >= 15 )             { radius = 200.0; bw = 4; }
     }
 
     property alias currentLocationFeature: currentLocationFeature
@@ -113,6 +126,7 @@ HCPage.Plain {
 
       currentLocationFeature.center = location.position.coordinate
       hikerCompanionMap.center = location.position.coordinate
+      hikerCompanionMap.setRad();
     }
   }
 

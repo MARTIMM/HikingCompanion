@@ -52,12 +52,6 @@ else: unix:!android: target.path = /opt/$${TARGET}/bin
 android {
   QT += androidextras
 
-  HEADERS +=  \
-    jnitest.h
-
-  SOURCES +=  \
-    jnitest.cpp
-
   DISTFILES += \
     android/AndroidManifest.xml \
     android/gradle/wrapper/gradle-wrapper.jar \
@@ -75,12 +69,6 @@ android {
     android/gradle/wrapper/gradle-wrapper.properties \
     android/gradlew.bat
 
-  DISTFILES += \
-    android/src/utils/Jnitest.java \
-    android/src/utils/AndroidProvider.java
-
-
   ANDROID_PACKAGE_SOURCE_DIR = $$PWD/android
-#  ANDROID_STL = c++_shared
 }
 

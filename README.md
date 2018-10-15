@@ -298,7 +298,7 @@ This should show a dialog to ask the user if he/she really wants to quit the pro
 
 # Other items or problems to think about
 
-<progress value="5" max="12" />
+<progress value="8" max="10" />
 
   * [ ] By what license should the project be protected
   * [ ] Privacy considerations
@@ -307,15 +307,10 @@ This should show a dialog to ask the user if he/she really wants to quit the pro
     * [x] Add or modify hike config tables
     * [x] Install or update comparing version information
     * [x] Refresh track data
-    * Linux.
-      [x] Install from directory using path argument
-      [ ] Install from other container app using path argument
-    * Android
-      [ ] Install from directory using intents with path argument
-      [ ] Install from other container app using path argument
-    * Ios
-      [ ] Install from directory using ... with path argument
-      [ ] Install from other container app using path argument
+    * [x] HikingCompanion app prepares a directory for the hike data container applications to use.
+    * [x] Hike data container app checks for this dir to see if HikingCompanion app is installed.
+    * [x] Hike data container app copies its data to the directory
+    * [x] HikingCompanion app installs the data from the directory and cleans it afterwards.
 
 # To do
 
@@ -329,8 +324,11 @@ This should show a dialog to ask the user if he/she really wants to quit the pro
 
 Versions have a letter added: D for debug version and R for a release version. When not added it is always a debug version.
 
+* 2018-10-15, 0.10.0
+  * App can install hike data given by data container app on Android.
+
 * 2018-09-24, 0.9.1
-  * App can install hike data given by another app on Linux.
+  * App can install hike data given by data container app on Linux.
   * Bug fixed: Ini files must be read using utf8 encoding
 
 * 2018-09-17, 0.9.0
@@ -385,15 +383,16 @@ Versions have a letter added: D for debug version and R for a release version. W
 ## Test version changes on Android
 Versions of mobile devices will change slower because not every version will be directly tested on the device. The application version is that of the changes above to get an idea which level is available for the devices.
 
-| Android App Version | Android Api Version | Application Version |
+| Android App Version | Application Version | Android Api Version |
 |---------------------|---------------------|---------------------|
-| 0.6.0               | 24 (7.1)            | 0.6.0               |
+| 0.6.0  | 0.6.0   | 24 (7.1)|
+| 0.7.0  | 0.10.0  | 22       
 
 ## Test version changes on IOS
 
 | IOS App Version | IOS Api Version | Application Version |
-|---------------------|---------------------|---------------------|
-|                |             |               |
+|-----------------|-----------------|---------------------|
+| | | |
 
 
 # Contact
