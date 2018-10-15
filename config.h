@@ -27,30 +27,28 @@ public:
   Q_INVOKABLE void setGpxFileIndexSetting(int currentIndex);
   Q_INVOKABLE int getGpxFileIndexSetting();
   Q_INVOKABLE void cleanupTracks();
+  Q_INVOKABLE void checkForNewHikeData();
 
   QStringList readKeys( QString group, QSettings *s = nullptr);
-  void installNewData(QString dataPath);
   QString hikeEntryKey();
   QString hikeTableName(QString hikeEntryKey);
   QString tracksTableName( QString hikeTableName, int trackCount);
 
   QString dataDir();
+  bool mkpath(QString path);
 
 signals:
 
 public slots:
 
 private:
+  void _installNewData();
   void _mkNewTables( QSettings *s,  QString hikeTableName);
-  void _refreshData(
-      QSettings *s,
-      QString hikeTableName,
-      QString hikeDir,
-      QString dataPath
-      );
+  void _refreshData( QSettings *s, QString hikeTableName, QString hikeDir);
   void _removeSettings(QString group);
 
-  QString _dataDir;
+  QString _dataDir;       // Location where all hikes are stored
+  QString _dataShareDir;  // Location where new data is placed to install
   QSettings *_settings;
 };
 

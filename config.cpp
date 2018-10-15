@@ -24,22 +24,97 @@ Config::Config(QObject *parent) : QObject(parent) {
   // and look for the directory made up by its id.
   QString id = QCoreApplication::organizationDomain() +
       "." + QCoreApplication::applicationName();
-  //qDebug() << "Id: " << id;
+  qDebug() << "Id: " << id;
 
-  // Take first directory from the list. That one is the users
-  // data directory.
-  // linux: /home/marcel/.local/share/martimm/HikingCompanion
-  // android: /data/user/0/io.martimm.github.HikingCompanion/files
+  // Take first directory from the list. That one is the users data directory.
+  // linux:     /home/marcel/.config/io.martimm.github.HikingCompanion
+  // android:   /data/user/0/io.martimm.github.HikingCompanion/files/settings
+
+#if defined(Q_OS_ANDROID)
   _dataDir = QStandardPaths::standardLocations(
-        QStandardPaths::AppDataLocation
+        QStandardPaths::AppConfigLocation
+        ).first();
+  _settings = new QSettings();
+#elif defined(Q_OS_LINUX)
+  _dataDir = QStandardPaths::standardLocations(
+        QStandardPaths::GenericConfigLocation
+        ).first();
+  _dataDir += "/" + id;
+
+  // Create settings and load them
+  _settings = new QSettings( _dataDir + "/HikingCompanion.conf", QSettings::IniFormat);
+#endif
+  _settings->setIniCodec("UTF-8");
+
+  // Create directory if needed
+  this->mkpath(_dataDir);
+
+  // Prepare for data sharing location and create the root of it
+  // linux:     /home/marcel/.local/share/io.github.martimm.HikingCompanion
+  // Android:   /storage/emulated/0/Android/Data/io.github.martimm.HikingCompanion
+  QString publicLoc = QStandardPaths::standardLocations(
+        QStandardPaths::GenericDataLocation
         ).first();
 
-  QDir *dd = new QDir(_dataDir);
-  if ( ! dd->exists() ) dd->mkpath(_dataDir);
-  qDebug() << "Data location:" << _dataDir;
+#if defined(Q_OS_ANDROID)
+  publicLoc += "/Android/Data/" + id;
+#elif defined(Q_OS_LINUX)
+  publicLoc += "/" + id;
+#endif
 
-  _settings = new QSettings();
-  _settings->setIniCodec("UTF-8");
+  this->mkpath(publicLoc);
+  _dataShareDir = publicLoc + "/newHikeData";
+  this->checkForNewHikeData();
+}
+
+// ----------------------------------------------------------------------------
+void Config::checkForNewHikeData() {
+
+  //TODO test for newHikeData to see if there is new data
+  QDir *dd = new QDir(_dataShareDir);
+  if( dd->exists() ) {
+    this->_installNewData();
+    qDebug() << "Remove public hike source data from" << _dataShareDir;
+    dd = new QDir(_dataShareDir);
+    dd->removeRecursively();
+  }
+}
+
+// ----------------------------------------------------------------------------
+bool Config::mkpath(QString path) {
+
+  bool ok = true;
+  QString p = "/";
+  QDir *dd;
+
+  QStringList parts = path.split( '/', QString::SkipEmptyParts);
+  for ( int pi = 0; pi < parts.count(); pi++) {
+    dd = new QDir(p);
+    if ( dd->exists(parts[pi]) ) {
+      qDebug() << p << parts[pi] << "exists -> next";
+    }
+
+    else if ( dd->mkdir(parts[pi]) ) {
+      qDebug() << p << parts[pi] << "ok";
+    }
+
+    else {
+      qDebug() << p << parts[pi] << "fails";
+      ok = false;
+      break;
+    }
+
+    if ( pi == 0 ) {
+      p += parts[pi];
+    }
+
+    else {
+      p += "/" + parts[pi];
+    }
+  }
+
+  qDebug() << path << "ok:" << ok;
+  return ok;
 }
 
 // ----------------------------------------------------------------------------
@@ -157,15 +232,15 @@ void Config::setGpxFileIndexSetting( int currentIndex ) {
 }
 
 // ----------------------------------------------------------------------------
-void Config::installNewData( QString dataRootDir ) {
+void Config::_installNewData() {
 
-  qDebug() << "Install data from" << dataRootDir + "/hike.conf";
-  if ( ! QFile::exists(dataRootDir + "/hike.conf") ) {
-    qDebug() << dataRootDir + "/hike.conf does not exist";
+  qDebug() << "Install data from" << _dataShareDir + "/hike.conf";
+  if ( ! QFile::exists(_dataShareDir + "/hike.conf") ) {
+    qDebug() << _dataShareDir + "/hike.conf does not exist";
     return;
   }
 
-  QSettings *s = new QSettings( dataRootDir + "/hike.conf", QSettings::IniFormat);
+  QSettings *s = new QSettings( _dataShareDir + "/hike.conf", QSettings::IniFormat);
   s->setIniCodec("UTF-8");
 
   QString hikename = getSetting( "hike", s);
@@ -175,11 +250,7 @@ void Config::installNewData( QString dataRootDir ) {
 
   // Create the root of the hike data dir
   QString hikeDir = _dataDir + "/" + hikename;
-  QDir *dd = new QDir(hikeDir);
 
-  qDebug() << "Remove old data from" << hikeDir;
-  dd->removeRecursively();
-  dd->mkpath(hikeDir);
 
 
   // Check its version. First get table if there is any.
@@ -213,12 +284,14 @@ void Config::installNewData( QString dataRootDir ) {
   qDebug() << "Versions old/new:" << hikeVersion << getSetting( "version", s);
   // If version of imported hike is greater, then there is work to do
   if ( hikeVersion.compare(getSetting( "version", s)) < 0 ) {
-    _mkNewTables( s, hikeTableName);
-    _refreshData( s, hikeTableName, hikeDir, dataRootDir);
-  }
+    qDebug() << "Remove old data from" << hikeDir;
+    QDir *dd = new QDir(hikeDir);
+    dd->removeRecursively();
+    dd->mkpath(hikeDir);
 
-  qDebug() << "Remove public hike source data";
-  dd = new QDir(dataRootDir);
+    _mkNewTables( s, hikeTableName);
+    _refreshData( s, hikeTableName, hikeDir);
+  }
 }
 
 // ----------------------------------------------------------------------------
@@ -256,8 +329,7 @@ void Config::_mkNewTables( QSettings *s, QString hikeTableName ) {
 
 // ----------------------------------------------------------------------------
 void Config::_refreshData(
-    QSettings *s, QString hikeTableName,
-    QString hikeDir, QString dataRootDir
+    QSettings *s, QString hikeTableName, QString hikeDir
     ) {
 
   // Remove all data first then create all directories, if needed,
@@ -289,7 +361,7 @@ void Config::_refreshData(
 
   // Add tracks to empty directory and create tables
   // Get source directory and list of files
-  QString sourceGpxDirectory = dataRootDir + "/" + getSetting( "tracksdir", s);
+  QString sourceGpxDirectory = _dataShareDir + "/" + getSetting( "tracksdir", s);
   QDir *sgd = new QDir(sourceGpxDirectory);
 
   qDebug() << "src hike tracks:" << sourceGpxDirectory;
