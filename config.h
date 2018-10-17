@@ -28,6 +28,7 @@ public:
   Q_INVOKABLE int getGpxFileIndexSetting();
   Q_INVOKABLE void cleanupTracks();
   Q_INVOKABLE void checkForNewHikeData();
+//  Q_INVOKABLE void setStyleSheet();
 
   QStringList readKeys( QString group, QSettings *s = nullptr);
   QString hikeEntryKey();

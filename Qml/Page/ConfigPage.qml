@@ -217,7 +217,8 @@ HCPage.Plain {
     anchors.bottom: parent.bottom
 
     Button {
-      width: textMetrics.boundingRect.width + 30
+      //width: textMetrics.boundingRect.width + 30
+      width: 50
       text: qsTr("Save")
       onClicked: {
         config.setSetting( "languageindex", configGrid.languageRow.cbx1.currentIndex);

@@ -24,6 +24,7 @@ ApplicationWindow {
     id: tracksPage;
     visible: true
   }
+/**/
 }
 
 

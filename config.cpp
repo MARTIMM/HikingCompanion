@@ -3,12 +3,20 @@
 #include "gpxfile.h"
 
 #include <QDebug>
+//#include <QApplication>
+//#include <QQuickApplicationWindow>
+#include <QMainWindow>
+//#include <QQmlApplicationEngine>
 #include <QQmlEngine>
 #include <QQmlComponent>
 #include <QDir>
 #include <QFile>
 #include <QStandardPaths>
 #include <QRegExp>
+
+// ----------------------------------------------------------------------------
+// Global variable defined in main.cpp and has loaded the Application.qml
+//extern QQmlApplicationEngine *applicationEngine;
 
 // ----------------------------------------------------------------------------
 // See also http://blog.qt.io/blog/2017/12/01/sharing-files-android-ios-qt-app/
@@ -34,20 +42,40 @@ Config::Config(QObject *parent) : QObject(parent) {
   _dataDir = QStandardPaths::standardLocations(
         QStandardPaths::AppConfigLocation
         ).first();
+
+  // Create directory if needed
+  this->mkpath(_dataDir);
+
+  // Create settings and load them
   _settings = new QSettings();
+  _settings->setIniCodec("UTF-8");
+
 #elif defined(Q_OS_LINUX)
   _dataDir = QStandardPaths::standardLocations(
         QStandardPaths::GenericConfigLocation
         ).first();
   _dataDir += "/" + id;
 
-  // Create settings and load them
-  _settings = new QSettings( _dataDir + "/HikingCompanion.conf", QSettings::IniFormat);
-#endif
-  _settings->setIniCodec("UTF-8");
-
   // Create directory if needed
   this->mkpath(_dataDir);
+
+  // Create settings and load them
+  _settings = new QSettings( _dataDir + "/HikingCompanion.conf", QSettings::IniFormat);
+  _settings->setIniCodec("UTF-8");
+  setSetting( "stylesheet", ":Assets/Theme/HikingCompanionSS.qss");
+#endif
+/*
+  // Place default stylesheet into _dataDir directory
+  QFile::remove(_dataDir + "/stylesheet.qss");
+  QString stylesheetPath = getSetting("stylesheet");
+  if ( QFile::copy( stylesheetPath, _dataDir + "/stylesheet.qss") ) {
+    qDebug() << "copy stylesheet ok";
+  }
+
+  else {
+    qDebug() << "copy stylesheet not ok";
+  }
+*/
 
   // Prepare for data sharing location and create the root of it
   // linux:     /home/marcel/.local/share/io.github.martimm.HikingCompanion
@@ -91,11 +119,11 @@ bool Config::mkpath(QString path) {
   for ( int pi = 0; pi < parts.count(); pi++) {
     dd = new QDir(p);
     if ( dd->exists(parts[pi]) ) {
-      qDebug() << p << parts[pi] << "exists -> next";
+      //qDebug() << p << parts[pi] << "exists -> next";
     }
 
     else if ( dd->mkdir(parts[pi]) ) {
-      qDebug() << p << parts[pi] << "ok";
+      //qDebug() << p << parts[pi] << "ok";
     }
 
     else {
@@ -166,7 +194,7 @@ QString Config::getSetting( QString name, QSettings *s ) {
 
   if ( settings->value(name).type() == QVariant::Invalid ) return "";
   QString v = settings->value(name).toString();
-  qDebug() << "GS:" << name << v;
+  //qDebug() << "GS:" << name << v;
   return v;
 }
 
@@ -230,6 +258,60 @@ void Config::setGpxFileIndexSetting( int currentIndex ) {
   QString tableName = hikeTableName(entryKey);
   setSetting( tableName + "/gpxfileindex", currentIndex);
 }
+
+/*
+// ----------------------------------------------------------------------------
+void Config::setStyleSheet() {
+  QString stylesheetPath;
+  QString entryKey = this->hikeEntryKey();
+  QString tableName = this->hikeTableName(entryKey);
+  if ( tableName == "" ) {
+    stylesheetPath = _dataDir + "/stylesheet.qss";
+    qDebug() << "SS no tablename:" << stylesheetPath;
+  }
+
+  else {
+    stylesheetPath = getSetting( tableName + "/stylesheet");
+    if ( stylesheetPath == "" ) {
+      stylesheetPath = _dataDir + "/stylesheet.qss";
+      qDebug() << "SS no stylesheet in:" << tableName << "->" << stylesheetPath;
+    }
+
+    else {
+      qDebug() << "SS stylesheet:" << tableName << "->" << stylesheetPath;
+    }
+  }
+
+/ *
+  QFile *stylesheet = new QFile(stylesheetPath);
+  if ( stylesheet->open(QIODevice::ReadOnly) ) {
+    qDebug() << "stylesheet opened";
+  }
+  else {
+    qDebug() << "stylesheet not opened";
+  }
+
+  qDebug() << "Previous installed stylesheet:" << qApp->styleSheet();
+
+  QString stylesheetText = QLatin1String(stylesheet->readAll());
+  //qDebug() << "stylesheet text\n" << stylesheetText;
+  qApp->setStyleSheet(stylesheetText);
+  //qApp->setStyleSheet("background-color: green");
+* /
+
+  //qDebug() << "widgets:" << QApplication::allWidgets();
+  //QMainWindow *mw = reinterpret_cast<QMainWindow *>(
+  //      applicationEngine->rootObjects().first()
+  //      );
+  //qDebug() << "root objs:" << mw->children();
+  //qApp->setStyleSheet("background-color: green; color: blue;");
+  //qApp->style()->polish(qApp);
+
+  QDir *dd = new QDir(".");
+  qApp->setStyleSheet("file:///" + dd->absoluteFilePath(stylesheetPath));
+  qDebug() << "Installed stylesheet:" << qApp->styleSheet();
+}
+*/
 
 // ----------------------------------------------------------------------------
 void Config::_installNewData() {
@@ -427,7 +509,6 @@ void Config::_refreshData(
   if ( ! dd->exists() ) dd->mkpath(hikeSubdir);
   setSetting( hikeTableName + "/nfeatures", 0);
   qDebug() << "hike features:" << hikeSubdir;
-
 }
 
 // ----------------------------------------------------------------------------
@@ -435,3 +516,4 @@ void Config::_removeSettings(QString group) {
   _settings->remove(group);
   _settings->sync();
 }
+

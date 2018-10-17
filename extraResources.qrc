@@ -14,6 +14,7 @@
         <file>Assets/Theme/LinBtGradient.qml</file>
         <file>Assets/Theme/LinGradient.qml</file>
         <file>Assets/Theme/ThemeTest.qml</file>
+        <!--file>Assets/Theme/HikingCompanionSS.qss</file-->
         <file>HCTheme1/Button.qml</file>
         <file>HCTheme1/ComboBox.qml</file>
         <file>HCTheme1/Frame.qml</file>

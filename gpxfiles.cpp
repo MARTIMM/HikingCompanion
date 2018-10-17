@@ -3,7 +3,7 @@
 
 #include <QDebug>
 #include <QDir>
-#include <QFile>
+//#include <QFile>
 
 // ----------------------------------------------------------------------------
 GpxFiles::GpxFiles( QObject *parent) : QObject(parent) { }

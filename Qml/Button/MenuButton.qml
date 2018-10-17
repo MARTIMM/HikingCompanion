@@ -16,7 +16,8 @@ Button {
     text: root.text
     font: root.font
 
-    color: root.txtColor
+    //color: root.txtColor
+    color: "black"
     horizontalAlignment: Text.AlignLeft
     verticalAlignment: Text.AlignVCenter
   }

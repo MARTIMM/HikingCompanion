@@ -9,13 +9,18 @@
 #endif
 
 //#include <QStyleFactory>
-#include <QGuiApplication>
+#include <QApplication>
 #include <QQmlApplicationEngine>
 //#include <QQuickStyle>
 //#include <QQmlComponent>
 #include <QDebug>
 //#include <QQmlProperty>
 #include <QStandardPaths>
+#include <QLabel>
+
+// ----------------------------------------------------------------------------
+// Define global variables
+QQmlApplicationEngine *applicationEngine;
 
 // ----------------------------------------------------------------------------
 int main( int argc, char *argv[]) {
@@ -52,7 +57,7 @@ int main( int argc, char *argv[]) {
   // Using qtquickcontrols2.conf now instead of
   // 'QQuickStyle::setStyle("Material");'
 
-  QGuiApplication app( argc, argv);
+  QApplication app( argc, argv);
   app.setApplicationVersion("0.10.0");
   app.setApplicationDisplayName("HikingCompanion");
 
@@ -93,10 +98,11 @@ int main( int argc, char *argv[]) {
         "io.github.martimm.HikingCompanion.HCTheme1", 0, 1, "HCTheme1"
         );
 
-  QQmlApplicationEngine engine;
-  engine.load(QUrl(QStringLiteral("qrc:/Qml/Main/Application.qml")));
-//  engine.load(QUrl(QStringLiteral("qrc:/Assets/Theme/ThemeTest.qml")));
+  applicationEngine = new QQmlApplicationEngine();
+//  applicationEngine->load(QUrl(QStringLiteral("qrc:/Qml/Main/Application.qml")));
+  applicationEngine->load(QUrl(QStringLiteral("qrc:/Assets/Theme/ThemeTest.qml")));
 
-  if ( engine.rootObjects().isEmpty() ) return -1;
+  if ( applicationEngine->rootObjects().isEmpty() ) return -1;
+
   return app.exec();
 }

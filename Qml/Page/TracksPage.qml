@@ -112,7 +112,8 @@ HCPage.Plain {
     Text {
       anchors.centerIn: parent
       text: tracksPage.trackTitle
-      color: HCTheme1.cmptFgColorL
+      //color: HCTheme1.cmptFgColorL
+      color: "black"
       font {
         pixelSize: 20
         bold: true
@@ -149,12 +150,14 @@ HCPage.Plain {
       // a certain range.
       z: 2
 
-      color: HCTheme1.cmptFgColorD
+      //color: HCTheme1.cmptFgColorD
+      color: "black"
       opacity: 0.2
       radius: 5
       border {
         width: 2
-        color: HCTheme1.cmptBgColorD
+        //color: HCTheme1.cmptBgColorD
+        color: "black"
       }
     }
 
@@ -178,7 +181,8 @@ HCPage.Plain {
         verticalAlignment: Text.AlignVCenter
         horizontalAlignment: Text.AlignLeft
         text: "[" + index + "] " + modelData
-        color: HCTheme1.cmptFgColorL
+        //color: HCTheme1.cmptFgColorL
+        color: "black"
       }
     }
   }

@@ -30,7 +30,7 @@ QString GpxFile::setGpxFilename( QString gpxPath, QString gpxFilename) {
   _gpxFilename = gpxFilename;
   _gpxPath = gpxPath;
 
-  QFile gpxFile (_gpxPath + "/" + _gpxFilename);
+  QFile gpxFile(_gpxPath + "/" + _gpxFilename);
   if ( !gpxFile.open(QIODevice::ReadOnly | QIODevice::Text) ) {
 //Todo error must be shown in status on screen
     qDebug() << QString("Open gpx file %1: %2").arg(_gpxFilename).arg(gpxFile.errorString());

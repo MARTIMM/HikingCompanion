@@ -17,12 +17,12 @@ T.Frame {
   background: Rectangle {
     //id: rectBackground
     color: HCTheme1.mainBgColorL
-    /*
+/*
     implicitWidth: 100
     implicitHeight: 40
 */
     anchors.fill: parent
 
-    ExtraTheme.LinGradient { }
+//    ExtraTheme.LinGradient { }
   }
 }

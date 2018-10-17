@@ -4,7 +4,7 @@ import QtQuick.Controls 2.2
 import QtQuick.Layouts 1.3
 
 import io.github.martimm.HikingCompanion.Theme 0.1
-import io.github.martimm.HikingCompanion.HCTheme1 0.1
+//import io.github.martimm.HikingCompanion.HCTheme1 0.1
 import io.github.martimm.HikingCompanion.GlobalVariables 0.1
 
 import "." as HCPage
@@ -41,7 +41,8 @@ Flickable {
   Text {
     id: pageText
     width: parent.width
-    color: HCTheme1.cmptFgColorL
+    //color: HCTheme1.cmptFgColorL
+    //color: "black"
     wrapMode: Text.WordWrap
   }
 
