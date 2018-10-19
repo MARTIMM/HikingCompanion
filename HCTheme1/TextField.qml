@@ -33,9 +33,9 @@ T.TextField {
 
     opacity: enabled ? 1 : 0.7
 
-    color: HCTheme1.cmptBgColor
+    color: HCTheme1.component.color.background
     border {
-      color: HCTheme1.cmptFgColorL
+      color: HCTheme1.component.color.foregroundLight
       width: 1
     }
     //radius: HCTheme1.cmptRdng

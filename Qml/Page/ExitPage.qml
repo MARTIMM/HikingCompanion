@@ -81,7 +81,7 @@ HCPage.Plain {
 
     Button {
       id: exitBttn
-      //width: textMetrics.boundingRect.width + 30
+      width: textMetrics.boundingRect.width + 30
       text: qsTr("Exit")
       onClicked: {
         console.log("Exit click");
@@ -90,7 +90,7 @@ HCPage.Plain {
     }
 
     Button {
-      //width: textMetrics.boundingRect.width + 30
+      width: textMetrics.boundingRect.width + 30
       text: qsTr("Save Track")
       enabled: false
     }

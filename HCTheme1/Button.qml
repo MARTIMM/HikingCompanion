@@ -29,27 +29,42 @@ T.Button {
 
     opacity: enabled ? 1 : 0.7
 
-    color: HCTheme1.cmptBgColorD
+    color: HCTheme1.component.color.backgroundDark
     border {
-      color: HCTheme1.cmptFgColorL
+      color: HCTheme1.component.color.foregroundLight
       width: 1
     }
-    //radius: HCTheme1.cmptRdng
-/**/
+    radius: HCTheme1.component.rounding
+/*
+    layer.effect: DropShadow {
+      horizontalOffset: 15
+      verticalOffset: 20
+      color: HCTheme1.component.color.backgroundDark //control.visualFocus ? "#330066ff" : "#aaaaaa"
+      samples: 17
+      radius: 8
+      spread: 0.5
+    }
+*/
 /*
     LinearGradient {
       anchors.fill: parent
       start: Qt.point( 0, 0)
       end: Qt.point( 0, width)
       gradient: Gradient {
-        GradientStop { id: g0; position: 0.0; color: HCTheme1.mainBgColorL}
-        GradientStop { id: g1; position: 1.0; color: HCTheme1.mainBgColorD}
+        GradientStop {
+          id: g0; position: 0.0
+          color: HCTheme1.component.color.backgroundLight
+        }
+        GradientStop {
+          id: g1; position: 1.0
+          color: HCTheme1.component.color.backgroundDark
+        }
       }
     }
 */
     // radius doesn't work with gradients
 //    radius: HCTheme1.cmptRdng
-
+/*
     states: [
       State {
         name: "normal"
@@ -60,14 +75,24 @@ T.Button {
       State {
         name: "down"
         when: control.down
-        PropertyChanges { target: btBackground; color: HCTheme1.cmptBgColor}
-/*
-        PropertyChanges { target: g0; color: HCTheme1.mainBgColorD}
-        PropertyChanges { target: g1; color: HCTheme1.mainBgColorL}
-*/
+        PropertyChanges {
+          target: btBackground
+          color: HCTheme1.component.color.background
+        }
+
+        PropertyChanges {
+          target: g0
+          color: HCTheme1.component.color.backgroundDark
+        }
+        PropertyChanges {
+          target: g1
+          color: HCTheme1.component.color.backgroundLight
+        }
+
       }
     ]
-  }
+*/
+}
 
   property alias textMetrics: textMetrics
   TextMetrics {
@@ -80,7 +105,7 @@ T.Button {
     text: control.text
   }
 
-  property color txtColor: HCTheme1.cmptFgColorLL
+  property color txtColor: HCTheme1.component.color.foregroundLight
   property alias textItem: textItem
   contentItem: Text {
     id: textItem
@@ -88,11 +113,11 @@ T.Button {
 
     font: control.font
     opacity: enabled ? 1.0 : 0.3
-    color: txtColor //HCTheme1.cmptFgColorLL
+    color: HCTheme1.component.color.foregroundLight
     horizontalAlignment: Text.AlignHCenter
     verticalAlignment: Text.AlignVCenter
     //elide: Text.ElideRight
-    /*
+/*
     states: [
       State {
         name: "normal"

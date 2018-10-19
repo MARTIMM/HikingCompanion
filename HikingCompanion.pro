@@ -37,12 +37,18 @@ SOURCES += \
     hikes.cpp
 
 RESOURCES += qml.qrc extraResources.qrc
+# $$files(*.qml) $$files(Assets/Theme/*)
 
 # Additional import path used to resolve QML modules in Qt Creator's code model
 QML_IMPORT_PATH =
 
 # Additional import path used to resolve QML modules just for Qt Quick Designer
 QML_DESIGNER_IMPORT_PATH =
+
+# Location where quick controls config theme is defined
+# See also https://doc.qt.io/qt-5/qtquickcontrols2-environment.html
+#QT_QUICK_CONTROLS_CONF = ":/Assets/Theme/qtquickcontrols2.conf"
+#QT_QUICK_CONTROLS_STYLE = ":/Assets/Theme/HCTheme1"
 
 # Default rules for deployment.
 qnx: target.path = /tmp/$${TARGET}/bin

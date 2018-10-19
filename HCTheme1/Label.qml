@@ -25,7 +25,7 @@ T.Label {
     family: "arial"
   }
 
-  color: HCTheme1.cmptFgColorL
+  color: HCTheme1.component.color.foregroundLight
 
   background: Rectangle {
     id: btBackground
@@ -34,9 +34,9 @@ T.Label {
 
     opacity: enabled ? 1 : 0.7
 
-    color: HCTheme1.cmptBgColorD
+    color: HCTheme1.component.color.backgroundDark
     border {
-      color: HCTheme1.cmptFgColorL
+      color: HCTheme1.component.color.backgroundLight
       width: 1
     }
   }

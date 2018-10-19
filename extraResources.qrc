@@ -11,10 +11,7 @@
         <file alias="qtquickcontrols2.conf">Assets/Theme/qtquickcontrols2.conf</file>
         <file>Assets/Theme/HCTheme1.qml</file>
         <file>Assets/Theme/HikingCompanionTheme.qml</file>
-        <file>Assets/Theme/LinBtGradient.qml</file>
-        <file>Assets/Theme/LinGradient.qml</file>
         <file>Assets/Theme/ThemeTest.qml</file>
-        <!--file>Assets/Theme/HikingCompanionSS.qss</file-->
         <file>HCTheme1/Button.qml</file>
         <file>HCTheme1/ComboBox.qml</file>
         <file>HCTheme1/Frame.qml</file>

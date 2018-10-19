@@ -16,7 +16,9 @@
 #include <QDebug>
 //#include <QQmlProperty>
 #include <QStandardPaths>
-#include <QLabel>
+#include <QQmlEngine>
+#include <QDir>
+#include <QtQml>
 
 // ----------------------------------------------------------------------------
 // Define global variables
@@ -51,11 +53,6 @@ int main( int argc, char *argv[]) {
   QCoreApplication::setOrganizationName("martimm");
   QCoreApplication::setOrganizationDomain("io.github.martimm");
   QCoreApplication::setApplicationName("HikingCompanion");
-
-  // Styling: http://doc.qt.io/qt-5/qtquickcontrols2-styles.html
-  //          https://doc.qt.io/qt-5.11/qtquickcontrols2-styles.html
-  // Using qtquickcontrols2.conf now instead of
-  // 'QQuickStyle::setStyle("Material");'
 
   QApplication app( argc, argv);
   app.setApplicationVersion("0.10.0");
@@ -93,14 +90,32 @@ int main( int argc, char *argv[]) {
         "io.github.martimm.HikingCompanion.Theme", 0, 1, "Theme"
         );
 
+/**/
   qmlRegisterSingletonType(
         QUrl("qrc:/Assets/Theme/HCTheme1.qml"),
         "io.github.martimm.HikingCompanion.HCTheme1", 0, 1, "HCTheme1"
         );
 
+
+/*
+  Config *cfg = new Config();
+  QDir *dd = new QDir(cfg->dataDir() + "/Sufitrail/theme.qml");
+  QString themePath = dd->absolutePath();
+  qDebug() << "Theme at" << "file://" + themePath;
+  qmlRegisterSingletonType(
+        "file://" + themePath,
+        "io.github.martimm.HikingCompanion.HCTheme1", 0, 1, "HCTheme1"
+        );
+*/
+
+  // Styling: http://doc.qt.io/qt-5/qtquickcontrols2-styles.html
+  //          https://doc.qt.io/qt-5.11/qtquickcontrols2-styles.html
+  // Using qtquickcontrols2.conf now instead of
+  // 'QQuickStyle::setStyle("Material");'
+
   applicationEngine = new QQmlApplicationEngine();
-//  applicationEngine->load(QUrl(QStringLiteral("qrc:/Qml/Main/Application.qml")));
-  applicationEngine->load(QUrl(QStringLiteral("qrc:/Assets/Theme/ThemeTest.qml")));
+  applicationEngine->load(QUrl(QStringLiteral("qrc:/Qml/Main/Application.qml")));
+//  applicationEngine->load(QUrl(QStringLiteral("qrc:/Assets/Theme/ThemeTest.qml")));
 
   if ( applicationEngine->rootObjects().isEmpty() ) return -1;
 

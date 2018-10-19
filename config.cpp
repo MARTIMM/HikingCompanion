@@ -62,9 +62,10 @@ Config::Config(QObject *parent) : QObject(parent) {
   // Create settings and load them
   _settings = new QSettings( _dataDir + "/HikingCompanion.conf", QSettings::IniFormat);
   _settings->setIniCodec("UTF-8");
-  setSetting( "stylesheet", ":Assets/Theme/HikingCompanionSS.qss");
 #endif
 /*
+  //setSetting( "stylesheet", ":Assets/Theme/HikingCompanionSS.qss");
+
   // Place default stylesheet into _dataDir directory
   QFile::remove(_dataDir + "/stylesheet.qss");
   QString stylesheetPath = getSetting("stylesheet");

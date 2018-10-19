@@ -112,8 +112,7 @@ HCPage.Plain {
     Text {
       anchors.centerIn: parent
       text: tracksPage.trackTitle
-      //color: HCTheme1.cmptFgColorL
-      color: "black"
+      color: HCTheme1.component.color.foregroundLight
       font {
         pixelSize: 20
         bold: true
@@ -150,14 +149,12 @@ HCPage.Plain {
       // a certain range.
       z: 2
 
-      //color: HCTheme1.cmptFgColorD
-      color: "black"
+      color: HCTheme1.component.color.foregroundDark
       opacity: 0.2
       radius: 5
       border {
         width: 2
-        //color: HCTheme1.cmptBgColorD
-        color: "black"
+        color: HCTheme1.component.color.backgroundDark
       }
     }
 
@@ -181,8 +178,7 @@ HCPage.Plain {
         verticalAlignment: Text.AlignVCenter
         horizontalAlignment: Text.AlignLeft
         text: "[" + index + "] " + modelData
-        //color: HCTheme1.cmptFgColorL
-        color: "black"
+        color: HCTheme1.component.color.foregroundLight
       }
     }
   }
@@ -194,7 +190,7 @@ HCPage.Plain {
 
     Button {
       id: selectButton
-      width: textMetrics.boundingRect.width + 30
+      width: 50 //textMetrics.boundingRect.width + 30
       text: qsTr("Select")
 
       onClicked: {
