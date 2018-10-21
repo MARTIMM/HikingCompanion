@@ -2,10 +2,9 @@ import QtQuick 2.8
 import QtGraphicalEffects 1.0
 import QtQuick.Templates 2.1 as T
 
-import io.github.martimm.HikingCompanion.HCTheme1 0.1
 import io.github.martimm.HikingCompanion.Theme 0.1
 
-T.Label {
+T.TextField {
   id: control
 
   width: parent.width
@@ -16,16 +15,15 @@ T.Label {
   verticalAlignment: Text.AlignVCenter
 
   leftPadding: 2
-  //rightPadding: 2
+  rightPadding: 2
 
   font {
     bold: true
     underline: false
-    pixelSize: Theme.lblPixelSize
+    pixelSize: Theme.txtfPixelSize
+    //pointSize: Theme.largeBtPointSize
     family: "arial"
   }
-
-  color: HCTheme1.component.color.foregroundLight
 
   background: Rectangle {
     id: btBackground
@@ -34,11 +32,41 @@ T.Label {
 
     opacity: enabled ? 1 : 0.7
 
-    color: HCTheme1.component.color.backgroundDark
+    color: Theme.component.color.background
     border {
-      color: HCTheme1.component.color.backgroundLight
+      color: Theme.component.color.foregroundLight
       width: 1
     }
+    //radius: Theme.cmptRdng
+/**/
+/*
+    LinearGradient {
+      anchors.fill: parent
+      start: Qt.point( 0, 0)
+      end: Qt.point( 0, width)
+      gradient: Gradient {
+        GradientStop { id: g0; position: 0.0; color: Theme.mainBgColorL}
+        GradientStop { id: g1; position: 1.0; color: Theme.mainBgColorD}
+      }
+    }
+*/
+    // radius doesn't work with gradients
+//    radius: Theme.cmptRdng
+/*
+    states: [
+      State {
+        name: "normal"
+        when: !control.down
+        PropertyChanges { target: btBackground}
+      },
+
+      State {
+        name: "down"
+        when: control.down
+        PropertyChanges { target: btBackground; color: Theme.cmptBgColor}
+      }
+    ]
+*/
   }
 /*
   property alias textItem: textItem
@@ -48,7 +76,7 @@ T.Label {
 
     font: control.font
     opacity: enabled ? 1.0 : 0.3
-    color: HCTheme1.cmptFgColorLL
+    color: Theme.cmptFgColorLL
     horizontalAlignment: Text.AlignHCenter
     verticalAlignment: Text.AlignVCenter
     //elide: Text.ElideRight
@@ -64,7 +92,7 @@ T.Label {
         when: control.down
         PropertyChanges {
           target: textItem
-          color: HCTheme1.cmptFgColor
+          color: Theme.cmptFgColor
         }
       }
     ]

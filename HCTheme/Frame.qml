@@ -2,8 +2,7 @@ import QtQuick 2.8
 import QtGraphicalEffects 1.0
 import QtQuick.Templates 2.1 as T
 
-import io.github.martimm.HikingCompanion.HCTheme1 0.1
-//import io.github.martimm.HikingCompanion.Theme 0.1
+import io.github.martimm.HikingCompanion.Theme 0.1
 
 T.Frame {
   id: control
@@ -14,7 +13,7 @@ T.Frame {
 
   background: Rectangle {
     //id: rectBackground
-    color: HCTheme1.main.color.backgroundLight
+    color: Theme.main.color.backgroundLight
 /*
     implicitWidth: 100
     implicitHeight: 40
@@ -27,24 +26,24 @@ T.Frame {
       end: Qt.point( 0, width)
       gradient: Gradient {
         GradientStop {
-          position: HCTheme1.pageGradient.p1
-          color:    HCTheme1.pageGradient.g1
+          position: Theme.pageGradient.p1
+          color:    Theme.pageGradient.g1
         }
         GradientStop {
-          position: HCTheme1.pageGradient.p2
-          color:    HCTheme1.pageGradient.g2
+          position: Theme.pageGradient.p2
+          color:    Theme.pageGradient.g2
         }
         GradientStop {
-          position: HCTheme1.pageGradient.p3
-          color:    HCTheme1.pageGradient.g3
+          position: Theme.pageGradient.p3
+          color:    Theme.pageGradient.g3
         }
         GradientStop {
-          position: HCTheme1.pageGradient.p4
-          color:    HCTheme1.pageGradient.g4
+          position: Theme.pageGradient.p4
+          color:    Theme.pageGradient.g4
         }
         GradientStop {
-          position: HCTheme1.pageGradient.p5
-          color:    HCTheme1.pageGradient.g5
+          position: Theme.pageGradient.p5
+          color:    Theme.pageGradient.g5
         }
       }
     }

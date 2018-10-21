@@ -10,7 +10,6 @@ import QtQuick.Controls.Styles 1.4
 import QtQuick.Controls 2.4
 import QtQuick.Controls.impl 2.4
 
-import io.github.martimm.HikingCompanion.HCTheme1 0.1
 import io.github.martimm.HikingCompanion.Theme 0.1
 
 T.Switch {
@@ -107,9 +106,9 @@ T.Switch {
 
     opacity: enabled ? 1 : 0.7
 
-    color: HCTheme1.cmptBgColor
+    color: Theme.cmptBgColor
     border {
-      color: HCTheme1.cmptFgColorL
+      color: Theme.cmptFgColorL
       width: 1
     }
   }
@@ -121,7 +120,7 @@ T.Switch {
 
     font: control.font
     opacity: enabled ? 1.0 : 0.3
-    color: HCTheme1.cmptFgColorLL
+    color: Theme.cmptFgColorLL
     horizontalAlignment: Text.AlignHCenter
     verticalAlignment: Text.AlignVCenter
     //elide: Text.ElideRight
