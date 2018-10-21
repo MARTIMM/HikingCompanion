@@ -43,11 +43,11 @@ Item {
     // Show visible clue if input is right or wrong
     onTextChanged: {
       if ( inputText.acceptableInput ) {
-        color = Theme.oktxtColor;
+        color = Theme.main.color.okText;
       }
 
       else {
-        color = Theme.noktxtColor;
+        color = Theme.main.color.notOkText;
       }
     }
   }

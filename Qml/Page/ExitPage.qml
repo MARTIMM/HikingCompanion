@@ -79,6 +79,20 @@ HCPage.Plain {
 
     anchors.bottom: parent.bottom
 
+    HCButton.ButtonRowButton {
+      //id: exitBttn
+      text: qsTr("Exit")
+      onClicked: {
+        console.log("Exit click");
+        Qt.exit(0);
+      }
+    }
+
+    HCButton.ButtonRowButton {
+      text: qsTr("Save Track")
+      enabled: false
+    }
+/*
     Button {
       id: exitBttn
       width: textMetrics.boundingRect.width + 30
@@ -94,8 +108,8 @@ HCPage.Plain {
       text: qsTr("Save Track")
       enabled: false
     }
+*/
   }
-
   /*
 
   Flickable {

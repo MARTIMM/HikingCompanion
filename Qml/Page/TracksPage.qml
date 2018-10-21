@@ -2,8 +2,6 @@ import "." as HCPage
 import "../Button" as HCButton
 import "../Parts" as HCParts
 
-//TODO: HCTheme1 settings should go to other module
-import io.github.martimm.HikingCompanion.HCTheme1 0.1
 import io.github.martimm.HikingCompanion.Theme 0.1
 import io.github.martimm.HikingCompanion.Config 0.3
 import io.github.martimm.HikingCompanion.GpxFiles 0.1
@@ -112,7 +110,7 @@ HCPage.Plain {
     Text {
       anchors.centerIn: parent
       text: tracksPage.trackTitle
-      color: HCTheme1.component.color.foregroundLight
+      color: Theme.component.color.foregroundLight
       font {
         pixelSize: 20
         bold: true
@@ -149,12 +147,12 @@ HCPage.Plain {
       // a certain range.
       z: 2
 
-      color: HCTheme1.component.color.foregroundDark
+      color: Theme.component.color.foregroundDark
       opacity: 0.2
       radius: 5
       border {
         width: 2
-        color: HCTheme1.component.color.backgroundDark
+        color: Theme.component.color.backgroundDark
       }
     }
 
@@ -178,7 +176,7 @@ HCPage.Plain {
         verticalAlignment: Text.AlignVCenter
         horizontalAlignment: Text.AlignLeft
         text: "[" + index + "] " + modelData
-        color: HCTheme1.component.color.foregroundLight
+        color: Theme.component.color.foregroundLight
       }
     }
   }
@@ -188,11 +186,9 @@ HCPage.Plain {
 
     anchors.bottom: parent.bottom
 
-    Button {
+    HCButton.ButtonRowButton {
       id: selectButton
-      width: 50 //textMetrics.boundingRect.width + 30
       text: qsTr("Select")
-
       onClicked: {
         config.setGpxFileIndexSetting(currentIndex);
 

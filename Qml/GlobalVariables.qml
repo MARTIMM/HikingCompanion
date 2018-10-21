@@ -11,8 +11,27 @@ import QtQuick 2.9
 import "Button" as HCButton
 import "Page" as HCPage
 
-Item {
-  id: root
+QtObject {
+  //id: root
+  property QtObject component: QtObject {
+    property QtObject toolbar: QtObject {
+      property QtObject button: QtObject {
+        property int type:        0
+      }
+    }
+
+    property QtObject buttonRow: QtObject {
+      property QtObject button: QtObject {
+        property int type:        1
+      }
+    }
+
+    property QtObject menu: QtObject {
+      property QtObject button: QtObject {
+        property int type:        2
+      }
+    }
+  }
 
   // Currently displayed page.
   property HCPage.Plain currentPage

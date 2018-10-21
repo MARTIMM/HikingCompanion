@@ -15,7 +15,6 @@ import QtQuick.Controls 2.2
 
     // Menu must be kept above page(1) and button rows(50)
     width: 0
-    //width: Theme.mnWidth
     height: parent.height
     z: 100
     clip: true
@@ -70,7 +69,7 @@ import QtQuick.Controls 2.2
         property: "width"
         duration: 1000
         from: 0
-        to: Theme.mnWidth
+        to: Theme.component.menu.width
         easing.type: Easing.OutBounce
       }
     }
@@ -82,7 +81,7 @@ import QtQuick.Controls 2.2
         target: GlobalVariables.menu
         property: "width"
         duration: 1000
-        from: Theme.mnWidth
+        from: Theme.component.menu.width
         to: 0
         easing.type: Easing.OutBounce
       }

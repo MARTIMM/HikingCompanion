@@ -14,6 +14,7 @@ import "../../Qml/Button" as HCButton
 
 import io.github.martimm.HikingCompanion.Theme 0.1
 import io.github.martimm.HikingCompanion.GlobalVariables 0.1
+import io.github.martimm.HikingCompanion.Config 0.3
 
 import QtQuick 2.9
 import QtQuick.Controls 2.2
@@ -28,7 +29,13 @@ ApplicationWindow {
     GlobalVariables.setCurrentPage(mapPage);
     GlobalVariables.setMenu(menu);
     GlobalVariables.setTracksPage(tracksPage);
+
+    var t = config.getTheme();
+    console.log("style: " + t);
+    Theme.changeClrs(JSON.parse(t));
   }
+
+  Config { id: config }
 
   title: qsTr("Your Hiking Companion")
 

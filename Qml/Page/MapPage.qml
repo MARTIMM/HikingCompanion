@@ -17,14 +17,17 @@ HCPage.Plain {
   height: parent.height
   anchors.fill: parent
 
-  HCParts.ToolbarRow {
+  HCParts.ToolbarRectangle {
     id: pageToolbarRow
 
-    HCButton.OpenMenu {  }
-    //TODO North button
-    //TODO Zoom current location
-    //TODO Zoom to current track
-    //TODO Reset 3D view to 2D view
+    HCParts.ToolbarRow {
+      HCButton.OpenMenu { id: openMenu }
+
+      //TODO North button
+      //TODO Zoom current location
+      //TODO Zoom to current track
+      //TODO Reset 3D view to 2D view
+    }
   }
 
 

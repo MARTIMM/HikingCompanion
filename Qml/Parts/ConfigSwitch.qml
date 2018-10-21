@@ -1,7 +1,6 @@
 import QtQuick 2.9
 import QtQuick.Controls 2.2
 
-//import io.github.martimm.HikingCompanion.HCTheme1 0.1
 import io.github.martimm.HikingCompanion.Theme 0.1
 
 Rectangle {
@@ -10,8 +9,7 @@ Rectangle {
   width: parent.width
   height: Theme.largeButtonHeight
 
-  //color: HCTheme1.cmptBgColor
-  color: "black"
+  color: Theme.component.color.background
 
   property bool checked;
   signal switched()
@@ -28,8 +26,7 @@ Rectangle {
 
     text: ""
     background: Rectangle {
-      //color: HCTheme1.cmptBgColor
-      color: "black"
+      color: Theme.component.color.background
     }
 
     contentItem: Text {
@@ -37,8 +34,7 @@ Rectangle {
       text: switchText.text
 
       opacity: enabled ? 1.0 : 0.3
-      //color: HCTheme1.cmptFgColorLL
-      color: "black"
+      color: Theme.component.color.foregroundLight
       horizontalAlignment: Text.AlignRight
       //verticalAlignment: Text.AlignVCenter
       //elide: Text.ElideRight
