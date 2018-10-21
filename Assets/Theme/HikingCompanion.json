@@ -1,0 +1,14 @@
+{ "main": {
+    "foreground": "#efefef",
+    "background": "#5f5f5f"
+  },
+
+  "component": {
+    "foreground": "#dfa0ef",
+    "background": "#8f0070"
+  },
+
+  "toolbar": {
+    "leftMargin": 6
+  }
+}

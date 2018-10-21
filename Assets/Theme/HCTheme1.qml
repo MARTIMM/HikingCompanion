@@ -1,29 +1,4 @@
 /*
-  Purpose of this file is to define HCTheme1 specific colors and a few other
-  things. It is available as 'HCTheme1'. This file should only be used by
-  styled components in directory 'qrc:/HCTheme1'.
-
-  import io.github.martimm.HikingCompanion.HCTheme1 0.1
-
-  prefixes etc
-  br    buttonrow
-  bt    button
-  cbx   combobox
-  cmpt  component
-  lbl   label
-  mn    menu
-  sb    scrollbar
-  tb    toolbar
-  txt   text
-  txta  textarea
-  txtf  textfield
-
-  bg    background
-  d     darker
-  fg    foreground
-  l     lighter
-  rdng  rounding
-
   see also
     https://wiki.qt.io/Qml_Styling
     https://doc.qt.io/qt-5/qtquick-controls-styles-qmlmodule.html
