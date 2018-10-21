@@ -63,20 +63,21 @@ Config::Config(QObject *parent) : QObject(parent) {
   _settings = new QSettings( _dataDir + "/HikingCompanion.conf", QSettings::IniFormat);
   _settings->setIniCodec("UTF-8");
 #endif
-/*
-  //setSetting( "stylesheet", ":Assets/Theme/HikingCompanionSS.qss");
+
 
   // Place default stylesheet into _dataDir directory
-  QFile::remove(_dataDir + "/stylesheet.qss");
-  QString stylesheetPath = getSetting("stylesheet");
-  if ( QFile::copy( stylesheetPath, _dataDir + "/stylesheet.qss") ) {
-    qDebug() << "copy stylesheet ok";
-  }
+  setSetting( "style", ":Assets/Theme/HikingCompanion.json");
+  QFile::remove(_dataDir + "/HikingCompanion.json");
+  QString stylePath = getSetting("style");
+  QFile::copy( stylePath, _dataDir + "/HikingCompanion.json");
+  //if ( QFile::copy( stylePath, _dataDir + "/HikingCompanion.json") ) {
+  //  qDebug() << "copy stylesheet ok";
+  //}
 
-  else {
-    qDebug() << "copy stylesheet not ok";
-  }
-*/
+  //else {
+  //  qDebug() << "copy stylesheet not ok";
+  //}
+
 
   // Prepare for data sharing location and create the root of it
   // linux:     /home/marcel/.local/share/io.github.martimm.HikingCompanion
@@ -260,59 +261,45 @@ void Config::setGpxFileIndexSetting( int currentIndex ) {
   setSetting( tableName + "/gpxfileindex", currentIndex);
 }
 
-/*
 // ----------------------------------------------------------------------------
-void Config::setStyleSheet() {
-  QString stylesheetPath;
+QString Config::getTheme( ) {
+
+  QString stylePath;
   QString entryKey = this->hikeEntryKey();
   QString tableName = this->hikeTableName(entryKey);
   if ( tableName == "" ) {
-    stylesheetPath = _dataDir + "/stylesheet.qss";
-    qDebug() << "SS no tablename:" << stylesheetPath;
+    stylePath = _dataDir + "/HikingCompanion.json";
+    //qDebug() << "no tablename:" << stylePath;
   }
 
   else {
-    stylesheetPath = getSetting( tableName + "/stylesheet");
-    if ( stylesheetPath == "" ) {
-      stylesheetPath = _dataDir + "/stylesheet.qss";
-      qDebug() << "SS no stylesheet in:" << tableName << "->" << stylesheetPath;
+    stylePath = getSetting( tableName + "/style");
+    if ( stylePath == "" ) {
+      stylePath = _dataDir + "/HikingCompanion.json";
+      //qDebug() << "no style in:" << tableName << "->" << stylePath;
     }
 
     else {
-      qDebug() << "SS stylesheet:" << tableName << "->" << stylesheetPath;
+      QString ek = this->getSetting("HikeList/" + entryKey);
+      stylePath = _dataDir + "/" + ek + "/" + stylePath;
+      //qDebug() << "style:" << tableName << "->" << stylePath;
     }
   }
 
-/ *
-  QFile *stylesheet = new QFile(stylesheetPath);
-  if ( stylesheet->open(QIODevice::ReadOnly) ) {
-    qDebug() << "stylesheet opened";
-  }
-  else {
-    qDebug() << "stylesheet not opened";
-  }
+  QFile *stylesheet = new QFile(stylePath);
+  stylesheet->open(QIODevice::ReadOnly);
+  //if ( stylesheet->open(QIODevice::ReadOnly) ) {
+  //  qDebug() << "style opened";
+  //}
+  //else {
+  //  qDebug() << "style not opened";
+  //}
 
-  qDebug() << "Previous installed stylesheet:" << qApp->styleSheet();
-
-  QString stylesheetText = QLatin1String(stylesheet->readAll());
-  //qDebug() << "stylesheet text\n" << stylesheetText;
-  qApp->setStyleSheet(stylesheetText);
-  //qApp->setStyleSheet("background-color: green");
-* /
-
-  //qDebug() << "widgets:" << QApplication::allWidgets();
-  //QMainWindow *mw = reinterpret_cast<QMainWindow *>(
-  //      applicationEngine->rootObjects().first()
-  //      );
-  //qDebug() << "root objs:" << mw->children();
-  //qApp->setStyleSheet("background-color: green; color: blue;");
-  //qApp->style()->polish(qApp);
-
-  QDir *dd = new QDir(".");
-  qApp->setStyleSheet("file:///" + dd->absoluteFilePath(stylesheetPath));
-  qDebug() << "Installed stylesheet:" << qApp->styleSheet();
+  QString styleText = QLatin1String(stylesheet->readAll());
+  //qDebug() << "json style text\n" << styleText;
+  return styleText;
 }
-*/
+
 
 // ----------------------------------------------------------------------------
 void Config::_installNewData() {
@@ -389,7 +376,7 @@ void Config::_mkNewTables( QSettings *s, QString hikeTableName ) {
   // Keys needed for the hike table
   QStringList keys = {
     "version", "title", "shortdescr", "www", "defaultlang",
-    "supportedlang", "translationfile"
+    "supportedlang", "translationfile", "style"
   };
 
   for ( int ki = 0; ki < keys.count(); ki++) {
@@ -442,6 +429,18 @@ void Config::_refreshData(
     dd->mkpath(hikeSubdir);
   }
 
+  // Copy theme file
+  QString themeFile = getSetting( "style", s);
+  if( themeFile != "" ) {
+    QDir *tfd = new QDir(_dataShareDir);
+    if( tfd->exists(themeFile) ) {
+      QFile::copy(
+            _dataShareDir + '/' + themeFile,
+            _dataDir + '/' + themeFile
+            );
+    }
+  }
+
   // Add tracks to empty directory and create tables
   // Get source directory and list of files
   QString sourceGpxDirectory = _dataShareDir + "/" + getSetting( "tracksdir", s);
@@ -449,9 +448,6 @@ void Config::_refreshData(
 
   qDebug() << "src hike tracks:" << sourceGpxDirectory;
   qDebug() << "dest hike tracks:" << hikeSubdir;
-
-  //QStringList newGpxFiles = sgd->entryList( QDir::Files, QDir::Name);
-  //for ( int gfi = 0; gfi < newGpxFiles.count(); gfi++) {
 
   // Maximum number of files possible
   int nbrGpxFiles = sgd->entryList(QDir::Files).count();
@@ -471,7 +467,7 @@ void Config::_refreshData(
       break;
     }
 
-    //TODO: Lenght must be calculated
+    //TODO: Length must be calculated
     QStringList keys = {
       "fname", "title", "shortdescr", "type", "length",
     };

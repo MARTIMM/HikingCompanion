@@ -90,12 +90,12 @@ int main( int argc, char *argv[]) {
         "io.github.martimm.HikingCompanion.Theme", 0, 1, "Theme"
         );
 
-/**/
+/*
   qmlRegisterSingletonType(
         QUrl("qrc:/Assets/Theme/HCTheme1.qml"),
         "io.github.martimm.HikingCompanion.HCTheme1", 0, 1, "HCTheme1"
         );
-
+*/
 
 /*
   Config *cfg = new Config();

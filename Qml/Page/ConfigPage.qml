@@ -216,9 +216,9 @@ HCPage.Plain {
 
     anchors.bottom: parent.bottom
 
-    Button {
+    HCButton.ButtonRowButton {
       //width: textMetrics.boundingRect.width + 30
-      width: 50
+      //width: 50
       text: qsTr("Save")
       onClicked: {
         config.setSetting( "languageindex", configGrid.languageRow.cbx1.currentIndex);
@@ -233,6 +233,18 @@ HCPage.Plain {
           config.setSetting( "selectedhikeindex", configGrid.hikeRow.cbx2.currentIndex);
           GlobalVariables.tracksPage.changeTrackList();
         }
+
+        // test works!
+        var t = config.getTheme();
+        console.log("style: " + t);
+        Theme.changeClrs(JSON.parse(t));
+/*
+        Theme.changeClrs(
+              { foreground: "#004040",
+                background: "#f08000"
+              }
+              );
+*/
       }
     }
   }
