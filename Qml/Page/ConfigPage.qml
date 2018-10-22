@@ -53,14 +53,16 @@ HCPage.Plain {
 
   Config { id: config }
 
-  HCParts.ToolbarRow {
+  HCParts.ToolbarRectangle {
     id: pageToolbarRow
 
-    HCButton.OpenMenu {  }
-    HCButton.Home {  }
+    HCParts.ToolbarRow {
+      HCButton.OpenMenu { }
+      HCButton.Home { }
 
-    Text {
-      text: qsTr(" Configuration page")
+      Text {
+        text: qsTr(" Configuration page")
+      }
     }
   }
 

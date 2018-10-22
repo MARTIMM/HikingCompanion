@@ -19,9 +19,10 @@ HCPage.Plain {
 
   HCParts.ToolbarRectangle {
     id: pageToolbarRow
+    color: "transparent"
 
     HCParts.ToolbarRow {
-      HCButton.OpenMenu { id: openMenu }
+      HCButton.OpenMenu { }
 
       //TODO North button
       //TODO Zoom current location

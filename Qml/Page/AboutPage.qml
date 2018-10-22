@@ -14,14 +14,16 @@ HCPage.Plain {
   height: parent.height
   anchors.fill: parent
 
-  HCParts.ToolbarRow {
+  HCParts.ToolbarRectangle {
     id: pageToolbarRow
 
-    HCButton.OpenMenu {  }
-    HCButton.Home {  }
+    HCParts.ToolbarRow {
+      HCButton.OpenMenu { }
+      HCButton.Home { }
 
-    Text {
-      text: qsTr(" About page")
+      Text {
+        text: qsTr(" About page")
+      }
     }
   }
 }

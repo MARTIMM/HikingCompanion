@@ -20,9 +20,9 @@ Rectangle {
     bottomMargin: Theme.component.toolbar.bottomMargin
   }
 
-  color: "green"
+  color: Theme.component.toolbar.background
   border {
-    width: 1
-    color: "#003300"
+    width: Theme.component.toolbar.border.width
+    color: Theme.component.toolbar.border.color
   }
 }

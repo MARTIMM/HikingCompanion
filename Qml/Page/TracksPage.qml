@@ -87,14 +87,16 @@ HCPage.Plain {
   height: parent.height
   anchors.fill: parent
 
-  HCParts.ToolbarRow {
+  HCParts.ToolbarRectangle {
     id: pageToolbarRow
 
-    HCButton.OpenMenu {  }
-    HCButton.Home {  }
+    HCParts.ToolbarRow {
+      HCButton.OpenMenu { }
+      HCButton.Home { }
 
-    Text {
-      text: qsTr(" Tracks page")
+      Text {
+        text: qsTr(" Tracks page")
+      }
     }
   }
 
