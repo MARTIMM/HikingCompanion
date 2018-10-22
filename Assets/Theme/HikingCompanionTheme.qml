@@ -10,22 +10,44 @@ import QtQuick 2.8
 import QtGraphicalEffects 1.0
 
 QtObject {
+  id: themeControl
 
   function changeClrs ( c ) {
-    console.log("fn x(): " + c);
-    console.log("fg: " + c.foreground);
 
-    var cm;
-    if ( c.main ) {
-      cm = c.main;
-      if ( cm.foreground ) main.color.foreground = cm.foreground;
-      if ( cm.background ) main.color.background = cm.background;
-    }
+    setSubFields(
+          c.main,
+          [ "foreground", "background", "okText", "notOkText",
+           "selectedText", "selectionText"
+          ],
+          main.color
+          );
 
-    if ( c.component ) {
-      cm = c.component;
-      if ( cm.foreground ) component.color.foreground = cm.foreground;
-      if ( cm.background ) component.color.background = cm.background;
+    setSubFields( c.component, [ "foreground", "background"], component.color);
+
+    setSubFields(
+          c.toolbar,
+          [ "background", "topMargin", "bottomMargin", "leftMargin",
+           "rightMargin", "height"
+          ],
+          component.toolbar
+          );
+
+    setSubFields(
+          c.toolbar.border,
+          [ "width", "color"],
+          component.toolbar.border
+          );
+  }
+
+  function setSubFields ( source, fields, destination) {
+    for ( var fi = 0; fi < fields.length; fi++) {
+      if ( source[fields[fi]] ) {
+        console.log("Field " + fields[fi] + " set");
+        destination[fields[fi]] = source[fields[fi]];
+      }
+      else {
+        console.log("Field " + fields[fi] + " not set");
+      }
     }
   }
 
@@ -65,12 +87,20 @@ QtObject {
     property int rounding:              6
 
     property QtObject toolbar: QtObject {
+      //property color foreground:
+      property color background:        "transparent"
+
       property real topMargin:          6
       property real bottomMargin:       6
       property real leftMargin:         6
       property real rightMargin:        6
 
       property real height:             28
+
+      property QtObject border: QtObject {
+        property int width:             0
+        property color color:           "#ff05f0"
+      }
 
       property QtObject button: QtObject {
         property int width:             component.toolbar.height - 5
