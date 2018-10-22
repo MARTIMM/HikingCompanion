@@ -318,7 +318,7 @@ void Config::_installNewData() {
   //qDebug() << "Version" << getSetting( "version", s);
   //qDebug() << "Description" << getSetting( "shortdescr", s);
 
-  // Create the root of the hike data dir
+  // Directory name of the root of the hike data
   QString hikeDir = _dataDir + "/" + hikename;
 
 
@@ -431,13 +431,17 @@ void Config::_refreshData(
 
   // Copy theme file
   QString themeFile = getSetting( "style", s);
+  qDebug() << "ThemeFile:" << themeFile;
   if( themeFile != "" ) {
     QDir *tfd = new QDir(_dataShareDir);
     if( tfd->exists(themeFile) ) {
       QFile::copy(
             _dataShareDir + '/' + themeFile,
-            _dataDir + '/' + themeFile
+            hikeDir + '/' + themeFile
             );
+    }
+    else {
+      qDebug() << "themefile does not exist at" << _dataShareDir;
     }
   }
 
