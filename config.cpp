@@ -64,19 +64,36 @@ Config::Config(QObject *parent) : QObject(parent) {
   _settings->setIniCodec("UTF-8");
 #endif
 
-
-  // Place default stylesheet into _dataDir directory
+  // Place default stylesheet into _dataDir directory. Make
+  // a config entry for the style file
   setSetting( "style", ":Assets/Theme/HikingCompanion.json");
   QFile::remove(_dataDir + "/HikingCompanion.json");
   QString stylePath = getSetting("style");
-  QFile::copy( stylePath, _dataDir + "/HikingCompanion.json");
-  //if ( QFile::copy( stylePath, _dataDir + "/HikingCompanion.json") ) {
-  //  qDebug() << "copy stylesheet ok";
-  //}
+  if ( QFile::copy( stylePath, _dataDir + "/HikingCompanion.json") ) {
+    qDebug() << "copy stylesheet ok";
+  }
 
-  //else {
-  //  qDebug() << "copy stylesheet not ok";
-  //}
+  else {
+    qDebug() << "copy stylesheet not ok";
+  }
+
+  // Create a Pages subdirectory for html files and copy html files to it.
+  // Also make config entries for them.
+  this->mkpath(_dataDir + "/Pages");
+  setSetting( "aboutText", ":Assets/Pages/aboutText.html");
+
+  QStringList pages = { "aboutText"};
+  for ( int pi = 0; pi < pages.count(); pi++) {
+    QString htmlTextPath = getSetting(pages[pi]);
+    QFile::remove(_dataDir + "/Pages/" + pages[pi] + ".html");
+    if ( QFile::copy( htmlTextPath, _dataDir + "/Pages/" + pages[pi] + ".html") ) {
+      qDebug() << "copy " << pages[pi] + ".html ok";
+    }
+
+    else {
+      qDebug() << "copy " << pages[pi] + ".html not ok";
+    }
+  }
 
 
   // Prepare for data sharing location and create the root of it
@@ -259,6 +276,35 @@ void Config::setGpxFileIndexSetting( int currentIndex ) {
   QString entryKey = hikeEntryKey();
   QString tableName = hikeTableName(entryKey);
   setSetting( tableName + "/gpxfileindex", currentIndex);
+}
+
+// ----------------------------------------------------------------------------
+QString Config::getHtmlPageFilename( QString pageName) {
+
+  QString textPath;
+  QString entryKey = this->hikeEntryKey();
+  QString tableName = this->hikeTableName(entryKey);
+
+  if ( tableName == "" ) {
+    textPath = _dataDir + "/Pages/" + pageName + ".html";
+    qDebug() << "no html page name for entry" << entryKey << "-->" << textPath;
+  }
+
+  else {
+    textPath = getSetting( tableName + "/" + pageName);
+    if ( textPath == "" ) {
+      textPath = _dataDir + "/Pages/" + pageName + ".html";
+      qDebug() << "no html page name for table" << tableName << "-->" << textPath;
+    }
+
+    else {
+      QString ek = this->getSetting("HikeList/" + entryKey);
+      textPath = _dataDir + "/" + ek + "/" + textPath;
+      qDebug() << "html page found" << textPath;
+    }
+  }
+
+  return textPath;
 }
 
 // ----------------------------------------------------------------------------

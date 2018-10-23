@@ -25,6 +25,7 @@ ApplicationWindow {
   id: root
 
   Component.onCompleted: {
+    GlobalVariables.setApplicationWindow(this);
     GlobalVariables.setMapPage(mapPage);
     GlobalVariables.setCurrentPage(mapPage);
     GlobalVariables.setMenu(menu);
@@ -47,10 +48,19 @@ ApplicationWindow {
   width: 600
   height: 450
 
+  property alias aboutPage: aboutPage
   HCPage.AboutPage { id: aboutPage }
+
+  property alias configPage: configPage
   HCPage.ConfigPage { id: configPage }
+
+  property alias exitPage: exitPage
   HCPage.ExitPage { id: exitPage }
+
+  property alias mapPage: mapPage
   HCPage.MapPage { id: mapPage; visible: true }
+
+  property alias tracksPage: tracksPage
   HCPage.TracksPage { id: tracksPage }
 
   // Menu

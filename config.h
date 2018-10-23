@@ -29,6 +29,7 @@ public:
   Q_INVOKABLE void cleanupTracks();
   Q_INVOKABLE void checkForNewHikeData();
   Q_INVOKABLE QString getTheme();
+  Q_INVOKABLE QString getHtmlPageFilename( QString pageName);
 
   QStringList readKeys( QString group, QSettings *s = nullptr);
   QString hikeEntryKey();

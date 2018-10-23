@@ -223,10 +223,12 @@ HCPage.Plain {
       //width: 50
       text: qsTr("Save")
       onClicked: {
+        // Save settings from this page
         config.setSetting( "languageindex", configGrid.languageRow.cbx1.currentIndex);
         config.setSetting( "User/username", username.inputText.text);
         config.setSetting( "User/email", email.inputText.text);
 
+        // Set the tracklist if there are any hikes in the list.
         if ( configGrid.hikeRow.cbx2.model.length === 0 ) {
           config.cleanupTracks();
         }
@@ -236,17 +238,13 @@ HCPage.Plain {
           GlobalVariables.tracksPage.changeTrackList();
         }
 
-        // test works!
+        // Set the theme for this hike
         var t = config.getTheme();
         console.log("style: " + t);
         Theme.changeClrs(JSON.parse(t));
-/*
-        Theme.changeClrs(
-              { foreground: "#004040",
-                background: "#f08000"
-              }
-              );
-*/
+
+        // Signal the change to the other pages
+        GlobalVariables.applicationPage.aboutPage.changeContent();
       }
     }
   }

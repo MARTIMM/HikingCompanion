@@ -45,6 +45,11 @@ QtObject {
     mapPage = newMapPage;
   }
 
+  property var applicationPage
+  function setApplicationWindow ( appPage ) {
+    applicationPage = appPage;
+  }
+
   // Open menu button
   property HCButton.OpenMenu openMenu
   function setOpenMenu ( newOpenMenu ) {
