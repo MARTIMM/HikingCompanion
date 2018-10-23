@@ -20,11 +20,9 @@ ApplicationWindow {
   width: 600
   height: 450
 
-  HCPage.TracksPage {
-    id: tracksPage;
+  HCPage.AboutPage {
     visible: true
   }
-/**/
 }
 
 

@@ -13,7 +13,7 @@ T.Button {
   // When pushed to the extreme, the buttons are very clean and Types import
   // will not be necessary anymore in those modules.
   function init ( type ) {
-    console.log("Fn init(" + type + ")");
+    //console.log("Fn init(" + type + ")");
     if ( type === GlobalVariables.component.toolbar.button.type ) {
       font.pixelSize = Theme.component.toolbar.button.pixelSize;
       font.family = Theme.fontFamily;

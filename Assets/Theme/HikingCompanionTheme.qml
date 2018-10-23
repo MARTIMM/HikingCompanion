@@ -149,15 +149,26 @@ QtObject {
     property int mnBtWidth: mnWidth - 5
     property int mnBtHeight: 50
     property int mnBtPixelSize: 40
+
+  property int menuButtonWidth: 100
+  property int menuButtonHeight: 50
+  property int menuButtonPointSize: 23
 */
   }
 
   property QtObject pageGradient: QtObject {
+/*
     property color g1: Qt.lighter( component.color.foreground, 0.50) //"#be50e0"
     property color g2: Qt.lighter( component.color.foreground, 0.99) //"#fef0f8"
     property color g3: Qt.lighter( component.color.foreground, 0.50) //"#be50e0"
     property color g4: Qt.lighter( component.color.foreground, 0.21) //"#6f305f"
     property color g5: Qt.lighter( component.color.foreground, 0.11) //"#300040"
+*/
+    property color g1: component.color.foreground //"#be50e0"
+    property color g2: Qt.lighter( component.color.foreground, 2.0) //"#fef0f8"
+    property color g3: component.color.foreground //"#be50e0"
+    property color g4: Qt.darker( component.color.foreground, 1.50) //"#6f305f"
+    property color g5: Qt.darker( component.color.foreground, 2.00) //"#300040"
 
     property real p1:  0.0
     property real p2:  0.02
@@ -199,13 +210,20 @@ QtObject {
   property color buttonBackgroundColor: "#af1098"
   property color buttonBorderColor: "#fff0fa"
 */
-
+/*
   // Buttons
   property int smallBtWidth: 35
   property int smallBtHeight: 35
   property int smallBtPointSize: 15
   property int smallBtRadius: 10
   property int smallBtBorder: 1
+
+  property int largeBtWidth: 100
+  property int largeBtHeight: 40
+  property int largeBtPointSize: 20
+  property int largeBtRadius: 20
+  property int largeBtBorder: 2
+*/
 /*
   property font smallBtFont: {
     bold: true
@@ -216,12 +234,6 @@ QtObject {
   }
 */
 
-  //property int largeBtWidth: 100
-  //property int largeBtHeight: 40
-  //property int largeBtPointSize: 20
-  //property int largeBtRadius: 20
-  //property int largeBtBorder: 2
-/**/
 /*
   property font largeBtFont: {
     bold: true
@@ -231,10 +243,6 @@ QtObject {
     family: "arial"
   }
 */
-
-  //property int menuButtonWidth: 100
-  //property int menuButtonHeight: 50
-  //property int menuButtonPointSize: 23
 
 
   // Text
