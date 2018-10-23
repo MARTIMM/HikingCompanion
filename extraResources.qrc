@@ -8,6 +8,8 @@
         <file>Assets/Images/Icon/Android/xxhdpi.png</file>
         <file>Assets/Images/Icon/Android/xxxhdpi.png</file>
         <file>Assets/Pages/exitText.html</file>
+        <file>Assets/Pages/appInfoText.html</file>
+        <file>Assets/Pages/aboutText.html</file>
         <file alias="qtquickcontrols2.conf">Assets/Theme/qtquickcontrols2.conf</file>
         <!--file>Assets/Theme/HCTheme1.qml</file-->
         <file>Assets/Theme/HikingCompanionTheme.qml</file>

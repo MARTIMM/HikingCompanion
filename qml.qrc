@@ -19,8 +19,8 @@
         <file>Qml/Parts/ConfigSwitch.qml</file>
         <file>Qml/Parts/MenuColumn.qml</file>
         <file>Qml/Parts/PageButtonRow.qml</file>
+        <file>Qml/Parts/ToolbarRectangle.qml</file>
         <file>Qml/Parts/ToolbarRow.qml</file>
         <file>Qml/GlobalVariables.qml</file>
-        <file>Qml/Parts/ToolbarRectangle.qml</file>
     </qresource>
 </RCC>
