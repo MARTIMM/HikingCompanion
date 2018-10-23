@@ -42,6 +42,8 @@ Flickable {
     width: parent.width
     color: Theme.component.color.foregroundLight
     wrapMode: Text.WordWrap
+    textFormat: Text.RichText
+    text: ""
   }
 
   ScrollBar.vertical: ScrollBar {
