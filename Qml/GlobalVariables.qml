@@ -12,7 +12,6 @@ import "Button" as HCButton
 import "Page" as HCPage
 
 QtObject {
-  //id: root
   property QtObject component: QtObject {
     property QtObject toolbar: QtObject {
       property QtObject button: QtObject {

@@ -32,7 +32,7 @@ This app will be placed in the app store when ready.
 ## Acceptance tests for this project
 Below, there are a series of tests which is also used as the progress in the learning curve I have to go through. The most important device to work for are android devices. Ios devices would be nice but is a later problem.
 
-<progress max=47 value="34" />
+<progress max=45 value="34" />
 
 * [x] Android SDK, NDK and OpenJDK installation using Android Studio and linux installation tools.
 * [ ] Xcode for ios
@@ -78,10 +78,6 @@ Below, there are a series of tests which is also used as the progress in the lea
   * [ ] Create, test and delete a directory using QDir
   * [ ] Build a directory tree using QDir
 
-* Sharing data
-  * [ ] Share data between one app and another on Android.
-  * [ ] Share data between one app and another on IOS.
-
 * XML processing to read and write qpx data and configuration files.
   * [x] Read and process an XML file. See also [this doc][qtc-xml].
   * [ ] Create an XML DOM tree
@@ -106,11 +102,11 @@ Below, there are a series of tests which is also used as the progress in the lea
 Next, the developing progress is shown here. Several entries are also in the acceptance tests to see if those things are possible because the purpose of the acceptance tests are to find out what Qt and the qtcreator tool is capable of.
 
 ## Events and devices to listen to
-<progress value="0" max="7" />
+<progress value="1" max="7" />
 
 There are several events which occur upon changing conditions in a device. These events must be captured for further actions.
 * [ ] Battery condition to warn user of battery low state. App might dim display or perform other actions to save energy.
-* [ ] Gps information to get current location.
+* [x] Gps information to get current location.
 * [ ] Network on and off line mode to update map and feature cache as well as send user data to a server
 * [ ] Device compass to show map correctly pointing the map-north to the real north.
 * [ ] Resize events to change from portrait to landscape mode and back. Responsive. Needed to display everything in proper sizes.
@@ -211,7 +207,7 @@ The map page is also the home page.
 ## The Tracks page
 <progress value="6" max="7" />
 
-  Show a list of tracks from which a selection can be made. This will only be visible when one or more hike apps are installed.
+  Show a list of tracks from which a selection can be made. This will only be visible when one or more hike apps are installed. Track list changes when another hike is selected.
 
   * [x] Page created
   * [x] Generate the page from the directory contents and the gpx track name found in those files.
@@ -255,24 +251,27 @@ This is a page where a gps track can be started.
 ## The Config page
 
 Input fields can be checked
-<progress value="4" max="10" />
+<progress value="8" max="9" />
 
   * [x] Page created.
   * [ ] Text message about users consent of sending data to server. Make rest of the questions available if user wants to provide personal data.
-  * [x] Username used to differentiate input from a user. This input can be photos, notes etc.
+  * [x] Username used to differentiate input from different users. This input can be things such as photos, notes etc.
   * [x] Email addresses.
-  * [x] Pulldown of installed hikes. On save, tracks are shown on tracks page.
-  * [x] Save data on local memory.
+  * [x] A combobox of installed hikes.
+  * On save data
+    * [x] Data is stored in configuration file.
+    * [x] Tracks are shown on tracks page.
+    * [x] Theme is changed
+    * [x] About page is modified
 
 ## The About page
 This is an overview of people involved and their tasks. Also other info can be shown such as a version number. This should also come from the track app.
 
-<progress value="1" max="4" />
+<progress value="2" max="3" />
 
   * [x] Page created
-  * [ ] Show the members of the Sufi trail group.
-  * [ ] Show current version of the program.
-  * [ ] Read version number from elsewhere, e.g. android manifest, and insert it when generating the html from sxml.
+  * [x] Show hike dependent text.
+  * [ ] Show current version of the program and hike data.
 
 ## The Exit page
 This should show a dialog to ask the user if he/she really wants to quit the program.
@@ -323,6 +322,10 @@ This should show a dialog to ask the user if he/she really wants to quit the pro
 ## Application changes
 
 Versions have a letter added: D for debug version and R for a release version. When not added it is always a debug version.
+
+* 2018-10-24, 0.11.0
+  * Theming mechanism in place. Themes can be dependent on selected hike.
+  * About page filled with content. Also depending on selected hike.
 
 * 2018-10-15, 0.10.0
   * App can install hike data given by data container app on Android.
