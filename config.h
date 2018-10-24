@@ -9,6 +9,9 @@
 #include <QSettings>
 #include <QQmlListProperty>
 
+
+#define HIKING_COMPANION_VERSION "0.11.0"
+
 class Config : public QObject {
 
   Q_OBJECT
@@ -30,6 +33,9 @@ public:
   Q_INVOKABLE void checkForNewHikeData();
   Q_INVOKABLE QString getTheme();
   Q_INVOKABLE QString getHtmlPageFilename( QString pageName);
+  Q_INVOKABLE QString getHCVersion();
+  Q_INVOKABLE QStringList getHikeVersions();
+  Q_INVOKABLE QStringList getVersions();
 
   QStringList readKeys( QString group, QSettings *s = nullptr);
   QString hikeEntryKey();
@@ -52,6 +58,7 @@ private:
   QString _dataDir;       // Location where all hikes are stored
   QString _dataShareDir;  // Location where new data is placed to install
   QSettings *_settings;
+  QStringList _pages;
 };
 
 #endif // CONFIG_H

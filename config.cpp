@@ -82,16 +82,16 @@ Config::Config(QObject *parent) : QObject(parent) {
   this->mkpath(_dataDir + "/Pages");
   setSetting( "aboutText", ":Assets/Pages/aboutText.html");
 
-  QStringList pages = { "aboutText"};
-  for ( int pi = 0; pi < pages.count(); pi++) {
-    QString htmlTextPath = getSetting(pages[pi]);
-    QFile::remove(_dataDir + "/Pages/" + pages[pi] + ".html");
-    if ( QFile::copy( htmlTextPath, _dataDir + "/Pages/" + pages[pi] + ".html") ) {
-      qDebug() << "copy " << pages[pi] + ".html ok";
+  _pages = QStringList({ "aboutText"});
+  for ( int pi = 0; pi < _pages.count(); pi++) {
+    QString htmlTextPath = getSetting(_pages[pi]);
+    QFile::remove(_dataDir + "/Pages/" + _pages[pi] + ".html");
+    if ( QFile::copy( htmlTextPath, _dataDir + "/Pages/" + _pages[pi] + ".html") ) {
+      qDebug() << "copy " << _pages[pi] + ".html ok";
     }
 
     else {
-      qDebug() << "copy " << pages[pi] + ".html not ok";
+      qDebug() << "copy " << _pages[pi] + ".html not ok";
     }
   }
 
@@ -348,6 +348,47 @@ QString Config::getTheme( ) {
 
 
 // ----------------------------------------------------------------------------
+QString Config::getHCVersion() {
+  return HIKING_COMPANION_VERSION;
+}
+
+// ----------------------------------------------------------------------------
+QStringList Config::getHikeVersions() {
+
+  QStringList hikeInfo;
+  QString entryKey = this->hikeEntryKey();
+  QString tableName = this->hikeTableName(entryKey);
+  if ( tableName == "" ) {
+    hikeInfo.append( {"-", "-", "-"});
+  }
+
+  else {
+qDebug() << "Table:" << tableName;
+    QString hv = this->getSetting(tableName + "/version");
+    QString phv = this->getSetting(tableName + "/programVersion");
+    qDebug() << "hv, phv:" << hv << phv;
+    hikeInfo.append(
+      { this->getSetting(tableName + "/title"),
+        hv == "" ? "0.0.0" : hv,
+        phv == "" ? "0.0.0" : phv
+      }
+      );
+  }
+
+  return hikeInfo;
+}
+
+// ----------------------------------------------------------------------------
+QStringList Config::getVersions() {
+
+  QStringList vlist;
+  vlist.append(this->getHCVersion());
+  vlist.append(this->getHikeVersions());
+
+  return vlist;
+}
+
+// ----------------------------------------------------------------------------
 void Config::_installNewData() {
 
   qDebug() << "Install data from" << _dataShareDir + "/hike.conf";
@@ -421,8 +462,8 @@ void Config::_mkNewTables( QSettings *s, QString hikeTableName ) {
 
   // Keys needed for the hike table
   QStringList keys = {
-    "version", "title", "shortdescr", "www", "defaultlang",
-    "supportedlang", "translationfile", "style"
+    "programVersion", "version", "title", "shortdescr", "www",
+    "defaultlang", "supportedlang", "translationfile", "style"
   };
 
   for ( int ki = 0; ki < keys.count(); ki++) {
@@ -491,10 +532,27 @@ void Config::_refreshData(
     }
   }
 
+  // Copy info pages
+  hikeSubdir = QString(hikeDir + "/Pages");
+  dd = new QDir(hikeSubdir);
+  if ( ! dd->exists() ) dd->mkpath(hikeSubdir);
+  for ( int pi = 0; pi < _pages.count(); pi++) {
+    QString htmlSrcTextPath = _dataShareDir + "/" + getSetting( _pages[pi], s);
+    QString htmlDstTextPath = hikeSubdir + "/" + _pages[pi] + ".html";
+    if ( QFile::copy( htmlSrcTextPath, htmlDstTextPath) ) {
+      qDebug() << "copy" << htmlDstTextPath << "ok";
+    }
+
+    else {
+      qDebug() << "copy" << htmlDstTextPath << "not ok";
+    }
+  }
+
   // Add tracks to empty directory and create tables
   // Get source directory and list of files
   QString sourceGpxDirectory = _dataShareDir + "/" + getSetting( "tracksdir", s);
   QDir *sgd = new QDir(sourceGpxDirectory);
+  hikeSubdir = QString(hikeDir + "/Tracks");
 
   qDebug() << "src hike tracks:" << sourceGpxDirectory;
   qDebug() << "dest hike tracks:" << hikeSubdir;
@@ -537,7 +595,6 @@ void Config::_refreshData(
   }
 
   setSetting( hikeTableName + "/ntracks", nbrDefinedGpxFiles);
-
 
   hikeSubdir = QString(hikeDir + "/Photos");
   dd = new QDir(hikeSubdir);
