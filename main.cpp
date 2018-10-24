@@ -55,7 +55,10 @@ int main( int argc, char *argv[]) {
   QCoreApplication::setApplicationName("HikingCompanion");
 
   QApplication app( argc, argv);
-  app.setApplicationVersion("0.10.0");
+
+  Config *cfg = new Config();
+  QString hcVersion = cfg->getHCVersion();
+  app.setApplicationVersion(hcVersion);
   app.setApplicationDisplayName("HikingCompanion");
 
   qmlRegisterType<TextLoad>(
