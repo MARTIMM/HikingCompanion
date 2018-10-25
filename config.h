@@ -7,8 +7,6 @@
 #include <QSettings>
 
 
-#define HIKING_COMPANION_VERSION "0.11.0"
-
 class Config : public QObject {
 
   Q_OBJECT
@@ -47,15 +45,6 @@ signals:
 public slots:
 
 private:
-  void _installNewData();
-  void _mkNewTables( QSettings *s,  QString hikeTableName);
-  void _refreshData( QSettings *s, QString hikeTableName, QString hikeDir);
-  void _removeSettings(QString group);
-
-  QString _dataDir;       // Location where all hikes are stored
-  QString _dataShareDir;  // Location where new data is placed to install
-  QSettings *_settings;
-  QStringList _pages;
 };
 
 #endif // CONFIG_H

@@ -4,6 +4,9 @@
 #include <QObject>
 #include <QSettings>
 
+#define HIKING_COMPANION_VERSION "0.11.0"
+
+
 class ConfigData : public QObject {
   Q_OBJECT
 
@@ -19,6 +22,32 @@ public:
   };
   Q_ENUM(Languages)
 
+  QString dataDir() { return _dataDir; }
+  QString dataShareDir() { return _dataShareDir; }
+
+  void checkForNewHikeData();
+  void cleanupTracks();
+
+  void setSetting( QString name, QString value);
+  void setSetting( QString name, int value);
+  QString getSetting(QString name, QSettings *s = nullptr);
+
+  QStringList readKeys( QString group, QSettings *s = nullptr);
+  QString hikeEntryKey();
+  QString hikeTableName(QString hikeEntryKey);
+  QString tracksTableName( QString hikeTableName, int trackCount);
+
+  void setGpxFileIndexSetting(int currentIndex);
+  int getGpxFileIndexSetting();
+
+  QString getHtmlPageFilename( QString pageName);
+
+  QString getTheme();
+
+  QString getHCVersion();
+  QStringList getHikeVersions();
+  QStringList getVersions();
+
 signals:
 
 public slots:
@@ -26,6 +55,16 @@ public slots:
 private:
   ConfigData(QObject *parent = nullptr);
   static ConfigData *_createInstance();
+  bool _mkpath(QString path);
+  void _removeSettings(QString group);
+  void _installNewData();
+  void _mkNewTables( QSettings *s,  QString hikeTableName);
+  void _refreshData( QSettings *s, QString hikeTableName, QString hikeDir);
+
+  QString _dataDir;       // Location where all hikes are stored
+  QString _dataShareDir;  // Location where new data is placed to install
+  QSettings *_settings;
+  QStringList _pages;
 };
 
 #endif // CONFIGDATA_H
