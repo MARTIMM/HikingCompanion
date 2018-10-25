@@ -463,7 +463,8 @@ void Config::_mkNewTables( QSettings *s, QString hikeTableName ) {
   // Keys needed for the hike table
   QStringList keys = {
     "programVersion", "version", "title", "shortdescr", "www",
-    "defaultlang", "supportedlang", "translationfile", "style"
+    "defaultlang", "supportedlang", "translationfile", "style",
+    "aboutText"
   };
 
   for ( int ki = 0; ki < keys.count(); ki++) {
@@ -504,10 +505,6 @@ void Config::_refreshData(
       QString trackTableName = hikeTableName + QString(".Track%1").arg(gfi + 1);
       qDebug() << "Remove table" << trackTableName;
       _removeSettings(trackTableName);
-
-      // Remove file
-      //qDebug() << "Remove file" << gpxFiles[gfi];
-      //QFile::remove(hikeSubdir + "/" + gpxFiles[gfi]);
     }
   }
 
@@ -532,15 +529,18 @@ void Config::_refreshData(
     }
   }
 
-  // Copy info pages
+  // Cleanup info pages directory and recreate dir
   hikeSubdir = QString(hikeDir + "/Pages");
   dd = new QDir(hikeSubdir);
-  if ( ! dd->exists() ) dd->mkpath(hikeSubdir);
+  if ( dd->exists() ) dd->removeRecursively();
+  dd->mkpath(hikeSubdir);
+
+  // Copy info pages
   for ( int pi = 0; pi < _pages.count(); pi++) {
     QString htmlSrcTextPath = _dataShareDir + "/" + getSetting( _pages[pi], s);
     QString htmlDstTextPath = hikeSubdir + "/" + _pages[pi] + ".html";
     if ( QFile::copy( htmlSrcTextPath, htmlDstTextPath) ) {
-      qDebug() << "copy" << htmlDstTextPath << "ok";
+//      qDebug() << "copy" << htmlDstTextPath << "ok";
     }
 
     else {
