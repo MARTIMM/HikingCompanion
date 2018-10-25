@@ -9,7 +9,6 @@
 // ----------------------------------------------------------------------------
 ConfigData::ConfigData(QObject *parent) : QObject(parent) {
 
-  //_osType = QString(app.platformName());
 }
 
 // ----------------------------------------------------------------------------
@@ -21,14 +20,3 @@ ConfigData *ConfigData::instance() {
 ConfigData *ConfigData::_createInstance() {
   return new ConfigData;
 }
-
-/*
-// ----------------------------------------------------------------------------
-QString ConfigData::osType() {
-  // See also http://doc.qt.io/qt-5/qguiapplication.html#platformName-prop
-  // For me it could be: android, ios or xcb (x11 on linux)
-  //qDebug() << "platform name: " << app.platformName();
-
-  return _osType;
-}
-*/
