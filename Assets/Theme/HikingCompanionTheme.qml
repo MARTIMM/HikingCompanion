@@ -42,7 +42,7 @@ QtObject {
   function setSubFields ( source, fields, destination) {
     for ( var fi = 0; fi < fields.length; fi++) {
       if ( source[fields[fi]] ) {
-        console.log("Field " + fields[fi] + " set");
+//        console.log("Field " + fields[fi] + " set");
         destination[fields[fi]] = source[fields[fi]];
       }
       else {

@@ -240,7 +240,7 @@ HCPage.Plain {
 
         // Set the theme for this hike
         var t = config.getTheme();
-        console.log("style: " + t);
+//        console.log("style: " + t);
         Theme.changeClrs(JSON.parse(t));
 
         // Signal the change to the other pages
