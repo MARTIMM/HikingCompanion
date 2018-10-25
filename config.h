@@ -4,10 +4,7 @@
 #include "gpxfile.h"
 
 #include <QObject>
-#include <QSysInfo>
-#include <QRegExp>
 #include <QSettings>
-#include <QQmlListProperty>
 
 
 #define HIKING_COMPANION_VERSION "0.11.0"

@@ -1,10 +1,7 @@
 #ifndef CONFIGDATA_H
 #define CONFIGDATA_H
 
-#include <QGuiApplication>
 #include <QObject>
-#include <QSysInfo>
-#include <QRegExp>
 #include <QSettings>
 
 class ConfigData : public QObject {
@@ -22,12 +19,6 @@ public:
   };
   Q_ENUM(Languages)
 
-  // What system
-  //QString osType();
-/*
-  QGuiApplication *appObject();
-  void setAppObject(QGuiApplication *appObjectPtr);
-*/
 signals:
 
 public slots:
@@ -35,10 +26,6 @@ public slots:
 private:
   ConfigData(QObject *parent = nullptr);
   static ConfigData *_createInstance();
-
-//  QGuiApplication *_appObject;
-
-//  QString _osType = "";
 };
 
 #endif // CONFIGDATA_H

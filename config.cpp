@@ -3,12 +3,7 @@
 #include "gpxfile.h"
 
 #include <QDebug>
-//#include <QApplication>
-//#include <QQuickApplicationWindow>
-#include <QMainWindow>
-//#include <QQmlApplicationEngine>
-#include <QQmlEngine>
-#include <QQmlComponent>
+#include <QApplication>
 #include <QDir>
 #include <QFile>
 #include <QStandardPaths>
