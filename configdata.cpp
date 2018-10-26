@@ -120,12 +120,13 @@ void ConfigData::checkForNewHikeData() {
 }
 
 // ----------------------------------------------------------------------------
-// Cleanup tracks information in config when there are no entries
+// Cleanup tracks information of all hikes in config when there are no entries
 // in the hike list. This is to prevent linguering entries to disturb
 // later config changes.
 void ConfigData::cleanupTracks() {
 
-  QRegExp rx("^(h\\d+|h\\.)");
+  //QRegExp rx("^(h\\d+|h\\.)"); // intended to remove buggy entries
+  QRegExp rx("^(h\\d+)");
   QStringList topLevelKeys = _settings->childGroups();
   for ( int hi = 0; hi < topLevelKeys.count(); hi++ ) {
     if ( topLevelKeys[hi].contains(rx) ) {
@@ -133,6 +134,72 @@ void ConfigData::cleanupTracks() {
       _removeSettings(topLevelKeys[hi]);
     }
   }
+}
+
+// ----------------------------------------------------------------------------
+// Cleanup all information of a selected hike in config and all directories
+// with data as well.
+void ConfigData::cleanupHike() {
+
+  // Remove track info from configuration
+  QString entryKey = hikeEntryKey();
+  QString tableName = hikeTableName(entryKey);
+  int nTracks = getSetting(tableName + "/ntracks").toInt();
+  for ( int ti = 0; ti < nTracks; ti++) {
+    qDebug() << "Remove table" << this->tracksTableName( tableName, ti);
+    _removeSettings(this->tracksTableName( tableName, ti));
+  }
+
+  // Remove hike info from configuration
+  qDebug() << "Remove table" << tableName + ".Releases";
+  _removeSettings(tableName + ".Releases");
+  qDebug() << "Remove table" << tableName;
+  _removeSettings(tableName);
+
+  // Remove hike content from directories
+  QString hikeKey = getSetting("HikeList/" + entryKey);
+  QString dir = _dataDir + "/" + hikeKey;
+  qDebug() << "Remove directory and content" << dir;
+  QDir *dd = new QDir(dir);
+  dd->removeRecursively();
+
+  // Correct entry numbering
+  int hikeIdx = getSetting("selectedhikeindex").toInt();
+  int nHikes = readKeys("HikeList").count();
+  for ( int hi = hikeIdx + 1; hi < nHikes; hi++) {
+    // Get entry keys
+    QString fromHikeEntryKey = QString("h%1").arg(hi);
+    QString toHikeEntryKey = QString("h%1").arg(hi - 1);
+
+    // Get table names
+    QString fromHikeTable = hikeTableName(fromHikeEntryKey);
+    int nTracks = getSetting(fromHikeTable + "/ntracks").toInt();
+    QString toHikeTable = fromHikeTable;
+    toHikeTable.replace( 0, 2, toHikeEntryKey);
+    this->_copyTable( fromHikeTable, toHikeTable);
+
+    for ( int ti = 0; ti < nTracks; ti++) {
+      QString fromTrackTable = tracksTableName( fromHikeTable, ti);
+      QString toTrackTable = fromTrackTable;
+      toTrackTable.replace( 0, 2, toHikeEntryKey);
+      this->_copyTable( fromTrackTable, toTrackTable);
+    }
+
+    QString fromRelTable = fromHikeTable + ".Releases";
+    QString toRelTable = fromRelTable;
+    toRelTable.replace( 0, 2, toHikeEntryKey);
+    this->_copyTable( fromRelTable, toRelTable);
+
+    // Remove entry from hike table and copy next to this
+    _settings->remove("HikeList/" + toHikeEntryKey);
+    setSetting(
+          "HikeList/" + toHikeEntryKey,
+          getSetting( "HikeList/" + fromHikeEntryKey)
+          );
+  }
+
+  // reset current hike to 0
+  setSetting( "selectedhikeindex", 0);
 }
 
 // ----------------------------------------------------------------------------
@@ -210,12 +277,6 @@ QString ConfigData::tracksTableName( QString hikeTableName, int trackCount) {
   return QString("%1.Track%2").arg(hikeTableName).arg(trackCount);
 }
 
-
-// ----------------------------------------------------------------------------
-void ConfigData::_removeSettings(QString group) {
-  _settings->remove(group);
-  _settings->sync();
-}
 
 // ----------------------------------------------------------------------------
 int ConfigData::getGpxFileIndexSetting() {
@@ -341,6 +402,12 @@ QStringList ConfigData::getVersions() {
   vlist.append(this->getHikeVersions());
 
   return vlist;
+}
+
+// ----------------------------------------------------------------------------
+void ConfigData::_removeSettings(QString group) {
+  _settings->remove(group);
+  _settings->sync();
 }
 
 // ----------------------------------------------------------------------------
@@ -570,6 +637,22 @@ void ConfigData::_refreshData(
   qDebug() << "hike features:" << hikeSubdir;
 }
 
+// ----------------------------------------------------------------------------
+// Copy one table to the other and remove the old one
+void ConfigData::_copyTable( QString fromTable, QString toTable) {
+
+  // Copy table
+  QStringList keys = readKeys(fromTable);
+  for( int ki = 0; ki < keys.count(); ki++) {
+    this->setSetting(
+          toTable + "/" + keys[ki],
+          this->getSetting(fromTable + "/" + keys[ki])
+          );
+  }
+
+  // Remove old table
+  _removeSettings(fromTable);
+}
 
 // ----------------------------------------------------------------------------
 bool ConfigData::_mkpath(QString path) {

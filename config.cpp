@@ -13,16 +13,28 @@
 Config::Config(QObject *parent) : QObject(parent) { }
 
 // ----------------------------------------------------------------------------
+QString Config::dataDir() {
+  return ConfigData::instance()->dataDir();
+}
+
+// ----------------------------------------------------------------------------
+QString Config::dataShareDir() {
+  return ConfigData::instance()->dataShareDir();
+}
+
+// ----------------------------------------------------------------------------
 void Config::checkForNewHikeData() {
   ConfigData::instance()->checkForNewHikeData();
 }
 
 // ----------------------------------------------------------------------------
-// Cleanup tracks information in config when there are no entries
-// in the hike list. This is to prevent linguering entries to disturb
-// later config changes.
 void Config::cleanupTracks() {
   ConfigData::instance()->cleanupTracks();
+}
+
+// ----------------------------------------------------------------------------
+void Config::cleanupHike() {
+  ConfigData::instance()->cleanupHike();
 }
 
 // ----------------------------------------------------------------------------
@@ -65,18 +77,13 @@ QString Config::tracksTableName( QString hikeTableName, int trackCount) {
 }
 
 // ----------------------------------------------------------------------------
-QString Config::dataDir() {
-  return ConfigData::instance()->dataDir();
+void Config::setGpxFileIndexSetting( int currentIndex ) {
+  ConfigData::instance()->setGpxFileIndexSetting(currentIndex);
 }
 
 // ----------------------------------------------------------------------------
 int Config::getGpxFileIndexSetting() {
   return ConfigData::instance()->getGpxFileIndexSetting();
-}
-
-// ----------------------------------------------------------------------------
-void Config::setGpxFileIndexSetting( int currentIndex ) {
-  ConfigData::instance()->setGpxFileIndexSetting(currentIndex);
 }
 
 // ----------------------------------------------------------------------------

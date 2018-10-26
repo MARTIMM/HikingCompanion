@@ -27,6 +27,7 @@ public:
 
   void checkForNewHikeData();
   void cleanupTracks();
+  void cleanupHike();
 
   void setSetting( QString name, QString value);
   void setSetting( QString name, int value);
@@ -54,12 +55,13 @@ public slots:
 
 private:
   ConfigData(QObject *parent = nullptr);
-  static ConfigData *_createInstance();
-  bool _mkpath(QString path);
   void _removeSettings(QString group);
   void _installNewData();
   void _mkNewTables( QSettings *s,  QString hikeTableName);
   void _refreshData( QSettings *s, QString hikeTableName, QString hikeDir);
+  void _copyTable( QString fromTable, QString toTable);
+  bool _mkpath(QString path);
+  static ConfigData *_createInstance();
 
   QString _dataDir;       // Location where all hikes are stored
   QString _dataShareDir;  // Location where new data is placed to install

@@ -8,8 +8,8 @@ import io.github.martimm.HikingCompanion.Languages 0.2
 import io.github.martimm.HikingCompanion.Hikes 0.1
 import io.github.martimm.HikingCompanion.GlobalVariables 0.1
 
-import QtQuick 2.9
-import QtQuick.Controls 2.2
+import QtQuick 2.11
+import QtQuick.Controls 2.4
 
 HCPage.Plain {
   id: configPage
@@ -237,6 +237,25 @@ HCPage.Plain {
           config.setSetting( "selectedhikeindex", configGrid.hikeRow.cbx2.currentIndex);
           GlobalVariables.tracksPage.changeTrackList();
         }
+
+        // Set the theme for this hike
+        var t = config.getTheme();
+//        console.log("style: " + t);
+        Theme.changeClrs(JSON.parse(t));
+
+        // Signal the change to the other pages
+        GlobalVariables.applicationPage.aboutPage.changeContent();
+      }
+    }
+
+    // TODO: Dialoog
+    HCButton.ButtonRowButton {
+      text: qsTr("Remove Hike")
+      onClicked: {
+        config.setSetting( "selectedhikeindex", configGrid.hikeRow.cbx2.currentIndex);
+        config.cleanupHike();
+        GlobalVariables.tracksPage.changeTrackList();
+        hikes.defineHikeList();
 
         // Set the theme for this hike
         var t = config.getTheme();
