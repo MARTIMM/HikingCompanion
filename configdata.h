@@ -59,7 +59,7 @@ private:
   void _installNewData();
   void _mkNewTables( QSettings *s,  QString hikeTableName);
   void _refreshData( QSettings *s, QString hikeTableName, QString hikeDir);
-  void _copyTable( QString fromTable, QString toTable);
+  void _moveTable( QString fromTable, QString toTable);
   bool _mkpath(QString path);
   static ConfigData *_createInstance();
 

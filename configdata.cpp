@@ -166,39 +166,54 @@ void ConfigData::cleanupHike() {
   // Correct entry numbering
   int hikeIdx = getSetting("selectedhikeindex").toInt();
   int nHikes = readKeys("HikeList").count();
-  for ( int hi = hikeIdx + 1; hi < nHikes; hi++) {
-    // Get entry keys
-    QString fromHikeEntryKey = QString("h%1").arg(hi);
-    QString toHikeEntryKey = QString("h%1").arg(hi - 1);
 
-    // Get table names
-    QString fromHikeTable = hikeTableName(fromHikeEntryKey);
-    int nTracks = getSetting(fromHikeTable + "/ntracks").toInt();
-    QString toHikeTable = fromHikeTable;
-    toHikeTable.replace( 0, 2, toHikeEntryKey);
-    this->_copyTable( fromHikeTable, toHikeTable);
-
-    for ( int ti = 0; ti < nTracks; ti++) {
-      QString fromTrackTable = tracksTableName( fromHikeTable, ti);
-      QString toTrackTable = fromTrackTable;
-      toTrackTable.replace( 0, 2, toHikeEntryKey);
-      this->_copyTable( fromTrackTable, toTrackTable);
-    }
-
-    QString fromRelTable = fromHikeTable + ".Releases";
-    QString toRelTable = fromRelTable;
-    toRelTable.replace( 0, 2, toHikeEntryKey);
-    this->_copyTable( fromRelTable, toRelTable);
-
-    // Remove entry from hike table and copy next to this
-    _settings->remove("HikeList/" + toHikeEntryKey);
-    setSetting(
-          "HikeList/" + toHikeEntryKey,
-          getSetting( "HikeList/" + fromHikeEntryKey)
-          );
+  // Check if selected hike is the last one. If so, not much has to be done.
+  if ( hikeIdx + 1 == nHikes ) {
+    QString entryKey = QString("h%1").arg(hikeIdx);
+    _settings->remove("HikeList/" + entryKey);
   }
 
-  // reset current hike to 0
+  else {
+    // Entry numbering must be shifted downwards for the numbers
+    // above current (removed) entry.
+    for ( int hi = hikeIdx + 1; hi < nHikes; hi++) {
+      // Get entry keys
+      QString fromHikeEntryKey = QString("h%1").arg(hi);
+      QString toHikeEntryKey = QString("h%1").arg(hi - 1);
+
+      // Get table names
+      QString fromHikeTable = hikeTableName(fromHikeEntryKey);
+      int nTracks = getSetting(fromHikeTable + "/ntracks").toInt();
+      QString toHikeTable = fromHikeTable;
+      toHikeTable.replace( 0, 2, toHikeEntryKey);
+
+      // Move main table one number down
+      this->_moveTable( fromHikeTable, toHikeTable);
+
+      // Do the same for the track entries
+      for ( int ti = 0; ti < nTracks; ti++) {
+        QString fromTrackTable = tracksTableName( fromHikeTable, ti);
+        QString toTrackTable = fromTrackTable;
+        toTrackTable.replace( 0, 2, toHikeEntryKey);
+        this->_moveTable( fromTrackTable, toTrackTable);
+      }
+
+      // Do the same for the releases entry
+      QString fromRelTable = fromHikeTable + ".Releases";
+      QString toRelTable = fromRelTable;
+      toRelTable.replace( 0, 2, toHikeEntryKey);
+      this->_moveTable( fromRelTable, toRelTable);
+
+      // Remove entry from hike table and copy next to this
+      _settings->remove("HikeList/" + toHikeEntryKey);
+      setSetting(
+            "HikeList/" + toHikeEntryKey,
+            getSetting( "HikeList/" + fromHikeEntryKey)
+            );
+    }
+  }
+
+  // reset current hike entry to 0
   setSetting( "selectedhikeindex", 0);
 }
 
@@ -315,7 +330,7 @@ QString ConfigData::getHtmlPageFilename( QString pageName) {
 
     else {
       QString ek = this->getSetting("HikeList/" + entryKey);
-      textPath = _dataDir + "/" + ek + "/" + textPath;
+      textPath = _dataDir + "/" + ek + "/Pages/" + textPath;
       qDebug() << "html page found" << textPath;
     }
   }
@@ -413,43 +428,47 @@ void ConfigData::_removeSettings(QString group) {
 // ----------------------------------------------------------------------------
 void ConfigData::_installNewData() {
 
+  // Check for hike.conf configuration file
   qDebug() << "Install data from" << _dataShareDir + "/hike.conf";
   if ( ! QFile::exists(_dataShareDir + "/hike.conf") ) {
     qDebug() << _dataShareDir + "/hike.conf does not exist";
     return;
   }
 
-  QSettings *s = new QSettings( _dataShareDir + "/hike.conf", QSettings::IniFormat);
+  // Use the configuration file
+  QSettings *s = new QSettings(
+        _dataShareDir + "/hike.conf",
+        QSettings::IniFormat
+        );
   s->setIniCodec("UTF-8");
 
+  // Get the key name of this new hike and make path to hike subdir
   QString hikename = getSetting( "hike", s);
   qDebug() << "Hike key" << hikename;
-  //qDebug() << "Version" << getSetting( "version", s);
-  //qDebug() << "Description" << getSetting( "shortdescr", s);
-
-  // Directory name of the root of the hike data
   QString hikeDir = _dataDir + "/" + hikename;
 
-
-
-  // Check its version. First get table if there is any.
-  QStringList hikeList = readKeys("HikeList");
+  // Compare new version with installed version.
+  // First get hike list if there is any. Via the list we get to
+  // the installed information.
+  QStringList hikeListKeys = readKeys("HikeList");
   QString hikeEntryKey = "";
   QString hikeTableName;
   QString hikeVersion;
-  for ( int hli = 0; hli < hikeList.count(); hli++) {
-    QString name = getSetting("HikeList/" + hikeList[hli]);
+  for ( int hli = 0; hli < hikeListKeys.count(); hli++) {
+    QString name = getSetting("HikeList/" + hikeListKeys[hli]);
+    // If name is found in the hike list, save the entry key and table name
     if ( name.compare(hikename) == 0 ) {
-      hikeEntryKey = hikeList[hli];
+      hikeEntryKey = hikeListKeys[hli];
       hikeTableName = hikeEntryKey + "." + hikename;
       break;
     }
   }
 
-  // Check if we found a table. If not, create a new table. Imported tables
-  // start with letter 'h'.
+  // Check if we found a table. If not, create a new table. All tables
+  // start with letter 'h' followed by a number. This number is the entry
+  // count in the hike list.
   if ( hikeEntryKey.compare("") == 0 ) {
-    hikeEntryKey = QString("h%1").arg(hikeList.count());
+    hikeEntryKey = QString("h%1").arg(hikeListKeys.count());
     hikeTableName = hikeEntryKey + "." + hikename;
     hikeVersion = "";
 
@@ -558,8 +577,9 @@ void ConfigData::_refreshData(
   dd->mkpath(hikeSubdir);
 
   // Copy info pages
+  QString sourcePagesDirectory = _dataShareDir + "/" + getSetting( "pagesdir", s);
   for ( int pi = 0; pi < _pages.count(); pi++) {
-    QString htmlSrcTextPath = _dataShareDir + "/" + getSetting( _pages[pi], s);
+    QString htmlSrcTextPath = sourcePagesDirectory + "/" + getSetting( _pages[pi], s);
     QString htmlDstTextPath = hikeSubdir + "/" + _pages[pi] + ".html";
     if ( QFile::copy( htmlSrcTextPath, htmlDstTextPath) ) {
 //      qDebug() << "copy" << htmlDstTextPath << "ok";
@@ -639,7 +659,7 @@ void ConfigData::_refreshData(
 
 // ----------------------------------------------------------------------------
 // Copy one table to the other and remove the old one
-void ConfigData::_copyTable( QString fromTable, QString toTable) {
+void ConfigData::_moveTable( QString fromTable, QString toTable) {
 
   // Copy table
   QStringList keys = readKeys(fromTable);
