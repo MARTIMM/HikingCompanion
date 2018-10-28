@@ -7,6 +7,7 @@
 #include <QApplication>
 #include <QDir>
 #include <QFile>
+#include <cmath>
 
 // ----------------------------------------------------------------------------
 ConfigData::ConfigData(QObject *parent) : QObject(parent) {
@@ -417,6 +418,32 @@ QStringList ConfigData::getVersions() {
   vlist.append(this->getHikeVersions());
 
   return vlist;
+}
+
+// ----------------------------------------------------------------------------
+// Calculate distance between two points on earth using the Haversine formula.
+// It returns the distance in metres.
+double ConfigData::geoDistance(
+    double lon1, double lat1, double lon2, double lat2
+    ) {
+
+  // φ is latitude, λ is longitude, R is earth’s radius in metres
+  // (mean radius = 6371km);
+  // note that angles need to be in radians to pass to trig functions!
+  double R = 6371e3; // metres
+  double φ1 = lat1 * M_PI / 100.0;
+  double φ2 = lat2 * M_PI / 100.0;
+  double Δφ = (lat1 - lat2) * M_PI / 100.0;
+  double Δλ = (lon1 - lon2) * M_PI / 100.0;
+
+  double a = sin(Δφ/2) * sin(Δφ/2) +
+          cos(φ1) * cos(φ2) *
+          sin(Δλ/2) * sin(Δλ/2);
+  double c = 2 * atan2( sqrt(a), sqrt(1-a));
+
+  double d = R * c;
+
+  return d;
 }
 
 // ----------------------------------------------------------------------------
