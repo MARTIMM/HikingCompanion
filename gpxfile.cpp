@@ -122,7 +122,7 @@ QList<QGeoCoordinate> GpxFile::coordinateList(QString gpxFilePath) {
 
   QList<QGeoCoordinate> coordinateList;
   coordinateList.clear();
-  int count = 0;
+  //int count = 0;
 
   QFile gpxFile(gpxFilePath);
   if ( !gpxFile.open(QIODevice::ReadOnly | QIODevice::Text) ) {
@@ -144,7 +144,7 @@ QList<QGeoCoordinate> GpxFile::coordinateList(QString gpxFilePath) {
       gc->setLongitude(lon);
       coordinateList.append(*gc);
 
-      qDebug() << "[" << count++ << "] lon: " << lon << ", lat: " << lat;
+      //qDebug() << "[" << count++ << "] lon: " << lon << ", lat: " << lat;
       xml.readNext();
     }
   }
