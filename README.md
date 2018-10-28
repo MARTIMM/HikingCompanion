@@ -210,7 +210,10 @@ The map page is also the home page.
   Show a list of tracks from which a selection can be made. This will only be visible when one or more hike apps are installed. Track list changes when another hike is selected.
 
   * [x] Page created
-  * [x] Generate the page from the directory contents and the gpx track name found in those files.
+  * Generate the page from the tracks directory contents. Each track shows;
+    * [x] the gpx track name found in the configuration file.
+    * [ ] Show length of the route. Calculated once when the route is processed.
+    * [ ] Show a bicycle or a walking person icon depending on the route.
   * [x] Refresh tracks list when another hike is selected on the config page
   * [x] Show map when a selection is made using a <button>Select</button>  button.
   * [x] The route is displayed.
@@ -316,7 +319,7 @@ This should show a dialog to ask the user if he/she really wants to quit the pro
 
 # Bugs
 * Keyboard of android tablet is shown in in uppercase. Each time the keyboard is set in lowercase it switches back to uppercase after typing a letter. Also numbers are not available.
-* Track information is not properly shown, must use utf8.
+* Done: Track information is not properly shown, must use utf8.
 
 # Changes
 ## Application changes
