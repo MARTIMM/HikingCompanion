@@ -314,12 +314,34 @@ This should show a dialog to ask the user if he/she really wants to quit the pro
     * [x] Hike data container app copies its data to the directory
     * [x] HikingCompanion app installs the data from the directory and cleans it afterwards.
 
-# To do
+### Licenses Qt software
+### Licenses Android?
+### Licenses Ios?
+### License Symbola font
+Unicode Fonts for Ancient Scripts
+(UFAS)
+ License Agreement
+UFAS: refers to the set of all fonts and documents available on this site; are licensed under the conditions stated in this License Agreement.
+Developer: refers to George Douros, Kolokotroni 3, Larissa, 41223, Greece; is the sole developer and exclusive owner of all UFAS material; retains all rights to previous, current and future versions of UFAS; does not warrant the performance or results User may obtain by using UFAS software; is in no event liable to User or anyone else for any consequential, incidental or special damages, or for any claim against User by any third party seeking such damages.
+User: refers to anyone who downloads UFAS from this, or any other, site; may use UFAS for strictly personal and non-commercial purposes, without charge; is allowed a single installation and no network installation; agrees not to adapt, modify, alter, translate, convert, or otherwise change UFAS; may not license, sell, rent, lease, sub license, lend, or in any way distribute UFAS for profit.
+Commercial or educational use of UFAS is not permitted. This and all UFAS licenses are exclusively issued by Developer.
 
+Font also found on Linux fedora! No license mentioned!
+
+### License for the hike data.
+There must be a license which must describe the application in such a way that the software is free but that the data for some hikes is to be paid for.
+
+# To do
+* [ ] The Plain qml page must have a status line at the bottom to show errors and other messages.
+* [ ] Remove a track must have a dialog window
+* [ ] Refine theming for all hikes and HikingCompanion. No gradients.
+* [ ] Texts must have more space on the side. It is too close to the edge.
+* [.] Add info about type and length of track.
+* [ ] Change color of route depending on type, walk (dark brown) or bike (blue)
 
 # Bugs
-* Keyboard of android tablet is shown in in uppercase. Each time the keyboard is set in lowercase it switches back to uppercase after typing a letter. Also numbers are not available.
-* Done: Track information is not properly shown, must use utf8.
+* [ ] Keyboard of android tablet is shown in in uppercase. Each time the keyboard is set in lowercase it switches back to uppercase after typing a letter. Also numbers are not available.
+* [x] Track information is not properly shown, must use utf8. Solved by proper initialization of QSettings.
 
 # Changes
 ## Application changes
@@ -387,7 +409,7 @@ Versions have a letter added: D for debug version and R for a release version. W
   * Start project
 
 ## Test version changes on Android
-Versions of mobile devices will change slower because not every version will be directly tested on the device. The application version is that of the changes above to get an idea which level is available for the devices.
+Versions of mobile devices will change slower because not every version is directly tested on the device.
 
 | Android App Version | Application Version | Android Api Version |
 |---------------------|---------------------|---------------------|
