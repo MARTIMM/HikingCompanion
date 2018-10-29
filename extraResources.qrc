@@ -1,5 +1,6 @@
 <RCC>
     <qresource prefix="/">
+        <file>Assets/Fonts/Symbola.ttf</file>
         <file>Assets/Images/logo-met-groen-klein-1.png</file>
         <file>Assets/Images/Icon/Android/hdpi.png</file>
         <file>Assets/Images/Icon/Android/ldpi.png</file>

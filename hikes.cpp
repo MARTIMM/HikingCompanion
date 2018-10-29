@@ -2,6 +2,8 @@
 #include "config.h"
 
 #include <QDebug>
+#include <QApplication>
+#include <QFont>
 
 // ----------------------------------------------------------------------------
 Hikes::Hikes(QObject *parent) : QObject(parent) { }
@@ -50,8 +52,37 @@ QVariantList Hikes::trackList() {
   int ntracks = cfg->getSetting(tableName + "/ntracks").toInt();
 
   for ( int ni = 0; ni < ntracks; ni++) {
+    QString trackLine;
     QString tracksTableName = cfg->tracksTableName( tableName, ni);
-    _trackList.append(cfg->getSetting(tracksTableName + "/title"));
+
+    qDebug() << "Default font" << qApp->font().family();
+
+    // Get the type of walk, (W) walking, (B) biking or (?) bij rocket ;-)
+    QString trackInfo = cfg->getSetting(tracksTableName + "/type");
+    if ( trackInfo == "W" ) {
+      trackLine = "\U0001F6B6 ";
+    }
+
+    else if ( trackInfo == "B" ) {
+      trackLine = "\U0001F6B2 ";
+    }
+
+    else {
+      trackLine = "\U0001F462 ";
+    }
+
+    // Get the length of this track
+    trackInfo = cfg->getSetting(tracksTableName + "/length");
+    if ( trackInfo == "" ) {
+      trackLine += " - km, ";
+    }
+    else {
+      trackLine += trackInfo + " km, ";
+    }
+
+    // Finally add the track title
+    trackLine += cfg->getSetting(tracksTableName + "/title");
+    _trackList.append(trackLine);
   }
 
   return _trackList;

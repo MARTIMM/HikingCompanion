@@ -19,6 +19,8 @@
 #include <QQmlEngine>
 #include <QDir>
 #include <QtQml>
+#include <QFontDatabase>
+#include <QFont>
 
 // ----------------------------------------------------------------------------
 // Define global variables
@@ -115,6 +117,10 @@ int main( int argc, char *argv[]) {
   //          https://doc.qt.io/qt-5.11/qtquickcontrols2-styles.html
   // Using qtquickcontrols2.conf now instead of
   // 'QQuickStyle::setStyle("Material");'
+
+  // Add some fonts and set default font
+  QFontDatabase::addApplicationFont(":/Assets/fonts/Symbola_font.ttf");
+  app.setFont(QFont("Symbola"));
 
   applicationEngine = new QQmlApplicationEngine();
   applicationEngine->load(QUrl(QStringLiteral("qrc:/Qml/Main/Application.qml")));

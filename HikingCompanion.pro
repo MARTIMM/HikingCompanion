@@ -1,5 +1,4 @@
-#QT += quick gui widgets core qml quickwidgets quickcontrols2
-QT += core quick qml widgets quickcontrols2 positioning
+QT += core quick qml widgets quickcontrols2 gui positioning
 CONFIG += c++11
 
 # The following define makes your compiler emit warnings if you use
