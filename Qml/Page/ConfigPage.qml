@@ -22,7 +22,8 @@ HCPage.Plain {
 
   Component.onCompleted: {
     // Define the list of languages after which the method will emit
-    // the languageListChanged signal. Do the same for tracks.
+    // the languageListChanged signal. Do the same for hikes and
+    // catch signal hikeListDefined.
     lngs.defineLanguages();
     hikes.defineHikeList();
 
@@ -228,11 +229,12 @@ HCPage.Plain {
         config.setSetting( "User/username", username.inputText.text);
         config.setSetting( "User/email", email.inputText.text);
 
-        // Set the tracklist if there are any hikes in the list.
+        // If there aren't any hikes on the list, do a cleanup.
         if ( configGrid.hikeRow.cbx2.model.length === 0 ) {
           config.cleanupTracks();
         }
 
+        // Set the tracklist on the TracksPage
         else {
           config.setSetting( "selectedhikeindex", configGrid.hikeRow.cbx2.currentIndex);
           GlobalVariables.tracksPage.changeTrackList();
@@ -248,7 +250,7 @@ HCPage.Plain {
       }
     }
 
-    // TODO: Dialoog
+    // TODO: Dialog window
     HCButton.ButtonRowButton {
       text: qsTr("Remove Hike")
       onClicked: {
