@@ -49,8 +49,6 @@ public:
   QStringList getHikeVersions();
   QStringList getVersions();
 
-  double geoDistance( double lon1, double lat1, double lon2, double lat2);
-
 signals:
 
 public slots:

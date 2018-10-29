@@ -3,6 +3,7 @@
 
 #include <QDebug>
 #include <QFile>
+#include <cmath>
 
 // ----------------------------------------------------------------------------
 GpxFile::GpxFile(QObject *parent) : QObject(parent) {}
@@ -215,4 +216,52 @@ QList<QGeoCoordinate> GpxFile::boundary(QList<QGeoCoordinate> coordinateList) {
   bounds.append(*gc);
 
   return bounds;
+}
+
+// ----------------------------------------------------------------------------
+int GpxFile::trackDistance(QList<QGeoCoordinate> coordinateList) {
+
+  // Check for enough number of coordinates
+  if ( coordinateList.count() < 2 ) return 0;
+
+  int trackDistance = 0;
+  int lon1 = coordinateList[0].longitude();
+  int lat1 = coordinateList[0].latitude();
+  for ( int ci = 1; ci < coordinateList.count(); ci++) {
+    int lon2 = coordinateList[ci].longitude();
+    int lat2 = coordinateList[ci].latitude();
+    trackDistance += this->geoDistance( lon1, lat1, lon2, lat2);
+
+    // prepare for next
+    lon1 = lon2;
+    lat1 = lat2;
+  }
+
+  return trackDistance;
+}
+
+// ----------------------------------------------------------------------------
+// Calculate distance between two points on earth using the Haversine formula.
+// It returns the distance in metres.
+double GpxFile::geoDistance(
+    double lon1, double lat1, double lon2, double lat2
+    ) {
+
+  // φ is latitude, λ is longitude, R is earth’s radius in metres
+  // (mean radius = 6371km);
+  // note that angles need to be in radians to pass to trig functions!
+  double R = 6371e3; // metres
+  double phi1 = lat1 * M_PI / 100.0;
+  double phi2 = lat2 * M_PI / 100.0;
+  double deltaPhi = (lat1 - lat2) * M_PI / 100.0;
+  double deltaLambda = (lon1 - lon2) * M_PI / 100.0;
+
+  double a = sin(deltaPhi/2) * sin(deltaPhi/2) +
+          cos(phi1) * cos(phi2) *
+          sin(deltaLambda/2) * sin(deltaLambda/2);
+  double c = 2 * atan2( sqrt(a), sqrt(1-a));
+
+  double d = R * c;
+
+  return d;
 }

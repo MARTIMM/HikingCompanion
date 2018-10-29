@@ -26,6 +26,9 @@ public:
   QList<QGeoCoordinate> boundary();
   static QList<QGeoCoordinate> boundary(QList<QGeoCoordinate> coordinateList);
 
+  double geoDistance( double lon1, double lat1, double lon2, double lat2);
+  int trackDistance(QList<QGeoCoordinate> coordinateList);
+
 signals:
 
 public slots:
