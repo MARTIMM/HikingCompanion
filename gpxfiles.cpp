@@ -5,34 +5,7 @@
 #include <QDir>
 //#include <QFile>
 
-// ----------------------------------------------------------------------------
-GpxFiles::GpxFiles( QObject *parent) : QObject(parent) { }
-
-// ----------------------------------------------------------------------------
-GpxFiles::~GpxFiles() {
-  _gpxFileList.clear();
-  _gpxTrackList.clear();
-}
-
-// ----------------------------------------------------------------------------
-QList<QObject *> GpxFiles::gpxFileList() {
-
-  qDebug() << "gpx file list: " << _gpxFileList.count() << "members";
-  return _gpxFileList;
-}
-
-// ----------------------------------------------------------------------------
-QVariantList GpxFiles::gpxTrackList() {
-
-  qDebug() << "gpx track list: " << _gpxTrackList.count() << "members";
-  return _gpxTrackList;
-}
-
-// ----------------------------------------------------------------------------
-QString GpxFiles::description() {
-  return _description;
-}
-
+/*
 // ----------------------------------------------------------------------------
 void GpxFiles::_setGpxFiles() {
 
@@ -61,6 +34,7 @@ void GpxFiles::_setGpxFiles() {
     _gpxTrackList.append(gf->name());
   }
 }
+*/
 
 // ----------------------------------------------------------------------------
 void GpxFiles::loadCoordinates(int index) {
@@ -83,16 +57,4 @@ void GpxFiles::loadCoordinates(int index) {
   qDebug() << _boundary.count() << " boundaries set";
 
   emit coordinatesReady();
-}
-
-// ----------------------------------------------------------------------------
-QGeoPath GpxFiles::coordinateList() {
-  qDebug() << _coordinateList.count() << " coordinates returned";
-  return QGeoPath(_coordinateList);
-}
-
-// ----------------------------------------------------------------------------
-QGeoPath GpxFiles::boundary() {
-  qDebug() << _boundary.count() << " boundaries returned";
-  return QGeoPath(_boundary);
 }

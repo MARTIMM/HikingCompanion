@@ -57,6 +57,7 @@ public:
 
 signals:
 
+
 public slots:
 
 private:

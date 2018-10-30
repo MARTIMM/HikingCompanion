@@ -59,28 +59,6 @@ HCPage.Plain {
     }
   }
 
-/*
-  GpxFiles {
-    id: gpxf
-
-    onGpxFileListReady: {
-      // Copy the data into the model
-      lv.model = gpxf.gpxFileList();
-
-      // Set the title from the description
-      //TODO; all descriptions are the same, keep this out of the GpxFile obj
-      tracksPage.trackTitle = gpxf.description;
-
-      //TODO; must come from config
-      // Example previous setting
-      //currentIndex = parseInt(config.getSetting("Tracks/gpxfileindex"));
-
-      var entriesHeight = lv.model.length * 20;
-      lv.contentHeight = 20 + entriesHeight;
-    }
-  }
-*/
-
   width: parent.width
   height: parent.height
   anchors.fill: parent

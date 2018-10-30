@@ -3,6 +3,7 @@
 
 #include "gpxfile.h"
 
+#include <QDebug>
 #include <QObject>
 #include <QVariantList>
 #include <QList>
@@ -15,16 +16,21 @@ class GpxFiles : public QObject {
   Q_PROPERTY( QString description READ description)
 
 public:
-  explicit GpxFiles(QObject *parent = nullptr);
-  ~GpxFiles();
+  inline explicit GpxFiles(QObject *parent = nullptr) : QObject(parent) { }
+  ~GpxFiles() {
+    _gpxFileList.clear();
+    _gpxTrackList.clear();
+  }
 
-  QString description();
+  inline QString description() { return _description; }
 
-  Q_INVOKABLE QList<QObject *> gpxFileList();
-  Q_INVOKABLE QVariantList gpxTrackList();
+  inline Q_INVOKABLE QList<QObject *> gpxFileList() { return _gpxFileList; }
+  inline Q_INVOKABLE QVariantList gpxTrackList() { return _gpxTrackList; }
+
+  inline Q_INVOKABLE QGeoPath coordinateList() { return QGeoPath(_coordinateList); }
+  inline Q_INVOKABLE QGeoPath boundary() { return QGeoPath(_boundary); }
+
   Q_INVOKABLE void loadCoordinates(int index);
-  Q_INVOKABLE QGeoPath coordinateList();
-  Q_INVOKABLE QGeoPath boundary();
 
 signals:
   void coordinatesReady();
@@ -32,7 +38,7 @@ signals:
 public slots:
 
 private:
-  void _setGpxFiles();
+  //void _setGpxFiles();
 
   QList<QObject *> _gpxFileList;
 //TODO track list not needed, remove
