@@ -4,7 +4,6 @@ import "../Parts" as HCParts
 
 import io.github.martimm.HikingCompanion.Theme 0.1
 import io.github.martimm.HikingCompanion.Config 0.3
-import io.github.martimm.HikingCompanion.GpxFiles 0.1
 import io.github.martimm.HikingCompanion.GlobalVariables 0.1
 
 import QtQuick 2.9
@@ -13,7 +12,26 @@ import QtQuick.Controls 2.2
 HCPage.Plain {
   id: tracksPage
 
-  Config { id: config }
+  Config {
+    id: config
+
+    // Function is triggered when click event on the select button
+    // calls loadCoordinates function.
+    onCoordinatesReady: {
+      // Get the path of coordinates and show on map
+      var path = config.coordinateList();
+      var mapPage = GlobalVariables.mapPage;
+      mapPage.hikerCompanionMap.trackCourse.setPath(path);
+
+      // Get the boundaries of the set of coordinates to zoom in
+      // on the track shown on the map
+      var bounds = config.boundary();
+      mapPage.hikerCompanionMap.visibleRegion = bounds;
+
+      // Make map visible
+      GlobalVariables.menu.setHomePage();
+    }
+  }
 
   Component.onCompleted: {
     // Get the track list. Here it is prepared on startup.
@@ -35,27 +53,6 @@ HCPage.Plain {
       var entriesHeight = lv.model.length * 20;
       lv.contentHeight = 20 + entriesHeight;
       selectButton.enabled = true;
-    }
-  }
-
-  GpxFiles {
-    id: gpxf
-
-    // Function is triggered when click event on the select button
-    // calls loadCoordinates function.
-    onCoordinatesReady: {
-      // Get the path of coordinates and show on map
-      var path = gpxf.coordinateList();
-      var mapPage = GlobalVariables.mapPage;
-      mapPage.hikerCompanionMap.trackCourse.setPath(path);
-
-      // Get the boundaries of the set of coordinates to zoom in
-      // on the track shown on the map
-      var bounds = gpxf.boundary();
-      mapPage.hikerCompanionMap.visibleRegion = bounds;
-
-      // Make map visible
-      GlobalVariables.menu.setHomePage();
     }
   }
 
@@ -175,7 +172,7 @@ HCPage.Plain {
         // Get the coordinates of the selected track and emit a
         // signal when ready. This signal is catched on the mapPage
         // where the coordinates are used.
-        gpxf.loadCoordinates(currentIndex);
+        config.loadCoordinates(currentIndex);
       }
     }
   }

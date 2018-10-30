@@ -76,8 +76,22 @@ public:
   Q_INVOKABLE inline QStringList hikeList() { return _configData->hikeList(); }
   Q_INVOKABLE inline QVariantList trackList() { return _configData->trackList(); }
 
+  inline QString description() { return _configData->description(); }
+
+  Q_INVOKABLE inline QList<QObject *> gpxFileList() { return _configData->gpxFileList(); }
+  Q_INVOKABLE inline QVariantList gpxTrackList() { return _configData->gpxTrackList(); }
+
+  Q_INVOKABLE inline QGeoPath coordinateList() { return _configData->coordinateList(); }
+  Q_INVOKABLE inline QGeoPath boundary() { return _configData->boundary(); }
+
+  Q_INVOKABLE inline void loadCoordinates(int index) {
+    _configData->loadCoordinates(index);
+    emit coordinatesReady();
+  }
+
 signals:
   void hikeListDefined();
+  void coordinatesReady();
 
 public slots:
 

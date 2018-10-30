@@ -1,7 +1,6 @@
 #include "textload.h"
 #include "config.h"
 #include "languages.h"
-#include "gpxfiles.h"
 
 #if defined(Q_OS_ANDROID)
 #include <QtAndroid>
@@ -74,11 +73,6 @@ int main( int argc, char *argv[]) {
         "io.github.martimm.HikingCompanion.Languages", 0, 2, "Languages"
         );
 
-  qmlRegisterType<GpxFiles>(
-        "io.github.martimm.HikingCompanion.GpxFiles", 0, 1, "GpxFiles"
-        );
-
-
   qmlRegisterSingletonType(
         QUrl("qrc:/Qml/GlobalVariables.qml"),
         "io.github.martimm.HikingCompanion.GlobalVariables", 0, 1,
@@ -89,11 +83,6 @@ int main( int argc, char *argv[]) {
         QUrl("qrc:/Assets/Theme/HikingCompanionTheme.qml"),
         "io.github.martimm.HikingCompanion.Theme", 0, 1, "Theme"
         );
-
-  // Styling: http://doc.qt.io/qt-5/qtquickcontrols2-styles.html
-  //          https://doc.qt.io/qt-5.11/qtquickcontrols2-styles.html
-  // Using qtquickcontrols2.conf now instead of
-  // 'QQuickStyle::setStyle("Material");'
 
   // Add some fonts and set default font
   QFontDatabase::addApplicationFont(":/Assets/fonts/Symbola_font.ttf");
