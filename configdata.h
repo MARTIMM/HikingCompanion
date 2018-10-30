@@ -51,9 +51,9 @@ public:
   QStringList getHikeVersions();
   QStringList getVersions();
 
-  void defineHikeList() { _hikes->defineHikeList(); }
-  QStringList hikeList() { return _hikes->hikeList(); }
-  QVariantList trackList() { return _hikes->trackList(); }
+  inline void defineHikeList() { _hikes->defineHikeList(); }
+  inline QStringList hikeList() { return _hikes->hikeList(); }
+  inline QVariantList trackList() { return _hikes->trackList(); }
 
 signals:
 
