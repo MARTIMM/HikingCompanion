@@ -1,6 +1,8 @@
 #ifndef CONFIGDATA_H
 #define CONFIGDATA_H
 
+#include "hikes.h"
+
 #include <QObject>
 #include <QSettings>
 
@@ -49,6 +51,10 @@ public:
   QStringList getHikeVersions();
   QStringList getVersions();
 
+  void defineHikeList() { _hikes->defineHikeList(); }
+  QStringList hikeList() { return _hikes->hikeList(); }
+  QVariantList trackList() { return _hikes->trackList(); }
+
 signals:
 
 public slots:
@@ -65,8 +71,10 @@ private:
 
   QString _dataDir;       // Location where all hikes are stored
   QString _dataShareDir;  // Location where new data is placed to install
+
   QSettings *_settings;
   QStringList _pages;
+  Hikes *_hikes;
 };
 
 #endif // CONFIGDATA_H

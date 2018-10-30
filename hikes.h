@@ -12,12 +12,11 @@ class Hikes : public QObject {
 public:
   explicit Hikes(QObject *parent = nullptr);
 
-  Q_INVOKABLE void defineHikeList();
-  Q_INVOKABLE QStringList hikeList();
-  Q_INVOKABLE QVariantList trackList();
+  void defineHikeList();
+  QStringList hikeList();
+  QVariantList trackList();
 
 signals:
-  void hikeListDefined();
 
 public slots:
 

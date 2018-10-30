@@ -5,7 +5,6 @@ import "../Parts" as HCParts
 import io.github.martimm.HikingCompanion.Theme 0.1
 import io.github.martimm.HikingCompanion.Config 0.3
 import io.github.martimm.HikingCompanion.Languages 0.2
-import io.github.martimm.HikingCompanion.Hikes 0.1
 import io.github.martimm.HikingCompanion.GlobalVariables 0.1
 
 import QtQuick 2.11
@@ -25,7 +24,7 @@ HCPage.Plain {
     // the languageListChanged signal. Do the same for hikes and
     // catch signal hikeListDefined.
     lngs.defineLanguages();
-    hikes.defineHikeList();
+    config.defineHikeList();
 
     username.inputText.text = config.getSetting("User/username");
     email.inputText.text = config.getSetting("User/email");
@@ -42,17 +41,15 @@ HCPage.Plain {
     }
   }
 
-  Hikes {
-    id: hikes
+  Config {
+    id: config
 
     onHikeListDefined: {
-      configGrid.hikeRow.cbx2.model = hikes.hikeList();
-      console.log("hikes: " + hikes.hikeList());
+      configGrid.hikeRow.cbx2.model = config.hikeList();
+      console.log("hikes: " + config.hikeList());
       configGrid.hikeRow.cbx2.currentIndex = parseInt(config.getSetting("selectedhikeindex"));
     }
   }
-
-  Config { id: config }
 
   HCParts.ToolbarRectangle {
     id: pageToolbarRow
@@ -257,7 +254,7 @@ HCPage.Plain {
         config.setSetting( "selectedhikeindex", configGrid.hikeRow.cbx2.currentIndex);
         config.cleanupHike();
         GlobalVariables.tracksPage.changeTrackList();
-        hikes.defineHikeList();
+        config.defineHikeList();
 
         // Set the theme for this hike
         var t = config.getTheme();

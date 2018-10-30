@@ -99,6 +99,8 @@ ConfigData::ConfigData(QObject *parent) : QObject(parent) {
   this->_mkpath(publicLoc);
   _dataShareDir = publicLoc + "/newHikeData";
   this->checkForNewHikeData();
+
+  _hikes = new Hikes();
 }
 
 // ----------------------------------------------------------------------------

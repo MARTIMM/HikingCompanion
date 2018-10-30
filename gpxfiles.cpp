@@ -56,6 +56,7 @@ void GpxFiles::_setGpxFiles() {
     if ( _description == nullptr && description.length() > 0 ) {
       _description = description;
     }
+
     _gpxFileList.append(gf);
     _gpxTrackList.append(gf->name());
   }

@@ -27,9 +27,6 @@ void Hikes::defineHikeList() {
     qDebug() << "Key and table:" << hikeKey << hikeKeyTable;
     _hikeList.append(cfg->getSetting(hikeKeyTable + "/title"));
   }
-
-  // Emit signal that list is ready
-  emit hikeListDefined();
 }
 
 // ----------------------------------------------------------------------------

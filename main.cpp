@@ -2,7 +2,6 @@
 #include "config.h"
 #include "languages.h"
 #include "gpxfiles.h"
-#include "hikes.h"
 
 #if defined(Q_OS_ANDROID)
 #include <QtAndroid>
@@ -75,10 +74,6 @@ int main( int argc, char *argv[]) {
         "io.github.martimm.HikingCompanion.Languages", 0, 2, "Languages"
         );
 
-  qmlRegisterType<Hikes>(
-        "io.github.martimm.HikingCompanion.Hikes", 0, 1, "Hikes"
-        );
-
   qmlRegisterType<GpxFiles>(
         "io.github.martimm.HikingCompanion.GpxFiles", 0, 1, "GpxFiles"
         );
@@ -94,24 +89,6 @@ int main( int argc, char *argv[]) {
         QUrl("qrc:/Assets/Theme/HikingCompanionTheme.qml"),
         "io.github.martimm.HikingCompanion.Theme", 0, 1, "Theme"
         );
-
-/*
-  qmlRegisterSingletonType(
-        QUrl("qrc:/Assets/Theme/HCTheme1.qml"),
-        "io.github.martimm.HikingCompanion.HCTheme1", 0, 1, "HCTheme1"
-        );
-*/
-
-/*
-  Config *cfg = new Config();
-  QDir *dd = new QDir(cfg->dataDir() + "/Sufitrail/theme.qml");
-  QString themePath = dd->absolutePath();
-  qDebug() << "Theme at" << "file://" + themePath;
-  qmlRegisterSingletonType(
-        "file://" + themePath,
-        "io.github.martimm.HikingCompanion.HCTheme1", 0, 1, "HCTheme1"
-        );
-*/
 
   // Styling: http://doc.qt.io/qt-5/qtquickcontrols2-styles.html
   //          https://doc.qt.io/qt-5.11/qtquickcontrols2-styles.html

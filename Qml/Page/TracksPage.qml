@@ -6,7 +6,6 @@ import io.github.martimm.HikingCompanion.Theme 0.1
 import io.github.martimm.HikingCompanion.Config 0.3
 import io.github.martimm.HikingCompanion.GpxFiles 0.1
 import io.github.martimm.HikingCompanion.GlobalVariables 0.1
-import io.github.martimm.HikingCompanion.Hikes 0.1
 
 import QtQuick 2.9
 import QtQuick.Controls 2.2
@@ -15,7 +14,6 @@ HCPage.Plain {
   id: tracksPage
 
   Config { id: config }
-  Hikes { id: hikes }
 
   Component.onCompleted: {
     // Get the track list. Here it is prepared on startup.
@@ -26,7 +24,7 @@ HCPage.Plain {
     // Get the track list and check if empty. If empty, the select button
     // must be disabled. If not empty, set the previous selected entry
     // in the tracklist.
-    lv.model = hikes.trackList();
+    lv.model = config.trackList();
     if ( lv.model.length === 0 ) {
       lv.contentHeight = 0;
       selectButton.enabled = false;
