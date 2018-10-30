@@ -1,10 +1,9 @@
 #ifndef CONFIG_H
 #define CONFIG_H
 
-#include "gpxfile.h"
-
-#include <QObject>
-#include <QSettings>
+#include "configdata.h"
+//#include <QObject>
+//#include <QSettings>
 
 
 class Config : public QObject {
@@ -12,42 +11,78 @@ class Config : public QObject {
   Q_OBJECT
 
 public:
-  Config(QObject *parent = nullptr);
+  inline Config(QObject *parent = nullptr) : QObject(parent) {
+    _configData = ConfigData::instance();
+  }
 
-  QString dataDir();
-  QString dataShareDir();
+  inline QString dataDir() { return _configData->dataDir(); }
+  inline QString dataShareDir() { return _configData->dataShareDir(); }
 
-  Q_INVOKABLE void checkForNewHikeData();
-  Q_INVOKABLE void cleanupTracks();
-  Q_INVOKABLE void cleanupHike();
+  Q_INVOKABLE inline void checkForNewHikeData() {
+    _configData->checkForNewHikeData();
+  }
+  Q_INVOKABLE inline void cleanupTracks() { _configData->cleanupTracks(); }
+  Q_INVOKABLE inline void cleanupHike() { _configData->cleanupHike(); }
 
-  Q_INVOKABLE void setSetting( QString name, QString value);
-  Q_INVOKABLE void setSetting( QString name, int value);
-  Q_INVOKABLE QString getSetting(QString name, QSettings *s = nullptr);
 
-  QStringList readKeys( QString group, QSettings *s = nullptr);
-  QString hikeEntryKey();
-  QString hikeTableName(QString hikeEntryKey);
-  QString tracksTableName( QString hikeTableName, int trackCount);
+  Q_INVOKABLE inline void setSetting( QString name, QString value) {
+    _configData->setSetting( name, value);
+  }
+  Q_INVOKABLE inline void setSetting( QString name, int value) {
+    _configData->setSetting( name, value);
+  }
+  Q_INVOKABLE inline QString getSetting(QString name, QSettings *s = nullptr) {
+    return _configData->getSetting( name, s);
+  }
 
-  Q_INVOKABLE void setGpxFileIndexSetting(int currentIndex);
-  Q_INVOKABLE int getGpxFileIndexSetting();
+  QStringList inline readKeys( QString group, QSettings *s = nullptr) {
+    return _configData->readKeys( group, s);
+  }
+  QString inline hikeEntryKey() { return _configData->hikeEntryKey(); }
+  QString inline hikeTableName(QString hikeEntryKey) {
+    return _configData->hikeTableName(hikeEntryKey);
+  }
+  QString inline tracksTableName( QString hikeTableName, int trackCount) {
+    return _configData->tracksTableName( hikeTableName, trackCount);
+  }
 
-  Q_INVOKABLE QString getHtmlPageFilename( QString pageName);
+  Q_INVOKABLE inline void setGpxFileIndexSetting(int currentIndex) {
+    _configData->setGpxFileIndexSetting(currentIndex);
+  }
+  Q_INVOKABLE inline int getGpxFileIndexSetting() {
+    return _configData->getGpxFileIndexSetting();
+  }
 
-  Q_INVOKABLE QString getTheme();
+  Q_INVOKABLE inline QString getHtmlPageFilename( QString pageName) {
+    return _configData->getHtmlPageFilename(pageName);
+  }
 
-  Q_INVOKABLE QString getHCVersion();
-  Q_INVOKABLE QStringList getHikeVersions();
-  Q_INVOKABLE QStringList getVersions();
+  Q_INVOKABLE inline QString getTheme() { return _configData->getTheme(); }
 
-  //bool mkpath(QString path);
+  Q_INVOKABLE inline QString getHCVersion() {
+    return _configData->getHCVersion();
+  }
+  Q_INVOKABLE inline QStringList getHikeVersions() {
+    return _configData->getHikeVersions();
+  }
+  Q_INVOKABLE inline QStringList getVersions() {
+    return _configData->getVersions();
+  }
+
+  Q_INVOKABLE inline void defineHikeList() {
+    _configData->defineHikeList();
+    emit hikeListDefined();
+  }
+  Q_INVOKABLE inline QStringList hikeList() { return _configData->hikeList(); }
+  Q_INVOKABLE inline QVariantList trackList() { return _configData->trackList(); }
 
 signals:
+  void hikeListDefined();
 
 public slots:
 
 private:
+  ConfigData *_configData;
 };
 
 #endif // CONFIG_H

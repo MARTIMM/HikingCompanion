@@ -28,7 +28,6 @@ HEADERS += \
 SOURCES += \
     main.cpp \
     textload.cpp \
-    config.cpp \
     configdata.cpp \
     gpxfile.cpp \
     languages.cpp \
