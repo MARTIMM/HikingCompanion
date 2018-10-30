@@ -13,21 +13,21 @@ class Hikes : public QObject {
   Q_OBJECT
 
 public:
-  explicit Hikes(QObject *parent = nullptr);
+  inline explicit Hikes(QObject *parent = nullptr) : QObject(parent) { }
 
-  void defineHikeList();
-  QStringList hikeList();
-  QVariantList trackList();
-  void loadCoordinates(int index);
-
-
-  inline QString description() { return _description; }
+  //inline QString description() { return _description; }
 
   inline QList<QObject *> gpxFileList() { return _gpxFileList; }
   inline QVariantList gpxTrackList() { return _gpxTrackList; }
 
   inline QGeoPath coordinateList() { return QGeoPath(_coordinateList); }
   inline QGeoPath boundary() { return QGeoPath(_boundary); }
+
+  void defineHikeList();
+  QStringList hikeList();
+  QVariantList trackList();
+  void loadCoordinates(int index);
+
 
 signals:
 
@@ -40,7 +40,7 @@ private:
 //TODO track list not needed, remove
   QVariantList _gpxTrackList;
   QString _gpxPath;
-  QString _description;
+  //QString _description;
 
   // title => hike table name. titles from the tables are shown in the drop
   // list and after selection it must be used to find the table.

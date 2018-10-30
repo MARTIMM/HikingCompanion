@@ -24,6 +24,21 @@ public:
   };
   Q_ENUM(Languages)
 
+  inline void defineHikeList() { _hikes->defineHikeList(); }
+  inline QStringList hikeList() { return _hikes->hikeList(); }
+  inline QVariantList trackList() { return _hikes->trackList(); }
+  inline void loadCoordinates(int index) {
+    return _hikes->loadCoordinates(index);
+  }
+
+  //inline QString description() { return _hikes->description(); }
+
+  inline QList<QObject *> gpxFileList() { return _hikes->gpxFileList(); }
+  inline QVariantList gpxTrackList() { return _hikes->gpxTrackList(); }
+
+  inline QGeoPath coordinateList() { return _hikes->coordinateList(); }
+  inline QGeoPath boundary() { return _hikes->boundary(); }
+
   QString dataDir() { return _dataDir; }
   QString dataShareDir() { return _dataShareDir; }
 
@@ -50,21 +65,6 @@ public:
   QString getHCVersion();
   QStringList getHikeVersions();
   QStringList getVersions();
-
-  inline void defineHikeList() { _hikes->defineHikeList(); }
-  inline QStringList hikeList() { return _hikes->hikeList(); }
-  inline QVariantList trackList() { return _hikes->trackList(); }
-  inline void loadCoordinates(int index) {
-    return _hikes->loadCoordinates(index);
-  }
-
-  inline QString description() { return _hikes->description(); }
-
-  inline QList<QObject *> gpxFileList() { return _hikes->gpxFileList(); }
-  inline QVariantList gpxTrackList() { return _hikes->gpxTrackList(); }
-
-  inline QGeoPath coordinateList() { return _hikes->coordinateList(); }
-  inline QGeoPath boundary() { return _hikes->boundary(); }
 
 signals:
 

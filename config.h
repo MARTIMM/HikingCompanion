@@ -76,7 +76,7 @@ public:
   Q_INVOKABLE inline QStringList hikeList() { return _configData->hikeList(); }
   Q_INVOKABLE inline QVariantList trackList() { return _configData->trackList(); }
 
-  inline QString description() { return _configData->description(); }
+  //inline QString description() { return _configData->description(); }
 
   Q_INVOKABLE inline QList<QObject *> gpxFileList() { return _configData->gpxFileList(); }
   Q_INVOKABLE inline QVariantList gpxTrackList() { return _configData->gpxTrackList(); }

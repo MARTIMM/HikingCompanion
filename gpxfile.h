@@ -12,35 +12,48 @@ class GpxFile : public QObject {
   Q_PROPERTY( QString name READ name CONSTANT)
 
 public:
-  explicit GpxFile(QObject *parent = nullptr);
+  explicit GpxFile(QObject *parent = nullptr) : QObject(parent) { }
 
-  QString name();
+  inline QString name() { return _name; }
+  inline QString gpxFilename() { return _gpxFilename; }
+  inline QString gpxPath() { return _gpxPath; }
+  inline QString gpxFilePath() {
+    return QString("%1/%2").arg(_gpxPath).arg(_gpxFilename);
+  }
 
-  QString gpxFilename();
-  QString gpxPath();
-  QString gpxFilePath();
-  QString setGpxFilename( QString gpxPath, QString gpxFilename);
+  inline QList<QGeoCoordinate> coordinateList() {
+    return GpxFile::coordinateList(_gpxPath + "/" + _gpxFilename);
+  }
 
-  QList<QGeoCoordinate> coordinateList();
+  inline QList<QGeoCoordinate> boundary() {
+    return GpxFile::boundary(
+          GpxFile::coordinateList(_gpxPath + "/" + _gpxFilename)
+          );
+  }
+
+
+  void setGpxFilename( QString gpxPath, QString gpxFilename);
+
   static QList<QGeoCoordinate> coordinateList(QString gpxFilePath);
-  QList<QGeoCoordinate> boundary();
   static QList<QGeoCoordinate> boundary(QList<QGeoCoordinate> coordinateList);
 
-  double geoDistance( double lon1, double lat1, double lon2, double lat2);
-  int trackDistance(QList<QGeoCoordinate> coordinateList);
+  static double geoDistance( double lon1, double lat1, double lon2, double lat2);
+  static double trackDistance(QList<QGeoCoordinate> coordinateList);
 
 signals:
 
 public slots:
 
 private:
+
+  //QString _parseMetadata(QXmlStreamReader &xml);
+  void _parseTrackdata(QXmlStreamReader &xml);
+
   QString _name;
 
   QString _gpxFilename;
   QString _gpxPath;
-
-  QString _parseMetadata(QXmlStreamReader &xml);
-  void _parseTrackdata(QXmlStreamReader &xml);
+  bool _exists;
 };
 
 #endif // GPXFILE_H

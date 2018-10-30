@@ -1,20 +1,20 @@
 #include "hikes.h"
 #include "gpxfile.h"
-#include "config.h"
+#include "configdata.h"
 
 #include <QDebug>
 #include <QApplication>
 #include <QFont>
 
 // ----------------------------------------------------------------------------
-Hikes::Hikes(QObject *parent) : QObject(parent) { }
+//Hikes::Hikes(QObject *parent) : QObject(parent) { }
 
 // ----------------------------------------------------------------------------
 // Get information about hikes directly from the configuration in
 // the HikeList table
 void Hikes::defineHikeList() {
 
-  Config *cfg = new Config();
+  ConfigData *cfg = ConfigData::instance();
 
   // Get all entries from the hike list
   _hikeList.clear();
@@ -42,7 +42,7 @@ QStringList Hikes::hikeList() {
 // Track# tables. The list shows the title of each entry from each table.
 QVariantList Hikes::trackList() {
 
-  Config *cfg = new Config();
+  ConfigData *cfg = ConfigData::instance();
   _trackList.clear();
 
   QString entryKey = cfg->hikeEntryKey();
@@ -71,9 +71,21 @@ QVariantList Hikes::trackList() {
 
     // Get the length of this track
     trackInfo = cfg->getSetting(tracksTableName + "/length");
-    if ( trackInfo == "" ) {
-      trackLine += " - km, ";
+    if ( trackInfo == "" or trackInfo == "0" ) {
+//    if ( true ) {
+      QString hikeKey = cfg->getSetting("HikeList/" + entryKey);
+      QString fname = cfg->getSetting(tracksTableName + "/fname");
+      GpxFile *gf = new GpxFile();
+      gf->setGpxFilename(
+            cfg->dataDir() + "/" + hikeKey + "/Tracks/", fname
+            );
+      QList<QGeoCoordinate> coordinateList = gf->coordinateList();
+qDebug() << "nCoordinates:" << coordinateList.count();
+      double length = gf->trackDistance(coordinateList) / 1000.0;
+      trackLine += QString("%0 km, ").arg(length);
+      cfg->setSetting( tracksTableName + "/length", length);
     }
+
     else {
       trackLine += trackInfo + " km, ";
     }
@@ -91,7 +103,8 @@ void Hikes::loadCoordinates(int index) {
 
   qDebug() << "get coordinates from selected index: " << index;
 
-  Config *cfg = new Config();
+  ConfigData *cfg = ConfigData::instance();
+
   QString entryKey = cfg->hikeEntryKey();
   QString tableName = cfg->hikeTableName(entryKey);
   QString tracksTableName = cfg->tracksTableName( tableName, index);
@@ -105,9 +118,8 @@ void Hikes::loadCoordinates(int index) {
   qDebug() << _coordinateList.count() << " coordinates found";
   _boundary = GpxFile::boundary(_coordinateList);
   qDebug() << _boundary.count() << " boundaries set";
-
-  //emit coordinatesReady();
 }
+
 /*
 // ----------------------------------------------------------------------------
 void Hikes::_setGpxFiles() {

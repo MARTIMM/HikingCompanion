@@ -5,6 +5,7 @@
 #include <QFile>
 #include <cmath>
 
+/*
 // ----------------------------------------------------------------------------
 GpxFile::GpxFile(QObject *parent) : QObject(parent) {}
 
@@ -21,21 +22,38 @@ QString GpxFile::gpxPath() { return _gpxPath; }
 QString GpxFile::gpxFilePath() {
   return QString("%1/%2").arg(_gpxPath).arg(_gpxFilename);
 }
+*/
+
+/*
+// ----------------------------------------------------------------------------
+// Read the list of coordinates from the gpx file and return the list
+QList<QGeoCoordinate> GpxFile::coordinateList() {
+
+  return GpxFile::coordinateList(_gpxPath + "/" + _gpxFilename);
+}
 
 // ----------------------------------------------------------------------------
-QString GpxFile::setGpxFilename( QString gpxPath, QString gpxFilename) {
+QList<QGeoCoordinate> GpxFile::boundary() {
 
-  QString description;
+  return GpxFile::boundary(
+        GpxFile::coordinateList(_gpxPath + "/" + _gpxFilename)
+        );
+}
+*/
 
-//Todo filename must be tested
+// ----------------------------------------------------------------------------
+void GpxFile::setGpxFilename( QString gpxPath, QString gpxFilename) {
+
   _gpxFilename = gpxFilename;
   _gpxPath = gpxPath;
-
   QFile gpxFile(_gpxPath + "/" + _gpxFilename);
+  _exists = gpxFile.exists();
+  qDebug() << "File:" << _gpxPath + "/" + _gpxFilename << _exists;
+/*
   if ( !gpxFile.open(QIODevice::ReadOnly | QIODevice::Text) ) {
 //Todo error must be shown in status on screen
     qDebug() << QString("Open gpx file %1: %2").arg(_gpxFilename).arg(gpxFile.errorString());
-    return "";
+    return; // "";
   }
 
   bool metaFound = false;
@@ -49,11 +67,11 @@ QString GpxFile::setGpxFilename( QString gpxPath, QString gpxFilename) {
     if ( token == QXmlStreamReader::StartElement ) {
       if ( xml.name() == "metadata" ) {
         xml.readNext();
-        description = _parseMetadata(xml);
         metaFound = true;
       }
 
-      else if ( xml.name() == "trk" ) {
+      else
+      if ( xml.name() == "trk" ) {
         xml.readNext();
         _parseTrackdata(xml);
         trackFound = true;
@@ -64,9 +82,10 @@ QString GpxFile::setGpxFilename( QString gpxPath, QString gpxFilename) {
   }
 
   gpxFile.close();
-  return description;
+*/
 }
 
+/*
 // ----------------------------------------------------------------------------
 // process metadata in gpx file
 QString GpxFile::_parseMetadata(QXmlStreamReader &xml) {
@@ -90,7 +109,8 @@ QString GpxFile::_parseMetadata(QXmlStreamReader &xml) {
 
   return description;
 }
-
+*/
+/*
 // ----------------------------------------------------------------------------
 // process track data in gpx file to get name of the track
 void GpxFile::_parseTrackdata(QXmlStreamReader &xml) {
@@ -109,13 +129,7 @@ void GpxFile::_parseTrackdata(QXmlStreamReader &xml) {
     xml.readNext();
   }
 }
-
-// ----------------------------------------------------------------------------
-// Read the list of coordinates from the gpx file and return the list
-QList<QGeoCoordinate> GpxFile::coordinateList() {
-
-  return GpxFile::coordinateList(_gpxPath + "/" + _gpxFilename);
-}
+*/
 
 // ----------------------------------------------------------------------------
 // Read the list of coordinates from the gpx file and return the list
@@ -151,14 +165,6 @@ QList<QGeoCoordinate> GpxFile::coordinateList(QString gpxFilePath) {
   }
 
   return coordinateList;
-}
-
-// ----------------------------------------------------------------------------
-QList<QGeoCoordinate> GpxFile::boundary() {
-
-  return GpxFile::boundary(
-        GpxFile::coordinateList(_gpxPath + "/" + _gpxFilename)
-        );
 }
 
 // ----------------------------------------------------------------------------
@@ -219,24 +225,28 @@ QList<QGeoCoordinate> GpxFile::boundary(QList<QGeoCoordinate> coordinateList) {
 }
 
 // ----------------------------------------------------------------------------
-int GpxFile::trackDistance(QList<QGeoCoordinate> coordinateList) {
+double GpxFile::trackDistance(QList<QGeoCoordinate> coordinateList) {
 
   // Check for enough number of coordinates
   if ( coordinateList.count() < 2 ) return 0;
 
-  int trackDistance = 0;
-  int lon1 = coordinateList[0].longitude();
-  int lat1 = coordinateList[0].latitude();
+  double trackDistance = 0;
+  double lon1 = coordinateList[0].longitude();
+  double lat1 = coordinateList[0].latitude();
+  qDebug() << "coordinate 0: " << lon1 << lat1;
   for ( int ci = 1; ci < coordinateList.count(); ci++) {
-    int lon2 = coordinateList[ci].longitude();
-    int lat2 = coordinateList[ci].latitude();
-    trackDistance += this->geoDistance( lon1, lat1, lon2, lat2);
+    double lon2 = coordinateList[ci].longitude();
+    double lat2 = coordinateList[ci].latitude();
+    trackDistance += GpxFile::geoDistance( lon1, lat1, lon2, lat2);
+    if ( ci < 10 )
+      qDebug() << "coordinate n + dist: " << lon2 << lat2 << trackDistance;
 
     // prepare for next
     lon1 = lon2;
     lat1 = lat2;
   }
 
+  qDebug() << "Total:" << trackDistance;
   return trackDistance;
 }
 
