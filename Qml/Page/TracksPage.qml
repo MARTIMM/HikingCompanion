@@ -21,12 +21,12 @@ HCPage.Plain {
       // Get the path of coordinates and show on map
       var path = config.coordinateList();
       var mapPage = GlobalVariables.mapPage;
-      mapPage.hikerCompanionMap.trackCourse.setPath(path);
+      mapPage.hikingCompanionMap.trackCourse.setPath(path);
 
       // Get the boundaries of the set of coordinates to zoom in
       // on the track shown on the map
       var bounds = config.boundary();
-      mapPage.hikerCompanionMap.visibleRegion = bounds;
+      mapPage.hikingCompanionMap.visibleRegion = bounds;
 
       // Make map visible
       GlobalVariables.menu.setHomePage();
