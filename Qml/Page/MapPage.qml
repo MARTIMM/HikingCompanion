@@ -33,14 +33,14 @@ HCPage.Plain {
 
 
   // See also https://doc-snapshots.qt.io/qt5-5.9/location-plugin-itemsoverlay.html#
-  property alias hikerCompanionMap: hikerCompanionMap
-  property alias currentLocationFeature: hikerCompanionMap.currentLocationFeature
+  property alias hikingCompanionMap: hikingCompanionMap
+  property alias currentLocationFeature: hikingCompanionMap.currentLocationFeature
   Map {
-    id: hikerCompanionMap
+    id: hikingCompanionMap
 
     Component.onCompleted: {
       location.start();
-      hikerCompanionMap.addMapItem(currentLocationFeature)
+      hikingCompanionMap.addMapItem(currentLocationFeature)
     }
 
     width: parent.width
@@ -78,10 +78,12 @@ HCPage.Plain {
       //PluginParameter { name: "osm.mapping.highdpi_tiles"; value: true }
     }
 
+
     center: location.valid
             ? location.coordinate
             : QtPositioning.coordinate( 59.91, 10.75) // Oslo
-    zoomLevel: 12
+    //zoomLevel: 12
+    zoomLevel: 18
 
     // This object is set from the tracksPage after selecting a track.
     property alias trackCourse: trackCourse
@@ -94,7 +96,7 @@ HCPage.Plain {
     property real radius: currentLocationFeature.radius
     property real bw: currentLocationFeature.border.width
     function setRad() {
-      var zl = hikerCompanionMap.zoomLevel;
+      var zl = hikingCompanionMap.zoomLevel;
       console.log("Zoomlevel: " + zl);
       if ( zl < 4 )               { radius = 10000.0; bw = 20; }
       if ( zl >= 4 && zl < 6 )    { radius = 1000.0; bw = 15; }
@@ -108,10 +110,10 @@ HCPage.Plain {
     MapCircle {
       id: currentLocationFeature
 
-      radius: 6.0
+      radius: 12.0
       color: 'transparent'  // or #00000000 with alpha to zero
-      opacity: 0.7
-      border.width: 4
+      //opacity: 0.7
+      border.width: 6
       border.color: 'blue'
     }
   }
@@ -129,11 +131,11 @@ HCPage.Plain {
       console.log( "Coordinate:", coord.longitude, coord.latitude);
 
       currentLocationFeature.center = location.position.coordinate
-      hikerCompanionMap.center = location.position.coordinate
-      hikerCompanionMap.setRad();
+      hikingCompanionMap.center = location.position.coordinate
+      //hikingCompanionMap.setRad();
     }
   }
-
+/*
   Map {
     id: hillshadeOverlay
 
@@ -146,18 +148,18 @@ HCPage.Plain {
     color: 'transparent' // Necessary to make this map transparent
     gesture.enabled: false
 
-    center: hikerCompanionMap.center
-    minimumFieldOfView: hikerCompanionMap.minimumFieldOfView
-    maximumFieldOfView: hikerCompanionMap.maximumFieldOfView
-    minimumTilt: hikerCompanionMap.minimumTilt
-    maximumTilt: hikerCompanionMap.maximumTilt
-    minimumZoomLevel: hikerCompanionMap.minimumZoomLevel
-    maximumZoomLevel: hikerCompanionMap.maximumZoomLevel
-    zoomLevel: hikerCompanionMap.zoomLevel
-    tilt: hikerCompanionMap.tilt;
-    bearing: hikerCompanionMap.bearing
-    fieldOfView: hikerCompanionMap.fieldOfView
-    z: hikerCompanionMap.z + 1
+    center: hikingCompanionMap.center
+    minimumFieldOfView: hikingCompanionMap.minimumFieldOfView
+    maximumFieldOfView: hikingCompanionMap.maximumFieldOfView
+    minimumTilt: hikingCompanionMap.minimumTilt
+    maximumTilt: hikingCompanionMap.maximumTilt
+    minimumZoomLevel: hikingCompanionMap.minimumZoomLevel
+    maximumZoomLevel: hikingCompanionMap.maximumZoomLevel
+    zoomLevel: hikingCompanionMap.zoomLevel
+    tilt: hikingCompanionMap.tilt;
+    bearing: hikingCompanionMap.bearing
+    fieldOfView: hikingCompanionMap.fieldOfView
+    z: hikingCompanionMap.z + 1
 
     //plugin: mapHillshadePlugin
     plugin: Plugin {
@@ -184,5 +186,6 @@ HCPage.Plain {
     property int pr: Screen.devicePixelRatio
     layer.textureSize: Qt.size( w  * 2 * pr, h * 2 * pr)
   }
+*/
 }
 
