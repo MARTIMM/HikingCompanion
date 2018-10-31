@@ -30,7 +30,7 @@ HCPage.Plain {
   versionList[3] + "</td></tr>
 </table></p>
 "
-    console.log(aboutText.text);
+    //console.log(aboutText.text);
   }
 
   width: parent.width

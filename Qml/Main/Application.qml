@@ -32,7 +32,7 @@ ApplicationWindow {
     GlobalVariables.setTracksPage(tracksPage);
 
     var t = config.getTheme();
-    console.log("style: " + t);
+    //console.log("style: " + t);
     Theme.changeClrs(JSON.parse(t));
   }
 
