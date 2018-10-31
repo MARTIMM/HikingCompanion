@@ -41,6 +41,10 @@ HCPage.Plain {
     Component.onCompleted: {
       location.start();
       hikingCompanionMap.addMapItem(currentLocationFeature)
+
+      // When there is no gps, just set the circle on top of the
+      // current map center.
+      currentLocationFeature.center = hikingCompanionMap.center;
     }
 
     width: parent.width
@@ -118,6 +122,7 @@ HCPage.Plain {
     }
   }
 
+  //TODO geolocation when no gps is available but internet is there
   PositionSource {
     id: location
     preferredPositioningMethods: PositionSource.SatellitePositioningMethods
