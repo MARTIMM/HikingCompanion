@@ -348,6 +348,10 @@ There must be a license which must describe the application in such a way that t
 
 Versions have a letter added: D for debug version and R for a release version. When not added it is always a debug version.
 
+* 2018-11-1, 0.12.0
+  * Show a line from current location to the nearest point on the track to show that the hiker is wandering of track.
+  * On the track list, each track has additional information to show that the track is for walking or biking. Also the length of the track is shown in kilometers.
+
 * 2018-10-24, 0.11.0
   * Theming mechanism in place. Themes can be dependent on selected hike.
   * About page filled with content. Also depending on selected hike.
