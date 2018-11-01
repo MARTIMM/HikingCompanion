@@ -113,6 +113,7 @@ void ConfigData::checkForNewHikeData() {
 
   //TODO test for newHikeData to see if there is new data
   QDir *dd = new QDir(_dataShareDir);
+  qDebug() << _dataShareDir << dd->absoluteFilePath(_dataShareDir);
   if( dd->exists() ) {
     this->_installNewData();
     qDebug() << "Remove public hike source data from" << _dataShareDir;

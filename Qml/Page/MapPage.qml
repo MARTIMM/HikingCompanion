@@ -4,7 +4,7 @@ import "../Parts" as HCParts
 
 import io.github.martimm.HikingCompanion.Theme 0.1
 
-import QtQuick 2.9
+import QtQuick 2.11
 import QtQuick.Controls 2.2
 import QtLocation 5.9
 import QtPositioning 5.8
@@ -93,8 +93,59 @@ HCPage.Plain {
     property alias trackCourse: trackCourse
     MapPolyline {
       id: trackCourse
-      line.width: 5
+      line.width: 3
       line.color: '#785a3a'
+    }
+
+    property alias wanderOffTrackNotation: wanderOffTrackNotation
+    MapPolyline {
+      id: wanderOffTrackNotation
+      line.width: 4
+      line.color: '#dfffff'
+/*
+      property alias mpl: mpl
+      path: Path {
+        id: mpl
+        startX: currentLocationFeature.center.longitude
+        startY: currentLocationFeature.center.latitude
+
+        property alias psvg: psvg
+        PathLine { id: psvg }
+      }
+*/
+    }
+
+    function setWanderOffTrackNotation() {
+      console.log("Calculate dist from route");
+      var closestPointOnRoute = config.findClosestPointOnRoute(
+            currentLocationFeature.center
+            );
+      var dist = config.distanceToPointOnRoute(
+            closestPointOnRoute,
+            currentLocationFeature.center
+            );
+      console.log("cp: " + closestPointOnRoute + ", dist: " + dist);
+
+      var path = [];
+      if ( dist > 500 ) {
+        console.log("Path: " + path.length + ", " + path + ", " + currentLocationFeature.center.longitude);
+        path.push(
+              { "longitude": currentLocationFeature.center.longitude,
+                "latitude": currentLocationFeature.center.latitude
+              } );
+        path.push(
+              { "longitude": closestPointOnRoute.longitude,
+                "latitude": closestPointOnRoute.latitude
+              } );
+        wanderOffTrackNotation.path = path;
+      }
+
+      else {
+        // Clear the line
+        //path.push( { "longitude": 0, "latitude": 0} );
+        //path.push( { "longitude": 0, "latitude": 0} );
+        wanderOffTrackNotation.path = path;
+      }
     }
 
     property real radius: currentLocationFeature.radius

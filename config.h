@@ -89,6 +89,16 @@ public:
     emit coordinatesReady();
   }
 
+  Q_INVOKABLE inline QGeoCoordinate findClosestPointOnRoute(QGeoCoordinate c) {
+    return _configData->findClosestPointOnRoute(c);
+  }
+
+  Q_INVOKABLE inline double distanceToPointOnRoute(
+      QGeoCoordinate c1, QGeoCoordinate c2
+      ) {
+    return _configData->distanceToPointOnRoute( c1, c2);
+  }
+
 signals:
   void hikeListDefined();
   void coordinatesReady();

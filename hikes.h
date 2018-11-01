@@ -28,6 +28,8 @@ public:
   QVariantList trackList();
   void loadCoordinates(int index);
 
+  QGeoCoordinate findClosestPointOnRoute(QGeoCoordinate c);
+  static double distanceToPointOnRoute( QGeoCoordinate c1, QGeoCoordinate c2);
 
 signals:
 

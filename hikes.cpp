@@ -53,7 +53,7 @@ QVariantList Hikes::trackList() {
     QString trackLine;
     QString tracksTableName = cfg->tracksTableName( tableName, ni);
 
-    qDebug() << "Default font" << qApp->font().family();
+    //qDebug() << "Default font" << qApp->font().family();
 
     // Get the type of walk, (W) walking, (B) biking or (?) bij rocket ;-)
     QString trackInfo = cfg->getSetting(tracksTableName + "/type");
@@ -118,6 +118,40 @@ void Hikes::loadCoordinates(int index) {
   qDebug() << _coordinateList.count() << " coordinates found";
   _boundary = GpxFile::boundary(_coordinateList);
   qDebug() << _boundary.count() << " boundaries set";
+}
+
+// ----------------------------------------------------------------------------
+QGeoCoordinate Hikes::findClosestPointOnRoute(QGeoCoordinate c) {
+
+  // Check if there are coordinates
+  if ( _coordinateList.count() == 0 ) return c;
+
+  // Set to maximum possible here on earth about 40.075 km along
+  // the eqator in metres.
+  double minDist = 41000000.0;
+  QGeoCoordinate cOfMinDist = _coordinateList[0];
+  for ( int ci = 0; ci < _coordinateList.count(); ci++ ) {
+    double d = c.distanceTo(_coordinateList[ci]);
+    //qDebug() << "ci:" << ci << _coordinateList[ci] << d;
+    if ( minDist > d ) {
+      minDist = d;
+      cOfMinDist = _coordinateList[ci];
+    }
+  }
+
+  qDebug() << "min distance:" << cOfMinDist;
+  return cOfMinDist;
+}
+
+// ----------------------------------------------------------------------------
+double Hikes::distanceToPointOnRoute( QGeoCoordinate c1, QGeoCoordinate c2) {
+  return c1.distanceTo(c2);
+/*
+  return GpxFile::geoDistance(
+        c1.longitude(), c1.latitude(),
+        c2.longitude(), c2.latitude()
+        );
+*/
 }
 
 /*

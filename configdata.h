@@ -39,6 +39,14 @@ public:
   inline QGeoPath coordinateList() { return _hikes->coordinateList(); }
   inline QGeoPath boundary() { return _hikes->boundary(); }
 
+  inline QGeoCoordinate findClosestPointOnRoute(QGeoCoordinate c) {
+    return _hikes->findClosestPointOnRoute(c);
+  }
+
+  inline double distanceToPointOnRoute( QGeoCoordinate c1, QGeoCoordinate c2) {
+    return _hikes->distanceToPointOnRoute( c1, c2);
+  }
+
   QString dataDir() { return _dataDir; }
   QString dataShareDir() { return _dataShareDir; }
 
