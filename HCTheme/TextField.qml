@@ -1,8 +1,8 @@
+import io.github.martimm.HikingCompanion.Theme 0.1
+
 import QtQuick 2.8
 import QtGraphicalEffects 1.0
-import QtQuick.Templates 2.1 as T
-
-import io.github.martimm.HikingCompanion.Theme 0.1
+import QtQuick.Templates 2.2 as T
 
 T.TextField {
   id: control
@@ -16,6 +16,7 @@ T.TextField {
 
   leftPadding: 2
   rightPadding: 2
+  opacity: enabled ? 1 : 0.6
 
   font {
     bold: true
@@ -30,7 +31,7 @@ T.TextField {
 
     anchors.fill: parent
 
-    opacity: enabled ? 1 : 0.7
+    opacity: enabled ? 1 : 0.6
 
     color: Theme.component.color.background
     border {

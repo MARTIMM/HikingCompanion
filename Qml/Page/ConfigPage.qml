@@ -38,8 +38,8 @@ HCPage.Plain {
     // Set the model data and the saved index of a previously
     // chosen language
     onLanguageListChanged: {
-      configGrid.languageRow.cbx1.model = lngs.languageList();
-      configGrid.languageRow.cbx1.currentIndex = parseInt(config.getSetting("languageindex"));
+      cbx1.model = lngs.languageList();
+      cbx1.currentIndex = parseInt(config.getSetting("languageindex"));
     }
   }
 
@@ -47,9 +47,9 @@ HCPage.Plain {
     id: config
 
     onHikeListDefined: {
-      configGrid.hikeRow.cbx2.model = config.hikeList();
+      cbx2.model = config.hikeList();
       console.log("hikes: " + config.hikeList());
-      configGrid.hikeRow.cbx2.currentIndex = parseInt(config.getSetting("selectedhikeindex"));
+      cbx2.currentIndex = parseInt(config.getSetting("selectedhikeindex"));
     }
   }
 
@@ -73,7 +73,8 @@ HCPage.Plain {
   Grid {
     id: configGrid
 
-    columns: 1
+    //rows: 5
+    columns: 2
     spacing: 2
     width: parent.width
     height: parent.height - pageToolbarRow.height - pageButtonRow.height
@@ -88,120 +89,68 @@ HCPage.Plain {
       rightMargin: Theme.cfgFieldMargin
     }
 
+    property int labelWidth: 3 * parent.width / 10 - Theme.cfgFieldMargin
+    property int inputWidth: 7 * parent.width / 10 - Theme.cfgFieldMargin
+    property int configHeight: Theme.cfgRowHeight
+
+    function labelWidth() { return leftWidth; }
+    function inputWidth() { return rightWidth; }
 
     // Selection of a language
-    property alias languageRow: languageRow
-    Row {
-      id: languageRow
-      width: parent.width
+    HCParts.ConfigLabel { text: qsTr("Language") }
+    ComboBox {
+      id: cbx1
+      width: rightWidth
       height: Theme.cfgRowHeight
-      spacing: 2
-
-      HCParts.ConfigLabel {
-        text: qsTr("Language")
-        width: leftWidth
-        height: parent.height
-      }
-
-      property alias cbx1: cbx1
-      ComboBox {
-        id: cbx1
-        width: rightWidth
-        height: parent.height
-      }
     }
+
 
     // Setting consent of privacy variables
-    Row {
-      width: parent.width
+    HCParts.ConfigLabel { text: qsTr("Consent") }
+    HCParts.ConfigSwitch {
+      id: consent
+      width: rightWidth
       height: Theme.cfgRowHeight
-      spacing: 2
-
-      HCParts.ConfigLabel {
-        text: qsTr("Consent")
-        width: leftWidth
-        height: parent.height
-      }
-
-      HCParts.ConfigSwitch {
-        id: consent
-        width: rightWidth
-        height: parent.height
-        text: ""
-        controlObjects: [ username, email]
-      }
+      text: ""
+      controlObjects: [ usernameLabel, username, emailLabel, email]
     }
+
 
     // Input of username
-    Row {
-      width: parent.width
-      height: Theme.cfgRowHeight
-      spacing: 2
-
-      HCParts.ConfigLabel {
-        text: qsTr("Name")
-        width: leftWidth
-        height: parent.height
-      }
-
-      HCParts.ConfigInputText {
-        id: username
-        width: rightWidth
-        height: parent.height
-
-        placeholderText: qsTr("type your name here")
-        inputText.validator: RegExpValidator {
-          regExp: /^\w+$/
-        }
-      }
+    HCParts.ConfigLabel {
+      id: usernameLabel
+      text: qsTr("Name")
     }
+    HCParts.ConfigInputText {
+      id: username
+      placeholderText: qsTr("type your name here")
+      inputText.validator: RegExpValidator { regExp: /^\w+$/ }
+    }
+
 
     // Input of email address
-    Row {
-      width: parent.width
-      height: Theme.cfgRowHeight
-      spacing: 2
-
-      HCParts.ConfigLabel {
-        text: qsTr("Email address")
-        width: leftWidth
-        height: parent.height
-      }
-
-      HCParts.ConfigInputText {
-        id: email
-        width: rightWidth
-        height: parent.height
-
-        placeholderText: qsTr("type your email address here")
-        inputText.validator: RegExpValidator {
-          regExp: /^[a-zA-Z0-9.!#$%&’*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/
-        }
+    HCParts.ConfigLabel {
+      id: emailLabel
+      text: qsTr("Email address")
+    }
+    HCParts.ConfigInputText {
+      id: email
+      placeholderText: qsTr("type your email address here")
+      inputText.validator: RegExpValidator {
+        regExp: /^[a-zA-Z0-9.!#$%&’*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/
       }
     }
+
 
     // Selection of a hike
-    property alias hikeRow: hikeRow
-    Row {
-      id: hikeRow
-      width: parent.width
+    HCParts.ConfigLabel { text: qsTr("Hike/trips") }
+    ComboBox {
+      id: cbx2
+      width: rightWidth
       height: Theme.cfgRowHeight
-      spacing: 2
-
-      HCParts.ConfigLabel {
-        text: qsTr("Hike/trips")
-        width: leftWidth
-        height: parent.height
-      }
-
-      property alias cbx2: cbx2
-      ComboBox {
-        id: cbx2
-        width: rightWidth
-        height: parent.height
-      }
     }
   }
+
 
   HCParts.PageButtonRow {
     id: pageButtonRow
@@ -209,30 +158,27 @@ HCPage.Plain {
     anchors.bottom: parent.bottom
 
     HCButton.ButtonRowButton {
-      //width: textMetrics.boundingRect.width + 30
-      //width: 50
       text: qsTr("Save")
       onClicked: {
         // Save settings from this page
-        config.setSetting( "languageindex", configGrid.languageRow.cbx1.currentIndex);
+        config.setSetting( "languageindex", cbx1.currentIndex);
         config.setSetting( "User/username", username.inputText.text);
         config.setSetting( "User/email", email.inputText.text);
         config.setSetting( "User/consent", consent.checked);
 
         // If there aren't any hikes on the list, do a cleanup.
-        if ( configGrid.hikeRow.cbx2.model.length === 0 ) {
+        if ( cbx2.model.length === 0 ) {
           config.cleanupTracks();
         }
 
         // Set the tracklist on the TracksPage
         else {
-          config.setSetting( "selectedhikeindex", configGrid.hikeRow.cbx2.currentIndex);
+          config.setSetting( "selectedhikeindex", cbx2.currentIndex);
           GlobalVariables.tracksPage.changeTrackList();
         }
 
         // Set the theme for this hike
         var t = config.getTheme();
-//        console.log("style: " + t);
         Theme.changeClrs(JSON.parse(t));
 
         // Signal the change to the other pages
@@ -244,14 +190,13 @@ HCPage.Plain {
     HCButton.ButtonRowButton {
       text: qsTr("Remove Hike")
       onClicked: {
-        config.setSetting( "selectedhikeindex", configGrid.hikeRow.cbx2.currentIndex);
+        config.setSetting( "selectedhikeindex", cbx2.currentIndex);
         config.cleanupHike();
         GlobalVariables.tracksPage.changeTrackList();
         config.defineHikeList();
 
         // Set the theme for this hike
         var t = config.getTheme();
-//        console.log("style: " + t);
         Theme.changeClrs(JSON.parse(t));
 
         // Signal the change to the other pages
