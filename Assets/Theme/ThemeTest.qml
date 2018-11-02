@@ -19,7 +19,7 @@ ApplicationWindow {
   width: 600
   height: 450
 
-  HCPage.AboutPage {
+  HCPage.ConfigPage {
     visible: true
   }
 }
