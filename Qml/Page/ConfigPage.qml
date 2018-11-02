@@ -29,7 +29,6 @@ HCPage.Plain {
     username.inputText.text = config.getSetting("User/username");
     email.inputText.text = config.getSetting("User/email");
     consent.checked = config.getSetting("User/consent") === "1" ? true : false;
-    console.log("consent: " + consent.checked + ", " + config.getSetting("User/consent"));
   }
 
   Languages {
