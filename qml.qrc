@@ -22,5 +22,6 @@
         <file>Qml/Parts/ToolbarRectangle.qml</file>
         <file>Qml/Parts/ToolbarRow.qml</file>
         <file>Qml/GlobalVariables.qml</file>
+        <file>Qml/Page/UserTrackConfigPage.qml</file>
     </qresource>
 </RCC>

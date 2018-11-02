@@ -150,6 +150,7 @@ T.Button {
     horizontalAlignment: Text.AlignHCenter
     verticalAlignment: Text.AlignVCenter
     //elide: Text.ElideRight
+    textFormat: Text.RichText
 /*
     states: [
       State {

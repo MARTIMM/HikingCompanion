@@ -61,6 +61,9 @@ ApplicationWindow {
   property alias configPage: configPage
   HCPage.ConfigPage { id: configPage }
 
+  property alias userTrackConfigPage: userTrackConfigPage
+  HCPage.UserTrackConfigPage { id: userTrackConfigPage }
+
   property alias exitPage: exitPage
   HCPage.ExitPage { id: exitPage }
 
@@ -104,11 +107,22 @@ ApplicationWindow {
       }
     }
 
+    property alias userTrackConfigButton: userTrackConfigButton
+    HCButton.MenuButton {
+      id: userTrackConfigButton
+      //text: { "\U0001F6E0" + qsTr(" User Track") }
+      text: qsTr("User Track")
+
+      onClicked: {
+        GlobalVariables.menu.menuEntryClicked(userTrackConfigPage);
+      }
+    }
+
     property alias aboutButton: aboutButton
     HCButton.MenuButton {
       id: aboutButton
-//      text: qsTr("👥 About")
-      text: qsTr("About")
+      text: qsTr("👥 About")
+//      text: qsTr("About")
       onClicked: {
         GlobalVariables.menu.menuEntryClicked(aboutPage);
       }
