@@ -28,6 +28,8 @@ HCPage.Plain {
 
     username.inputText.text = config.getSetting("User/username");
     email.inputText.text = config.getSetting("User/email");
+    consent.checked = config.getSetting("User/consent") === "1" ? true : false;
+    console.log("consent: " + consent.checked + ", " + config.getSetting("User/consent"));
   }
 
   Languages {
@@ -126,22 +128,8 @@ HCPage.Plain {
         width: rightWidth
         height: parent.height
         text: ""
-        onSwitched: { switchIt(); }
-        Component.onCompleted: { switchIt(); }
-
-        function switchIt ( ) {
-          if ( consent.checked ) {
-            username.enabled = true;
-            email.enabled = true;
-          }
-
-          else {
-            username.enabled = false;
-            email.enabled = false;
-          }
-        }
+        controlObjects: [ username, email]
       }
-
     }
 
     // Input of username
@@ -229,6 +217,7 @@ HCPage.Plain {
         config.setSetting( "languageindex", configGrid.languageRow.cbx1.currentIndex);
         config.setSetting( "User/username", username.inputText.text);
         config.setSetting( "User/email", email.inputText.text);
+        config.setSetting( "User/consent", consent.checked);
 
         // If there aren't any hikes on the list, do a cleanup.
         if ( configGrid.hikeRow.cbx2.model.length === 0 ) {

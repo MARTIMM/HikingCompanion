@@ -11,43 +11,54 @@ Rectangle {
 
   color: Theme.component.color.background
 
+  property var controlObjects: []
   property bool checked;
-  signal switched()
+  onCheckedChanged: {
+    switchText.checked = checked;
+  }
 
   property alias text: switchText.text
   Switch {
     id: switchText
 
-    width: parent.width
+    width: 40
     height: parent.height
-    anchors.right: parent.right
+    anchors {
+      right: parent.right
+      rightMargin: 6
+    }
 
     scale: 0.8
 
     text: ""
     background: Rectangle {
-      color: Theme.component.color.background
+      width: 1
+      color: "transparent"
     }
 
     contentItem: Text {
       id: textItem
       text: switchText.text
-
-      opacity: enabled ? 1.0 : 0.3
-      color: Theme.component.color.foregroundLight
       horizontalAlignment: Text.AlignRight
-      //verticalAlignment: Text.AlignVCenter
-      //elide: Text.ElideRight
     }
 
     onClicked: {
-console.log("Switched: " + switchText.checked);
       root.checked = switchText.checked;
-      root.switched();
+      switchIt();
     }
 
-    //width: parent.width
-    //height: parent.height
-    //anchors.fill: parent
+    Component.onCompleted: { switchIt(); }
+
+    function switchIt ( ) {
+      for ( var ci = 0; ci < controlObjects.length; ci ++) {
+        if ( consent.checked ) {
+          controlObjects[ci].enabled = true;
+        }
+
+        else {
+          controlObjects[ci].enabled = false;
+        }
+      }
+    }
   }
 }
