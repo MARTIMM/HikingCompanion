@@ -1,5 +1,6 @@
 [toc]
 
+---
 # HikingCompanion Mobile Application
 
 ## Purpose
@@ -32,7 +33,7 @@ This app will be placed in the app store when ready.
 ## Acceptance tests for this project
 Below, there are a series of tests which is also used as the progress in the learning curve I have to go through. The most important device to work for are android devices. Ios devices would be nice but is a later problem.
 
-<progress max=45 value="34" />
+'<progress max=45 value="34" />'
 
 * [x] Android SDK, NDK and OpenJDK installation using Android Studio and linux installation tools.
 * [ ] Xcode for ios
@@ -97,12 +98,12 @@ Below, there are a series of tests which is also used as the progress in the lea
   * [x] Desktop icon
   * [ ] Desktop widget
 
-
+---
 # Progress of the application
 Next, the developing progress is shown here. Several entries are also in the acceptance tests to see if those things are possible because the purpose of the acceptance tests are to find out what Qt and the qtcreator tool is capable of.
 
 ## Events and devices to listen to
-<progress value="1" max="7" />
+'<progress value="1" max="7" />'
 
 There are several events which occur upon changing conditions in a device. These events must be captured for further actions.
 * [ ] Battery condition to warn user of battery low state. App might dim display or perform other actions to save energy.
@@ -117,7 +118,7 @@ There are several events which occur upon changing conditions in a device. These
 
 Caching of data is needed for those moments that there is no network available.
 
-<progress value='0' max='4' />
+'<progress value='0' max='4' />'
 
 * [ ] At start up and network is on and a track is installed, caching must start. Caching must be inhibited when network is off or very slow.
 * [ ] Store data (like date and time) to check for revisiting the caching process.
@@ -128,7 +129,7 @@ Caching of data is needed for those moments that there is no network available.
 * Try to get weather forecast and cache (short term) this information too.
 
 ## The Menu
-<progress value="5" max="5" />
+'<progress value="5" max="5" />'
 
 * [x] Added module for variables and styling
 * [x] Pressing the menu button `☰` shown on the map or other pages, will open a pane from the side to show a menu of options. A click on an entry will show another page. When selecting an entry, the menu is closed and a page will appear.
@@ -141,13 +142,13 @@ Caching of data is needed for those moments that there is no network available.
 A series of screen descriptions the application can show.
 
 ### Display on tablet screen
-<progress value="0" max="2" />
+'<progress value="0" max="2" />'
 
 * [ ] An icon must be designed
 * [ ] A widget showing small part of a chart?
 
 ### Splash screen
-<progress value="0" max="4" />
+'<progress value="0" max="4" />'
 
 When starting the program, the app must show a splash screen with a nice hiking picture on it while the program gets ready in the background. When it is, the splash screen is removed.
 
@@ -158,7 +159,7 @@ When starting the program, the app must show a splash screen with a nice hiking 
 
 ####  The pages to select from the menu
 
-<progress value="3" max="8" />
+'<progress value="3" max="8" />'
 
 The menu entries
   * [x] **🗺 Map**: Show map.
@@ -171,7 +172,7 @@ The menu entries
   * [x] **⏼ Exit**: Close the application. **⏽** or **🗙** on android because of missing character. Must check OS type.
 
 ## Map page
-<progress value="7" max="15" />
+'<progress value="7" max="15" />'
 
 The map page is also the home page.
 
@@ -197,7 +198,7 @@ The map page is also the home page.
     * [x] OSM attribution is displayed.
 
 ## The info page
-<progress value="0" max="2" />
+'<progress value="0" max="2" />'
 
   The info page shows information of the currently selected track. There are 40 tracks to walk in 40 days so we need 40 pages of data. The info page is loaded from a file from a separately installed track app.
 
@@ -205,26 +206,26 @@ The map page is also the home page.
   * [ ] Fill the info page after selecting a track. Previous data must be removed.
 
 ## The Tracks page
-<progress value="6" max="7" />
+'<progress value="6" max="7" />'
 
   Show a list of tracks from which a selection can be made. This will only be visible when one or more hike apps are installed. Track list changes when another hike is selected.
 
   * [x] Page created
   * Generate the page from the tracks directory contents. Each track shows;
     * [x] the gpx track name found in the configuration file.
-    * [ ] Show length of the route. Calculated once when the route is processed.
-    * [ ] Show a bicycle or a walking person icon depending on the route.
+    * [x] Show length of the route. Calculated once when the route is processed.
+    * [x] Show a bicycle or a walking person icon depending on the route.
   * [x] Refresh tracks list when another hike is selected on the config page
   * [x] Show map when a selection is made using a <button>Select</button>  button.
   * [x] The route is displayed.
   * [x] The route is centered on page. This depends if information is available in the user track.
   * [x] The route is zoomed so as to fit the page. This depends if information is available in the user track.
-  * [ ] Show dashed line from current location to closest point on the trail when off trail (further than, lets say, 1 kilometer).
+  * [x] Show (dashed) line from current location to closest point on the trail when off trail (further than, lets say, 1 kilometer).
 
 ## The Features page
 The Features page is filled when a feature is clicked. First a balloon is showed on the map pointing to the feature with text and a 'more ...' on the bottom. Again, only when a separate track app is installed.
 
-<progress value="0" max="7" />
+'<progress value="0" max="7" />'
 
   * [ ] Page created
   * Selection of features to show;
@@ -238,7 +239,7 @@ The Features page is filled when a feature is clicked. First a balloon is showed
 ## The Gps page
 This is a page where a gps track can be started.
 
-<progress value="0" max="9" />
+'<progress value="0" max="9" />'
 
 * [x] Page created
 * [ ] Start tracking
@@ -254,7 +255,7 @@ This is a page where a gps track can be started.
 ## The Config page
 
 Input fields can be checked
-<progress value="8" max="9" />
+'<progress value="8" max="9" />'
 
   * [x] Page created.
   * [ ] Text message about users consent of sending data to server. Make rest of the questions available if user wants to provide personal data.
@@ -270,7 +271,7 @@ Input fields can be checked
 ## The About page
 This is an overview of people involved and their tasks. Also other info can be shown such as a version number. This should also come from the track app.
 
-<progress value="2" max="3" />
+'<progress value="2" max="3" />'
 
   * [x] Page created
   * [x] Show hike dependent text.
@@ -279,7 +280,7 @@ This is an overview of people involved and their tasks. Also other info can be s
 ## The Exit page
 This should show a dialog to ask the user if he/she really wants to quit the program.
 
-<progress value="2" max="5" />
+'<progress value="2" max="5" />'
 
   * [x] Page created
   * [ ] Show quit dialog
@@ -287,9 +288,10 @@ This should show a dialog to ask the user if he/she really wants to quit the pro
   * [x] Leave and stop program.
   * [ ] Keep program active in background and keep recording if started.
 
+---
 # Languages used for the application
 
-<progress value="3" max="5" />
+'<progress value="3" max="5" />'
 
   * [x] Every word and phrase shown to the user is processed by using qsTr().
   * [x] All text is typed in English and is the fallback language by default.
@@ -298,9 +300,10 @@ This should show a dialog to ask the user if he/she really wants to quit the pro
     * [x] English
     * [ ] Dutch
 
+---
 # Other items or problems to think about
 
-<progress value="8" max="10" />
+'<progress value="8" max="10" />'
 
   * [ ] By what license should the project be protected
   * [ ] Privacy considerations
@@ -331,23 +334,27 @@ Font also found on Linux fedora! No license mentioned!
 ### License for the hike data.
 There must be a license which must describe the application in such a way that the software is free but that the data for some hikes is to be paid for.
 
+---
 # To do
 * [ ] The Plain qml page must have a status line at the bottom to show errors and other messages.
 * [ ] Remove a track must have a dialog window
 * [ ] Refine theming for all hikes and HikingCompanion. No gradients.
 * [ ] Texts must have more space on the side. It is too close to the edge.
-* [.] Add info about type and length of track.
 * [ ] Change color of route depending on type, walk (dark brown) or bike (blue)
 
+---
 # Bugs
 * [ ] Keyboard of android tablet is shown in in uppercase. Each time the keyboard is set in lowercase it switches back to uppercase after typing a letter. Also numbers are not available.
 * [x] Track information is not properly shown, must use utf8. Solved by proper initialization of QSettings.
 
+---
 # Changes
 ## Application changes
 
 Versions have a letter added: D for debug version and R for a release version. When not added it is always a debug version.
 
+* 2018-11-2, 0.12.1
+  * Config page enhancements
 * 2018-11-1, 0.12.0
   * Show a line from current location to the nearest point on the track to show that the hiker is wandering of track.
   * On the track list, each track has additional information to show that the track is for walking or biking. Also the length of the track is shown in kilometers.
@@ -419,6 +426,7 @@ Versions of mobile devices will change slower because not every version is direc
 |---------------------|---------------------|---------------------|
 | 0.6.0  | 0.6.0   | 24 (7.1)|
 | 0.7.0  | 0.10.0  | 22       
+| 0.8.0  | 0.12.0  | 22       
 
 ## Test version changes on IOS
 
@@ -426,7 +434,7 @@ Versions of mobile devices will change slower because not every version is direc
 |-----------------|-----------------|---------------------|
 | | | |
 
-
+---
 # Contact
 
 Developer: Marcel Timmerman
