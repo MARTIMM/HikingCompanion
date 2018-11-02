@@ -74,6 +74,10 @@ public:
   QStringList getHikeVersions();
   QStringList getVersions();
 
+  inline int windowWidth() { return _width; }
+  inline int windowHeight() { return _height; }
+  void setWindowSize( int w, int h);
+
 signals:
 
 public slots:
@@ -94,6 +98,9 @@ private:
   QSettings *_settings;
   QStringList _pages;
   Hikes *_hikes;
+
+  int _width;
+  int _height;
 };
 
 #endif // CONFIGDATA_H

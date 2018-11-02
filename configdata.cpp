@@ -429,6 +429,12 @@ void ConfigData::_removeSettings(QString group) {
 }
 
 // ----------------------------------------------------------------------------
+void ConfigData::setWindowSize( int w, int h) {
+  _width = w;
+  _height = h;
+}
+
+// ----------------------------------------------------------------------------
 void ConfigData::_installNewData() {
 
   // Check for hike.conf configuration file

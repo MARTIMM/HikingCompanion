@@ -99,6 +99,16 @@ public:
     return _configData->distanceToPointOnRoute( c1, c2);
   }
 
+  Q_INVOKABLE inline int windowWidth() {
+    return _configData->windowWidth();
+  }
+  Q_INVOKABLE inline int windowHeight() {
+    return _configData->windowHeight();
+  }
+  Q_INVOKABLE inline void setWindowSize( int w, int h) {
+    _configData->setWindowSize( w, h);
+  }
+
 signals:
   void hikeListDefined();
   void coordinatesReady();

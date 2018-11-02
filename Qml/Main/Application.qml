@@ -34,6 +34,8 @@ ApplicationWindow {
     var t = config.getTheme();
     //console.log("style: " + t);
     Theme.changeClrs(JSON.parse(t));
+
+    config.setWindowSize( width, height);
   }
 
   Config { id: config }
@@ -47,6 +49,11 @@ ApplicationWindow {
   // Samsung tablet size (2048 x 1536 of Samsung Galaxy Tab S2).
   width: 600
   height: 450
+
+  // Changes only modifyable in desktop apps
+  onWidthChanged: {
+    config.setWindowSize( width, height);
+  }
 
   property alias aboutPage: aboutPage
   HCPage.AboutPage { id: aboutPage }
