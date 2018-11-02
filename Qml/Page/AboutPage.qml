@@ -6,8 +6,8 @@ import io.github.martimm.HikingCompanion.Config 0.3
 import io.github.martimm.HikingCompanion.Theme 0.1
 import io.github.martimm.HikingCompanion.Textload 0.1
 
-import QtQuick 2.9
-import QtQuick.Controls 2.2
+import QtQuick 2.11
+import QtQuick.Controls 2.4
 
 HCPage.Plain {
   id: aboutPage
