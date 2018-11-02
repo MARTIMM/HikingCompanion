@@ -1,9 +1,8 @@
+import io.github.martimm.HikingCompanion.Theme 0.1
+
 import QtQuick 2.8
 import QtGraphicalEffects 1.0
-import QtQuick.Templates 2.1 as T
-
-import io.github.martimm.HikingCompanion.HCTheme1 0.1
-import io.github.martimm.HikingCompanion.Theme 0.1
+import QtQuick.Templates 2.2 as T
 
 T.TextField {
   id: control
@@ -17,6 +16,7 @@ T.TextField {
 
   leftPadding: 2
   rightPadding: 2
+  opacity: enabled ? 1 : 0.6
 
   font {
     bold: true
@@ -31,14 +31,14 @@ T.TextField {
 
     anchors.fill: parent
 
-    opacity: enabled ? 1 : 0.7
+    opacity: enabled ? 1 : 0.6
 
-    color: HCTheme1.cmptBgColor
+    color: Theme.component.color.background
     border {
-      color: HCTheme1.cmptFgColorL
+      color: "transparent" //Theme.component.color.foregroundLight
       width: 1
     }
-    //radius: HCTheme1.cmptRdng
+    //radius: Theme.component.rounding
 /**/
 /*
     LinearGradient {
@@ -46,13 +46,13 @@ T.TextField {
       start: Qt.point( 0, 0)
       end: Qt.point( 0, width)
       gradient: Gradient {
-        GradientStop { id: g0; position: 0.0; color: HCTheme1.mainBgColorL}
-        GradientStop { id: g1; position: 1.0; color: HCTheme1.mainBgColorD}
+        GradientStop { id: g0; position: 0.0; color: Theme.mainBgColorL}
+        GradientStop { id: g1; position: 1.0; color: Theme.mainBgColorD}
       }
     }
 */
     // radius doesn't work with gradients
-//    radius: HCTheme1.cmptRdng
+//    radius: Theme.cmptRdng
 /*
     states: [
       State {
@@ -64,7 +64,7 @@ T.TextField {
       State {
         name: "down"
         when: control.down
-        PropertyChanges { target: btBackground; color: HCTheme1.cmptBgColor}
+        PropertyChanges { target: btBackground; color: Theme.cmptBgColor}
       }
     ]
 */
@@ -77,7 +77,7 @@ T.TextField {
 
     font: control.font
     opacity: enabled ? 1.0 : 0.3
-    color: HCTheme1.cmptFgColorLL
+    color: Theme.cmptFgColorLL
     horizontalAlignment: Text.AlignHCenter
     verticalAlignment: Text.AlignVCenter
     //elide: Text.ElideRight
@@ -93,7 +93,7 @@ T.TextField {
         when: control.down
         PropertyChanges {
           target: textItem
-          color: HCTheme1.cmptFgColor
+          color: Theme.cmptFgColor
         }
       }
     ]

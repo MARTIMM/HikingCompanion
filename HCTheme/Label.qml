@@ -1,9 +1,8 @@
+import io.github.martimm.HikingCompanion.Theme 0.1
+
 import QtQuick 2.8
 import QtGraphicalEffects 1.0
-import QtQuick.Templates 2.1 as T
-
-import io.github.martimm.HikingCompanion.HCTheme1 0.1
-import io.github.martimm.HikingCompanion.Theme 0.1
+import QtQuick.Templates 2.2 as T
 
 T.Label {
   id: control
@@ -25,18 +24,19 @@ T.Label {
     family: "arial"
   }
 
-  color: HCTheme1.cmptFgColorL
+  color: Theme.component.color.foregroundLight
+  opacity: enabled ? 1 : 0.6
 
   background: Rectangle {
     id: btBackground
 
     anchors.fill: parent
 
-    opacity: enabled ? 1 : 0.7
+    opacity: enabled ? 1 : 0.6
 
-    color: HCTheme1.cmptBgColorD
+    color: Theme.component.color.backgroundDark
     border {
-      color: HCTheme1.cmptFgColorL
+      color: "transparent" //Theme.component.color.backgroundLight
       width: 1
     }
   }
@@ -48,7 +48,7 @@ T.Label {
 
     font: control.font
     opacity: enabled ? 1.0 : 0.3
-    color: HCTheme1.cmptFgColorLL
+    color: Theme.cmptFgColorLL
     horizontalAlignment: Text.AlignHCenter
     verticalAlignment: Text.AlignVCenter
     //elide: Text.ElideRight
@@ -64,7 +64,7 @@ T.Label {
         when: control.down
         PropertyChanges {
           target: textItem
-          color: HCTheme1.cmptFgColor
+          color: Theme.cmptFgColor
         }
       }
     ]

@@ -1,37 +1,66 @@
 #include "textload.h"
 #include "config.h"
-#include "language.h"
 #include "languages.h"
-#include "gpxfiles.h"
+
+#if defined(Q_OS_ANDROID)
+#include <QtAndroid>
+#endif
 
 //#include <QStyleFactory>
-#include <QGuiApplication>
+#include <QApplication>
 #include <QQmlApplicationEngine>
 //#include <QQuickStyle>
 //#include <QQmlComponent>
 #include <QDebug>
 //#include <QQmlProperty>
+#include <QStandardPaths>
+#include <QQmlEngine>
+#include <QDir>
+#include <QtQml>
+#include <QFontDatabase>
+#include <QFont>
+
+// ----------------------------------------------------------------------------
+// Define global variables
+QQmlApplicationEngine *applicationEngine;
 
 // ----------------------------------------------------------------------------
 int main( int argc, char *argv[]) {
 
+#if defined(Q_OS_ANDROID)
+  // On android, we must request the user of the application for the following
+  // permissions to create data and access devices
+  QStringList permissions = {
+    "android.permission.ACCESS_LOCATION_EXTRA_COMMANDS",
+    "android.permission.ACCESS_FINE_LOCATION",
+    "android.permission.ACCESS_COARSE_LOCATION",
+    "android.permission.WRITE_EXTERNAL_STORAGE",
+    "android.permission.READ_EXTERNAL_STORAGE"
+  };
+  QtAndroid::PermissionResultMap rpm = QtAndroid::requestPermissionsSync(
+        permissions
+        );
+
+  QStringList keys = rpm.keys();
+  for ( int rpmi = 0; rpmi < keys.count(); rpmi++) {
+    qDebug() << keys[rpmi] << (rpm[keys[rpmi]] == QtAndroid::PermissionResult::Granted ? "ok" : "denied");
+  }
+#endif
+
   QCoreApplication::setAttribute(Qt::AA_EnableHighDpiScaling);
 
+  // Settings used by QSettings to set a location to store its data
   QCoreApplication::setOrganizationName("martimm");
   QCoreApplication::setOrganizationDomain("io.github.martimm");
   QCoreApplication::setApplicationName("HikingCompanion");
 
-  // Styling: http://doc.qt.io/qt-5/qtquickcontrols2-styles.html
-  //          https://doc.qt.io/qt-5.11/qtquickcontrols2-styles.html
-  // Using qtquickcontrols2.conf now instead of
-  // 'QQuickStyle::setStyle("Material");'
+  QApplication app( argc, argv);
 
-  QGuiApplication app( argc, argv);
-  app.setApplicationVersion("0.6.2");
+  Config *cfg = new Config();
+  QString hcVersion = cfg->getHCVersion();
+  app.setApplicationVersion(hcVersion);
   app.setApplicationDisplayName("HikingCompanion");
 
-
-  // set stylesheet
   qmlRegisterType<TextLoad>(
         "io.github.martimm.HikingCompanion.Textload", 0, 1, "TextLoad"
         );
@@ -40,18 +69,9 @@ int main( int argc, char *argv[]) {
         "io.github.martimm.HikingCompanion.Config", 0, 3, "Config"
         );
 
-  qmlRegisterType<Language>(
-        "io.github.martimm.HikingCompanion.Language", 0, 2, "Language"
-        );
-
   qmlRegisterType<Languages>(
-        "io.github.martimm.HikingCompanion.Languages", 0, 1, "Languages"
+        "io.github.martimm.HikingCompanion.Languages", 0, 2, "Languages"
         );
-
-  qmlRegisterType<GpxFiles>(
-        "io.github.martimm.HikingCompanion.GpxFiles", 0, 1, "GpxFiles"
-        );
-
 
   qmlRegisterSingletonType(
         QUrl("qrc:/Qml/GlobalVariables.qml"),
@@ -64,22 +84,15 @@ int main( int argc, char *argv[]) {
         "io.github.martimm.HikingCompanion.Theme", 0, 1, "Theme"
         );
 
-  qmlRegisterSingletonType(
-        QUrl("qrc:/Assets/Theme/HCTheme1.qml"),
-        "io.github.martimm.HikingCompanion.HCTheme1", 0, 1, "HCTheme1"
-        );
+  // Add some fonts and set default font
+  QFontDatabase::addApplicationFont(":/Assets/fonts/Symbola_font.ttf");
+  app.setFont(QFont("Symbola"));
 
-  //Config *cfg = new Config();
-  //cfg.setAppObject(&app);
+  applicationEngine = new QQmlApplicationEngine();
+//  applicationEngine->load(QUrl(QStringLiteral("qrc:/Qml/Main/Application.qml")));
+  applicationEngine->load(QUrl(QStringLiteral("qrc:/Assets/Theme/ThemeTest.qml")));
 
-  QQmlApplicationEngine engine;
-//  engine.load(QUrl(QStringLiteral("qrc:/Qml/Main/Application.qml")));
-  engine.load(QUrl(QStringLiteral("qrc:/Assets/Theme/ThemeTest.qml")));
+  if ( applicationEngine->rootObjects().isEmpty() ) return -1;
 
-  // Readable after QGuiApplication
-  //qDebug() << "List of styles: " << QQuickStyle::availableStyles();
-
-
-  if ( engine.rootObjects().isEmpty() ) return -1;
   return app.exec();
 }

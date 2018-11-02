@@ -1,71 +1,122 @@
 #ifndef CONFIG_H
 #define CONFIG_H
 
-#include "gpxfile.h"
+#include "configdata.h"
+//#include <QObject>
+//#include <QSettings>
 
-#include <QGuiApplication>
-#include <QObject>
-#include <QSysInfo>
-#include <QRegExp>
-#include <QSettings>
-#include <QQmlListProperty>
 
 class Config : public QObject {
+
   Q_OBJECT
 
-  //Q_PROPERTY( QGuiApplication appObject READ appObject WRITE setAppObject)
-  Q_PROPERTY( QString osType READ osType)
-  Q_PROPERTY(
-      QString username READ username
-      WRITE setUsername NOTIFY usernameChanged
-      )
-  Q_PROPERTY( QString email READ email WRITE setEmail NOTIFY emailChanged)
-  Q_PROPERTY(
-      int language READ language
-      WRITE setLanguage NOTIFY languageChanged
-      )
-
-  Q_PROPERTY( bool readProperties READ readProperties)
-  //Q_PROPERTY( QVector<GpxFile *> gpxFileList READ gpxFileList)
-
 public:
-  Config(QObject *parent = nullptr);
+  inline Config(QObject *parent = nullptr) : QObject(parent) {
+    _configData = ConfigData::instance();
+  }
 
-  // language enumerations, only a few
-  enum Languages { English, Nederlands };
-  const static int nbrLang = 2;
-  Q_ENUM(Languages)
+  inline QString dataDir() { return _configData->dataDir(); }
+  inline QString dataShareDir() { return _configData->dataShareDir(); }
 
-  // What system
-  QString osType();
-/*
-  QGuiApplication *appObject();
-  void setAppObject(QGuiApplication *appObjectPtr);
-*/
-  // Data to store
-  QString username();
-  void setUsername( const QString username);
+  Q_INVOKABLE inline void checkForNewHikeData() {
+    _configData->checkForNewHikeData();
+  }
+  Q_INVOKABLE inline void cleanupTracks() { _configData->cleanupTracks(); }
+  Q_INVOKABLE inline void cleanupHike() { _configData->cleanupHike(); }
 
-  QString email();
-  void setEmail( const QString email);
 
-  int language();
-  void setLanguage( const int language);
+  Q_INVOKABLE inline void setSetting( QString name, QString value) {
+    _configData->setSetting( name, value);
+  }
+  Q_INVOKABLE inline void setSetting( QString name, int value) {
+    _configData->setSetting( name, value);
+  }
+  Q_INVOKABLE inline QString getSetting(QString name, QSettings *s = nullptr) {
+    return _configData->getSetting( name, s);
+  }
 
-  //QVector<GpxFile *> gpxFileList();
+  QStringList inline readKeys( QString group, QSettings *s = nullptr) {
+    return _configData->readKeys( group, s);
+  }
+  QString inline hikeEntryKey() { return _configData->hikeEntryKey(); }
+  QString inline hikeTableName(QString hikeEntryKey) {
+    return _configData->hikeTableName(hikeEntryKey);
+  }
+  QString inline tracksTableName( QString hikeTableName, int trackCount) {
+    return _configData->tracksTableName( hikeTableName, trackCount);
+  }
 
-  // Emit signals
-  bool readProperties();
+  Q_INVOKABLE inline void setGpxFileIndexSetting(int currentIndex) {
+    _configData->setGpxFileIndexSetting(currentIndex);
+  }
+  Q_INVOKABLE inline int getGpxFileIndexSetting() {
+    return _configData->getGpxFileIndexSetting();
+  }
+
+  Q_INVOKABLE inline QString getHtmlPageFilename( QString pageName) {
+    return _configData->getHtmlPageFilename(pageName);
+  }
+
+  Q_INVOKABLE inline QString getTheme() { return _configData->getTheme(); }
+
+  Q_INVOKABLE inline QString getHCVersion() {
+    return _configData->getHCVersion();
+  }
+  Q_INVOKABLE inline QStringList getHikeVersions() {
+    return _configData->getHikeVersions();
+  }
+  Q_INVOKABLE inline QStringList getVersions() {
+    return _configData->getVersions();
+  }
+
+  Q_INVOKABLE inline void defineHikeList() {
+    _configData->defineHikeList();
+    emit hikeListDefined();
+  }
+  Q_INVOKABLE inline QStringList hikeList() { return _configData->hikeList(); }
+  Q_INVOKABLE inline QVariantList trackList() { return _configData->trackList(); }
+
+  //inline QString description() { return _configData->description(); }
+
+  Q_INVOKABLE inline QList<QObject *> gpxFileList() { return _configData->gpxFileList(); }
+  Q_INVOKABLE inline QVariantList gpxTrackList() { return _configData->gpxTrackList(); }
+
+  Q_INVOKABLE inline QGeoPath coordinateList() { return _configData->coordinateList(); }
+  Q_INVOKABLE inline QGeoPath boundary() { return _configData->boundary(); }
+
+  Q_INVOKABLE inline void loadCoordinates(int index) {
+    _configData->loadCoordinates(index);
+    emit coordinatesReady();
+  }
+
+  Q_INVOKABLE inline QGeoCoordinate findClosestPointOnRoute(QGeoCoordinate c) {
+    return _configData->findClosestPointOnRoute(c);
+  }
+
+  Q_INVOKABLE inline double distanceToPointOnRoute(
+      QGeoCoordinate c1, QGeoCoordinate c2
+      ) {
+    return _configData->distanceToPointOnRoute( c1, c2);
+  }
+
+  Q_INVOKABLE inline int windowWidth() {
+    return _configData->windowWidth();
+  }
+  Q_INVOKABLE inline int windowHeight() {
+    return _configData->windowHeight();
+  }
+  Q_INVOKABLE inline void setWindowSize( int w, int h) {
+    _configData->setWindowSize( w, h);
+  }
 
 signals:
-  void usernameChanged();
-  void emailChanged();
-  void languageChanged();
+  void hikeListDefined();
+  void coordinatesReady();
 
 public slots:
 
 private:
-  QGuiApplication *_appObject;
+  ConfigData *_configData;
 };
 
 #endif // CONFIG_H

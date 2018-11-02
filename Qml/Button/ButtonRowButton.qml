@@ -5,6 +5,6 @@ import QtQuick.Controls 2.2
 
 Button {
   Component.onCompleted: {
-    init(GlobalVariables.component.toolbar.button.type);
+    init(GlobalVariables.component.buttonRow.button.type);
   }
 }

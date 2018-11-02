@@ -11,8 +11,26 @@ import QtQuick 2.9
 import "Button" as HCButton
 import "Page" as HCPage
 
-Item {
-  id: root
+QtObject {
+  property QtObject component: QtObject {
+    property QtObject toolbar: QtObject {
+      property QtObject button: QtObject {
+        property int type:        0
+      }
+    }
+
+    property QtObject buttonRow: QtObject {
+      property QtObject button: QtObject {
+        property int type:        1
+      }
+    }
+
+    property QtObject menu: QtObject {
+      property QtObject button: QtObject {
+        property int type:        2
+      }
+    }
+  }
 
   // Currently displayed page.
   property HCPage.Plain currentPage
@@ -26,6 +44,11 @@ Item {
     mapPage = newMapPage;
   }
 
+  property var applicationPage
+  function setApplicationWindow ( appPage ) {
+    applicationPage = appPage;
+  }
+
   // Open menu button
   property HCButton.OpenMenu openMenu
   function setOpenMenu ( newOpenMenu ) {
@@ -35,6 +58,12 @@ Item {
   property Column menu
   function setMenu ( newMenu ) {
     menu = newMenu;
+  }
+
+  // Tracks page to modify data from other pages
+  property HCPage.TracksPage tracksPage
+  function setTracksPage ( newTracksPage ) {
+    tracksPage = newTracksPage;
   }
 }
 

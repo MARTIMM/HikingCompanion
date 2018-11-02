@@ -12,39 +12,21 @@ import QtQuick.Layouts 1.3
 HCPage.Plain {
   id: exitPage
 //  objectName: "exitPage"
-/*
-  Component.onCompleted: {
-    var b = pageToolbarRow.insertRowButton(
-          "qrc:Qml/Button/OpenMenu.qml", {
-            "id": "OMOnAbout_0"
-          }
-          );
-    if ( b === null ) console.log("OpenMenu button create failed");
 
-    b = pageToolbarRow.insertRowButton(
-          ":Qml/Button/Home.qml", {
-            "id": "OMOnAbout_1"
-          }
-          );
-    if ( b === null ) console.log("Home button create failed");
-
-    console.log("H EP: " + height);
-  }
-*/
   width: parent.width
   height: parent.height
   anchors.fill: parent
 
-  visible: false
-
-  HCParts.ToolbarRow {
+  HCParts.ToolbarRectangle {
     id: pageToolbarRow
 
-    HCButton.OpenMenu {  }
-    HCButton.Home { }
+    HCParts.ToolbarRow {
+      HCButton.OpenMenu { }
+      HCButton.Home { }
 
-    Text {
-      text: qsTr(" Exit page")
+      Text {
+        text: qsTr(" Exit page")
+      }
     }
   }
 
@@ -65,12 +47,6 @@ HCPage.Plain {
     TextLoad {
       id: exitTextData
       filename: ":Assets/Pages/exitText.html"
-/*
-      onTextReady: {
-        console.log("Text ready...");
-        exitText.text = exitTextData.text
-      }
-*/
     }
 
     text: exitTextData.text
@@ -81,8 +57,8 @@ HCPage.Plain {
 
     anchors.bottom: parent.bottom
 
-    Button {
-      width: textMetrics.boundingRect.width + 30
+    HCButton.ButtonRowButton {
+      //id: exitBttn
       text: qsTr("Exit")
       onClicked: {
         console.log("Exit click");
@@ -90,59 +66,9 @@ HCPage.Plain {
       }
     }
 
-    Button {
-      width: textMetrics.boundingRect.width + 30
+    HCButton.ButtonRowButton {
       text: qsTr("Save Track")
       enabled: false
     }
   }
-
-  /*
-
-  Flickable {
-    id: flickable
-
-    // clip content when going outside content borders
-    clip: true
-
-    // take away some space for the vertical scrollbar
-    width: parent.width - 10
-    height: parent.height - header.height -
-            buttonRow.height - footer.height
-
-    contentWidth: parent.width - 10
-    contentHeight: exitText.height
-
-    // anchor to the top and bottom because height is
-    // variable
-    anchors.top: header.bottom
-    anchors.bottom: buttonRow.top
-
-    Text {
-      id: exitText
-
-      width: parent.width
-      height: parent.height
-
-      anchors.top: parent.top
-      anchors.bottom: parent.bottom
-
-      wrapMode: Text.WordWrap
-      text: exitTextData.text
-      font.pixelSize: 18
-      color: HCStyle.textColor
-    }
-
-    ScrollBar.vertical: ScrollBar {
-      width: 10
-      parent: flickable.parent
-
-      anchors.top: flickable.top
-      anchors.left: flickable.right
-      anchors.bottom: flickable.bottom
-
-      policy: ScrollBar.AlwaysOn
-    }
-  }
-*/
 }

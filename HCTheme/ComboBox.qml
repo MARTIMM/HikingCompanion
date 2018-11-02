@@ -10,7 +10,6 @@ import QtQuick.Controls.impl 2.4
 //import QtGraphicalEffects 1.0
 import QtQuick.Templates 2.1 as T
 
-import io.github.martimm.HikingCompanion.HCTheme1 0.1
 import io.github.martimm.HikingCompanion.Theme 0.1
 
 T.ComboBox {
@@ -63,8 +62,8 @@ T.ComboBox {
 
     font: control.font
     color: control.editable ? control.palette.text : control.palette.buttonText
-    selectionColor: control.palette.highlight
-    selectedTextColor: control.palette.highlightedText
+    selectionColor: Theme.main.color.selectionText //control.palette.highlight
+    selectedTextColor: Theme.main.color.selectedText //control.palette.highlightedText
     verticalAlignment: Text.AlignVCenter
 
     background: Rectangle {
@@ -142,9 +141,9 @@ T.ComboBox {
 
   background: Rectangle {
     //color: "#00000000"
-    color: HCTheme1.cmptBgColor
+    color: Theme.cmptBgColor
     border {
-      color: HCTheme1.cmptFgColorL
+      color: Theme.cmptFgColorL
       width: 1
     }
   }
@@ -153,7 +152,7 @@ T.ComboBox {
   /*
   contentItem: Text {
     text: control.textRole
-    color: HCTheme1.cmptFgColorL
+    color: Theme.cmptFgColorL
     font {
       family: Theme.fontFamily
       bold: true

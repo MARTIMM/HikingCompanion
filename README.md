@@ -1,5 +1,6 @@
 [toc]
 
+---
 # HikingCompanion Mobile Application
 
 ## Purpose
@@ -32,7 +33,7 @@ This app will be placed in the app store when ready.
 ## Acceptance tests for this project
 Below, there are a series of tests which is also used as the progress in the learning curve I have to go through. The most important device to work for are android devices. Ios devices would be nice but is a later problem.
 
-<progress max=47 value="34" />
+'<progress max=45 value="34" />'
 
 * [x] Android SDK, NDK and OpenJDK installation using Android Studio and linux installation tools.
 * [ ] Xcode for ios
@@ -78,10 +79,6 @@ Below, there are a series of tests which is also used as the progress in the lea
   * [ ] Create, test and delete a directory using QDir
   * [ ] Build a directory tree using QDir
 
-* Sharing data
-  * [ ] Share data between one app and another on Android.
-  * [ ] Share data between one app and another on IOS.
-
 * XML processing to read and write qpx data and configuration files.
   * [x] Read and process an XML file. See also [this doc][qtc-xml].
   * [ ] Create an XML DOM tree
@@ -101,16 +98,16 @@ Below, there are a series of tests which is also used as the progress in the lea
   * [x] Desktop icon
   * [ ] Desktop widget
 
-
+---
 # Progress of the application
 Next, the developing progress is shown here. Several entries are also in the acceptance tests to see if those things are possible because the purpose of the acceptance tests are to find out what Qt and the qtcreator tool is capable of.
 
 ## Events and devices to listen to
-<progress value="0" max="7" />
+'<progress value="1" max="7" />'
 
 There are several events which occur upon changing conditions in a device. These events must be captured for further actions.
 * [ ] Battery condition to warn user of battery low state. App might dim display or perform other actions to save energy.
-* [ ] Gps information to get current location.
+* [x] Gps information to get current location.
 * [ ] Network on and off line mode to update map and feature cache as well as send user data to a server
 * [ ] Device compass to show map correctly pointing the map-north to the real north.
 * [ ] Resize events to change from portrait to landscape mode and back. Responsive. Needed to display everything in proper sizes.
@@ -121,7 +118,7 @@ There are several events which occur upon changing conditions in a device. These
 
 Caching of data is needed for those moments that there is no network available.
 
-<progress value='0' max='4' />
+'<progress value='0' max='4' />'
 
 * [ ] At start up and network is on and a track is installed, caching must start. Caching must be inhibited when network is off or very slow.
 * [ ] Store data (like date and time) to check for revisiting the caching process.
@@ -132,7 +129,7 @@ Caching of data is needed for those moments that there is no network available.
 * Try to get weather forecast and cache (short term) this information too.
 
 ## The Menu
-<progress value="5" max="5" />
+'<progress value="5" max="5" />'
 
 * [x] Added module for variables and styling
 * [x] Pressing the menu button `☰` shown on the map or other pages, will open a pane from the side to show a menu of options. A click on an entry will show another page. When selecting an entry, the menu is closed and a page will appear.
@@ -145,13 +142,13 @@ Caching of data is needed for those moments that there is no network available.
 A series of screen descriptions the application can show.
 
 ### Display on tablet screen
-<progress value="0" max="2" />
+'<progress value="0" max="2" />'
 
 * [ ] An icon must be designed
 * [ ] A widget showing small part of a chart?
 
 ### Splash screen
-<progress value="0" max="4" />
+'<progress value="0" max="4" />'
 
 When starting the program, the app must show a splash screen with a nice hiking picture on it while the program gets ready in the background. When it is, the splash screen is removed.
 
@@ -162,12 +159,12 @@ When starting the program, the app must show a splash screen with a nice hiking 
 
 ####  The pages to select from the menu
 
-<progress value="3" max="8" />
+'<progress value="3" max="8" />'
 
 The menu entries
   * [x] **🗺 Map**: Show map.
   * [ ] **ℹ Info**: Show route information
-  * [ ] **🚶 Tracks**: Select a track.
+  * [x] **🚶 Tracks**: Select a track.
   * [ ] **⌘ Feature** Show history, or other info.
   * [ ] **📡 Gps**: Record your track data.
   * [x] **🛠 Config**: Configuration of user and program data.
@@ -175,7 +172,7 @@ The menu entries
   * [x] **⏼ Exit**: Close the application. **⏽** or **🗙** on android because of missing character. Must check OS type.
 
 ## Map page
-<progress value="7" max="15" />
+'<progress value="7" max="15" />'
 
 The map page is also the home page.
 
@@ -201,7 +198,7 @@ The map page is also the home page.
     * [x] OSM attribution is displayed.
 
 ## The info page
-<progress value="0" max="2" />
+'<progress value="0" max="2" />'
 
   The info page shows information of the currently selected track. There are 40 tracks to walk in 40 days so we need 40 pages of data. The info page is loaded from a file from a separately installed track app.
 
@@ -209,22 +206,26 @@ The map page is also the home page.
   * [ ] Fill the info page after selecting a track. Previous data must be removed.
 
 ## The Tracks page
-<progress value="0" max="7" />
+'<progress value="6" max="7" />'
 
-  Show a list of tracks from which a selection can be made. This will only be visible when a separate tracks app is installed.
+  Show a list of tracks from which a selection can be made. This will only be visible when one or more hike apps are installed. Track list changes when another hike is selected.
 
-  * [ ] Page created
-  * [ ] Generate the page from the directory contents and the gpx track name found in those files.
-  * [ ] Show map when a selection is made.
-  * [ ] The route is displayed.
-  * [ ] The route is centered on page. This depends if information is available in the user track.
-  * [ ] The route is zoomed so as to fit the page. This depends if information is available in the user track.
-  * [ ] Show dashed line from current location to closest point on the trail when off trail (further than, lets say, 1 kilometer).
+  * [x] Page created
+  * Generate the page from the tracks directory contents. Each track shows;
+    * [x] the gpx track name found in the configuration file.
+    * [x] Show length of the route. Calculated once when the route is processed.
+    * [x] Show a bicycle or a walking person icon depending on the route.
+  * [x] Refresh tracks list when another hike is selected on the config page
+  * [x] Show map when a selection is made using a <button>Select</button>  button.
+  * [x] The route is displayed.
+  * [x] The route is centered on page. This depends if information is available in the user track.
+  * [x] The route is zoomed so as to fit the page. This depends if information is available in the user track.
+  * [x] Show (dashed) line from current location to closest point on the trail when off trail (further than, lets say, 1 kilometer).
 
 ## The Features page
 The Features page is filled when a feature is clicked. First a balloon is showed on the map pointing to the feature with text and a 'more ...' on the bottom. Again, only when a separate track app is installed.
 
-<progress value="0" max="7" />
+'<progress value="0" max="7" />'
 
   * [ ] Page created
   * Selection of features to show;
@@ -238,7 +239,7 @@ The Features page is filled when a feature is clicked. First a balloon is showed
 ## The Gps page
 This is a page where a gps track can be started.
 
-<progress value="0" max="9" />
+'<progress value="0" max="9" />'
 
 * [x] Page created
 * [ ] Start tracking
@@ -254,38 +255,32 @@ This is a page where a gps track can be started.
 ## The Config page
 
 Input fields can be checked
-<progress value="4" max="10" />
+'<progress value="8" max="9" />'
 
   * [x] Page created.
-
-  * One trick or another to get info from another track app:
-    * HikingCompanion looks around for installed track apps and asks for the needed data.
-      * [ ] Pulldown of found track apps on device.
-      * [ ] Load track info button to load selected track app.
-    * HikingCompanion is started by the installed track app providing the necessary url where data can be found. Once found, copy the data to the HikingCompanion app which can be used again the next time.
-      * [ ] Check if data is already there.
-      * [ ] check timestamp to see if there is an update.
-      * [ ] Copy data if not there or older.
-
   * [ ] Text message about users consent of sending data to server. Make rest of the questions available if user wants to provide personal data.
-  * [x] Username used to differentiate input from a user. This input can be photos, notes etc.
+  * [x] Username used to differentiate input from different users. This input can be things such as photos, notes etc.
   * [x] Email addresses.
-  * [x] Save data on local memory.
+  * [x] A combobox of installed hikes.
+  * On save data
+    * [x] Data is stored in configuration file.
+    * [x] Tracks are shown on tracks page.
+    * [x] Theme is changed
+    * [x] About page is modified
 
 ## The About page
 This is an overview of people involved and their tasks. Also other info can be shown such as a version number. This should also come from the track app.
 
-<progress value="1" max="4" />
+'<progress value="2" max="3" />'
 
   * [x] Page created
-  * [ ] Show the members of the Sufi trail group.
-  * [ ] Show current version of the program.
-  * [ ] Read version number from elsewhere, e.g. android manifest, and insert it when generating the html from sxml.
+  * [x] Show hike dependent text.
+  * [ ] Show current version of the program and hike data.
 
 ## The Exit page
 This should show a dialog to ask the user if he/she really wants to quit the program.
 
-<progress value="2" max="5" />
+'<progress value="2" max="5" />'
 
   * [x] Page created
   * [ ] Show quit dialog
@@ -293,31 +288,124 @@ This should show a dialog to ask the user if he/she really wants to quit the pro
   * [x] Leave and stop program.
   * [ ] Keep program active in background and keep recording if started.
 
+---
+# Languages used for the application
+
+'<progress value="3" max="5" />'
+
+  * [x] Every word and phrase shown to the user is processed by using qsTr().
+  * [x] All text is typed in English and is the fallback language by default.
+  * [ ] Implementing the QT translation mechanism.
+  * Supported Languages;
+    * [x] English
+    * [ ] Dutch
+
+---
 # Other items or problems to think about
 
-<progress value="0" max="2" />
+'<progress value="8" max="10" />'
 
   * [ ] By what license should the project be protected
   * [ ] Privacy considerations
+  * Installing tracks and other information from other sources.
+    * [x] Create directory tree
+    * [x] Add or modify hike config tables
+    * [x] Install or update comparing version information
+    * [x] Refresh track data
+    * [x] HikingCompanion app prepares a directory for the hike data container applications to use.
+    * [x] Hike data container app checks for this dir to see if HikingCompanion app is installed.
+    * [x] Hike data container app copies its data to the directory
+    * [x] HikingCompanion app installs the data from the directory and cleans it afterwards.
 
+### Licenses Qt software
+### Licenses Android?
+### Licenses Ios?
+### License Symbola font
+Unicode Fonts for Ancient Scripts
+(UFAS)
+ License Agreement
+UFAS: refers to the set of all fonts and documents available on this site; are licensed under the conditions stated in this License Agreement.
+Developer: refers to George Douros, Kolokotroni 3, Larissa, 41223, Greece; is the sole developer and exclusive owner of all UFAS material; retains all rights to previous, current and future versions of UFAS; does not warrant the performance or results User may obtain by using UFAS software; is in no event liable to User or anyone else for any consequential, incidental or special damages, or for any claim against User by any third party seeking such damages.
+User: refers to anyone who downloads UFAS from this, or any other, site; may use UFAS for strictly personal and non-commercial purposes, without charge; is allowed a single installation and no network installation; agrees not to adapt, modify, alter, translate, convert, or otherwise change UFAS; may not license, sell, rent, lease, sub license, lend, or in any way distribute UFAS for profit.
+Commercial or educational use of UFAS is not permitted. This and all UFAS licenses are exclusively issued by Developer.
+
+Font also found on Linux fedora! No license mentioned!
+
+### License for the hike data.
+There must be a license which must describe the application in such a way that the software is free but that the data for some hikes is to be paid for.
+
+---
 # To do
+* [ ] The Plain qml page must have a status line at the bottom to show errors and other messages.
+* [ ] Remove a track must have a dialog window
+* [ ] Refine theming for all hikes and HikingCompanion. No gradients.
+* [ ] Texts must have more space on the side. It is too close to the edge.
+* [ ] Change color of route depending on type, walk (dark brown) or bike (blue)
 
+---
 # Bugs
-* Keyboard of android tablet in uppercase and switches back on each letter. Also numbers are not available.
+* [ ] Keyboard of android tablet is shown in in uppercase. Each time the keyboard is set in lowercase it switches back to uppercase after typing a letter. Also numbers are not available.
+* [x] Track information is not properly shown, must use utf8. Solved by proper initialization of QSettings.
 
-## Changes
+---
+# Changes
+## Application changes
 
-* 0.6.2 Singleton class ConfigData for storage added. Access via Config class.
-* 0.6.1 Styling is under control.
+Versions have a letter added: D for debug version and R for a release version. When not added it is always a debug version.
+
+* 2018-11-2, 0.12.1
+  * Config page enhancements
+* 2018-11-1, 0.12.0
+  * Show a line from current location to the nearest point on the track to show that the hiker is wandering of track.
+  * On the track list, each track has additional information to show that the track is for walking or biking. Also the length of the track is shown in kilometers.
+
+* 2018-10-24, 0.11.0
+  * Theming mechanism in place. Themes can be dependent on selected hike.
+  * About page filled with content. Also depending on selected hike.
+
+* 2018-10-15, 0.10.0
+  * App can install hike data given by data container app on Android.
+
+* 2018-09-24, 0.9.1
+  * App can install hike data given by data container app on Linux.
+  * Bug fixed: Ini files must be read using utf8 encoding
+
+* 2018-09-17, 0.9.0
+  * Installing track information in app data directory
+  * Create proper application config
+  * Show hike list and select a hike
+  * Show track list and select track. Show track and zoom in on track
+  * When track is selected, bounds are calculated and now also stored in config
+  * Several cleanup phases when lists are empty
+
+* 2018-09-03, 0.8.1
+  * Displayed track is now centered and zoomed
+
+* 2018-09-03, 0.8.0
+  * A list of tracks is shown on the tracks page.
+  * A track is selectable after which the track is displayed on the map. Centering and zooming on the track must still be done.
+
+* 2018-09-01, 0.7.1
+  * Config/ConfigData simplified because of use of QSettings the variables do not need to be saved/cached in the object.
+
+* 0.7.0 Tracks page added to show tracks and make a selection.
+
+* 2018-08-22, 0.6.2
+  * Singleton class ConfigData for storage added. Access via Config class.
+
+* 0.6.1
+  * Styling is under control.
 * 0.6.0
   * Current location is shown(needs improvement).
   * Focus on current location. Must be done with button later.
   * Manifest file generated using qtcreator. Icons are set. Must be changed!
 * 0.5.0
   * Map page shows map.
-* 0.4.0
+
+* 2018-07-29, 0.4.0
   * Factoring out several items from main.qml
   * The exitPage shows some text which is scrollable and wraps on word boundaries.
+
 * 0.3.0
   * Make a page framework
   * Loading text from file into a page
@@ -331,6 +419,22 @@ This should show a dialog to ask the user if he/she really wants to quit the pro
 * 0.0.1
   * Start project
 
+## Test version changes on Android
+Versions of mobile devices will change slower because not every version is directly tested on the device.
+
+| Android App Version | Application Version | Android Api Version |
+|---------------------|---------------------|---------------------|
+| 0.6.0  | 0.6.0   | 24 (7.1)|
+| 0.7.0  | 0.10.0  | 22       
+| 0.8.0  | 0.12.0  | 22       
+
+## Test version changes on IOS
+
+| IOS App Version | IOS Api Version | Application Version |
+|-----------------|-----------------|---------------------|
+| | | |
+
+---
 # Contact
 
 Developer: Marcel Timmerman

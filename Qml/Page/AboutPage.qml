@@ -2,7 +2,9 @@ import "." as HCPage
 import "../Button" as HCButton
 import "../Parts" as HCParts
 
+import io.github.martimm.HikingCompanion.Config 0.3
 import io.github.martimm.HikingCompanion.Theme 0.1
+import io.github.martimm.HikingCompanion.Textload 0.1
 
 import QtQuick 2.9
 import QtQuick.Controls 2.2
@@ -10,68 +12,84 @@ import QtQuick.Controls 2.2
 HCPage.Plain {
   id: aboutPage
 
+  Config { id: config }
+  Component.onCompleted: { changeContent(); }
+
+  function changeContent ( ) {
+    aboutText.aboutTextData.filename = config.getHtmlPageFilename("aboutText");
+    var versionList = config.getVersions();
+    console.log("Versions: " + versionList);
+
+    aboutText.text = aboutTextData.text + "
+<p><table width=\"95%\" style=\"margin:auto;\">
+  <tr><th colspan=\"2\">Versions of programs and data</th></tr>
+  <tr><td>HikingCompanion Program</td><td>" + versionList[0] + "</td></tr>
+  <tr><td>Hike Data '" + versionList[1] + "'</td><td>" + versionList[2] + "</td>
+  </tr>
+  <tr><td>Hike Data Program for '" + versionList[1] + "'</td><td>" +
+  versionList[3] + "</td></tr>
+</table></p>
+"
+    //console.log(aboutText.text);
+  }
+
   width: parent.width
   height: parent.height
   anchors.fill: parent
-  visible: false
 
-  HCParts.ToolbarRow {
+  HCParts.ToolbarRectangle {
     id: pageToolbarRow
 
-    HCButton.OpenMenu {  }
-    HCButton.Home {  }
+    HCParts.ToolbarRow {
+      HCButton.OpenMenu { }
+      HCButton.Home { }
 
-    Text {
-      text: qsTr(" About page")
-    }
-  }
-}
-/*
-  Row {
-    id: root
-
-    height: Theme.largeButtonHeight + 2
-    width: parent.width
-    z: 50
-
-    spacing: 2
-    layoutDirection: Qt.RightToLeft
-
-    anchors {
-      right: parent.right
-      rightMargin: 14
-      left: parent.left
-      leftMargin: 6
-      topMargin: 4
-      bottom: parent.bottom
-      bottomMargin: 1
-      id: pageToolbarRow
-
-      Button {
-        id: OMOnAbout
+      Text {
+        text: qsTr(" About page")
       }
     }
-*/
-  /*
-  Component.onCompleted: {
-    pageToolbarRow.insertRowButton(
-          //"../Button/OpenMenu.qml", {
-            "qrc:OpenMenu.qml", {
-            "id": "OMOnAbout_0"
-          }
-          );
-    pageToolbarRow.insertRowButton(
-          "qrc:Home.qml", {
-            "id": "OMOnAbout_1"
-          }
-          );
   }
-*/
 
-  //text: qsTr("About")
-  /*
+  HCParts.InfoArea {
+    id: aboutText
+
+    width: parent.width
+    //height: parent.height / 2
+    //anchors.fill: parent
+
+    anchors {
+      left: parent.left
+      right: parent.right
+      top: pageToolbarRow.bottom
+      bottom: parent.bottom
+    }
+
+    property alias aboutTextData: aboutTextData
+    TextLoad {
+      id: aboutTextData
+      //filename: ":Assets/Pages/aboutText.html"
+    }
+
+    //text: aboutTextData.text
+  }
+/*
+  property alias aboutVersion: aboutVersion
   Text {
-    text: qsTr("About")
-    color: HCStyle.textColor
+    id: aboutVersion
+
+    width: parent.width
+    //height: parent.height
+    //anchors.fill: parent
+
+    anchors {
+      left: parent.left
+      right: parent.right
+      top: aboutText.bottom
+      bottom: parent.bottom
+    }
+
+    textFormat: Text.RichText
+    text: ""
   }
 */
+}

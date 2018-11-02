@@ -1,8 +1,9 @@
 /* ----------------------------------------------------------------------------
   Author: Marcel Timmerman
   License: ...
-  Copyright: © Sultanstrail 2018
-  Copyright: © Sufitrail 2018
+  Copyright: © Sultanstrail 2018 .. ∞
+  Copyright: © Sufitrail 2018 .. ∞
+  Copyright: © Marcel Timmerman 2018 .. ∞
 
   This is the main page where the root of the gui tree is described. This is
   mainly an empty page area wherein pages and a menu are created.
@@ -13,6 +14,7 @@ import "../../Qml/Button" as HCButton
 
 import io.github.martimm.HikingCompanion.Theme 0.1
 import io.github.martimm.HikingCompanion.GlobalVariables 0.1
+import io.github.martimm.HikingCompanion.Config 0.3
 
 import QtQuick 2.9
 import QtQuick.Controls 2.2
@@ -23,21 +25,49 @@ ApplicationWindow {
   id: root
 
   Component.onCompleted: {
+    GlobalVariables.setApplicationWindow(this);
     GlobalVariables.setMapPage(mapPage);
     GlobalVariables.setCurrentPage(mapPage);
     GlobalVariables.setMenu(menu);
+    GlobalVariables.setTracksPage(tracksPage);
+
+    var t = config.getTheme();
+    //console.log("style: " + t);
+    Theme.changeClrs(JSON.parse(t));
+
+    config.setWindowSize( width, height);
   }
+
+  Config { id: config }
 
   title: qsTr("Your Hiking Companion")
 
   visible: true
-  width: 640
-  height: 480
 
+  // Sizes are not important because on mobile devices it always scales
+  // to the screen width and height. For desktop I use a scaled
+  // Samsung tablet size (2048 x 1536 of Samsung Galaxy Tab S2).
+  width: 600
+  height: 450
+
+  // Changes only modifyable in desktop apps
+  onWidthChanged: {
+    config.setWindowSize( width, height);
+  }
+
+  property alias aboutPage: aboutPage
   HCPage.AboutPage { id: aboutPage }
+
+  property alias configPage: configPage
   HCPage.ConfigPage { id: configPage }
+
+  property alias exitPage: exitPage
   HCPage.ExitPage { id: exitPage }
-  HCPage.MapPage { id: mapPage }
+
+  property alias mapPage: mapPage
+  HCPage.MapPage { id: mapPage; visible: true }
+
+  property alias tracksPage: tracksPage
   HCPage.TracksPage { id: tracksPage }
 
   // Menu
@@ -95,66 +125,3 @@ ApplicationWindow {
     }
   }
 }
-
-
-/*
-
-// ----------------------------------------------------------------------------
-ApplicationWindow {
-//Rectangle {
-  id: applicationRoot
-
-  Component.onCompleted: {
-    GlobalVariables.setMapPage(mapPage);
-    GlobalVariables.setCurrentPage(mapPage);
-    GlobalVariables.setMenu(menu);
-  }
-
-  visible: true
-  width: 640
-  height: 480
-
-  title: qsTr("Your Hiking Companion")
-
-  HCPage.MapPage { id: mapPage }
-  HCPage.ConfigPage { id: configPage }
-  HCPage.AboutPage { id: aboutPage }
-  HCPage.ExitPage { id: exitPage }
-
-  // Menu
-  HCMenu.MainMenu {
-    id: menu
-
-    property alias mapButton: mapButton
-    HCButton.MenuEntry {
-      id: mapButton
-      text: qsTr("🗺 Map")
-      onClicked: { GlobalVariables.menuEntryClicked(mapPage); }
-    }
-
-    property alias configButton: configButton
-    HCButton.MenuEntry {
-      id: configButton
-      text: qsTr("🛠 Config")
-      onClicked: { GlobalVariables.menuEntryClicked(configPage); }
-    }
-
-    property alias aboutButton: aboutButton
-    HCButton.MenuEntry {
-      id: aboutButton
-      text: qsTr("👥 About")
-      onClicked: { GlobalVariables.menuEntryClicked(aboutPage); }
-    }
-
-    property alias exitButton: exitButton
-    HCButton.MenuEntry {
-      id: exitButton
-      text: configPage.osType == "android" ?
-              qsTr("\u23FD Exit") :
-              qsTr("\u23FB Exit")
-      onClicked: { GlobalVariables.menuEntryClicked(exitPage); }
-    }
-  }
-}
-
-*/
