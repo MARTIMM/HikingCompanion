@@ -35,7 +35,7 @@ T.Label {
 
     color: Theme.component.color.backgroundDark
     border {
-      color: Theme.component.color.backgroundLight
+      color: "transparent" //Theme.component.color.backgroundLight
       width: 1
     }
   }

@@ -34,10 +34,10 @@ T.TextField {
 
     color: Theme.component.color.background
     border {
-      color: Theme.component.color.foregroundLight
+      color: "transparent" //Theme.component.color.foregroundLight
       width: 1
     }
-    //radius: Theme.cmptRdng
+    //radius: Theme.component.rounding
 /**/
 /*
     LinearGradient {
