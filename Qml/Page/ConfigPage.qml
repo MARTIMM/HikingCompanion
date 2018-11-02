@@ -126,7 +126,10 @@ HCPage.Plain {
         width: rightWidth
         height: parent.height
         text: ""
-        onSwitched: {
+        onSwitched: { switchIt(); }
+        Component.onCompleted: { switchIt(); }
+
+        function switchIt ( ) {
           if ( consent.checked ) {
             username.enabled = true;
             email.enabled = true;
@@ -138,6 +141,7 @@ HCPage.Plain {
           }
         }
       }
+
     }
 
     // Input of username
