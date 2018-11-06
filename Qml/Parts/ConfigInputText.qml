@@ -11,13 +11,14 @@ Item {
   //  anchors.fill: parent
 
   property alias inputText: inputText
-  property alias placeholderText: inputText.placeholderText
+  property string placeholderText
 
   TextField {
     id: inputText
 
     width: parent.width
     height: parent.height
+    placeholderText: control.placeholderText
 
     // Show visible clue if input is right or wrong
     onTextChanged: {
