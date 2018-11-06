@@ -59,7 +59,7 @@ public:
   QString getSetting(QString name, QSettings *s = nullptr);
 
   QStringList readKeys( QString group, QSettings *s = nullptr);
-  QString hikeEntryKey();
+  QString hikeEntryKey(QString hikeKey = "");
   QString hikeTableName(QString hikeEntryKey);
   QString tracksTableName( QString hikeTableName, int trackCount);
 
@@ -77,6 +77,9 @@ public:
   inline int windowWidth() { return _width; }
   inline int windowHeight() { return _height; }
   void setWindowSize( int w, int h);
+
+  void saveUserTrackNames( QString hikeTitle, QString hikeDesc, QString hikeKey);
+  void saveUserTrack( QString trackTitle, QString trackDesc);
 
 signals:
 

@@ -109,6 +109,18 @@ public:
     _configData->setWindowSize( w, h);
   }
 
+  Q_INVOKABLE inline void saveUserTrackNames(
+      QString hikeTitle, QString hikeDesc, QString hikeKey
+      ) {
+    _configData->saveUserTrackNames( hikeTitle, hikeDesc, hikeKey);
+  }
+
+  Q_INVOKABLE inline void saveUserTrack(
+      QString trackTitle, QString trackDesc
+      ) {
+    _configData->saveUserTrack( trackTitle, trackDesc);
+  }
+
 signals:
   void hikeListDefined();
   void coordinatesReady();

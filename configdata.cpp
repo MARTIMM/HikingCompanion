@@ -7,6 +7,7 @@
 #include <QApplication>
 #include <QDir>
 #include <QFile>
+#include <QCryptographicHash>
 
 // ----------------------------------------------------------------------------
 ConfigData::ConfigData(QObject *parent) : QObject(parent) {
@@ -276,10 +277,34 @@ QStringList ConfigData::readKeys( QString group, QSettings *s ) {
 }
 
 // ----------------------------------------------------------------------------
-QString ConfigData::hikeEntryKey() {
+// Return a key name like "h0" for an entry in the HikeList.
+// An empty string is returned when the selectedhikeindex is not found or,
+// in case of a provided hikeKey, the key is not found.
+QString ConfigData::hikeEntryKey(QString hikeKey) {
 
-  QString hikeIndex = getSetting("selectedhikeindex");
-  return QString("h") + hikeIndex;
+  QString hikeIndex = "";
+
+  // Take the selected hike index if hike key is not provided
+  if ( hikeKey == "" ) {
+
+    QString hi = getSetting("selectedhikeindex");
+    if ( hi != "" ) hikeIndex = QString("h") + hi;
+  }
+
+  // If hike key is given, search for it and return entry if there.
+  // If not, return ""
+  else {
+
+    QStringList keys = readKeys("HikeList");
+    for ( int ki = 0; ki < keys.count(); ki++ ) {
+      if ( getSetting(keys[ki]) == hikeKey) {
+        hikeIndex = QString("h%1").arg(ki);
+        break;
+      }
+    }
+  }
+
+  return hikeIndex;
 }
 
 // ----------------------------------------------------------------------------
@@ -432,6 +457,66 @@ void ConfigData::_removeSettings(QString group) {
 void ConfigData::setWindowSize( int w, int h) {
   _width = w;
   _height = h;
+}
+
+// ----------------------------------------------------------------------------
+void ConfigData::saveUserTrackNames(
+    QString hikeTitle, QString hikeDesc, QString hikeKey = ""
+    ) {
+
+  // Generate a user key from the title if no hike key is provided
+  if ( hikeKey == "" ) {
+    QCryptographicHash *ch = new QCryptographicHash(QCryptographicHash::Sha1);
+    ch->addData(hikeTitle.toLocal8Bit());
+    hikeKey = QString(ch->result().toHex().data());
+  }
+
+  QString entryKey = hikeEntryKey(hikeKey);
+  if ( entryKey == "" ) {
+    int nKeys = readKeys("HikeList").count();
+    entryKey = QString("h%1").arg(nKeys);
+    setSetting( "HikeList/" + entryKey, hikeKey);
+
+    // Then also add the hike table
+    QString hikeTableName = entryKey + "." + hikeKey;
+    setSetting( hikeTableName + "/aboutText", "");
+    setSetting( hikeTableName + "/defaultlang", "en");
+    setSetting( hikeTableName + "/gpxfileindex", "0");
+    setSetting( hikeTableName + "/install", "internal");
+    setSetting( hikeTableName + "/nfeatures", "0");
+    setSetting( hikeTableName + "/nnotes", "0");
+    setSetting( hikeTableName + "/nphotos", "0");
+    setSetting( hikeTableName + "/ntracks", "0");
+    setSetting( hikeTableName + "/programVersion", "No program involved");
+    setSetting( hikeTableName + "/shortdescr", hikeDesc);
+    setSetting( hikeTableName + "/style", "");
+    setSetting( hikeTableName + "/supportedlang", "en");
+    setSetting( hikeTableName + "/title", hikeTitle);
+    setSetting( hikeTableName + "/version", "0.0.1");
+    setSetting( hikeTableName + "/www", "");
+
+    QString owner = getSetting("User/username");
+    if ( owner == "" ) owner = "user";
+    setSetting( hikeTableName + "/owner", owner);
+
+    setSetting( hikeTableName + ".Releases/0.0.1", "Create user hike tables");
+  }
+
+  // If already there
+  else {
+
+    QString hikeTableName = entryKey + "." + hikeKey;
+    setSetting( hikeTableName + "/shortdescr", hikeDesc);
+    setSetting( hikeTableName + "/title", hikeTitle);
+
+    QString owner = getSetting("User/username");
+    if ( owner == "" ) owner = "user";
+    setSetting( hikeTableName + "/owner", owner);
+  }
+}
+
+// ----------------------------------------------------------------------------
+void ConfigData::saveUserTrack( QString trackTitle, QString trackDesc) {
 }
 
 // ----------------------------------------------------------------------------
