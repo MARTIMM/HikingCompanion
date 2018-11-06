@@ -86,6 +86,8 @@ HCPage.Plain {
 
       leftMargin: Theme.cfgFieldMargin
       rightMargin: Theme.cfgFieldMargin
+      topMargin: 2
+      bottomMargin: 2
     }
 
     property int labelWidth: 3 * parent.width / 10 - Theme.cfgFieldMargin
@@ -123,7 +125,7 @@ HCPage.Plain {
     HCParts.ConfigInputText {
       id: username
       placeholderText: qsTr("type your name here")
-      inputText.validator: RegExpValidator { regExp: /^\w+$/ }
+      inputText.validator: RegExpValidator { regExp: /^[\s\w]+$/ }
     }
 
 
