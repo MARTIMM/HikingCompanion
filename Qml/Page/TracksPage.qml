@@ -24,11 +24,14 @@ HCPage.Plain {
       mapPage.hikingCompanionMap.trackCourse.setPath(path);
 
       // Get the boundaries of the set of coordinates to zoom in
-      // on the track shown on the map
+      // on the track shown on the map. Using boundaries will zoom in until
+      // the track touches the edge. To prevent this, zoom out a small bit.
       var bounds = config.boundary();
       mapPage.hikingCompanionMap.visibleRegion = bounds;
       mapPage.hikingCompanionMap.zoomLevel =
           mapPage.hikingCompanionMap.zoomLevel - 0.2;
+
+      // Show a line when we wander off track
       mapPage.hikingCompanionMap.setWanderOffTrackNotation();
 
       // Make map visible
