@@ -89,9 +89,9 @@ int main( int argc, char *argv[]) {
   app.setFont(QFont("Symbola"));
 
   applicationEngine = new QQmlApplicationEngine();
-//  applicationEngine->load(QUrl(QStringLiteral("qrc:/Qml/Main/Application.qml")));
-  applicationEngine->load(QUrl(QStringLiteral("qrc:/Assets/Theme/ThemeTest.qml")));
-
+  applicationEngine->load(QUrl(QStringLiteral("qrc:/Qml/Main/Application.qml")));
+//  applicationEngine->load(QUrl(QStringLiteral("qrc:/Assets/Theme/ThemeTest.qml")));
+qDebug() << "Root objects:" << applicationEngine->rootObjects();
   if ( applicationEngine->rootObjects().isEmpty() ) return -1;
 
   return app.exec();
