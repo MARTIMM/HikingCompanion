@@ -27,6 +27,8 @@ HCPage.Plain {
       // on the track shown on the map
       var bounds = config.boundary();
       mapPage.hikingCompanionMap.visibleRegion = bounds;
+      mapPage.hikingCompanionMap.zoomLevel =
+          mapPage.hikingCompanionMap.zoomLevel - 0.2;
       mapPage.hikingCompanionMap.setWanderOffTrackNotation();
 
       // Make map visible
