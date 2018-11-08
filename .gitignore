@@ -5,3 +5,4 @@ android-backup/*
 .precomp/*
 */.precomp/*
 *.pro.user
+Assets/Providers/*
