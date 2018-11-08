@@ -6,7 +6,7 @@
 #include <QObject>
 #include <QSettings>
 
-#define HIKING_COMPANION_VERSION "0.12.0"
+#define HIKING_COMPANION_VERSION "0.12.2"
 
 
 class ConfigData : public QObject {

@@ -172,7 +172,7 @@ The menu entries
   * [x] **⏼ Exit**: Close the application. **⏽** or **🗙** on android because of missing character. Must check OS type.
 
 ## Map page
-'<progress value="7" max="15" />'
+'<progress value="7" max="17" />'
 
 The map page is also the home page.
 
@@ -190,8 +190,9 @@ The map page is also the home page.
     * [ ] zooming with buttons.
     * [ ] Reveal more features when zooming in.
     * [ ] Remove features when zooming out.
-  * North arrow button on the top right side.
-    * [ ] Click action aligns map to the north.
+  * [ ] North arrow button on the top right side. Click action aligns map to the north.
+  * [ ] Camera button to make a picture which get locked to the current location.
+  * [ ] Note button to make a note for the current location.
   * Open menu button ☰. Button is placed just below the north arrow.
     * [x] Click action shows the menu on the right side of the page.
   * Open street map attribute on the bottom right of the map.
@@ -353,6 +354,8 @@ There must be a license which must describe the application in such a way that t
 
 Versions have a letter added: D for debug version and R for a release version. When not added it is always a debug version.
 
+* 2018-11-8, 0.12.2
+  * Using Thunderforest tile map server using a personal api-key.
 * 2018-11-2, 0.12.1
   * Config page enhancements
 * 2018-11-1, 0.12.0
@@ -427,6 +430,7 @@ Versions of mobile devices will change slower because not every version is direc
 | 0.6.0  | 0.6.0   | 24 (7.1)|
 | 0.7.0  | 0.10.0  | 22       
 | 0.8.0  | 0.12.0  | 22       
+| 0.8.1  | 0.12.2  | 22       
 
 ## Test version changes on IOS
 
