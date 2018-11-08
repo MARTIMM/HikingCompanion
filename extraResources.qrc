@@ -12,6 +12,14 @@
         <file>Assets/Pages/appInfoText.html</file>
         <file>Assets/Pages/aboutText.html</file>
         <file alias="qtquickcontrols2.conf">Assets/Theme/qtquickcontrols2.conf</file>
+        <file>Assets/Providers/cycle</file>
+        <file>Assets/Providers/hiking</file>
+        <file>Assets/Providers/night-transit</file>
+        <file>Assets/Providers/satellite</file>
+        <file>Assets/Providers/street</file>
+        <file>Assets/Providers/street-hires</file>
+        <file>Assets/Providers/terrain</file>
+        <file>Assets/Providers/transit</file>
         <!--file>Assets/Theme/HCTheme1.qml</file-->
         <file>Assets/Theme/HikingCompanionTheme.qml</file>
         <file>Assets/Theme/HikingCompanion.json</file>

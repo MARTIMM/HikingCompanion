@@ -8,7 +8,7 @@ import QtQuick 2.11
 import QtQuick.Controls 2.2
 import QtLocation 5.9
 import QtPositioning 5.8
-import QtQuick.Window 2.11
+//import QtQuick.Window 2.11
 
 HCPage.Plain {
   id: mapPage
@@ -33,6 +33,7 @@ HCPage.Plain {
 
 
   // See also https://doc-snapshots.qt.io/qt5-5.9/location-plugin-itemsoverlay.html#
+  // https://doc-snapshots.qt.io/qt5-5.9/location-plugin-osm.html#
   property alias hikingCompanionMap: hikingCompanionMap
   property alias currentLocationFeature: hikingCompanionMap.currentLocationFeature
   Map {
@@ -40,11 +41,47 @@ HCPage.Plain {
 
     Component.onCompleted: {
       location.start();
-      hikingCompanionMap.addMapItem(currentLocationFeature)
+
+      hikingCompanionMap.clearData();
+      hikingCompanionMap.addMapItem(currentLocationFeature);
 
       // When there is no gps, just set the circle on top of the
       // current map center.
       currentLocationFeature.center = hikingCompanionMap.center;
+
+      // Search for 'TerrainMap' map type and set activeMapType with it
+      for ( var mt in supportedMapTypes ) {
+/*
+        console.log("---");
+        console.log("name: " + supportedMapTypes[mt].name);
+        console.log("descr: " + supportedMapTypes[mt].description);
+        console.log("mobile: " + supportedMapTypes[mt].mobile);
+        console.log("night: " + supportedMapTypes[mt].night);
+        console.log("style: " + supportedMapTypes[mt].style);
+*/
+/*
+  From MapType QML component
+        MapType.NoMap - No map.
+        MapType.StreetMap - A street map.
+        MapType.SatelliteMapDay - A map with day-time satellite imagery.
+        MapType.SatelliteMapNight - A map with night-time satellite imagery.
+        MapType.TerrainMap - A terrain map.
+        MapType.HybridMap - A map with satellite imagery and street information.
+        MapType.GrayStreetMap - A gray-shaded street map.
+        MapType.PedestrianMap - A street map suitable for pedestriants.
+        MapType.CarNavigationMap - A street map suitable for car navigation.
+        MapType.CycleMap - A street map suitable for cyclists.
+        MapType.CustomMap - A custom map type.
+*/
+        if ( supportedMapTypes[mt].style === MapType.TerrainMap ) {
+//        if ( supportedMapTypes[mt].style === MapType.CycleMap ) {
+//        if ( supportedMapTypes[mt].style === MapType.CustomMap ) {
+          hikingCompanionMap.activeMapType = supportedMapTypes[mt];
+          break;
+        }
+      }
+
+      console.log("Map set to " + hikingCompanionMap.activeMapType.description);
     }
 
     width: parent.width
@@ -53,41 +90,55 @@ HCPage.Plain {
     gesture.enabled: true
     z: parent.z + 1
 
-    //activeMapType: MapType.CycleMap
-    //color: "transparent"
-    //opacity: 0
-
-    //plugin: mapPlugin
     plugin: Plugin {
-      // For the OSM plugin see also a blog at http://blog.qt.io/blog/2017/03/09/provisioning-openstreetmap-providers-in-qtlocation/
-      //id: mapPlugin
-      //locales: [ "en_US", "nl_NL"]
-      name: "osm" // "osm", "mapboxgl", "esri", ...
-      //preferred: [ "osm", "esri"]
-      //required: Plugin.MappingFeature
-      //          | Plugin.GeocodingFeature
-      //          | Plugin.AnyPlacesFeature
+      name: "osm" // "osm" // "mapboxgl" // "mapbox" // "esri", ...
 
-      // specify OSM plugin parameters
-      //PluginParameter { name: "osm.mapping.host"; value: "http://tile.thunderforest.com/landscape" }
-      //PluginParameter { name: "osm.mapping.host"; value: "http://c.tiles.wmflabs.org/hillshading" }
-      //PluginParameter { name: "osm.mapping.providersrepository.disabled"; value: true}
-      //PluginParameter { name: "osm.mapping.host"; value: "http://c.tiles.wmflabs.org/hillshading" }
+/*
+      // Search and set MapType.CustomMap
+      // There are problems using https:
+      //   Error is: 'qt.network.ssl: Incompatible version of OpenSSL'
+      // Messages from main qDebug output:
+      //   SslSupport:  false
+      //   SslLibraryBuildVersion:  "OpenSSL 1.0.2k-fips  26 Jan 2017"
+      //   SslLibraryRuntimeVersion:  ""
 
-      //PluginParameter { name: "osm.mapping.host"; value: "https://tile.openstreetmap.org/" }
-      //PluginParameter { name: "osm.geocoding.host"; value: "https://nominatim.openstreetmap.org" }
-      //PluginParameter { name: "osm.routing.host"; value: "https://router.project-osrm.org/viaroute" }
-      //PluginParameter { name: "osm.places.host"; value: "https://nominatim.openstreetmap.org/search" }
-      //PluginParameter { name: "osm.mapping.copyright"; value: "" }
-      //PluginParameter { name: "osm.mapping.highdpi_tiles"; value: true }
+      PluginParameter {
+        name: "osm.mapping.custom.host"
+        value: "https://a.tile.opentopomap.org/"
+      }
+
+      PluginParameter {
+        name: "osm.mapping.custom.mapcopyright"
+        value: "<a href='http://www.opentopomap.com/'>OpenTopoMap</a>"
+      }
+
+      PluginParameter {
+        name: "osm.mapping.custom.datacopyright"
+        value: "<a href='http://www.opentopomap.com/'>OpenTopoMap</a>"
+      }
+
+      PluginParameter {
+        name: "osm.mapping.providersrepository.disabled"
+        value: true
+      }
+*/
+
+      // Copy all files from <qt install>/5.11.2/Src/qtlocation/src/plugins/geoservices/osm/providers/5.8/*
+      // to qrc:Assets/Providers and add to resources file. Then the api key
+      // can be added to the url strings for the thunderforest site.
+      PluginParameter {
+        name: "osm.mapping.providersrepository.address"
+        //value: "http://192.168.0.22/~marcel/Assets/Providers/"
+        //value: "file:////home/marcel/Projects/Mobile/Projects/HikingCompanion/HikingCompanion/Assets/Providers"
+        value: "qrc:Assets/Providers"
+      }
     }
-
 
     center: location.valid
             ? location.coordinate
             : QtPositioning.coordinate( 59.91, 10.75) // Oslo
     //zoomLevel: 12
-    zoomLevel: 18
+    zoomLevel: 17
 
     // This object is set from the tracksPage after selecting a track.
     property alias trackCourse: trackCourse
