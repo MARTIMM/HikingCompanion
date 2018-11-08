@@ -19,6 +19,7 @@
 #include <QtQml>
 #include <QFontDatabase>
 #include <QFont>
+#include <QSslSocket>
 
 // ----------------------------------------------------------------------------
 // Define global variables
@@ -26,6 +27,10 @@ QQmlApplicationEngine *applicationEngine;
 
 // ----------------------------------------------------------------------------
 int main( int argc, char *argv[]) {
+
+  qDebug() << "SslSupport: " << QSslSocket::supportsSsl();
+  qDebug() << "SslLibraryBuildVersion: " << QSslSocket::sslLibraryBuildVersionString();
+  qDebug() << "SslLibraryRuntimeVersion: " << QSslSocket::sslLibraryVersionString();
 
 #if defined(Q_OS_ANDROID)
   // On android, we must request the user of the application for the following
