@@ -6,22 +6,18 @@
 ## Purpose
 Purpose of this app is to have a companion program suitable for showing tracks and additional information about those tracks. It is the intention to get those tracks from other app installations or from your own recorded tracks and added pictures and notes. So this program would become an all purpose vehicle for displaying external tracks. While its name would suggest that long walks are intended, a city walk showing the hot items of that place would equally be possible.
 
-At first use, not much can be done with the program. Another app must be installed too. This is a specially designed app holding track data and extra information such as notes and photos. Then, when such an app is installed, the app can be referred to by using some sort of name from this HikingCompanion application. The trail apps should always have a name starting with **HC-**. E.g. HC-Sufitrail or HC-Sultanstrail. This makes it possible to let the HikingCompanion look around on the device for these track apps.
-
-When the HikingCompanion is not installed yet, the installation process of a tracking app should also install the HikingCompanion app.
+At first use, not much can be done with the program except recording your own routes. Another app must be installed too. This is a specially designed app holding track data and extra information such as notes and photos. Then, when such an app is installed and run, that particular app places its data in the HikingCompanion applications environment. The next time the HikingCompanion app is started, it will notice the new data and will insert the data in the hike database. When the HikingCompanion is not installed yet the program will not install the data.
 
 A tracking app should hold any or all of the following data
-* The route of the walk.
+* Several tracks showing the hike.
 * Notes about interesting features along the route in several languages.
 * Pictures showing the environment of points on the route.
-* Map tiles and feature cache information.
+* Map tiles and feature cache information?
 * Places to eat and/or stay and web addresses to make reservations.
-* Color palette and other makeup for this particular route.
+* Color palette and other makeup for this particular hike.
 
 ## History
-This mobile app is a re-try of the previously developed SufiTrail app where I stumbled upon problems using the methods at hand. After some searches and some good suggestions from a good friend of mine, a new setup is tried with `Qt` using the tool `qtcreator`.
-
-I am still working through some series of acceptance tests but it looks hopeful. Below, a series of acceptance tests needed for this app and also the development for the implementation of the app is shown.
+This mobile app is a re-try of the previously developed SufiTrail app where I stumbled upon problems using the methods at hand. After some searches and some suggestions from a good friend of mine, a new setup is tried with `Qt` using the tool `qtcreator`.
 
 ## License
 Something public domain and risk free (for me that is ;-)
@@ -29,81 +25,12 @@ Something public domain and risk free (for me that is ;-)
 ## Installing
 This app will be placed in the app store when ready.
 
-
-## Acceptance tests for this project
-Below, there are a series of tests which is also used as the progress in the learning curve I have to go through. The most important device to work for are android devices. Ios devices would be nice but is a later problem.
-
-'<progress max=45 value="34" />'
-
-* [x] Android SDK, NDK and OpenJDK installation using Android Studio and linux installation tools.
-* [ ] Xcode for ios
-* [x] Configuration of qtcreator.
-* [x] Setup devices for android
-* [x] Setup devices for ios
-* Run a few examples
-  * [x] Build and run an example for the desktop
-  * [x] Build, upload and run an example for an android device
-  * [ ] Build, upload and run an example for an ios device
-
-* QML Gui
-  * [x] Create some GUI with fields and change things
-  * [x] Build, upload and run this GUI on android device
-  * [ ] Build, upload and run this GUI on ios device
-
-  * [x] Organizing qml files in directories using qml.qrc. This can be done mostly automatic from within the creator but using the editor is sometimes easier.
-  * [x] Organizing other files like images and docs are set using another `.qrc` file to make a different resource.
-  * [x] Stylesheets. Starting project with `Application -> Qt Quick Application` cannot cope with the commands `QApplication->setStyle()` and `QApplication->setStyleSheet()`. The first could only be done via comandline arguments **-style** or manipulating the arguments list in the program. However creating a new project using `Application -> Qt Widgets Application` let the commands work. Also it was possible to include QML components into the widget structures be it a bit difficult. Other ways of styling are now implemented.
-
-  * Input processing.
-    * [x] Text input and show input
-    * [x] Html or Rich text
-    * [x] Scroll and wrap text
-    * [x] Toolbar and normal buttons and processing
-    * [ ] Other gui items like radio and check buttons, lists, tables etc.
-    * [x] Make use of javascript for processing of events
-
-  * Navigation. There are several implementations possible
-    * [x] Show a menu. This is done using a `Column` component wherein `Button` components are placed.
-    * [x] Multipages. Pages are created in separate files using a simple `Rectangle` component.
-    * [x] Selecting pages from the menu.
-
-* Integration of QML and C++. See for info [here][qtc-c++].
-  * [x] Create a class with some variables and methods using <QObject> and other external modules.
-  * [x] Use the class in a QML description.
-  * [x] Debugging using qDebug() and using <QDebug>.
-  * [ ] Controlling UI components from C++.
-
-* File I/O and directory manipulations
-  * [x] Go into an existing directory using QDir
-  * [x] Open, read, write and create a file using QFile
-  * [ ] Create, test and delete a directory using QDir
-  * [ ] Build a directory tree using QDir
-
-* XML processing to read and write qpx data and configuration files.
-  * [x] Read and process an XML file. See also [this doc][qtc-xml].
-  * [ ] Create an XML DOM tree
-  * [ ] Save XML from DOM tree
-
-* Map processing
-  * [x] Show a map
-  * [x] Move, rotate and zoom the map
-  * [x] Tilting a map
-
-* Accessing device sensors
-  * [x] Example test for GPS location
-
-* Miscellaneous
-  * [ ] Language switching using QLocale. See also Resources.
-  * [x] Android manifest
-  * [x] Desktop icon
-  * [ ] Desktop widget
-
 ---
 # Progress of the application
 Next, the developing progress is shown here. Several entries are also in the acceptance tests to see if those things are possible because the purpose of the acceptance tests are to find out what Qt and the qtcreator tool is capable of.
 
 ## Events and devices to listen to
-'<progress value="1" max="7" />'
+<progress value="1" max="7"></progress>
 
 There are several events which occur upon changing conditions in a device. These events must be captured for further actions.
 * [ ] Battery condition to warn user of battery low state. App might dim display or perform other actions to save energy.
@@ -118,7 +45,7 @@ There are several events which occur upon changing conditions in a device. These
 
 Caching of data is needed for those moments that there is no network available.
 
-'<progress value='0' max='4' />'
+<progress value='0' max='4'></progress>
 
 * [ ] At start up and network is on and a track is installed, caching must start. Caching must be inhibited when network is off or very slow.
 * [ ] Store data (like date and time) to check for revisiting the caching process.
@@ -129,26 +56,25 @@ Caching of data is needed for those moments that there is no network available.
 * Try to get weather forecast and cache (short term) this information too.
 
 ## The Menu
-'<progress value="5" max="5" />'
+<progress value="5" max="5"></progress>
 
 * [x] Added module for variables and styling
-* [x] Pressing the menu button `☰` shown on the map or other pages, will open a pane from the side to show a menu of options. A click on an entry will show another page. When selecting an entry, the menu is closed and a page will appear.
-* [x] Each page may have a button `🏠`🌐 🌍 to the map page. Pressing that will return to the map page.
-
+* [x] Pressing the menu button <button>☰</button> shown on the map or other pages, will open a pane from the side to show a menu of options. A click on an entry will show another page. When selecting an entry, the menu is closed and a page will appear.
+* [x] Each page, other than the map page, must have a <button>🌍</button> button, to go to the map page.
 * [x] Layout of menu.
-* [x] Layout of all pages must be coherent and matching the pages and colors from the book.
+* [x] Layout of all pages must be coherent.
 
 ## The pages of the application
 A series of screen descriptions the application can show.
 
 ### Display on tablet screen
-'<progress value="0" max="2" />'
+<progress value="0" max="2"></progress>
 
 * [ ] An icon must be designed
 * [ ] A widget showing small part of a chart?
 
 ### Splash screen
-'<progress value="0" max="4" />'
+<progress value="0" max="4"></progress>
 
 When starting the program, the app must show a splash screen with a nice hiking picture on it while the program gets ready in the background. When it is, the splash screen is removed.
 
@@ -159,10 +85,10 @@ When starting the program, the app must show a splash screen with a nice hiking 
 
 ####  The pages to select from the menu
 
-'<progress value="3" max="8" />'
+<progress value="5" max="8"></progress>
 
 The menu entries
-  * [x] **🗺 Map**: Show map.
+  * [x] **🌍 Map**: Show map.
   * [ ] **ℹ Info**: Show route information
   * [x] **🚶 Tracks**: Select a track.
   * [ ] **⌘ Feature** Show history, or other info.
@@ -172,7 +98,7 @@ The menu entries
   * [x] **⏼ Exit**: Close the application. **⏽** or **🗙** on android because of missing character. Must check OS type.
 
 ## Map page
-'<progress value="7" max="17" />'
+<progress value="10" max="19"></progress>
 
 The map page is also the home page.
 
@@ -183,23 +109,23 @@ The map page is also the home page.
     * [ ] Show features for starting scale of map.
     * [ ] Map overlay for height lines and/or shades.
     * [x] Show current location.
-    * [ ] Focus on that location using a button.
-    * [ ] A dashed line is shown from current location to closest point on the track to show that the hiker wanders off route.
+    * [x] Focus on that current location using a <button>🎯</button> button.
+    * [x] Focus on current selected track using a <button>☡</button> button.
+    * [x] A (dashed) line is shown from current location to closest point on the track to show that the hiker wanders off route.
     * [x] zooming by pinching (on mobile device).
   * Zoom buttons. The buttons are placed on the left side.
     * [ ] zooming with buttons.
     * [ ] Reveal more features when zooming in.
     * [ ] Remove features when zooming out.
   * [ ] North arrow button on the top right side. Click action aligns map to the north.
+  * [ ] Reset tilt button on the top right side. Click action returns map in normal 2D view.
   * [ ] Camera button to make a picture which get locked to the current location.
   * [ ] Note button to make a note for the current location.
-  * Open menu button ☰. Button is placed just below the north arrow.
-    * [x] Click action shows the menu on the right side of the page.
-  * Open street map attribute on the bottom right of the map.
-    * [x] OSM attribution is displayed.
+  * [x] Open menu button ☰. Button is placed just below the north arrow. Click action shows the menu on the right side of the page.
+  * [x] Open street map attribute on the bottom right of the map.
 
 ## The info page
-'<progress value="0" max="2" />'
+<progress value="0" max="2"></progress>
 
   The info page shows information of the currently selected track. There are 40 tracks to walk in 40 days so we need 40 pages of data. The info page is loaded from a file from a separately installed track app.
 
@@ -207,7 +133,7 @@ The map page is also the home page.
   * [ ] Fill the info page after selecting a track. Previous data must be removed.
 
 ## The Tracks page
-'<progress value="6" max="7" />'
+<progress value="10" max="12"></progress>
 
   Show a list of tracks from which a selection can be made. This will only be visible when one or more hike apps are installed. Track list changes when another hike is selected.
 
@@ -215,18 +141,20 @@ The map page is also the home page.
   * Generate the page from the tracks directory contents. Each track shows;
     * [x] the gpx track name found in the configuration file.
     * [x] Show length of the route. Calculated once when the route is processed.
-    * [x] Show a bicycle or a walking person icon depending on the route.
+    * [x] Show a bicycle or a walking person icon depending on the type of route.
   * [x] Refresh tracks list when another hike is selected on the config page
   * [x] Show map when a selection is made using a <button>Select</button>  button.
   * [x] The route is displayed.
   * [x] The route is centered on page. This depends if information is available in the user track.
   * [x] The route is zoomed so as to fit the page. This depends if information is available in the user track.
   * [x] Show (dashed) line from current location to closest point on the trail when off trail (further than, lets say, 1 kilometer).
+  * [ ] Remove track button. Disabled for installed hikes, enabled for user recorded hikes.
+  * [ ] Show dialog before removing hike
 
 ## The Features page
 The Features page is filled when a feature is clicked. First a balloon is showed on the map pointing to the feature with text and a 'more ...' on the bottom. Again, only when a separate track app is installed.
 
-'<progress value="0" max="7" />'
+<progress value="0" max="7"></progress>
 
   * [ ] Page created
   * Selection of features to show;
@@ -240,48 +168,49 @@ The Features page is filled when a feature is clicked. First a balloon is showed
 ## The Gps page
 This is a page where a gps track can be started.
 
-'<progress value="0" max="9" />'
+<progress value="1" max="7"></progress>
 
 * [x] Page created
 * [ ] Start tracking
 * Stop and save tracking
   * [ ] Convert coordinates into gpx XML text
   * [ ] Save text into file
-  * [ ] Display track in a list
-  * [ ] Show track on screen
-  * [ ] Keep on disk after reinstall/update
-* [ ] Postpone tracking
+  * [ ] Add configuration entries for the track in this hike
+* [ ] Pause tracking
 * [ ] Continue tracking
 
 ## The Config page
 
 Input fields can be checked
-'<progress value="8" max="9" />'
+<progress value="9" max="12"></progress>
 
   * [x] Page created.
-  * [ ] Text message about users consent of sending data to server. Make rest of the questions available if user wants to provide personal data.
-  * [x] Username used to differentiate input from different users. This input can be things such as photos, notes etc.
-  * [x] Email addresses.
+  * [ ] Text message about users consent of sending data to server.
+  * [x] Username used to differentiate input from different users. This input can be things such as photos, notes and hikes.
+  * [x] Email address.
   * [x] A combobox of installed hikes.
   * On save data
     * [x] Data is stored in configuration file.
     * [x] Tracks are shown on tracks page.
     * [x] Theme is changed
     * [x] About page is modified
+  * [x] Remove hike button
+  * [ ] Show dialog before removing hike
+  * [ ] Export user recorded hike button
 
 ## The About page
-This is an overview of people involved and their tasks. Also other info can be shown such as a version number. This should also come from the track app.
+This is an overview of people involved and their tasks. Also other info can be shown such as a version numbers. This data should also come from the track app.
 
-'<progress value="2" max="3" />'
+<progress value="3" max="3"></progress>
 
   * [x] Page created
   * [x] Show hike dependent text.
-  * [ ] Show current version of the program and hike data.
+  * [x] Show current version of the program and hike data.
 
 ## The Exit page
 This should show a dialog to ask the user if he/she really wants to quit the program.
 
-'<progress value="2" max="5" />'
+<progress value="2" max="5"></progress>
 
   * [x] Page created
   * [ ] Show quit dialog
@@ -292,9 +221,8 @@ This should show a dialog to ask the user if he/she really wants to quit the pro
 ---
 # Languages used for the application
 
-'<progress value="3" max="5" />'
+<progress value="2" max="4"></progress>
 
-  * [x] Every word and phrase shown to the user is processed by using qsTr().
   * [x] All text is typed in English and is the fallback language by default.
   * [ ] Implementing the QT translation mechanism.
   * Supported Languages;
@@ -304,7 +232,7 @@ This should show a dialog to ask the user if he/she really wants to quit the pro
 ---
 # Other items or problems to think about
 
-'<progress value="8" max="10" />'
+<progress value="8" max="10"></progress>
 
   * [ ] By what license should the project be protected
   * [ ] Privacy considerations

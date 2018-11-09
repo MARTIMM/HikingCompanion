@@ -26,14 +26,13 @@ HCPage.Plain {
       HCButton.CurrentTrackButton { }
 
       //TODO North button
-      //TODO Zoom current location
-      //TODO Zoom to current track
       //TODO Reset 3D view to 2D view
+      //TODO Camera button to make a picture
+      //TODO Note button to make a note
     }
   }
 
 
-  // See also https://doc-snapshots.qt.io/qt5-5.9/location-plugin-itemsoverlay.html#
   // https://doc-snapshots.qt.io/qt5-5.9/location-plugin-osm.html#
   property alias hikingCompanionMap: hikingCompanionMap
   property alias currentLocationFeature: hikingCompanionMap.currentLocationFeature
@@ -147,6 +146,8 @@ HCPage.Plain {
       id: trackCourse
       line.width: 3
       line.color: '#785a3a'
+
+      // Set from the TracksPage whe a track is selected
       property var boundary;
     }
 
@@ -275,6 +276,7 @@ HCPage.Plain {
   }
 
 /*
+  // See also https://doc-snapshots.qt.io/qt5-5.9/location-plugin-itemsoverlay.html#
   Map {
     id: hillshadeOverlay
 
