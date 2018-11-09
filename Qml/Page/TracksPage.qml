@@ -31,6 +31,9 @@ HCPage.Plain {
       mapPage.hikingCompanionMap.zoomLevel =
           mapPage.hikingCompanionMap.zoomLevel - 0.2;
 
+      // For safekeeping so we can zoom on it again later
+      mapPage.hikingCompanionMap.trackCourse.boundary = bounds;
+
       // Show a line when we wander off track
       mapPage.hikingCompanionMap.setWanderOffTrackNotation();
 

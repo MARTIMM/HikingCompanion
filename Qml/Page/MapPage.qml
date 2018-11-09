@@ -8,7 +8,6 @@ import QtQuick 2.11
 import QtQuick.Controls 2.2
 import QtLocation 5.9
 import QtPositioning 5.8
-//import QtQuick.Window 2.11
 
 HCPage.Plain {
   id: mapPage
@@ -24,6 +23,7 @@ HCPage.Plain {
     HCParts.ToolbarRow {
       HCButton.OpenMenu { }
       HCButton.CurrentLocationButton { }
+      HCButton.CurrentTrackButton { }
 
       //TODO North button
       //TODO Zoom current location
@@ -147,6 +147,7 @@ HCPage.Plain {
       id: trackCourse
       line.width: 3
       line.color: '#785a3a'
+      property var boundary;
     }
 
     // This object is set each time when a new coordinate comes in from GPS
@@ -259,9 +260,18 @@ HCPage.Plain {
     }
   }
 
+  // Function to zoom in on the current location
   function zoomOnCurrentLocation() {
     hikingCompanionMap.center = currentLocationFeature.center;
     hikingCompanionMap.zoomLevel = 17;
+  }
+
+  // Function to zoom in on the current selected track
+  function zoomOnCurrentTrack() {
+    if ( hikingCompanionMap.trackCourse.boundary ) {
+      hikingCompanionMap.visibleRegion = hikingCompanionMap.trackCourse.boundary;
+      hikingCompanionMap.zoomLevel = hikingCompanionMap.zoomLevel - 0.2;
+    }
   }
 
 /*

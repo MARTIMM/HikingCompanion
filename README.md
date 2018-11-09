@@ -356,6 +356,7 @@ Versions have a letter added: D for debug version and R for a release version. W
 
 * 2018-11-9, 0.13.0
   * Add current location button on map page.
+  * Add current track button on map page.
 * 2018-11-8, 0.12.2
   * Using Thunderforest tile map server using a personal api-key.
 * 2018-11-2, 0.12.1

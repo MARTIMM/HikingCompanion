@@ -1,6 +1,8 @@
 <RCC>
     <qresource prefix="/">
         <file>Qml/Button/ButtonRowButton.qml</file>
+        <file>Qml/Button/CurrentLocationButton.qml</file>
+        <file>Qml/Button/CurrentTrackButton.qml</file>
         <file>Qml/Button/Home.qml</file>
         <file>Qml/Button/MenuButton.qml</file>
         <file>Qml/Button/OpenMenu.qml</file>
@@ -23,6 +25,5 @@
         <file>Qml/Parts/ToolbarRow.qml</file>
         <file>Qml/GlobalVariables.qml</file>
         <file>Qml/Page/UserTrackConfigPage.qml</file>
-        <file>Qml/Button/CurrentLocationButton.qml</file>
     </qresource>
 </RCC>
