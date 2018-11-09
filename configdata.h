@@ -5,6 +5,7 @@
 
 #include <QObject>
 #include <QSettings>
+#include <QJsonValue>
 
 #define HIKING_COMPANION_VERSION "0.13.0"
 
@@ -79,7 +80,10 @@ public:
   void setWindowSize( int w, int h);
 
   void saveUserTrackNames( QString hikeTitle, QString hikeDesc, QString hikeKey);
-  void saveUserTrack( QString trackTitle, QString trackDesc);
+  void saveUserTrack(
+      QString trackTitle, QString trackDesc,
+      QString hikeKey, QJsonValue coordinates
+      );
 
 signals:
 

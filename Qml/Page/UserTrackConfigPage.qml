@@ -17,10 +17,35 @@ HCPage.Plain {
   height: parent.height
   anchors.fill: parent
 
-  Component.onCompleted: {
-    console.log("UTCP");
+  property var coordinates;
+  function initCoordinates( longitude, latitude, altitude) {
+    coordinates = [];
+  }
 
-    // Save settings from this page
+  function addCoordinate( longitude, latitude, altitude) {
+    if ( recordTrack === false ) return;
+
+    console.log("Add coord: " + longitude + ", " + latitude + ", " + altitude);
+    path.push(
+          { "longitude": longitude,
+            "latitude": latitude,
+            "altitude": altitude
+          } );
+  }
+
+  function saveCoordinates( ) {
+    config.saveUserTrack(
+          hikeKey.inputText.text, trackTitle.inputText.text,
+          trackDesc.inputText.text, coordinates
+          );
+  }
+
+
+
+  Component.onCompleted: {
+    //console.log("UTCP");
+
+    // Load settings this page
     hikeKey.inputText.text = config.getSetting("User/hikekey");
     hikeTitle.inputText.text = config.getSetting("User/hiketitle");
     hikeDesc.inputText.text = config.getSetting("User/hikedescr");
@@ -28,12 +53,12 @@ HCPage.Plain {
     trackDesc.inputText.text = config.getSetting("User/trackdescr");
     trackType.rbWalk.checked =
         config.getSetting("User/tracktype") === "W" ? true : false;
+
+    // initialize coordinates
+    userTrackConfigPage.initCoordinates();
   }
 
-
-  Config {
-    id: config
-  }
+  Config { id: config }
 
   HCParts.ToolbarRectangle {
     id: pageToolbarRow
@@ -123,6 +148,7 @@ HCPage.Plain {
     }
 
     // Recording buttons
+    property bool recordingTrack: false
     HCParts.ConfigLabel { text: qsTr("Recording") }
     Row {
       id: recordingButtonRow
@@ -134,18 +160,23 @@ HCPage.Plain {
           startButton.enabled = false;
           stopButton.enabled = true;
           pauseButton.enabled = true;
+          configGrid.recordingTrack = true;
         }
       }
 
       HCButton.ButtonRowButton {
         id: stopButton
-        text: qsTr("Stop")
+        text: qsTr("Stop & Save")
         enabled: false
         onClicked: {
           startButton.enabled = true;
           stopButton.enabled = false;
           pauseButton.enabled = false;
           contButton.enabled = false;
+          configGrid.recordingTrack = false;
+
+          // userTrackConfigPage.saveCoordinates();
+          userTrackConfigPage.initCoordinates();
         }
       }
     }
@@ -162,6 +193,7 @@ HCPage.Plain {
         onClicked: {
           pauseButton.enabled = false;
           contButton.enabled = true;
+          configGrid.recordingTrack = false;
         }
       }
 
@@ -172,6 +204,7 @@ HCPage.Plain {
         onClicked: {
           pauseButton.enabled = true;
           contButton.enabled = false;
+          configGrid.recordingTrack = true;
         }
       }
     }
@@ -202,20 +235,5 @@ HCPage.Plain {
               );
       }
     }
-/*
-    HCButton.ButtonRowButton {
-      text: qsTr("Note")
-      enabled: false
-      onClicked: {
-      }
-    }
-
-    HCButton.ButtonRowButton {
-      text: qsTr("Camera")
-      enabled: false
-      onClicked: {
-      }
-    }
-*/
   }
 }

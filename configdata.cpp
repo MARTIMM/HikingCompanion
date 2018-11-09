@@ -461,15 +461,17 @@ void ConfigData::setWindowSize( int w, int h) {
 
 // ----------------------------------------------------------------------------
 void ConfigData::saveUserTrackNames(
-    QString hikeTitle, QString hikeDesc, QString hikeKey = ""
+    QString hikeTitle, QString hikeDesc, QString hikeKey
     ) {
 
+/*
   // Generate a user key from the title if no hike key is provided
   if ( hikeKey == "" ) {
     QCryptographicHash *ch = new QCryptographicHash(QCryptographicHash::Sha1);
     ch->addData(hikeTitle.toLocal8Bit());
     hikeKey = QString(ch->result().toHex().data());
   }
+*/
 
   QString entryKey = hikeEntryKey(hikeKey);
   if ( entryKey == "" ) {
@@ -516,7 +518,11 @@ void ConfigData::saveUserTrackNames(
 }
 
 // ----------------------------------------------------------------------------
-void ConfigData::saveUserTrack( QString trackTitle, QString trackDesc) {
+void ConfigData::saveUserTrack(
+    QString trackTitle, QString trackDesc,
+    QString hikeKey, QJsonValue coordinates
+    ) {
+
 }
 
 // ----------------------------------------------------------------------------

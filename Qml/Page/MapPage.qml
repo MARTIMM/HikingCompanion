@@ -3,6 +3,7 @@ import "../Button" as HCButton
 import "../Parts" as HCParts
 
 import io.github.martimm.HikingCompanion.Theme 0.1
+import io.github.martimm.HikingCompanion.GlobalVariables 0.1
 
 import QtQuick 2.11
 import QtQuick.Controls 2.2
@@ -147,7 +148,7 @@ HCPage.Plain {
       line.width: 3
       line.color: '#785a3a'
 
-      // Set from the TracksPage whe a track is selected
+      // Set from the TracksPage when a track is selected
       property var boundary;
     }
 
@@ -257,6 +258,14 @@ HCPage.Plain {
 
       currentLocationFeature.center = location.position.coordinate
       hikingCompanionMap.center = location.position.coordinate
+
+      // Send to user track page for recording
+      GlobalVariables.userTrackConfigPage.addCoordinate(
+            location.position.coordinate.longitude,
+            location.position.coordinate.latitude,
+            location.position.coordinate.altitude
+            );
+
       //hikingCompanionMap.setRad();
     }
   }

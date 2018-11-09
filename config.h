@@ -4,7 +4,7 @@
 #include "configdata.h"
 //#include <QObject>
 //#include <QSettings>
-
+#include <QJsonValue>
 
 class Config : public QObject {
 
@@ -116,9 +116,10 @@ public:
   }
 
   Q_INVOKABLE inline void saveUserTrack(
-      QString trackTitle, QString trackDesc
+      QString hikeKey, QString trackTitle,
+      QString trackDesc, QJsonValue coordinates
       ) {
-    _configData->saveUserTrack( trackTitle, trackDesc);
+    _configData->saveUserTrack( hikeKey, trackTitle, trackDesc, coordinates);
   }
 
 signals:
