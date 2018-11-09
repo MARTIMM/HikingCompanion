@@ -23,5 +23,6 @@
         <file>Qml/Parts/ToolbarRow.qml</file>
         <file>Qml/GlobalVariables.qml</file>
         <file>Qml/Page/UserTrackConfigPage.qml</file>
+        <file>Qml/Button/CurrentLocationButton.qml</file>
     </qresource>
 </RCC>

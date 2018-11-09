@@ -23,6 +23,7 @@ HCPage.Plain {
 
     HCParts.ToolbarRow {
       HCButton.OpenMenu { }
+      HCButton.CurrentLocationButton { }
 
       //TODO North button
       //TODO Zoom current location
@@ -148,6 +149,17 @@ HCPage.Plain {
       line.color: '#785a3a'
     }
 
+    // This object is set each time when a new coordinate comes in from GPS
+    // and the user has tracking enabled. Later when ready, it is stored and
+    // then selectable from the hike table and is made visible in the
+    // trackCourse object
+    property alias userTrackCourse: userTrackCourse
+    MapPolyline {
+      id: userTrackCourse
+      line.width: 3
+      line.color: '#6a883a'
+    }
+
     property alias wanderOffTrackNotation: wanderOffTrackNotation
     MapPolyline {
       id: wanderOffTrackNotation
@@ -166,8 +178,11 @@ HCPage.Plain {
 */
     }
 
+    // Draw a line when the current location is too far away from the
+    // currently selected track. It shows as a light line from the current
+    // location to the closest point on the track.
     function setWanderOffTrackNotation() {
-      console.log("Calculate dist from route");
+      //console.log("Calculate dist from route");
       var closestPointOnRoute = config.findClosestPointOnRoute(
             currentLocationFeature.center
             );
@@ -175,11 +190,12 @@ HCPage.Plain {
             closestPointOnRoute,
             currentLocationFeature.center
             );
-      console.log("cp: " + closestPointOnRoute + ", dist: " + dist);
+      //console.log("cp: " + closestPointOnRoute + ", dist: " + dist);
 
       var path = [];
+      // Check if we are further than 500 meters away
       if ( dist > 500 ) {
-        console.log("Path: " + path.length + ", " + path + ", " + currentLocationFeature.center.longitude);
+        //console.log("Path: " + path.length + ", " + path + ", " + currentLocationFeature.center.longitude);
         path.push(
               { "longitude": currentLocationFeature.center.longitude,
                 "latitude": currentLocationFeature.center.latitude
@@ -192,13 +208,12 @@ HCPage.Plain {
       }
 
       else {
-        // Clear the line
-        //path.push( { "longitude": 0, "latitude": 0} );
-        //path.push( { "longitude": 0, "latitude": 0} );
+        // Clear the line using an empty array
         wanderOffTrackNotation.path = path;
       }
     }
 
+/*
     property real radius: currentLocationFeature.radius
     property real bw: currentLocationFeature.border.width
     function setRad() {
@@ -211,6 +226,7 @@ HCPage.Plain {
       if ( zl >= 12 && zl < 15 )  { radius = 400.0; bw = 6; }
       if ( zl >= 15 )             { radius = 200.0; bw = 4; }
     }
+*/
 
     property alias currentLocationFeature: currentLocationFeature
     MapCircle {
@@ -242,6 +258,12 @@ HCPage.Plain {
       //hikingCompanionMap.setRad();
     }
   }
+
+  function zoomOnCurrentLocation() {
+    hikingCompanionMap.center = currentLocationFeature.center;
+    hikingCompanionMap.zoomLevel = 17;
+  }
+
 /*
   Map {
     id: hillshadeOverlay

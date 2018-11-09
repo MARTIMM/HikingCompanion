@@ -354,6 +354,8 @@ There must be a license which must describe the application in such a way that t
 
 Versions have a letter added: D for debug version and R for a release version. When not added it is always a debug version.
 
+* 2018-11-9, 0.13.0
+  * Add current location button on map page.
 * 2018-11-8, 0.12.2
   * Using Thunderforest tile map server using a personal api-key.
 * 2018-11-2, 0.12.1
