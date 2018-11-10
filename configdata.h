@@ -5,7 +5,6 @@
 
 #include <QObject>
 #include <QSettings>
-#include <QJsonValue>
 
 #define HIKING_COMPANION_VERSION "0.13.0"
 
@@ -81,8 +80,8 @@ public:
 
   void saveUserTrackNames( QString hikeTitle, QString hikeDesc, QString hikeKey);
   void saveUserTrack(
-      QString trackTitle, QString trackDesc,
-      QString hikeKey, QJsonValue coordinates
+      QString hikeKey, QString trackTitle, QString trackDesc,
+      QString trackType, QJsonValue coordinates
       );
 
 signals:
@@ -98,6 +97,11 @@ private:
   void _moveTable( QString fromTable, QString toTable);
   bool _mkpath(QString path);
   static ConfigData *_createInstance();
+  bool _storeCoordinates(
+      QString hikeKey, QString hikeTableName, QString trackTitle,
+      QString trackDesc, QString trackType, QJsonValue coordinates,
+      QString nTracks
+      );
 
   QString _dataDir;       // Location where all hikes are stored
   QString _dataShareDir;  // Location where new data is placed to install

@@ -116,10 +116,12 @@ public:
   }
 
   Q_INVOKABLE inline void saveUserTrack(
-      QString hikeKey, QString trackTitle,
-      QString trackDesc, QJsonValue coordinates
+      QString hikeKey, QString trackTitle, QString trackDesc,
+      QString trackType, QJsonValue coordinates
       ) {
-    _configData->saveUserTrack( hikeKey, trackTitle, trackDesc, coordinates);
+    _configData->saveUserTrack(
+          hikeKey, trackTitle, trackDesc, trackType, coordinates
+          );
   }
 
 signals:

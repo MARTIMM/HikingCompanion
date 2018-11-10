@@ -8,6 +8,11 @@
 #include <QDir>
 #include <QFile>
 #include <QCryptographicHash>
+#include <QXmlStreamWriter>
+#include <QDateTime>
+#include <QJsonValue>
+#include <QJsonArray>
+#include <QJsonObject>
 
 // ----------------------------------------------------------------------------
 ConfigData::ConfigData(QObject *parent) : QObject(parent) {
@@ -519,10 +524,35 @@ void ConfigData::saveUserTrackNames(
 
 // ----------------------------------------------------------------------------
 void ConfigData::saveUserTrack(
-    QString trackTitle, QString trackDesc,
-    QString hikeKey, QJsonValue coordinates
+    QString hikeKey, QString trackTitle,
+    QString trackDesc, QString trackType,
+    QJsonValue coordinates
     ) {
 
+  QString entryKey = hikeEntryKey(hikeKey);
+  if ( entryKey != "" ) {
+    QString hikeTableName = entryKey + "." + hikeKey;
+
+    QString nTracks = getSetting(hikeTableName + "/ntracks");
+    bool success = _storeCoordinates(
+          hikeKey, hikeTableName, trackTitle,
+          trackDesc, trackType, coordinates, nTracks
+          );
+    if ( success ) {
+      // Update version and release notes
+      QStringList v = getSetting(hikeTableName + "/version").split(".");
+      v[1] = QString(v[1].toInt() + 1);
+      v[2] = "0";
+      QString version = v.join(".");
+      setSetting( hikeTableName + "/version", version);
+      setSetting(
+            hikeTableName + ".Releases/" + version,
+            trackTitle + ": " + trackDesc
+            );
+
+      setSetting( hikeTableName + "/ntracks", nTracks.toInt() + 1);
+    }
+  }
 }
 
 // ----------------------------------------------------------------------------
@@ -814,4 +844,87 @@ bool ConfigData::_mkpath(QString path) {
 // ----------------------------------------------------------------------------
 ConfigData *ConfigData::_createInstance() {
   return new ConfigData;
+}
+
+// ----------------------------------------------------------------------------
+// Save coordinates in a gpx file. Return true when file is written successfuly
+// and false when another file whas found.
+bool ConfigData::_storeCoordinates(
+      QString hikeKey, QString hikeTableName, QString trackTitle,
+      QString trackDesc, QString trackType, QJsonValue coordinates,
+    QString nTracks
+      ) {
+
+  bool success = false;
+  QCryptographicHash *filenameHash =
+      new QCryptographicHash(QCryptographicHash::Sha1);
+  filenameHash->addData(trackTitle.toLocal8Bit());
+  QString filename = QString(filenameHash->result().toHex().data()) + ".gpx";
+
+  // Check tracks directory
+  QString trackPath = _dataDir + "/" + hikeKey + "/Tracks";
+  QDir *dd = new QDir(trackPath);
+  if ( !dd->exists() ) _mkpath(trackPath);
+
+  QFile *ff = new QFile(trackPath + "/" + filename);
+  if ( !ff->exists() ) {
+    // Mise en place
+    QString hikeTitle = getSetting(hikeTableName + "/title");
+    QString www = getSetting(hikeTableName + "/www");
+    QString owner = getSetting(hikeTableName + "/owner");
+    QString time = QDateTime().toString("dd-MM-YYYY hh:mm:ss t");
+
+    QXmlStreamWriter gpx(ff);
+    gpx.setAutoFormatting(true);
+    gpx.writeStartDocument();
+
+    // Toplevel element
+    gpx.writeStartElement("gpx");
+    gpx.writeNamespace( "http://www.w3.org/2001/XMLSchema-instance", "xsi");
+    gpx.writeNamespace("http://www.topografix.com/GPX/1/1");
+    gpx.writeAttribute( "xsi", "schemaLocation",
+                        "http://www.topografix.com/GPX/1/1 http://www.topografix.com/GPX/1/1/gpx.xsd"
+                        );
+    gpx.writeAttribute( "version", "1.1");
+    gpx.writeAttribute( "creator", "HikingCompanion App");
+
+    // Metadata section
+    gpx.writeStartElement("metadata");
+    if ( www != "" ) gpx.writeTextElement( "link", www);
+    if ( owner != "" ) {
+      gpx.writeTextElement( "copyright", owner);
+      gpx.writeTextElement( "author", owner);
+    }
+    if ( trackTitle != "" ) gpx.writeTextElement( "name", hikeTitle);
+    if ( trackDesc != "" ) gpx.writeTextElement( "description", trackDesc);
+    gpx.writeTextElement( "time", time);
+    gpx.writeEndElement(); // metadata
+
+    // Start track coordinates section
+    gpx.writeStartElement("trk");
+    gpx.writeTextElement( "name", trackTitle);
+    gpx.writeStartElement("trkseg");
+    QJsonArray ca = coordinates.toArray();
+    for ( int ci = 0; ci < ca.count(); ci++ ) {
+      gpx.writeEmptyElement("trkpt");
+      QJsonObject co = ca[ci].toObject();
+      gpx.writeAttribute( "lat", co.value("latitude").toString());
+      gpx.writeAttribute( "lon", co.value("longitude").toString());
+    }
+    gpx.writeEndElement(); // trkseg
+    gpx.writeEndElement(); // trk
+
+    gpx.writeEndElement(); // gpx
+    gpx.writeEndDocument();
+
+    success = true;
+
+    QString trackTable = hikeTableName + ".Track" + nTracks;
+    setSetting( trackTable + "/fname", filename);
+    setSetting( trackTable + "/shortDescr", trackDesc);
+    setSetting( trackTable + "/title", trackTitle);
+    setSetting( trackTable + "/type", trackType);
+  }
+
+  return success;
 }

@@ -18,10 +18,6 @@ HCPage.Plain {
   anchors.fill: parent
 
   property var coordinates;
-  function initCoordinates( longitude, latitude, altitude) {
-    coordinates = [];
-  }
-
   function addCoordinate( longitude, latitude, altitude) {
     if ( recordTrack === false ) return;
 
@@ -31,13 +27,6 @@ HCPage.Plain {
             "latitude": latitude,
             "altitude": altitude
           } );
-  }
-
-  function saveCoordinates( ) {
-    config.saveUserTrack(
-          hikeKey.inputText.text, trackTitle.inputText.text,
-          trackDesc.inputText.text, coordinates
-          );
   }
 
 
@@ -55,7 +44,7 @@ HCPage.Plain {
         config.getSetting("User/tracktype") === "W" ? true : false;
 
     // initialize coordinates
-    userTrackConfigPage.initCoordinates();
+    coordinates = [];
   }
 
   Config { id: config }
@@ -175,8 +164,13 @@ HCPage.Plain {
           contButton.enabled = false;
           configGrid.recordingTrack = false;
 
-          // userTrackConfigPage.saveCoordinates();
-          userTrackConfigPage.initCoordinates();
+          config.saveUserTrack(
+                hikeKey.inputText.text, trackTitle.inputText.text,
+                trackDesc.inputText.text, config.getSetting("User/tracktype"),
+                coordinates
+                );
+
+          coordinates = [];
         }
       }
     }

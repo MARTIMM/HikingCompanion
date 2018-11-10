@@ -260,7 +260,7 @@ HCPage.Plain {
       hikingCompanionMap.center = location.position.coordinate
 
       // Send to user track page for recording
-      GlobalVariables.userTrackConfigPage.addCoordinate(
+      GlobalVariables.applicationPage.userTrackConfigPage.addCoordinate(
             location.position.coordinate.longitude,
             location.position.coordinate.latitude,
             location.position.coordinate.altitude
