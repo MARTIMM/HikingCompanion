@@ -260,12 +260,15 @@ HCPage.Plain {
       hikingCompanionMap.center = location.position.coordinate
 
       // Send to user track page for recording
-      GlobalVariables.applicationPage.userTrackConfigPage.addCoordinate(
-            location.position.coordinate.longitude,
-            location.position.coordinate.latitude,
-            location.position.coordinate.altitude
-            );
-
+      if ( GlobalVariables.applicationWindow &&
+           GlobalVariables.applicationWindow.userTrackConfigPage
+         ) {
+        GlobalVariables.applicationWindow.userTrackConfigPage.addCoordinate(
+              location.position.coordinate.longitude,
+              location.position.coordinate.latitude,
+              location.position.coordinate.altitude
+              );
+      }
       //hikingCompanionMap.setRad();
     }
   }

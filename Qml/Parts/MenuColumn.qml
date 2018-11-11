@@ -55,8 +55,8 @@ import QtQuick.Controls 2.2
       console.log("homeButton clicked");
       console.log('current: ' + GlobalVariables.currentPage);
       GlobalVariables.currentPage.visible = false;
-      GlobalVariables.mapPage.visible = true;
-      GlobalVariables.setCurrentPage(GlobalVariables.mapPage);
+      GlobalVariables.applicationWindow.mapPage.visible = true;
+      GlobalVariables.setCurrentPage(GlobalVariables.applicationWindow.mapPage);
       //openMenu.visible = true
     }
 

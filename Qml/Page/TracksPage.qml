@@ -20,7 +20,7 @@ HCPage.Plain {
     onCoordinatesReady: {
       // Get the path of coordinates and show on map
       var path = config.coordinateList();
-      var mapPage = GlobalVariables.mapPage;
+      var mapPage = GlobalVariables.applicationWindow.mapPage;
       mapPage.hikingCompanionMap.trackCourse.setPath(path);
 
       // Get the boundaries of the set of coordinates to zoom in

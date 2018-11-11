@@ -38,15 +38,9 @@ QtObject {
     currentPage = newPage;
   }
 
-  // Map page to go to from other places using the 'Home' button
-  property HCPage.MapPage mapPage
-  function setMapPage ( newMapPage ) {
-    mapPage = newMapPage;
-  }
-
-  property var applicationPage
-  function setApplicationWindow ( appPage ) {
-    applicationPage = appPage;
+  property var applicationWindow
+  function setApplicationWindow ( appWindow ) {
+    applicationWindow = appWindow;
   }
 
   // Open menu button
@@ -58,12 +52,6 @@ QtObject {
   property Column menu
   function setMenu ( newMenu ) {
     menu = newMenu;
-  }
-
-  // Tracks page to modify data from other pages
-  property HCPage.TracksPage tracksPage
-  function setTracksPage ( newTracksPage ) {
-    tracksPage = newTracksPage;
   }
 }
 

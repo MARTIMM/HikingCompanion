@@ -174,8 +174,12 @@ HCPage.Plain {
 
         // Set the tracklist on the TracksPage
         else {
-          config.setSetting( "selectedhikeindex", cbx2.currentIndex);
-          GlobalVariables.tracksPage.changeTrackList();
+          if ( GlobalVariables.applicationWindow &&
+               GlobalVariables.applicationWindow.tracksPage
+             ) {
+            config.setSetting( "selectedhikeindex", cbx2.currentIndex);
+            GlobalVariables.applicationWindow.tracksPage.changeTrackList();
+          }
         }
 
         // Set the theme for this hike
@@ -183,7 +187,7 @@ HCPage.Plain {
         Theme.changeClrs(JSON.parse(t));
 
         // Signal the change to the other pages
-        GlobalVariables.applicationPage.aboutPage.changeContent();
+        GlobalVariables.applicationWindow.aboutPage.changeContent();
       }
     }
 
@@ -191,17 +195,25 @@ HCPage.Plain {
     HCButton.ButtonRowButton {
       text: qsTr("Remove Hike")
       onClicked: {
-        config.setSetting( "selectedhikeindex", cbx2.currentIndex);
-        config.cleanupHike();
-        GlobalVariables.tracksPage.changeTrackList();
-        config.defineHikeList();
+        if ( GlobalVariables.applicationWindow ) {
+          config.setSetting( "selectedhikeindex", cbx2.currentIndex);
+          config.cleanupHike();
 
-        // Set the theme for this hike
-        var t = config.getTheme();
-        Theme.changeClrs(JSON.parse(t));
+          if ( GlobalVariables.applicationWindow.tracksPage ) {
+            GlobalVariables.applicationWindow.tracksPage.changeTrackList();
+          }
 
-        // Signal the change to the other pages
-        GlobalVariables.applicationPage.aboutPage.changeContent();
+          config.defineHikeList();
+
+          // Set the theme for this hike
+          var t = config.getTheme();
+          Theme.changeClrs(JSON.parse(t));
+
+          // Signal the change to the other pages
+          if ( GlobalVariables.applicationWindow.aboutPage ) {
+            GlobalVariables.applicationWindow.aboutPage.changeContent();
+          }
+        }
       }
     }
   }
