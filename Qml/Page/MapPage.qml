@@ -8,7 +8,7 @@ import io.github.martimm.HikingCompanion.GlobalVariables 0.1
 import QtQuick 2.11
 import QtQuick.Controls 2.2
 import QtLocation 5.9
-import QtPositioning 5.8
+import QtPositioning 5.11
 
 HCPage.Plain {
   id: mapPage
@@ -135,7 +135,7 @@ HCPage.Plain {
       }
     }
 
-    center: location.valid
+    center: location.coordinate
             ? location.coordinate
             : QtPositioning.coordinate( 59.91, 10.75) // Oslo
     //zoomLevel: 12
@@ -216,21 +216,6 @@ HCPage.Plain {
       }
     }
 
-/*
-    property real radius: currentLocationFeature.radius
-    property real bw: currentLocationFeature.border.width
-    function setRad() {
-      var zl = hikingCompanionMap.zoomLevel;
-      console.log("Zoomlevel: " + zl);
-      if ( zl < 4 )               { radius = 10000.0; bw = 20; }
-      if ( zl >= 4 && zl < 6 )    { radius = 1000.0; bw = 15; }
-      if ( zl >= 6 && zl < 9 )    { radius = 1000.0; bw = 10; }
-      if ( zl >= 9 && zl < 12 )   { radius = 600.0; bw = 8; }
-      if ( zl >= 12 && zl < 15 )  { radius = 400.0; bw = 6; }
-      if ( zl >= 15 )             { radius = 200.0; bw = 4; }
-    }
-*/
-
     property alias currentLocationFeature: currentLocationFeature
     MapCircle {
       id: currentLocationFeature
@@ -246,32 +231,68 @@ HCPage.Plain {
   //TODO geolocation when no gps is available but internet is there
   PositionSource {
     id: location
-    preferredPositioningMethods: PositionSource.SatellitePositioningMethods
-    //preferredPositioningMethods: PositionSource.AllPositioningMethods
+    //preferredPositioningMethods: PositionSource.SatellitePositioningMethods
+    preferredPositioningMethods: PositionSource.AllPositioningMethods
     //name: "SerialPortNmea"
     updateInterval: 1000
     active: true
 
+    // Store coordinate here first, then process it. Timer testTimer below can
+    // now generate a series of random coordinates to test several functions
+    // in this system.
+    property var coord
     onPositionChanged: {
-      var coord = location.position.coordinate;
-      console.log( "Coordinate:", coord.longitude, coord.latitude);
+      coord = location.position.coordinate;
+      processNewPosition();
+    }
 
-      currentLocationFeature.center = location.position.coordinate
-      hikingCompanionMap.center = location.position.coordinate
+    function processNewPosition() {
+      console.log( "Coordinate: " + coord.longitude + ", " + coord.latitude);
+
+      // change the current location marker but do not center on it!
+      currentLocationFeature.center = coord
 
       // Send to user track page for recording
       if ( GlobalVariables.applicationWindow &&
            GlobalVariables.applicationWindow.userTrackConfigPage
          ) {
         GlobalVariables.applicationWindow.userTrackConfigPage.addCoordinate(
-              location.position.coordinate.longitude,
-              location.position.coordinate.latitude,
-              location.position.coordinate.altitude
+              coord.longitude, coord.latitude, coord.altitude
+              // , coord.timestamp, coord.speed
               );
+        hikingCompanionMap.setWanderOffTrackNotation();
       }
-      //hikingCompanionMap.setRad();
     }
   }
+
+  // Testing position source depending code by generating fake
+  // coordinates.
+  Timer {
+    id: testTimer
+
+    property real lat: 52.3 + 0.01 * Math.random()
+    property real lon: 4.5 + 0.01 * Math.random()
+
+    interval: 3000
+    running: true // Disable when coordinate (gpx) tests are not needed
+    repeat: true
+    onTriggered: {
+      //if ( location.valid ) {
+        //running = false;
+        //console.log("test timer turned off because location is valid");
+      //}
+
+      //else {
+        //console.log( "Time test coordinate: " + lon + ", " + lat);
+        location.coord = QtPositioning.coordinate( lat, lon);
+        location.processNewPosition();
+
+        lon = lon + 0.0001 * Math.random();
+        lat = lat + 0.0001 * Math.random();
+      //}
+    }
+  }
+
 
   // Function to zoom in on the current location
   function zoomOnCurrentLocation() {
