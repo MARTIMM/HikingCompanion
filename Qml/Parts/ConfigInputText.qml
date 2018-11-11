@@ -19,6 +19,7 @@ Item {
     width: parent.width
     height: parent.height
     placeholderText: control.placeholderText
+    inputMethodHints: Qt.ImhNoAutoUppercase
 
     // Show visible clue if input is right or wrong
     onTextChanged: {
