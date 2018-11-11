@@ -19,7 +19,7 @@ HCPage.Plain {
 
   property var coordinates;
   function addCoordinate( longitude, latitude, altitude) {
-    if ( recordTrack === false ) return;
+    if ( configGrid.recordingTrack === false ) return;
 
     console.log("Add coord: " + longitude + ", " + latitude + ", " + altitude);
     path.push(
@@ -119,9 +119,8 @@ HCPage.Plain {
     HCParts.ConfigLabel { text: qsTr("Type") }
     Row {
       id: trackType
-      property alias rbWalk: rbWalk
-      property alias rbBike: rbBike
 
+      property alias rbWalk: rbWalk
       ExclusiveGroup { id: tabPositionGroup }
       RadioButton {
         id: rbWalk
@@ -129,6 +128,8 @@ HCPage.Plain {
         checked: true
         exclusiveGroup: tabPositionGroup
       }
+
+      property alias rbBike: rbBike
       RadioButton {
         id: rbBike
         text: "Bike"
