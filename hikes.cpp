@@ -139,7 +139,7 @@ QGeoCoordinate Hikes::findClosestPointOnRoute(QGeoCoordinate c) {
     }
   }
 
-  qDebug() << "min distance:" << cOfMinDist;
+  //qDebug() << "min distance:" << cOfMinDist;
   return cOfMinDist;
 }
 
