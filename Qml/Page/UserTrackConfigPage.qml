@@ -17,12 +17,16 @@ HCPage.Plain {
   height: parent.height
   anchors.fill: parent
 
+  //TODO use array of QtPositioning.coordinate()
   property var coordinates;
   function addCoordinate( longitude, latitude, altitude) {
+
     if ( configGrid.recordingTrack === false ) return;
 
     console.log("Add coord: " + longitude + ", " + latitude + ", " + altitude);
-    path.push(
+    //if ( !coordinates ) coordinates = [];
+
+    coordinates.push(
           { "longitude": longitude,
             "latitude": latitude,
             "altitude": altitude
@@ -40,11 +44,13 @@ HCPage.Plain {
     hikeDesc.inputText.text = config.getSetting("User/hikedescr");
     trackTitle.inputText.text = config.getSetting("User/tracktitle");
     trackDesc.inputText.text = config.getSetting("User/trackdescr");
-    trackType.rbWalk.checked =
-        config.getSetting("User/tracktype") === "W" ? true : false;
+    if ( config.getSetting("User/tracktype") === "W" ) {
+      trackType.rbWalk.checked = true;
+    }
 
-    // initialize coordinates
-    coordinates = [];
+    else {
+      trackType.rbBike.checked = true;
+    }
   }
 
   Config { id: config }
@@ -85,8 +91,8 @@ HCPage.Plain {
       bottomMargin: 2
     }
 
-    property int labelWidth: 3 * parent.width / 10 - Theme.cfgFieldMargin
-    property int inputWidth: 7 * parent.width / 10 - Theme.cfgFieldMargin
+    property int labelWidth: 4.5 * parent.width / 10 - Theme.cfgFieldMargin
+    property int inputWidth: 5.5 * parent.width / 10 - Theme.cfgFieldMargin
     property int configHeight: Theme.cfgRowHeight
 
     // Generate key when not provided using sha1 on title
@@ -139,9 +145,9 @@ HCPage.Plain {
 
     // Recording buttons
     property bool recordingTrack: false
-    HCParts.ConfigLabel { text: qsTr("Recording") }
+    HCParts.ConfigLabel { text: qsTr("Start recording") }
     Row {
-      id: recordingButtonRow
+      //id: recordingButtonRow
 
       HCButton.ButtonRowButton {
         id: startButton
@@ -150,13 +156,21 @@ HCPage.Plain {
           startButton.enabled = false;
           stopButton.enabled = true;
           pauseButton.enabled = true;
+
+          // initialize coordinates
+          coordinates = [];
+
+          // accept coordinates
           configGrid.recordingTrack = true;
         }
       }
+    }
 
+    HCParts.ConfigLabel { text: qsTr("Stop and save recording") }
+    Row {
       HCButton.ButtonRowButton {
         id: stopButton
-        text: qsTr("Stop & Save")
+        text: qsTr("Stop")
         enabled: false
         onClicked: {
           startButton.enabled = true;
@@ -170,14 +184,12 @@ HCPage.Plain {
                 trackDesc.inputText.text, config.getSetting("User/tracktype"),
                 coordinates
                 );
-
-          coordinates = [];
         }
       }
     }
 
     // Recording buttons
-    HCParts.ConfigLabel { text: qsTr("Pause Rec.") }
+    HCParts.ConfigLabel { text: qsTr("Pause Recording") }
     Row {
       id: pauseRecButtonRow
 
@@ -191,7 +203,10 @@ HCPage.Plain {
           configGrid.recordingTrack = false;
         }
       }
+    }
 
+    HCParts.ConfigLabel { text: qsTr("Continue Recording") }
+    Row {
       HCButton.ButtonRowButton {
         id: contButton
         text: qsTr("Continue")
