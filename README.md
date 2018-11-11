@@ -273,8 +273,6 @@ There must be a license which must describe the application in such a way that t
 
 ---
 # Bugs
-* [ ] Keyboard of android tablet is shown in in uppercase. Each time the keyboard is set in lowercase it switches back to uppercase after typing a letter. Also numbers are not available.
-* [x] Track information is not properly shown, must use utf8. Solved by proper initialization of QSettings.
 
 ---
 # Changes
@@ -282,6 +280,8 @@ There must be a license which must describe the application in such a way that t
 
 Versions have a letter added: D for debug version and R for a release version. When not added it is always a debug version.
 
+* 2018-11-11, 0.13.1
+  Bug fixed; Keyboard of android tablet is shown in in uppercase. Each time the keyboard is set in lowercase it switches back to uppercase after typing a letter. Also numbers are not available. By turning `inputMethodHints` to `Qt.ImhNoAutoUppercase` it can be forced lowercase without any 'smart' actions.
 * 2018-11-9, 0.13.0
   * Add current location button on map page.
   * Add current track button on map page.
