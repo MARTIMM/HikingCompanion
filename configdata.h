@@ -79,7 +79,7 @@ public:
   void setWindowSize( int w, int h);
 
   void saveUserTrackNames( QString hikeTitle, QString hikeDesc, QString hikeKey);
-  void saveUserTrack(
+  bool saveUserTrack(
       QString hikeKey, QString trackTitle, QString trackDesc,
       QString trackType, QJsonValue coordinates
       );

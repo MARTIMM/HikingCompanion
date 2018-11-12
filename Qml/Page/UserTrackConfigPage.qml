@@ -4,6 +4,7 @@ import "../Parts" as HCParts
 
 import io.github.martimm.HikingCompanion.Theme 0.1
 import io.github.martimm.HikingCompanion.Config 0.3
+import io.github.martimm.HikingCompanion.GlobalVariables 0.1
 
 import QtQuick 2.11
 //import QtQuick.Controls 2.4
@@ -18,19 +19,24 @@ HCPage.Plain {
   anchors.fill: parent
 
   //TODO use array of QtPositioning.coordinate()
-  property var coordinates;
+  property var coordinates
   function addCoordinate( longitude, latitude, altitude) {
 
     if ( configGrid.recordingTrack === false ) return;
 
     console.log("Add coord: " + longitude + ", " + latitude + ", " + altitude);
-    //if ( !coordinates ) coordinates = [];
 
+    // Add to array
     coordinates.push(
           { "longitude": longitude,
             "latitude": latitude,
             "altitude": altitude
           } );
+
+    // Show on map
+    GlobalVariables.applicationWindow.mapPage.hikingCompanionMap.addCoordinate(
+          longitude, latitude
+          );
   }
 
 
@@ -159,6 +165,7 @@ HCPage.Plain {
 
           // initialize coordinates
           coordinates = [];
+          GlobalVariables.applicationWindow.mapPage.hikingCompanionMap.init();
 
           // accept coordinates
           configGrid.recordingTrack = true;
@@ -179,16 +186,18 @@ HCPage.Plain {
           contButton.enabled = false;
           configGrid.recordingTrack = false;
 
-          config.saveUserTrack(
+          var ok = config.saveUserTrack(
                 hikeKey.inputText.text, trackTitle.inputText.text,
                 trackDesc.inputText.text, config.getSetting("User/tracktype"),
                 coordinates
                 );
+          if ( ok ) {
+            GlobalVariables.applicationWindow.tracksPage.changeTrackList();
+          }
         }
       }
     }
 
-    // Recording buttons
     HCParts.ConfigLabel { text: qsTr("Pause Recording") }
     Row {
       id: pauseRecButtonRow

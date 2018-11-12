@@ -170,6 +170,20 @@ From MapType QML component
       line.color: '#6a883a'
     }
 
+    function init() {
+      userTrackCourse.path = [];
+    }
+
+    function addCoordinate( longitude, latitude) {
+      var path = userTrackCourse.path;
+      path.push(
+            { "longitude": longitude,
+              "latitude": latitude
+            } );
+      userTrackCourse.path = path;
+    }
+
+
     property alias wanderOffTrackNotation: wanderOffTrackNotation
     MapPolyline {
       id: wanderOffTrackNotation
@@ -227,10 +241,10 @@ From MapType QML component
     MapCircle {
       id: currentLocationFeature
 
-      radius: 12.0
+      radius: 10.0
       color: 'transparent'  // or #00000000 with alpha to zero
       //opacity: 0.7
-      border.width: 6
+      border.width: 5
       border.color: 'blue'
     }
   }
@@ -296,8 +310,8 @@ From MapType QML component
         location.coord = QtPositioning.coordinate( lat, lon);
         location.processNewPosition();
 
-        lon = lon + 0.0001 * Math.random();
-        lat = lat + 0.0001 * Math.random();
+        lon = lon + 0.0001 * (Math.random() - 0.2);
+        lat = lat + 0.0001 * (Math.random() - 0.6);
       //}
     }
   }

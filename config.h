@@ -115,11 +115,11 @@ public:
     _configData->saveUserTrackNames( hikeTitle, hikeDesc, hikeKey);
   }
 
-  Q_INVOKABLE inline void saveUserTrack(
+  Q_INVOKABLE inline bool saveUserTrack(
       QString hikeKey, QString trackTitle, QString trackDesc,
       QString trackType, QJsonValue coordinates
       ) {
-    _configData->saveUserTrack(
+    return _configData->saveUserTrack(
           hikeKey, trackTitle, trackDesc, trackType, coordinates
           );
   }
