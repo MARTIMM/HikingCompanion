@@ -17,6 +17,57 @@ HCPage.Plain {
   height: parent.height
   anchors.fill: parent
 
+  Component.onCompleted: {
+    // Turn on the gps coordinate gathering
+    location.active = true;
+    //location.start();
+
+    hikingCompanionMap.center = location.coordinate
+            ? location.coordinate
+            : QtPositioning.coordinate( 59.91, 10.75) // Oslo
+
+    hikingCompanionMap.clearData();
+    hikingCompanionMap.addMapItem(currentLocationFeature);
+
+    // When there is no gps, just set the circle on top of the
+    // current map center.
+    currentLocationFeature.center = hikingCompanionMap.center;
+
+    // Search for 'TerrainMap' map type and set activeMapType with it
+    for ( var mt in hikingCompanionMap.supportedMapTypes ) {
+/*
+      console.log("---");
+      console.log("name: " + supportedMapTypes[mt].name);
+      console.log("descr: " + supportedMapTypes[mt].description);
+      console.log("mobile: " + supportedMapTypes[mt].mobile);
+      console.log("night: " + supportedMapTypes[mt].night);
+      console.log("style: " + supportedMapTypes[mt].style);
+*/
+/*
+From MapType QML component
+      MapType.NoMap - No map.
+      MapType.StreetMap - A street map.
+      MapType.SatelliteMapDay - A map with day-time satellite imagery.
+      MapType.SatelliteMapNight - A map with night-time satellite imagery.
+      MapType.TerrainMap - A terrain map.
+      MapType.HybridMap - A map with satellite imagery and street information.
+      MapType.GrayStreetMap - A gray-shaded street map.
+      MapType.PedestrianMap - A street map suitable for pedestriants.
+      MapType.CarNavigationMap - A street map suitable for car navigation.
+      MapType.CycleMap - A street map suitable for cyclists.
+      MapType.CustomMap - A custom map type.
+*/
+      if ( hikingCompanionMap.supportedMapTypes[mt].style === MapType.TerrainMap ) {
+//        if ( hikingCompanionMap.supportedMapTypes[mt].style === MapType.CycleMap ) {
+//        if ( hikingCompanionMap.supportedMapTypes[mt].style === MapType.CustomMap ) {
+        hikingCompanionMap.activeMapType = hikingCompanionMap.supportedMapTypes[mt];
+        break;
+      }
+    }
+
+    console.log("Map set to " + hikingCompanionMap.activeMapType.description);
+  }
+
   HCParts.ToolbarRectangle {
     id: pageToolbarRow
     color: "transparent"
@@ -39,51 +90,6 @@ HCPage.Plain {
   property alias currentLocationFeature: hikingCompanionMap.currentLocationFeature
   Map {
     id: hikingCompanionMap
-
-    Component.onCompleted: {
-      location.start();
-
-      hikingCompanionMap.clearData();
-      hikingCompanionMap.addMapItem(currentLocationFeature);
-
-      // When there is no gps, just set the circle on top of the
-      // current map center.
-      currentLocationFeature.center = hikingCompanionMap.center;
-
-      // Search for 'TerrainMap' map type and set activeMapType with it
-      for ( var mt in supportedMapTypes ) {
-/*
-        console.log("---");
-        console.log("name: " + supportedMapTypes[mt].name);
-        console.log("descr: " + supportedMapTypes[mt].description);
-        console.log("mobile: " + supportedMapTypes[mt].mobile);
-        console.log("night: " + supportedMapTypes[mt].night);
-        console.log("style: " + supportedMapTypes[mt].style);
-*/
-/*
-  From MapType QML component
-        MapType.NoMap - No map.
-        MapType.StreetMap - A street map.
-        MapType.SatelliteMapDay - A map with day-time satellite imagery.
-        MapType.SatelliteMapNight - A map with night-time satellite imagery.
-        MapType.TerrainMap - A terrain map.
-        MapType.HybridMap - A map with satellite imagery and street information.
-        MapType.GrayStreetMap - A gray-shaded street map.
-        MapType.PedestrianMap - A street map suitable for pedestriants.
-        MapType.CarNavigationMap - A street map suitable for car navigation.
-        MapType.CycleMap - A street map suitable for cyclists.
-        MapType.CustomMap - A custom map type.
-*/
-        if ( supportedMapTypes[mt].style === MapType.TerrainMap ) {
-//        if ( supportedMapTypes[mt].style === MapType.CycleMap ) {
-//        if ( supportedMapTypes[mt].style === MapType.CustomMap ) {
-          hikingCompanionMap.activeMapType = supportedMapTypes[mt];
-          break;
-        }
-      }
-
-      console.log("Map set to " + hikingCompanionMap.activeMapType.description);
-    }
 
     width: parent.width
     height: parent.height
@@ -135,10 +141,11 @@ HCPage.Plain {
       }
     }
 
+/*
     center: location.coordinate
             ? location.coordinate
             : QtPositioning.coordinate( 59.91, 10.75) // Oslo
-    //zoomLevel: 12
+*/
     zoomLevel: 17
 
     // This object is set from the tracksPage after selecting a track.
@@ -235,7 +242,9 @@ HCPage.Plain {
     preferredPositioningMethods: PositionSource.AllPositioningMethods
     //name: "SerialPortNmea"
     updateInterval: 1000
-    active: true
+
+    // Turn it on when the MapPage is ready.
+    active: false
 
     // Store coordinate here first, then process it. Timer testTimer below can
     // now generate a series of random coordinates to test several functions
