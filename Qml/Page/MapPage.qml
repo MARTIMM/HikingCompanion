@@ -13,6 +13,7 @@ import QtPositioning 5.11
 HCPage.Plain {
   id: mapPage
 
+  property bool coordinateGeneratorOnForTesting: true // Disable when coordinate (gpx) tests are not needed
   width: parent.width
   height: parent.height
   anchors.fill: parent
@@ -296,7 +297,7 @@ From MapType QML component
     property real lat: 52.3 + 0.01 * Math.random()
     property real lon: 4.5 + 0.01 * Math.random()
 
-    //running: true // Disable when coordinate (gpx) tests are not needed
+    running: coordinateGeneratorOnForTesting
     repeat: true
     interval: 1000
     onTriggered: {
