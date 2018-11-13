@@ -296,9 +296,9 @@ From MapType QML component
     property real lat: 52.3 + 0.01 * Math.random()
     property real lon: 4.5 + 0.01 * Math.random()
 
-    interval: 3000
-    running: true // Disable when coordinate (gpx) tests are not needed
+    //running: true // Disable when coordinate (gpx) tests are not needed
     repeat: true
+    interval: 1000
     onTriggered: {
       //if ( location.valid ) {
         //running = false;
@@ -310,8 +310,8 @@ From MapType QML component
         location.coord = QtPositioning.coordinate( lat, lon);
         location.processNewPosition();
 
-        lon = lon + 0.0001 * (Math.random() - 0.2);
-        lat = lat + 0.0001 * (Math.random() - 0.6);
+        lon = lon + 0.00005 * (Math.random() - 0.2);
+        lat = lat + 0.00005 * (Math.random() - 0.6);
       //}
     }
   }
