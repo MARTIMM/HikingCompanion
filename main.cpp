@@ -20,7 +20,7 @@
 #include <QtQml>
 #include <QFontDatabase>
 #include <QFont>
-#include <QSslSocket>
+//#include <QSslSocket>
 
 // ----------------------------------------------------------------------------
 // Define global variables
@@ -28,10 +28,11 @@ QQmlApplicationEngine *applicationEngine;
 
 // ----------------------------------------------------------------------------
 int main( int argc, char *argv[]) {
-
+/*
   qDebug() << "SslSupport: " << QSslSocket::supportsSsl();
   qDebug() << "SslLibraryBuildVersion: " << QSslSocket::sslLibraryBuildVersionString();
   qDebug() << "SslLibraryRuntimeVersion: " << QSslSocket::sslLibraryVersionString();
+*/
 
 #if defined(Q_OS_ANDROID)
   // On android, we must request the user of the application for the following
@@ -60,13 +61,21 @@ int main( int argc, char *argv[]) {
   QCoreApplication::setOrganizationDomain("io.github.martimm");
   QCoreApplication::setApplicationName("HikingCompanion");
 
+  // Create application
   QApplication app( argc, argv);
 
+  // Get version from ConfigData object and set version of application.
+  // It is kept there because of other reasons.
   Config *cfg = new Config();
   QString hcVersion = cfg->getHCVersion();
   app.setApplicationVersion(hcVersion);
   app.setApplicationDisplayName("HikingCompanion");
 
+  // Add some fonts and set default font
+  QFontDatabase::addApplicationFont(":/Assets/fonts/Symbola_font.ttf");
+  app.setFont(QFont("Symbola"));
+
+  // Register modules
   qmlRegisterType<TextLoad>(
         "io.github.martimm.HikingCompanion.Textload", 0, 1, "TextLoad"
         );
@@ -95,14 +104,12 @@ int main( int argc, char *argv[]) {
         "io.github.martimm.HikingCompanion.Theme", 0, 1, "Theme"
         );
 
-  // Add some fonts and set default font
-  QFontDatabase::addApplicationFont(":/Assets/fonts/Symbola_font.ttf");
-  app.setFont(QFont("Symbola"));
-
+  // Create engine, test and execute.
   applicationEngine = new QQmlApplicationEngine();
   applicationEngine->load(QUrl(QStringLiteral("qrc:/Qml/Main/Application.qml")));
 //  applicationEngine->load(QUrl(QStringLiteral("qrc:/Assets/Theme/ThemeTest.qml")));
-qDebug() << "Root objects:" << applicationEngine->rootObjects();
+
+  qDebug() << "\n\n\nRoot objects:" << applicationEngine->rootObjects() << "\n\n\n";
   if ( applicationEngine->rootObjects().isEmpty() ) return -1;
 
   return app.exec();

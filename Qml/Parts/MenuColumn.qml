@@ -22,13 +22,15 @@ import QtQuick.Controls 2.2
     //anchors.right: parent.right
     anchors.left: parent.left
 
+/*
     Component.onCompleted: {
       console.log("MM Menu WH: " + width + ", " + height);
     }
+*/
 
     //property alias menuEntryClicked: menuEntryClicked
     function menuEntryClicked(requestPage) {
-      console.log('current: ' + GlobalVariables.currentPage + ', request: ' + requestPage);
+      //console.log('current: ' + GlobalVariables.currentPage + ', request: ' + requestPage);
       if ( GlobalVariables.currentPage !== requestPage ) {
         GlobalVariables.currentPage.visible = false;
         requestPage.visible = true;
@@ -52,8 +54,8 @@ import QtQuick.Controls 2.2
 */
     // Set page to home page. The home pages will not have this button.
     function setHomePage() {
-      console.log("homeButton clicked");
-      console.log('current: ' + GlobalVariables.currentPage);
+      //console.log("homeButton clicked");
+      //console.log('current: ' + GlobalVariables.currentPage);
       GlobalVariables.currentPage.visible = false;
       GlobalVariables.applicationWindow.mapPage.visible = true;
       GlobalVariables.setCurrentPage(GlobalVariables.applicationWindow.mapPage);

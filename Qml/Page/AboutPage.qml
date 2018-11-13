@@ -18,7 +18,7 @@ HCPage.Plain {
   function changeContent ( ) {
     aboutText.aboutTextData.filename = config.getHtmlPageFilename("aboutText");
     var versionList = config.getVersions();
-    console.log("Versions: " + versionList);
+    //console.log("Versions: " + versionList);
 
     aboutText.text = aboutTextData.text + "
 <p><table width=\"95%\" style=\"margin:auto;\">
@@ -29,7 +29,7 @@ HCPage.Plain {
   versionList[3] + "</td></tr><tr><td colspan=\"2\">" + versionList[4] +
   "</td></tr></table></p>";
 
-    console.log(aboutText.text);
+    //console.log(aboutText.text);
   }
 
   width: parent.width
