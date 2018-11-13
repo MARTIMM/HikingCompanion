@@ -93,7 +93,8 @@ The menu entries
   * [x] **🚶 Tracks**: Select a track.
   * [ ] **⌘ Feature** Show history, or other info.
   * [ ] **📡 Gps**: Record your track data.
-  * [x] **🛠 Config**: Configuration of user and program data.
+  * [x] **🛠 Config**: Configuration page.
+  * [x] **🛠 User Track Config**: Configuration of user hike and track data.
   * [x] **👥 About**: Show a page with version, people and contacts.
   * [x] **⏼ Exit**: Close the application. **⏽** or **🗙** on android because of missing character. Must check OS type.
 
@@ -198,14 +199,36 @@ Input fields can be checked
   * [ ] Show dialog before removing hike
   * [ ] Export user recorded hike button
 
+## The User Track Config page
+
+Input fields can be checked
+<progress value="11" max="11"></progress>
+
+  * [x] Page created.
+  * Input fields
+    * [x] Hike key. Needed to using in the config
+    * [x] Hike title. Shown in the hike list on the config page
+    * [x] Hike description.
+    * [x] Track title. Shown in track list on the tracks page
+    * [x] Track description.
+
+  * Recording buttons
+    * [x] <button>Start</button>. Start recording. A line is visible on the map page.
+    * [x] <button>Stop</button>. Stop and save recording. The tracks list is expanded with the new track. When track gpx file already exists, nothing is saved!
+    * [x] <button>Pause</button>. Postpone recording when e.g. in a restaurant for a rest and having a nice meal.
+    * [x] <button>Continue</button>. Continue when satisfied and rested.
+
+  * [x] <button>Save</button>. Save the hike information.
+
 ## The About page
 This is an overview of people involved and their tasks. Also other info can be shown such as a version numbers. This data should also come from the track app.
 
-<progress value="3" max="3"></progress>
+<progress value="4" max="4"></progress>
 
   * [x] Page created
   * [x] Show hike dependent text.
   * [x] Show current version of the program and hike data.
+  * [x] Show operating system information
 
 ## The Exit page
 This should show a dialog to ask the user if he/she really wants to quit the program.
@@ -276,10 +299,10 @@ There must be a license which must describe the application in such a way that t
 
 ---
 # Changes
-## Application changes
 
-Versions have a letter added: D for debug version and R for a release version. When not added it is always a debug version.
-
+* 2018-11-13, 0.14.0
+  * Coordinate generator is build on the map page to test track recording on the UserTrackInfoPage.
+  * Adding new hike data and track information as well as recording a new track is created on the UserTrackInfoPage.
 * 2018-11-11, 0.13.1
   Bug fixed; Keyboard of android tablet is shown in in uppercase. Each time the keyboard is set in lowercase it switches back to uppercase after typing a letter. Also numbers are not available. By turning `inputMethodHints` to `Qt.ImhNoAutoUppercase` it can be forced lowercase without any 'smart' actions.
 * 2018-11-9, 0.13.0
@@ -352,22 +375,6 @@ Versions have a letter added: D for debug version and R for a release version. W
   * Building framework
 * 0.0.1
   * Start project
-
-## Test version changes on Android
-Versions of mobile devices will change slower because not every version is directly tested on the device.
-
-| Android App Version | Application Version | Android Api Version |
-|---------------------|---------------------|---------------------|
-| 0.6.0  | 0.6.0   | 24 (7.1)|
-| 0.7.0  | 0.10.0  | 22       
-| 0.8.0  | 0.12.0  | 22       
-| 0.8.1  | 0.12.2  | 22       
-
-## Test version changes on IOS
-
-| IOS App Version | IOS Api Version | Application Version |
-|-----------------|-----------------|---------------------|
-| | | |
 
 ---
 # Contact
