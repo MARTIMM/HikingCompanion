@@ -130,7 +130,7 @@ QtObject {
 
 
     property QtObject menu: QtObject {
-      property int width:               210
+      property int width:               250
       property int height:              50
 
       property QtObject button: QtObject {
@@ -230,7 +230,7 @@ QtObject {
     underline: false
     //pixelSize: 14
     pointSize: smallBtPointSize
-    family: "arial"
+    family: Theme.fontFamily
   }
 */
 
@@ -240,13 +240,13 @@ QtObject {
     underline: false
     //pixelSize: 14
     pointSize: 100
-    family: "arial"
+    family: Theme.fontFamily
   }
 */
 
 
   // Text
-  property string fontFamily: "Arial"  //: "Source Code Pro"
+  property string fontFamily: "Symbola"
   //property color txtColor: "#fff0fa"
   //property color oktxtColor: "#a0ffa0"
   //property color noktxtColor: "#ffa0a0"
