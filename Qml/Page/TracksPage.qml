@@ -161,7 +161,7 @@ HCPage.Plain {
         horizontalAlignment: Text.AlignLeft
         text: "[" + index + "] " + modelData
         color: Theme.component.color.foregroundLight
-        //font.family: "Symbola Regular"
+        //font.family: Theme.fontFamily
         font.pointSize: 14
       }
     }

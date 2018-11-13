@@ -96,7 +96,7 @@ T.Switch {
     bold: true
     underline: false
     pixelSize: Theme.lblPixelSize
-    family: "arial"
+    family: Theme.fontFamily
   }
 
   background: Rectangle {

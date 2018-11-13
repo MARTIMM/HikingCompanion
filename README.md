@@ -92,11 +92,10 @@ The menu entries
   * [ ] **ℹ Info**: Show route information
   * [x] **🚶 Tracks**: Select a track.
   * [ ] **⌘ Feature** Show history, or other info.
-  * [ ] **📡 Gps**: Record your track data.
   * [x] **🛠 Config**: Configuration page.
-  * [x] **🛠 User Track Config**: Configuration of user hike and track data.
+  * [x] **📡 User Track Config**: Configuration of user hike and track data.
   * [x] **👥 About**: Show a page with version, people and contacts.
-  * [x] **⏼ Exit**: Close the application. **⏽** or **🗙** on android because of missing character. Must check OS type.
+  * [x] **⏻ Exit**: Close the application. Character **■** on android because of missing character. Must check OS type.
 
 ## Map page
 <progress value="10" max="19"></progress>
@@ -165,20 +164,6 @@ The Features page is filled when a feature is clicked. First a balloon is showed
     * [ ] City, village - historic background, city elders contact info, etc.
   * [ ] Show balloon with info
   * [ ] Show extra info on info page
-
-## The Gps page
-This is a page where a gps track can be started.
-
-<progress value="1" max="7"></progress>
-
-* [x] Page created
-* [ ] Start tracking
-* Stop and save tracking
-  * [ ] Convert coordinates into gpx XML text
-  * [ ] Save text into file
-  * [ ] Add configuration entries for the track in this hike
-* [ ] Pause tracking
-* [ ] Continue tracking
 
 ## The Config page
 
@@ -303,6 +288,7 @@ There must be a license which must describe the application in such a way that t
 * 2018-11-13, 0.14.0
   * Coordinate generator is build on the map page to test track recording on the UserTrackInfoPage.
   * Adding new hike data and track information as well as recording a new track is created on the UserTrackInfoPage.
+  * Bug fixed; font problem where choosen symbols where not always visible.
 * 2018-11-11, 0.13.1
   Bug fixed; Keyboard of android tablet is shown in in uppercase. Each time the keyboard is set in lowercase it switches back to uppercase after typing a letter. Also numbers are not available. By turning `inputMethodHints` to `Qt.ImhNoAutoUppercase` it can be forced lowercase without any 'smart' actions.
 * 2018-11-9, 0.13.0

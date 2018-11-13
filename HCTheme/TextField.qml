@@ -23,7 +23,7 @@ T.TextField {
     underline: false
     pixelSize: Theme.txtfPixelSize
     //pointSize: Theme.largeBtPointSize
-    family: "arial"
+    family: Theme.fontFamily
   }
 
   background: Rectangle {

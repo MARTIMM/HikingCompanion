@@ -21,7 +21,7 @@ T.Label {
     bold: true
     underline: false
     pixelSize: Theme.lblPixelSize
-    family: "arial"
+    family: Theme.fontFamily
   }
 
   color: Theme.component.color.foregroundLight

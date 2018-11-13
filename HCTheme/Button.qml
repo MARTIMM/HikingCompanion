@@ -46,7 +46,7 @@ T.Button {
     underline: false
     //pixelSize: 14
     //pointSize: Theme.largeBtPointSize
-    family: "arial"
+    family: Theme.fontFamily
   }
 
   //width: textMetrics.boundingRect.width + 30

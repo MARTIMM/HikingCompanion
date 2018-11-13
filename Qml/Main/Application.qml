@@ -78,8 +78,8 @@ ApplicationWindow {
     property alias mapButton: mapButton
     HCButton.MenuButton {
       id: mapButton
-//      text: qsTr("🗺 Map")
-      text: qsTr("Map")
+      text: qsTr("🌍 Map")
+//      text: qsTr("Map")
       onClicked: {
         GlobalVariables.menu.menuEntryClicked(mapPage);
       }
@@ -88,8 +88,8 @@ ApplicationWindow {
     property alias tracksButton: tracksButton
     HCButton.MenuButton {
       id: tracksButton
-//      text: qsTr("🛠 Tracks")
-      text: qsTr("Tracks")
+      text: qsTr("🚶 Tracks")
+//      text: qsTr("Tracks")
       onClicked: {
         GlobalVariables.menu.menuEntryClicked(tracksPage);
       }
@@ -98,8 +98,8 @@ ApplicationWindow {
     property alias configButton: configButton
     HCButton.MenuButton {
       id: configButton
-//      text: qsTr("🛠 Config")
-      text: qsTr("Config")
+      text: "🛠 " + qsTr("Config")
+//      text: qsTr("Config")
       onClicked: {
         GlobalVariables.menu.menuEntryClicked(configPage);
       }
@@ -108,8 +108,8 @@ ApplicationWindow {
     property alias userTrackConfigButton: userTrackConfigButton
     HCButton.MenuButton {
       id: userTrackConfigButton
-      //text: { "\U0001F6E0" + qsTr(" User Track") }
-      text: qsTr("User Track")
+      text: qsTr("📡 Recording")
+//      text: qsTr("Recording")
 
       onClicked: {
         GlobalVariables.menu.menuEntryClicked(userTrackConfigPage);
@@ -128,9 +128,21 @@ ApplicationWindow {
 
     property alias exitButton: exitButton
     HCButton.MenuButton {
+      Component.onCompleted: {
+        if ( Qt.platform.os == "Android" ) {
+          txt = "■ ";
+        }
+
+        else {
+          txt = "⏻ ";
+        }
+        txt += qsTr("Exit");
+      }
+
       id: exitButton
-//      text: qsTr("⏼ Exit")
-      text: qsTr("Exit")
+      property string txt
+      text: txt
+//       text: qsTr("Exit")
       onClicked: {
         GlobalVariables.menu.menuEntryClicked(exitPage);
       }
