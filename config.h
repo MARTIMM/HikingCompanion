@@ -2,9 +2,9 @@
 #define CONFIG_H
 
 #include "configdata.h"
+#include "trackcoordinates.h"
 //#include <QObject>
 //#include <QSettings>
-#include <QJsonValue>
 
 class Config : public QObject {
 
@@ -107,21 +107,6 @@ public:
   }
   Q_INVOKABLE inline void setWindowSize( int w, int h) {
     _configData->setWindowSize( w, h);
-  }
-
-  Q_INVOKABLE inline void saveUserTrackNames(
-      QString hikeTitle, QString hikeDesc, QString hikeKey
-      ) {
-    _configData->saveUserTrackNames( hikeTitle, hikeDesc, hikeKey);
-  }
-
-  Q_INVOKABLE inline bool saveUserTrack(
-      QString hikeKey, QString trackTitle, QString trackDesc,
-      QString trackType, QJsonValue coordinates
-      ) {
-    return _configData->saveUserTrack(
-          hikeKey, trackTitle, trackDesc, trackType, coordinates
-          );
   }
 
 signals:
