@@ -22,7 +22,8 @@ HEADERS += \
     singleton.h \
     call_once.h \
     languages.h \
-    hikes.h
+    hikes.h \
+    trackcoordinates.h
 
 SOURCES += \
     main.cpp \
@@ -30,7 +31,8 @@ SOURCES += \
     configdata.cpp \
     gpxfile.cpp \
     languages.cpp \
-    hikes.cpp
+    hikes.cpp \
+    trackcoordinates.cpp
 
 RESOURCES += qml.qrc extraResources.qrc
 # $$files(*.qml) $$files(Assets/Theme/*)

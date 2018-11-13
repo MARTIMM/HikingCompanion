@@ -5,6 +5,7 @@ import "../Parts" as HCParts
 import io.github.martimm.HikingCompanion.Theme 0.1
 import io.github.martimm.HikingCompanion.Config 0.3
 import io.github.martimm.HikingCompanion.GlobalVariables 0.1
+import io.github.martimm.HikingCompanion.TrackCoordinates 0.1
 
 import QtQuick 2.11
 //import QtQuick.Controls 2.4
@@ -18,28 +19,22 @@ HCPage.Plain {
   height: parent.height
   anchors.fill: parent
 
-  //TODO use array of QtPositioning.coordinate()
-  property var coordinates
+  TrackCoordinates { id: trackCoordinates }
+  Config { id: config }
+
   function addCoordinate( longitude, latitude, altitude) {
 
     if ( configGrid.recordingTrack === false ) return;
 
     console.log("Add coord: " + longitude + ", " + latitude + ", " + altitude);
 
-    // Add to array
-    coordinates.push(
-          { "longitude": longitude,
-            "latitude": latitude,
-            "altitude": altitude
-          } );
+    trackCoordinates.addCoordinate( longitude, latitude, altitude);
 
     // Show on map
     GlobalVariables.applicationWindow.mapPage.hikingCompanionMap.addCoordinate(
           longitude, latitude
           );
   }
-
-
 
   Component.onCompleted: {
     //console.log("UTCP");
@@ -58,8 +53,6 @@ HCPage.Plain {
       trackType.rbBike.checked = true;
     }
   }
-
-  Config { id: config }
 
   HCParts.ToolbarRectangle {
     id: pageToolbarRow
@@ -164,7 +157,7 @@ HCPage.Plain {
           pauseButton.enabled = true;
 
           // initialize coordinates
-          coordinates = [];
+          trackCoordinates.init();
           GlobalVariables.applicationWindow.mapPage.hikingCompanionMap.init();
 
           // accept coordinates
@@ -186,10 +179,9 @@ HCPage.Plain {
           contButton.enabled = false;
           configGrid.recordingTrack = false;
 
-          var ok = config.saveUserTrack(
+          var ok = trackCoordinates.saveUserTrack(
                 hikeKey.inputText.text, trackTitle.inputText.text,
-                trackDesc.inputText.text, config.getSetting("User/tracktype"),
-                coordinates
+                trackDesc.inputText.text, config.getSetting("User/tracktype")
                 );
           if ( ok ) {
             GlobalVariables.applicationWindow.tracksPage.changeTrackList();
@@ -248,7 +240,7 @@ HCPage.Plain {
               "User/tracktype", trackType.rbWalk.checked ? "W" : "B"
               );
 
-        config.saveUserTrackNames(
+        trackCoordinates.saveUserTrackNames(
               hikeTitle.inputText.text, hikeDesc.inputText.text,
               hikeKey.inputText.text
               );

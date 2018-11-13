@@ -1,5 +1,6 @@
 #include "textload.h"
 #include "config.h"
+#include "trackcoordinates.h"
 #include "languages.h"
 
 #if defined(Q_OS_ANDROID)
@@ -72,6 +73,11 @@ int main( int argc, char *argv[]) {
 
   qmlRegisterType<Config>(
         "io.github.martimm.HikingCompanion.Config", 0, 3, "Config"
+        );
+
+  qmlRegisterType<TrackCoordinates>(
+        "io.github.martimm.HikingCompanion.TrackCoordinates",
+        0, 1, "TrackCoordinates"
         );
 
   qmlRegisterType<Languages>(
