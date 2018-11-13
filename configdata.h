@@ -2,6 +2,7 @@
 #define CONFIGDATA_H
 
 #include "hikes.h"
+#include "trackcoordinates.h"
 
 #include <QObject>
 #include <QSettings>
@@ -81,7 +82,7 @@ public:
   void saveUserTrackNames( QString hikeTitle, QString hikeDesc, QString hikeKey);
   bool saveUserTrack(
       QString hikeKey, QString trackTitle, QString trackDesc,
-      QString trackType, QJsonValue coordinates
+      QString trackType, std::vector<Coord> coordinates
       );
 
 signals:
@@ -99,7 +100,7 @@ private:
   static ConfigData *_createInstance();
   bool _storeCoordinates(
       QString hikeKey, QString hikeTableName, QString trackTitle,
-      QString trackDesc, QString trackType, QJsonValue coordinates,
+      QString trackDesc, QString trackType, std::vector<Coord> coordinates,
       QString nTracks
       );
 

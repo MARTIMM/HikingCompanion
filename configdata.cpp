@@ -7,12 +7,8 @@
 #include <QApplication>
 #include <QDir>
 #include <QFile>
-#include <QCryptographicHash>
 #include <QXmlStreamWriter>
 #include <QDateTime>
-#include <QJsonValue>
-#include <QJsonArray>
-#include <QJsonObject>
 
 // ----------------------------------------------------------------------------
 ConfigData::ConfigData(QObject *parent) : QObject(parent) {
@@ -469,15 +465,6 @@ void ConfigData::saveUserTrackNames(
     QString hikeTitle, QString hikeDesc, QString hikeKey
     ) {
 
-/*
-  // Generate a user key from the title if no hike key is provided
-  if ( hikeKey == "" ) {
-    QCryptographicHash *ch = new QCryptographicHash(QCryptographicHash::Sha1);
-    ch->addData(hikeTitle.toLocal8Bit());
-    hikeKey = QString(ch->result().toHex().data());
-  }
-*/
-
   QString entryKey = hikeEntryKey(hikeKey);
   if ( entryKey == "" ) {
     int nKeys = readKeys("HikeList").count();
@@ -526,7 +513,7 @@ void ConfigData::saveUserTrackNames(
 bool ConfigData::saveUserTrack(
     QString hikeKey, QString trackTitle,
     QString trackDesc, QString trackType,
-    QJsonValue coordinates
+    std::vector<Coord> coordinates
     ) {
 
   bool success = false;
@@ -855,17 +842,11 @@ ConfigData *ConfigData::_createInstance() {
 // and false when another file whas found.
 bool ConfigData::_storeCoordinates(
     QString hikeKey, QString hikeTableName, QString trackTitle,
-    QString trackDesc, QString trackType, QJsonValue coordinates,
+    QString trackDesc, QString trackType, std::vector<Coord> coordinates,
     QString nTracks
     ) {
 
   bool success = false;
-/*
-  QCryptographicHash *filenameHash =
-      new QCryptographicHash(QCryptographicHash::Sha1);
-  filenameHash->addData(trackTitle.toLocal8Bit());
-  QString filename = QString(filenameHash->result().toHex().data()) + ".gpx";
-*/
   QString filename = trackTitle + ".gpx";
   qDebug() << "Store coords in" << filename;
 
@@ -915,18 +896,11 @@ bool ConfigData::_storeCoordinates(
     gpx.writeStartElement("trk");
     gpx.writeTextElement( "name", trackTitle);
     gpx.writeStartElement("trkseg");
-    QJsonArray ca = coordinates.toArray();
-    for ( int ci = 0; ci < ca.count(); ci++ ) {
+    for ( Coord c : coordinates ) {
       gpx.writeEmptyElement("trkpt");
-      QJsonObject co = ca[ci].toObject();
-      qDebug() << "[" << ci << "]:" << co <<
-                  co.value("latitude").toDouble();
-      gpx.writeAttribute(
-            "lat", QString("%1").arg( co.value("latitude").toDouble(), 20)
-            );
-      gpx.writeAttribute(
-            "lon", QString("%1").arg( co.value("longitude").toDouble(), 20)
-            );
+      qDebug() << c.longitude << c.latitude << c.altitude;
+      gpx.writeAttribute( "lat", QString("%1").arg( c.latitude, 20, 'f', 20));
+      gpx.writeAttribute( "lon", QString("%1").arg( c.longitude, 20, 'f', 20));
     }
     gpx.writeEndElement(); // trkseg
     gpx.writeEndElement(); // trk
