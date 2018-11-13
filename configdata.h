@@ -7,8 +7,7 @@
 #include <QObject>
 #include <QSettings>
 
-#define HIKING_COMPANION_VERSION "0.13.0"
-
+#define HIKING_COMPANION_VERSION "0.14.0"
 
 class ConfigData : public QObject {
   Q_OBJECT
@@ -72,6 +71,7 @@ public:
   QString getTheme();
 
   QString getHCVersion();
+  QString getOsVersion();
   QStringList getHikeVersions();
   QStringList getVersions();
 

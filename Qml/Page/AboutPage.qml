@@ -24,13 +24,12 @@ HCPage.Plain {
 <p><table width=\"95%\" style=\"margin:auto;\">
   <tr><th colspan=\"2\">Versions of programs and data</th></tr>
   <tr><td>HikingCompanion Program</td><td>" + versionList[0] + "</td></tr>
-  <tr><td>Hike Data '" + versionList[1] + "'</td><td>" + versionList[2] + "</td>
-  </tr>
-  <tr><td>Hike Data Program for '" + versionList[1] + "'</td><td>" +
-  versionList[3] + "</td></tr>
-</table></p>
-"
-    //console.log(aboutText.text);
+  <tr><td>Hike Data '" + versionList[1] + "'</td><td>" + versionList[2] +
+  "</td></tr><tr><td>Hike Data Program for '" + versionList[1] + "'</td><td>" +
+  versionList[3] + "</td></tr><tr><td colspan=\"2\">" + versionList[4] +
+  "</td></tr></table></p>";
+
+    console.log(aboutText.text);
   }
 
   width: parent.width

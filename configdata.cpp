@@ -9,6 +9,7 @@
 #include <QFile>
 #include <QXmlStreamWriter>
 #include <QDateTime>
+#include <QSysInfo>
 
 // ----------------------------------------------------------------------------
 ConfigData::ConfigData(QObject *parent) : QObject(parent) {
@@ -413,6 +414,12 @@ QString ConfigData::getHCVersion() {
 }
 
 // ----------------------------------------------------------------------------
+QString ConfigData::getOsVersion() {
+  return QSysInfo::prettyProductName();
+}
+
+// ----------------------------------------------------------------------------
+// Return the hike title, hike version and program version
 QStringList ConfigData::getHikeVersions() {
 
   QStringList hikeInfo;
@@ -423,10 +430,10 @@ QStringList ConfigData::getHikeVersions() {
   }
 
   else {
-qDebug() << "Table:" << tableName;
+//qDebug() << "Table:" << tableName;
     QString hv = this->getSetting(tableName + "/version");
     QString phv = this->getSetting(tableName + "/programVersion");
-    qDebug() << "hv, phv:" << hv << phv;
+//qDebug() << "hv, phv:" << hv << phv;
     hikeInfo.append(
       { this->getSetting(tableName + "/title"),
         hv == "" ? "0.0.0" : hv,
@@ -444,6 +451,7 @@ QStringList ConfigData::getVersions() {
   QStringList vlist;
   vlist.append(this->getHCVersion());
   vlist.append(this->getHikeVersions());
+  vlist.append(this->getOsVersion());
 
   return vlist;
 }
