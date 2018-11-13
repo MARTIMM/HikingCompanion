@@ -19,13 +19,13 @@ void Hikes::defineHikeList() {
   // Get all entries from the hike list
   _hikeList.clear();
   QStringList hikeKeys = cfg->readKeys("HikeList");
-  qDebug() << "Hike keys:" << hikeKeys;
+  //qDebug() << "Hike keys:" << hikeKeys;
 
   for ( int hi = 0; hi < hikeKeys.count(); hi++) {
     QString hikeKey = hikeKeys[hi];
     QString hikeKeyTable = QString("h%1").arg(hi) +
         "." + cfg->getSetting("HikeList/" + hikeKey);
-    qDebug() << "Key and table:" << hikeKey << hikeKeyTable;
+    //qDebug() << "Key and table:" << hikeKey << hikeKeyTable;
     _hikeList.append(cfg->getSetting(hikeKeyTable + "/title"));
   }
 }
@@ -80,18 +80,19 @@ QVariantList Hikes::trackList() {
             cfg->dataDir() + "/" + hikeKey + "/Tracks/", fname
             );
       QList<QGeoCoordinate> coordinateList = gf->coordinateList();
-qDebug() << "nCoordinates:" << coordinateList.count();
+//qDebug() << "nCoordinates:" << coordinateList.count();
       double length = gf->trackDistance(coordinateList) / 1000.0;
-      trackLine += QString("%0 km, ").arg(length);
-      cfg->setSetting( tracksTableName + "/length", length);
+      trackInfo = QString("%1 km").arg( length, 8, 'f', 3);
+      trackLine += trackInfo;
+      cfg->setSetting( tracksTableName + "/length", trackInfo);
     }
 
     else {
-      trackLine += trackInfo + " km, ";
+      trackLine += trackInfo;
     }
 
     // Finally add the track title
-    trackLine += cfg->getSetting(tracksTableName + "/title");
+    trackLine += ", " + cfg->getSetting(tracksTableName + "/title");
     _trackList.append(trackLine);
   }
 
@@ -101,7 +102,7 @@ qDebug() << "nCoordinates:" << coordinateList.count();
 // ----------------------------------------------------------------------------
 void Hikes::loadCoordinates(int index) {
 
-  qDebug() << "get coordinates from selected index: " << index;
+  //qDebug() << "get coordinates from selected index: " << index;
 
   ConfigData *cfg = ConfigData::instance();
 
@@ -115,9 +116,9 @@ void Hikes::loadCoordinates(int index) {
       cfg->getSetting(tracksTableName + "/fname");
 
   _coordinateList = GpxFile::coordinateList(gpxFile);
-  qDebug() << _coordinateList.count() << " coordinates found";
+  //qDebug() << _coordinateList.count() << " coordinates found";
   _boundary = GpxFile::boundary(_coordinateList);
-  qDebug() << _boundary.count() << " boundaries set";
+  //qDebug() << _boundary.count() << " boundaries set";
 }
 
 // ----------------------------------------------------------------------------
