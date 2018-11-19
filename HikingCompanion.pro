@@ -1,5 +1,5 @@
-QT += core quick qml widgets quickcontrols2 gui positioning
-CONFIG += c++11
+QT += core quick qml widgets quickcontrols2 gui positioning location network
+CONFIG += c++11  # openssl openssl-linked
 
 # The following define makes your compiler emit warnings if you use
 # any feature of Qt which as been marked deprecated (the exact warnings
@@ -12,30 +12,11 @@ DEFINES += QT_DEPRECATED_WARNINGS
 # You can also select to disable deprecated APIs only up to a certain version of Qt.
 #DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x050000    # disables all the APIs deprecated before Qt 5.0.0
 
-#INCLUDEPATH += /usr/lib/jvm/java-1.8.0-openjdk-1.8.0.181.b15-0.fc28.x86_64/include/jni.h
-
-HEADERS += \
-    textload.h \
-    config.h \
-    configdata.h \
-    gpxfile.h \
-    singleton.h \
-    call_once.h \
-    languages.h \
-    hikes.h \
-    trackcoordinates.h
-
-SOURCES += \
-    main.cpp \
-    textload.cpp \
-    configdata.cpp \
-    gpxfile.cpp \
-    languages.cpp \
-    hikes.cpp \
-    trackcoordinates.cpp
+ProjectRoot = /home/marcel/Projects/Mobile/Projects/HikingCompanion/HikingCompanion
+HEADERS += $$files("$$ProjectRoot/Cpp/*.h")
+SOURCES +=  $$files("$$ProjectRoot/Cpp/*.cpp")
 
 RESOURCES += qml.qrc extraResources.qrc
-# $$files(*.qml) $$files(Assets/Theme/*)
 
 # Additional import path used to resolve QML modules in Qt Creator's code model
 QML_IMPORT_PATH =
@@ -54,7 +35,7 @@ else: unix:!android: target.path = /opt/$${TARGET}/bin
 !isEmpty(target.path): INSTALLS += target
 
 android {
-  QT += androidextras
+  #QT += androidextras
 
   DISTFILES += \
     android/AndroidManifest.xml \
@@ -75,5 +56,7 @@ android {
 
   ANDROID_PACKAGE_SOURCE_DIR = $$PWD/android
 }
+
+DISTFILES +=
 
 
