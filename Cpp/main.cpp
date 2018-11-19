@@ -16,23 +16,58 @@
 //#include <QQmlProperty>
 #include <QStandardPaths>
 #include <QQmlEngine>
-#include <QDir>
+//#include <QDir>
 #include <QtQml>
 #include <QFontDatabase>
 #include <QFont>
-//#include <QSslSocket>
+#include <QSslSocket>
+#include <QtDebug>
+#include <QFile>
+#include <QTextStream>
 
 // ----------------------------------------------------------------------------
 // Define global variables
 QQmlApplicationEngine *applicationEngine;
 
 // ----------------------------------------------------------------------------
+void myMessageHandler(QtMsgType type, const QMessageLogContext &, const QString & msg)
+{
+    QString txt;
+    switch (type) {
+    case QtDebugMsg:
+        txt = QString("Debug: %1").arg(msg);
+        break;
+    case QtInfoMsg:
+        txt = QString("Info: %1").arg(msg);
+        break;
+    case QtWarningMsg:
+        txt = QString("Warning: %1").arg(msg);
+    break;
+    case QtCriticalMsg:
+        txt = QString("Critical: %1").arg(msg);
+    break;
+    case QtFatalMsg:
+        txt = QString("Fatal: %1").arg(msg);
+    break;
+    }
+    QFile outFile("log");
+    outFile.open(QIODevice::WriteOnly | QIODevice::Append);
+    QTextStream ts(&outFile);
+    ts << txt << endl;
+}
+
+// ----------------------------------------------------------------------------
 int main( int argc, char *argv[]) {
-/*
-  qDebug() << "SslSupport: " << QSslSocket::supportsSsl();
-  qDebug() << "SslLibraryBuildVersion: " << QSslSocket::sslLibraryBuildVersionString();
-  qDebug() << "SslLibraryRuntimeVersion: " << QSslSocket::sslLibraryVersionString();
-*/
+
+  qInstallMessageHandler(myMessageHandler);
+
+  //QLoggingCategory::defaultCategory()->setEnabled( QtDebugMsg, true);
+  //QLoggingCategory::setFilterRules("io.github.martimm.HikingCompanion.*=true");
+  //QLoggingCategory::setFilterRules("*.info=true");
+
+  qDebug() << "Ssl support: " << QSslSocket::supportsSsl();
+  qDebug() << "Version of the SSL library in use at compile time" << QSslSocket::sslLibraryBuildVersionString();
+  qDebug() << "Version of the SSL library in use at run-time" << QSslSocket::sslLibraryVersionString();
 
 #if defined(Q_OS_ANDROID)
   // On android, we must request the user of the application for the following
@@ -109,7 +144,7 @@ int main( int argc, char *argv[]) {
   applicationEngine->load(QUrl(QStringLiteral("qrc:/Qml/Main/Application.qml")));
 //  applicationEngine->load(QUrl(QStringLiteral("qrc:/Assets/Theme/ThemeTest.qml")));
 
-  qDebug() << "\n\n\nRoot objects:" << applicationEngine->rootObjects() << "\n\n\n";
+  qDebug() << "Root objects:" << applicationEngine->rootObjects();
   if ( applicationEngine->rootObjects().isEmpty() ) return -1;
 
   return app.exec();
