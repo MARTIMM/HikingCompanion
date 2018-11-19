@@ -13,7 +13,9 @@ import QtPositioning 5.11
 HCPage.Plain {
   id: mapPage
 
-  property bool coordinateGeneratorOnForTesting: true // Disable when coordinate (gpx) tests are not needed
+  // Disable (false) when coordinate (gpx) tests are not needed
+  property bool coordinateGeneratorOnForTesting: false
+
   width: parent.width
   height: parent.height
   anchors.fill: parent
@@ -25,7 +27,8 @@ HCPage.Plain {
 
     hikingCompanionMap.center = location.coordinate
             ? location.coordinate
-            : QtPositioning.coordinate( 59.91, 10.75) // Oslo
+            //: QtPositioning.coordinate( 59.91, 10.75) // Oslo
+            : QtPositioning.coordinate(  52.381543, 4.635727) // Haarlem, grote markt
 
     hikingCompanionMap.clearData();
     hikingCompanionMap.addMapItem(currentLocationFeature);
@@ -58,9 +61,9 @@ From MapType QML component
       MapType.CycleMap - A street map suitable for cyclists.
       MapType.CustomMap - A custom map type.
 */
-      if ( hikingCompanionMap.supportedMapTypes[mt].style === MapType.TerrainMap ) {
+//      if ( hikingCompanionMap.supportedMapTypes[mt].style === MapType.TerrainMap ) {
 //        if ( hikingCompanionMap.supportedMapTypes[mt].style === MapType.CycleMap ) {
-//        if ( hikingCompanionMap.supportedMapTypes[mt].style === MapType.CustomMap ) {
+        if ( hikingCompanionMap.supportedMapTypes[mt].style === MapType.CustomMap ) {
         hikingCompanionMap.activeMapType = hikingCompanionMap.supportedMapTypes[mt];
         break;
       }
@@ -79,12 +82,62 @@ From MapType QML component
       HCButton.CurrentTrackButton { }
 
       //TODO North button
-      //TODO Reset 3D view to 2D view
+      //TODO Reset tilt
       //TODO Camera button to make a picture
       //TODO Note button to make a note
     }
   }
 
+  // Source of the maps and features
+  property alias mapSourcePlugin: mapSourcePlugin
+  Plugin {
+    id: mapSourcePlugin
+    name: "osm" // "mapboxgl" // "mapbox" // "esri" //
+    //required: Plugin.AnyMappingFeatures | Plugin.AnyGeocodingFeatures
+    locales: [ "nl_NL", "en_US"]
+/**/
+    // Search and set MapType.CustomMap
+    // There are problems using https:
+    //   Error is: 'qt.network.ssl: Incompatible version of OpenSSL'
+    // Messages from main qDebug output:
+    //   SslSupport:  false
+    //   SslLibraryBuildVersion:  "OpenSSL 1.0.2k-fips  26 Jan 2017"
+    //   SslLibraryRuntimeVersion:  ""
+
+
+    // In script above select MapType.CustomMap
+    // QtCreator must have ssl support!
+    PluginParameter {
+      name: "osm.mapping.custom.host"
+      value: "https://a.tile.opentopomap.org/"
+    }
+
+    PluginParameter {
+      name: "osm.mapping.custom.mapcopyright"
+      value: "<a href='http://www.opentopomap.org/'>OpenTopoMap</a>"
+    }
+
+    PluginParameter {
+      name: "osm.mapping.custom.datacopyright"
+      value: "<a href='http://www.openstreetmap.com/'>OpenStreetMap</a>"
+    }
+
+    PluginParameter {
+      name: "osm.mapping.providersrepository.disabled"
+      value: true
+    }
+
+/*
+    // Copy all files from <qt install>/5.11.2/Src/qtlocation/src/plugins/geoservices/osm/providers/5.8/*
+    // to qrc:Assets/Providers and add to resources file. Then the api key
+    // can be added to the url strings for the thunderforest site.
+    // In script above select MapType.TerrainMap
+    PluginParameter {
+      name: "osm.mapping.providersrepository.address"
+      value: "qrc:Assets/Providers"
+    }
+*/
+  }
 
   // https://doc-snapshots.qt.io/qt5-5.9/location-plugin-osm.html#
   property alias hikingCompanionMap: hikingCompanionMap
@@ -98,63 +151,16 @@ From MapType QML component
     gesture.enabled: true
     z: parent.z + 1
 
-    plugin: Plugin {
-      name: "osm" // "osm" // "mapboxgl" // "mapbox" // "esri", ...
+    plugin: mapSourcePlugin
 
-/*
-      // Search and set MapType.CustomMap
-      // There are problems using https:
-      //   Error is: 'qt.network.ssl: Incompatible version of OpenSSL'
-      // Messages from main qDebug output:
-      //   SslSupport:  false
-      //   SslLibraryBuildVersion:  "OpenSSL 1.0.2k-fips  26 Jan 2017"
-      //   SslLibraryRuntimeVersion:  ""
-
-      PluginParameter {
-        name: "osm.mapping.custom.host"
-        value: "https://a.tile.opentopomap.org/"
-      }
-
-      PluginParameter {
-        name: "osm.mapping.custom.mapcopyright"
-        value: "<a href='http://www.opentopomap.com/'>OpenTopoMap</a>"
-      }
-
-      PluginParameter {
-        name: "osm.mapping.custom.datacopyright"
-        value: "<a href='http://www.opentopomap.com/'>OpenTopoMap</a>"
-      }
-
-      PluginParameter {
-        name: "osm.mapping.providersrepository.disabled"
-        value: true
-      }
-*/
-
-      // Copy all files from <qt install>/5.11.2/Src/qtlocation/src/plugins/geoservices/osm/providers/5.8/*
-      // to qrc:Assets/Providers and add to resources file. Then the api key
-      // can be added to the url strings for the thunderforest site.
-      PluginParameter {
-        name: "osm.mapping.providersrepository.address"
-        //value: "http://192.168.0.22/~marcel/Assets/Providers/"
-        //value: "file:////home/marcel/Projects/Mobile/Projects/HikingCompanion/HikingCompanion/Assets/Providers"
-        value: "qrc:Assets/Providers"
-      }
-    }
-
-/*
-    center: location.coordinate
-            ? location.coordinate
-            : QtPositioning.coordinate( 59.91, 10.75) // Oslo
-*/
     zoomLevel: 17
 
     // This object is set from the tracksPage after selecting a track.
     property alias trackCourse: trackCourse
     MapPolyline {
       id: trackCourse
-      line.width: 3
-      line.color: '#785a3a'
+      line.width: 4
+      line.color: '#af0000' //'#785a3a'
 
       // Set from the TracksPage when a track is selected
       property var boundary;
@@ -167,8 +173,8 @@ From MapType QML component
     property alias userTrackCourse: userTrackCourse
     MapPolyline {
       id: userTrackCourse
-      line.width: 3
-      line.color: '#6a883a'
+      line.width: 4
+      line.color: '#00ff8f'
     }
 
     function init() {
@@ -332,17 +338,16 @@ From MapType QML component
     }
   }
 
-/*
-  // See also https://doc-snapshots.qt.io/qt5-5.9/location-plugin-itemsoverlay.html#
+
+  // See also https://doc-snapshots.qt.io/qt5-5.9/location-plugin-itemsoverlay.html
   Map {
-    id: hillshadeOverlay
+    id: featuresMap
 
     width: parent.width
     height: parent.height
     anchors.fill: parent
 
-//    opacity: 0.6
-    opacity: 0
+    opacity: 1 //0.6
     color: 'transparent' // Necessary to make this map transparent
     gesture.enabled: false
 
@@ -358,8 +363,7 @@ From MapType QML component
     bearing: hikingCompanionMap.bearing
     fieldOfView: hikingCompanionMap.fieldOfView
     z: hikingCompanionMap.z + 1
-
-    //plugin: mapHillshadePlugin
+/*
     plugin: Plugin {
       id: mapHillshadePlugin
       //locales: [ "en_US", "nl_NL"]
@@ -371,11 +375,49 @@ From MapType QML component
       //          | Plugin.AnyPlacesFeature
 
       // specify OSM plugin parameters
-//      PluginParameter { name: "osm.mapping.host"; value: "http://c.tiles.wmflabs.org/hillshading" }
-      PluginParameter { name: "osm.mapping.custom.host"; value: "http://tile.thunderforest.com/outdoors" }
+      PluginParameter { name: "osm.mapping.host"; value: "http://c.tiles.wmflabs.org/hillshading" }
       PluginParameter { name: "osm.mapping.providersrepository.disabled"; value: true}
     }
+*/
 
+    PlaceSearchModel {
+      id: searchModel
+
+      plugin: mapSourcePlugin
+
+      searchTerm: "Pizza"
+      searchArea: QtPositioning.circle(hikingCompanionMap.center);
+
+      Component.onCompleted: update()
+      onCountChanged: {
+        console.log("pizarias: " + data);
+      }
+    }
+
+    MapItemView {
+      model: searchModel
+      delegate: MapQuickItem {
+        coordinate: place.location.coordinate
+
+        anchorPoint.x: image.width * 0.5
+        anchorPoint.y: image.height
+
+        sourceItem: Column {
+          Text {
+            id: image
+            font.pointSize: 20
+            text: "🍕"
+          }
+
+          Text {
+            text: title
+            font.bold: true
+          }
+        }
+      }
+    }
+
+/*
     // The code below enables SSAA
     layer.enabled: true
     layer.smooth: true
@@ -383,7 +425,7 @@ From MapType QML component
     property int h : hillshadeOverlay.height
     property int pr: Screen.devicePixelRatio
     layer.textureSize: Qt.size( w  * 2 * pr, h * 2 * pr)
-  }
 */
+  }
 }
 
