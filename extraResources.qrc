@@ -1,4 +1,5 @@
-<RCC>
+<!DOCTYPE RCC>
+<RCC version="1.0">
     <qresource prefix="/">
         <file>Assets/Fonts/Symbola.ttf</file>
         <file>Assets/Images/logo-met-groen-klein-1.png</file>
