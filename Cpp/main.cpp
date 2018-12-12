@@ -7,16 +7,11 @@
 #include <QtAndroid>
 #endif
 
-//#include <QStyleFactory>
 #include <QApplication>
 #include <QQmlApplicationEngine>
-//#include <QQuickStyle>
-//#include <QQmlComponent>
 #include <QDebug>
-//#include <QQmlProperty>
 #include <QStandardPaths>
 #include <QQmlEngine>
-//#include <QDir>
 #include <QtQml>
 #include <QFontDatabase>
 #include <QFont>
@@ -27,43 +22,10 @@
 
 // ----------------------------------------------------------------------------
 // Define global variables
-QQmlApplicationEngine *applicationEngine;
-
-// ----------------------------------------------------------------------------
-void myMessageHandler(QtMsgType type, const QMessageLogContext &, const QString & msg)
-{
-    QString txt;
-    switch (type) {
-    case QtDebugMsg:
-        txt = QString("Debug: %1").arg(msg);
-        break;
-    case QtInfoMsg:
-        txt = QString("Info: %1").arg(msg);
-        break;
-    case QtWarningMsg:
-        txt = QString("Warning: %1").arg(msg);
-    break;
-    case QtCriticalMsg:
-        txt = QString("Critical: %1").arg(msg);
-    break;
-    case QtFatalMsg:
-        txt = QString("Fatal: %1").arg(msg);
-    break;
-    }
-    QFile outFile("log");
-    outFile.open(QIODevice::WriteOnly | QIODevice::Append);
-    QTextStream ts(&outFile);
-    ts << txt << endl;
-}
+static QQmlApplicationEngine *applicationEngine;
 
 // ----------------------------------------------------------------------------
 int main( int argc, char *argv[]) {
-
-  qInstallMessageHandler(myMessageHandler);
-
-  //QLoggingCategory::defaultCategory()->setEnabled( QtDebugMsg, true);
-  //QLoggingCategory::setFilterRules("io.github.martimm.HikingCompanion.*=true");
-  //QLoggingCategory::setFilterRules("*.info=true");
 
   qDebug() << "Ssl support: " << QSslSocket::supportsSsl();
   qDebug() << "Version of the SSL library in use at compile time" << QSslSocket::sslLibraryBuildVersionString();
@@ -142,7 +104,7 @@ int main( int argc, char *argv[]) {
   // Create engine, test and execute.
   applicationEngine = new QQmlApplicationEngine();
   applicationEngine->load(QUrl(QStringLiteral("qrc:/Qml/Main/Application.qml")));
-//  applicationEngine->load(QUrl(QStringLiteral("qrc:/Assets/Theme/ThemeTest.qml")));
+  //  applicationEngine->load(QUrl(QStringLiteral("qrc:/Assets/Theme/ThemeTest.qml")));
 
   qDebug() << "Root objects:" << applicationEngine->rootObjects();
   if ( applicationEngine->rootObjects().isEmpty() ) return -1;

@@ -26,9 +26,9 @@ HCPage.Plain {
     //location.start();
 
     hikingCompanionMap.center = location.coordinate
-            ? location.coordinate
-            //: QtPositioning.coordinate( 59.91, 10.75) // Oslo
-            : QtPositioning.coordinate(  52.381543, 4.635727) // Haarlem, grote markt
+        ? location.coordinate
+          //: QtPositioning.coordinate( 59.91, 10.75) // Oslo
+        : QtPositioning.coordinate(  52.381543, 4.635727) // Haarlem, grote markt
 
     hikingCompanionMap.clearData();
     hikingCompanionMap.addMapItem(currentLocationFeature);
@@ -39,7 +39,7 @@ HCPage.Plain {
 
     // Search for 'TerrainMap' map type and set activeMapType with it
     for ( var mt in hikingCompanionMap.supportedMapTypes ) {
-/*
+      /*
       console.log("---");
       console.log("name: " + supportedMapTypes[mt].name);
       console.log("descr: " + supportedMapTypes[mt].description);
@@ -47,7 +47,7 @@ HCPage.Plain {
       console.log("night: " + supportedMapTypes[mt].night);
       console.log("style: " + supportedMapTypes[mt].style);
 */
-/*
+      /*
 From MapType QML component
       MapType.NoMap - No map.
       MapType.StreetMap - A street map.
@@ -61,9 +61,9 @@ From MapType QML component
       MapType.CycleMap - A street map suitable for cyclists.
       MapType.CustomMap - A custom map type.
 */
-//      if ( hikingCompanionMap.supportedMapTypes[mt].style === MapType.TerrainMap ) {
-//        if ( hikingCompanionMap.supportedMapTypes[mt].style === MapType.CycleMap ) {
-        if ( hikingCompanionMap.supportedMapTypes[mt].style === MapType.CustomMap ) {
+      //      if ( hikingCompanionMap.supportedMapTypes[mt].style === MapType.TerrainMap ) {
+      //        if ( hikingCompanionMap.supportedMapTypes[mt].style === MapType.CycleMap ) {
+      if ( hikingCompanionMap.supportedMapTypes[mt].style === MapType.CustomMap ) {
         hikingCompanionMap.activeMapType = hikingCompanionMap.supportedMapTypes[mt];
         break;
       }
@@ -95,7 +95,7 @@ From MapType QML component
     name: "osm" // "mapboxgl" // "mapbox" // "esri" //
     //required: Plugin.AnyMappingFeatures | Plugin.AnyGeocodingFeatures
     locales: [ "nl_NL", "en_US"]
-/**/
+    /**/
     // Search and set MapType.CustomMap
     // There are problems using https:
     //   Error is: 'qt.network.ssl: Incompatible version of OpenSSL'
@@ -127,7 +127,7 @@ From MapType QML component
       value: true
     }
 
-/*
+    /*
     // Copy all files from <qt install>/5.11.2/Src/qtlocation/src/plugins/geoservices/osm/providers/5.8/*
     // to qrc:Assets/Providers and add to resources file. Then the api key
     // can be added to the url strings for the thunderforest site.
@@ -196,7 +196,7 @@ From MapType QML component
       id: wanderOffTrackNotation
       line.width: 4
       line.color: '#dfffff'
-/*
+      /*
       property alias mpl: mpl
       path: Path {
         id: mpl
@@ -284,8 +284,8 @@ From MapType QML component
 
       // Send to user track page for recording
       if ( GlobalVariables.applicationWindow &&
-           GlobalVariables.applicationWindow.userTrackConfigPage
-         ) {
+          GlobalVariables.applicationWindow.userTrackConfigPage
+          ) {
         GlobalVariables.applicationWindow.userTrackConfigPage.addCoordinate(
               coord.longitude, coord.latitude, coord.altitude
               // , coord.timestamp, coord.speed
@@ -308,17 +308,17 @@ From MapType QML component
     interval: 1000
     onTriggered: {
       //if ( location.valid ) {
-        //running = false;
-        //console.log("test timer turned off because location is valid");
+      //running = false;
+      //console.log("test timer turned off because location is valid");
       //}
 
       //else {
-        //console.log( "Time test coordinate: " + lon + ", " + lat);
-        location.coord = QtPositioning.coordinate( lat, lon);
-        location.processNewPosition();
+      //console.log( "Time test coordinate: " + lon + ", " + lat);
+      location.coord = QtPositioning.coordinate( lat, lon);
+      location.processNewPosition();
 
-        lon = lon + 0.00005 * (Math.random() - 0.2);
-        lat = lat + 0.00005 * (Math.random() - 0.6);
+      lon = lon + 0.00005 * (Math.random() - 0.2);
+      lat = lat + 0.00005 * (Math.random() - 0.6);
       //}
     }
   }
@@ -363,7 +363,7 @@ From MapType QML component
     bearing: hikingCompanionMap.bearing
     fieldOfView: hikingCompanionMap.fieldOfView
     z: hikingCompanionMap.z + 1
-/*
+    /*
     plugin: Plugin {
       id: mapHillshadePlugin
       //locales: [ "en_US", "nl_NL"]
@@ -417,7 +417,7 @@ From MapType QML component
       }
     }
 
-/*
+    /*
     // The code below enables SSAA
     layer.enabled: true
     layer.smooth: true

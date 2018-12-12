@@ -16,9 +16,9 @@ import io.github.martimm.HikingCompanion.Theme 0.1
 import io.github.martimm.HikingCompanion.GlobalVariables 0.1
 import io.github.martimm.HikingCompanion.Config 0.3
 
-import QtQuick 2.9
-import QtQuick.Controls 2.2
-import QtQuick.Window 2.3
+import QtQuick 2.11
+import QtQuick.Controls 2.4
+import QtQuick.Window 2.11
 
 
 ApplicationWindow {
@@ -79,7 +79,7 @@ ApplicationWindow {
     HCButton.MenuButton {
       id: mapButton
       text: qsTr("🌍 Map")
-//      text: qsTr("Map")
+      //      text: qsTr("Map")
       onClicked: {
         GlobalVariables.menu.menuEntryClicked(mapPage);
       }
@@ -89,7 +89,7 @@ ApplicationWindow {
     HCButton.MenuButton {
       id: tracksButton
       text: qsTr("🚶 Tracks")
-//      text: qsTr("Tracks")
+      //      text: qsTr("Tracks")
       onClicked: {
         GlobalVariables.menu.menuEntryClicked(tracksPage);
       }
@@ -99,7 +99,7 @@ ApplicationWindow {
     HCButton.MenuButton {
       id: configButton
       text: "🛠 " + qsTr("Config")
-//      text: qsTr("Config")
+      //      text: qsTr("Config")
       onClicked: {
         GlobalVariables.menu.menuEntryClicked(configPage);
       }
@@ -109,7 +109,7 @@ ApplicationWindow {
     HCButton.MenuButton {
       id: userTrackConfigButton
       text: qsTr("📡 Recording")
-//      text: qsTr("Recording")
+      //      text: qsTr("Recording")
 
       onClicked: {
         GlobalVariables.menu.menuEntryClicked(userTrackConfigPage);
@@ -120,7 +120,7 @@ ApplicationWindow {
     HCButton.MenuButton {
       id: aboutButton
       text: qsTr("👥 About")
-//      text: qsTr("About")
+      //      text: qsTr("About")
       onClicked: {
         GlobalVariables.menu.menuEntryClicked(aboutPage);
       }
@@ -142,7 +142,7 @@ ApplicationWindow {
       id: exitButton
       property string txt
       text: txt
-//       text: qsTr("Exit")
+      //       text: qsTr("Exit")
       onClicked: {
         GlobalVariables.menu.menuEntryClicked(exitPage);
       }
