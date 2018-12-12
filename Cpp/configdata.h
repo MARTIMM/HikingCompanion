@@ -91,13 +91,14 @@ public slots:
 
 private:
   ConfigData(QObject *parent = nullptr);
+  static ConfigData *_createInstance();
+
   void _removeSettings(QString group);
   void _installNewData();
   void _mkNewTables( QSettings *s,  QString hikeTableName);
   void _refreshData( QSettings *s, QString hikeTableName, QString hikeDir);
   void _moveTable( QString fromTable, QString toTable);
   bool _mkpath(QString path);
-  static ConfigData *_createInstance();
   bool _storeCoordinates(
       QString hikeKey, QString hikeTableName, QString trackTitle,
       QString trackDesc, QString trackType, std::vector<Coord> coordinates,

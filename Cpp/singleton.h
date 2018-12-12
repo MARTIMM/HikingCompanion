@@ -1,7 +1,7 @@
 #ifndef SINGLETON_H
 #define SINGLETON_H
 
-// See also here; https://wiki.qt.io/Qt_thread-safe_singleton
+// See also here; https://wiki.qt.io/Qt_thread-safe_singleton (removed 20181211)
 
 #include "call_once.h"
 
