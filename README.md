@@ -285,6 +285,11 @@ There must be a license which must describe the application in such a way that t
 ---
 # Changes
 
+* 2018-12-13, 0.14.2, 160001402
+  * Bug fixed; On android, launcher icons are not displayed. Thrown out the old manifest and generated a new one. Had to manually add the ' android:icon="@drawable/icon"' to the application element.
+* 2018-12-10, 0.14.1, 160001401
+  * OpenSSL libs are properly added for linux as well as android. It is now possible to reach map tile servers over https. Also features using nominatim are also possible now.
+  * Setting android version code as explained [here](https://medium.com/@maxirosson/versioning-android-apps-d6ec171cfd82) and [here](https://developer.android.com/google/play/publishing/multiple-apks#VersionCodes) above together with version on each change entry. It is like **MV S MJ MN PV** or minimum api version, screen size or 0, major version, minor version and patch version.
 * 2018-11-13, 0.14.0
   * Coordinate generator is build on the map page to test track recording on the UserTrackInfoPage.
   * Adding new hike data and track information as well as recording a new track is created on the UserTrackInfoPage.
