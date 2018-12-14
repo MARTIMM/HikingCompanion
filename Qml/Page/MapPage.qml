@@ -139,123 +139,6 @@ From MapType QML component
 */
   }
 
-  // https://doc-snapshots.qt.io/qt5-5.9/location-plugin-osm.html#
-  property alias hikingCompanionMap: hikingCompanionMap
-  property alias currentLocationFeature: hikingCompanionMap.currentLocationFeature
-  Map {
-    id: hikingCompanionMap
-
-    width: parent.width
-    height: parent.height
-    anchors.fill: parent
-    gesture.enabled: true
-    z: parent.z + 1
-
-    plugin: mapSourcePlugin
-
-    zoomLevel: 17
-
-    // This object is set from the tracksPage after selecting a track.
-    property alias trackCourse: trackCourse
-    MapPolyline {
-      id: trackCourse
-      line.width: 4
-      line.color: '#af0000' //'#785a3a'
-
-      // Set from the TracksPage when a track is selected
-      property var boundary;
-    }
-
-    // This object is set each time when a new coordinate comes in from GPS
-    // and the user has tracking enabled. Later when ready, it is stored and
-    // then selectable from the hike table and is made visible in the
-    // trackCourse object
-    property alias userTrackCourse: userTrackCourse
-    MapPolyline {
-      id: userTrackCourse
-      line.width: 4
-      line.color: '#00ff8f'
-    }
-
-    function init() {
-      userTrackCourse.path = [];
-    }
-
-    function addCoordinate( longitude, latitude) {
-      var path = userTrackCourse.path;
-      path.push(
-            { "longitude": longitude,
-              "latitude": latitude
-            } );
-      userTrackCourse.path = path;
-    }
-
-
-    property alias wanderOffTrackNotation: wanderOffTrackNotation
-    MapPolyline {
-      id: wanderOffTrackNotation
-      line.width: 4
-      line.color: '#dfffff'
-      /*
-      property alias mpl: mpl
-      path: Path {
-        id: mpl
-        startX: currentLocationFeature.center.longitude
-        startY: currentLocationFeature.center.latitude
-
-        property alias psvg: psvg
-        PathLine { id: psvg }
-      }
-*/
-    }
-
-    // Draw a line when the current location is too far away from the
-    // currently selected track. It shows as a light line from the current
-    // location to the closest point on the track.
-    function setWanderOffTrackNotation() {
-      //console.log("Calculate dist from route");
-      var closestPointOnRoute = config.findClosestPointOnRoute(
-            currentLocationFeature.center
-            );
-      var dist = config.distanceToPointOnRoute(
-            closestPointOnRoute,
-            currentLocationFeature.center
-            );
-      //console.log("cp: " + closestPointOnRoute + ", dist: " + dist);
-
-      var path = [];
-      // Check if we are further than 500 meters away
-      if ( dist > 500 ) {
-        //console.log("Path: " + path.length + ", " + path + ", " + currentLocationFeature.center.longitude);
-        path.push(
-              { "longitude": currentLocationFeature.center.longitude,
-                "latitude": currentLocationFeature.center.latitude
-              } );
-        path.push(
-              { "longitude": closestPointOnRoute.longitude,
-                "latitude": closestPointOnRoute.latitude
-              } );
-        wanderOffTrackNotation.path = path;
-      }
-
-      else {
-        // Clear the line using an empty array
-        wanderOffTrackNotation.path = path;
-      }
-    }
-
-    property alias currentLocationFeature: currentLocationFeature
-    MapCircle {
-      id: currentLocationFeature
-
-      radius: 10.0
-      color: 'transparent'  // or #00000000 with alpha to zero
-      //opacity: 0.7
-      border.width: 5
-      border.color: 'blue'
-    }
-  }
-
   //TODO geolocation when no gps is available but internet is there
   PositionSource {
     id: location
@@ -324,34 +207,37 @@ From MapType QML component
   }
 
 
-  // Function to zoom in on the current location
-  function zoomOnCurrentLocation() {
-    hikingCompanionMap.center = currentLocationFeature.center;
-    hikingCompanionMap.zoomLevel = 17;
-  }
-
-  // Function to zoom in on the current selected track
-  function zoomOnCurrentTrack() {
-    if ( hikingCompanionMap.trackCourse.boundary ) {
-      hikingCompanionMap.visibleRegion = hikingCompanionMap.trackCourse.boundary;
-      hikingCompanionMap.zoomLevel = hikingCompanionMap.zoomLevel - 0.2;
-    }
+  // https://doc-snapshots.qt.io/qt5-5.9/location-plugin-osm.html#
+  property alias hikingCompanionMap: hikingCompanionMap
+  Map {
+    id: hikingCompanionMap
+    width: parent.width
+    height: parent.height
+    anchors.fill: parent
+    gesture.enabled: true
+    z: parent.z + 1
+    plugin: mapSourcePlugin
+    zoomLevel: 17
   }
 
 
   // See also https://doc-snapshots.qt.io/qt5-5.9/location-plugin-itemsoverlay.html
+  property alias featuresMap: featuresMap
+  //property alias currentLocationFeature: featuresMap.currentLocationFeature
   Map {
     id: featuresMap
 
-    width: parent.width
-    height: parent.height
+    //width: parent.width
+    //height: parent.height
     anchors.fill: parent
-
-    opacity: 1 //0.6
-    color: 'transparent' // Necessary to make this map transparent
+    plugin: Plugin { name: "itemsoverlay" }
     gesture.enabled: false
 
+
     center: hikingCompanionMap.center
+    color: 'transparent' // Necessary to make this map transparent
+    //opacity: 1 //0.6
+
     minimumFieldOfView: hikingCompanionMap.minimumFieldOfView
     maximumFieldOfView: hikingCompanionMap.maximumFieldOfView
     minimumTilt: hikingCompanionMap.minimumTilt
@@ -363,22 +249,161 @@ From MapType QML component
     bearing: hikingCompanionMap.bearing
     fieldOfView: hikingCompanionMap.fieldOfView
     z: hikingCompanionMap.z + 1
-    /*
-    plugin: Plugin {
-      id: mapHillshadePlugin
-      //locales: [ "en_US", "nl_NL"]
-      //name: "itemoverlay"
-      name: "osm"
-      //preferred: [ "osm", "esri"]
-      //required: Plugin.MappingFeature
-      //          | Plugin.GeocodingFeature
-      //          | Plugin.AnyPlacesFeature
 
-      // specify OSM plugin parameters
-      PluginParameter { name: "osm.mapping.host"; value: "http://c.tiles.wmflabs.org/hillshading" }
-      PluginParameter { name: "osm.mapping.providersrepository.disabled"; value: true}
+    // The code below enables SSAA
+    layer.enabled: true
+    layer.smooth: true
+    property int w : hikingCompanionMap.width
+    property int h : hikingCompanionMap.height
+    //property int pr: Screen.devicePixelRatio
+    //layer.textureSize: Qt.size( w  * 2 * pr, h * 2 * pr)
+
+
+    property alias currentLocationFeature: currentLocationFeature
+    MapCircle {
+      id: currentLocationFeature
+
+      radius: 10.0
+      color: 'transparent'  // or #00000000 with alpha to zero
+      //opacity: 0.7
+      border.width: 5
+      border.color: 'blue'
+
+      // Function to zoom in on the current location
+      function zoomOnCurrentLocation() {
+        hikingCompanionMap.center = currentLocationFeature.center;
+        hikingCompanionMap.zoomLevel = 17;
+      }
     }
+
+    // This object is set from the tracksPage after selecting a track.
+    property alias trackCourse: trackCourse
+    MapPolyline {
+      id: trackCourse
+      line.width: 4
+      line.color: '#af0000' //'#785a3a'
+
+      // Set from the TracksPage when a track is selected
+      property var boundary;
+
+      // Function to zoom in on the current selected track
+      function zoomOnCurrentTrack() {
+        if ( featuresMap.trackCourse.boundary ) {
+          hikingCompanionMap.visibleRegion = featuresMap.trackCourse.boundary;
+          hikingCompanionMap.zoomLevel = hikingCompanionMap.zoomLevel - 0.2;
+        }
+      }
+    }
+
+    // This object is set each time when a new coordinate comes in from GPS
+    // and the user has tracking enabled. Later when ready, it is stored and
+    // then selectable from the hike table and is made visible in the
+    // trackCourse object
+    property alias userTrackCourse: userTrackCourse
+    MapPolyline {
+      id: userTrackCourse
+      line.width: 4
+      line.color: '#00ff8f'
+
+      function init() {
+        userTrackCourse.path = [];
+      }
+
+      function addCoordinate( longitude, latitude) {
+        var path = userTrackCourse.path;
+        path.push(
+              { "longitude": longitude,
+                "latitude": latitude
+              } );
+        userTrackCourse.path = path;
+      }
+    }
+
+
+    property alias wanderOffTrackNotation: wanderOffTrackNotation
+    MapPolyline {
+      id: wanderOffTrackNotation
+      line.width: 4
+      line.color: '#dfffff'
+      /*
+      property alias mpl: mpl
+      path: Path {
+        id: mpl
+        startX: currentLocationFeature.center.longitude
+        startY: currentLocationFeature.center.latitude
+
+        property alias psvg: psvg
+        PathLine { id: psvg }
+      }
 */
+
+      // Draw a line when the current location is too far away from the
+      // currently selected track. It shows as a light line from the current
+      // location to the closest point on the track.
+      function setWanderOffTrackNotation() {
+        //console.log("Calculate dist from route");
+        var closestPointOnRoute = config.findClosestPointOnRoute(
+              currentLocationFeature.center
+              );
+        var dist = config.distanceToPointOnRoute(
+              closestPointOnRoute,
+              currentLocationFeature.center
+              );
+        //console.log("cp: " + closestPointOnRoute + ", dist: " + dist);
+
+        var path = [];
+        // Check if we are further than 500 meters away
+        if ( dist > 500 ) {
+          //console.log("Path: " + path.length + ", " + path + ", " + currentLocationFeature.center.longitude);
+          path.push(
+                { "longitude": currentLocationFeature.center.longitude,
+                  "latitude": currentLocationFeature.center.latitude
+                } );
+          path.push(
+                { "longitude": closestPointOnRoute.longitude,
+                  "latitude": closestPointOnRoute.latitude
+                } );
+          wanderOffTrackNotation.path = path;
+        }
+
+        else {
+          // Clear the line using an empty array
+          wanderOffTrackNotation.path = path;
+        }
+      }
+    }
+  }
+
+
+/*
+  // See also https://doc-snapshots.qt.io/qt5-5.9/location-plugin-itemsoverlay.html
+  Map {
+    id: featuresMap
+
+    //width: parent.width
+    //height: parent.height
+    anchors.fill: parent
+    plugin: Plugin { name: "itemsoverlay" }
+    gesture.enabled: false
+
+
+    center: hikingCompanionMap.center
+    color: 'transparent' // Necessary to make this map transparent
+    //opacity: 1 //0.6
+
+    minimumFieldOfView: hikingCompanionMap.minimumFieldOfView
+    maximumFieldOfView: hikingCompanionMap.maximumFieldOfView
+    minimumTilt: hikingCompanionMap.minimumTilt
+    maximumTilt: hikingCompanionMap.maximumTilt
+    minimumZoomLevel: hikingCompanionMap.minimumZoomLevel
+    maximumZoomLevel: hikingCompanionMap.maximumZoomLevel
+    zoomLevel: hikingCompanionMap.zoomLevel
+    tilt: hikingCompanionMap.tilt;
+    bearing: hikingCompanionMap.bearing
+    fieldOfView: hikingCompanionMap.fieldOfView
+    z: hikingCompanionMap.z + 1
+
+
 
     PlaceSearchModel {
       id: searchModel
@@ -417,7 +442,6 @@ From MapType QML component
       }
     }
 
-    /*
     // The code below enables SSAA
     layer.enabled: true
     layer.smooth: true
@@ -425,7 +449,7 @@ From MapType QML component
     property int h : hillshadeOverlay.height
     property int pr: Screen.devicePixelRatio
     layer.textureSize: Qt.size( w  * 2 * pr, h * 2 * pr)
-*/
   }
+*/
 }
 

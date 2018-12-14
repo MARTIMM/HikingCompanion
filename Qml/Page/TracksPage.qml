@@ -21,7 +21,7 @@ HCPage.Plain {
       // Get the path of coordinates and show on map
       var path = config.coordinateList();
       var mapPage = GlobalVariables.applicationWindow.mapPage;
-      mapPage.hikingCompanionMap.trackCourse.setPath(path);
+      mapPage.featuresMap.trackCourse.setPath(path);
 
       // Get the boundaries of the set of coordinates to zoom in
       // on the track shown on the map. Using boundaries will zoom in until
@@ -32,10 +32,10 @@ HCPage.Plain {
           mapPage.hikingCompanionMap.zoomLevel - 0.2;
 
       // For safekeeping so we can zoom on it again later
-      mapPage.hikingCompanionMap.trackCourse.boundary = bounds;
+      mapPage.featuresMap.trackCourse.boundary = bounds;
 
       // Show a line when we wander off track
-      mapPage.hikingCompanionMap.setWanderOffTrackNotation();
+      mapPage.featuresMap.wanderOffTrackNotation.setWanderOffTrackNotation();
 
       // Make map visible
       GlobalVariables.menu.setHomePage();
