@@ -1,3 +1,4 @@
+import "../Tests" as HCTest
 import "." as HCPage
 import "../Button" as HCButton
 import "../MapFeatures" as HCMapFeatures
@@ -16,6 +17,7 @@ HCPage.Plain {
 
   // Disable (false) when coordinate (gpx) tests are not needed
   property bool coordinateGeneratorOnForTesting: false
+  HCTest.TimedCoordinateGenerator { id: generateCoordinates }
 
   width: parent.width
   height: parent.height

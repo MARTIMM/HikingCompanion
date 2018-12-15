@@ -31,6 +31,6 @@
         <file>Qml/MapFeatures/UserTrackCourse.qml</file>
         <file>Qml/MapFeatures/WanderOffTrackNotation.qml</file>
         <file>Qml/MapFeatures/CurrentPositionSource.qml</file>
-        <file>Qml/Tests.qml</file>
+        <file>Qml/Tests/TimedCoordinateGenerator.qml</file>
     </qresource>
 </RCC>
