@@ -1,3 +1,5 @@
+import io.github.martimm.HikingCompanion.GlobalVariables 0.1
+
 //import QtQuick 2.11
 //import QtQuick.Controls 2.2
 import QtLocation 5.9
@@ -43,5 +45,40 @@ Plugin {
     value: "qrc:Assets/Providers"
   }
 */
+
+  // Search for map type and set activeMapType with it
+  function setMapSource ( mapType ) {
+
+    var mainWin = GlobalVariables.applicationWindow;
+    var suppMapTypes = mainWin.mapPage.hikingCompanionMap.supportedMapTypes;
+    for ( var mt in suppMapTypes ) {
+      /*
+      console.log("---");
+      console.log("name: " + supportedMapTypes[mt].name);
+      console.log("descr: " + supportedMapTypes[mt].description);
+      console.log("mobile: " + supportedMapTypes[mt].mobile);
+      console.log("night: " + supportedMapTypes[mt].night);
+      console.log("style: " + supportedMapTypes[mt].style);
+*/
+      /*
+From MapType QML component
+      MapType.NoMap - No map.
+      MapType.StreetMap - A street map.
+      MapType.SatelliteMapDay - A map with day-time satellite imagery.
+      MapType.SatelliteMapNight - A map with night-time satellite imagery.
+      MapType.TerrainMap - A terrain map.
+      MapType.HybridMap - A map with satellite imagery and street information.
+      MapType.GrayStreetMap - A gray-shaded street map.
+      MapType.PedestrianMap - A street map suitable for pedestriants.
+      MapType.CarNavigationMap - A street map suitable for car navigation.
+      MapType.CycleMap - A street map suitable for cyclists.
+      MapType.CustomMap - A custom map type.
+*/
+      if ( suppMapTypes[mt].style === mapType ) {
+        mainWin.mapPage.hikingCompanionMap.activeMapType = suppMapTypes[mt];
+        break;
+      }
+    }
+  }
 }
 

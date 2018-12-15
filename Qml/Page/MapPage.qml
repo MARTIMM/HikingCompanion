@@ -27,7 +27,6 @@ HCPage.Plain {
     // Turn on the gps coordinate gathering
     location.active = true;
     //location.start();
-    location.setMapSource(MapType.CustomMap);
 
     hikingCompanionMap.center = location.coordinate
         ? location.coordinate
@@ -68,8 +67,14 @@ HCPage.Plain {
     anchors.fill: parent
     gesture.enabled: true
     z: parent.z + 1
-    plugin: HCMapFeatures.MapSourcePlugin { id: mapSourcePlugin }
     zoomLevel: 17
+
+    property alias mapSourcePlugin: mapSourcePlugin
+    plugin: HCMapFeatures.MapSourcePlugin { id: mapSourcePlugin }
+
+    Component.onCompleted: {
+      mapSourcePlugin.setMapSource(MapType.CustomMap);
+    }
   }
 
   // See also https://doc-snapshots.qt.io/qt5-5.9/location-plugin-itemsoverlay.html
@@ -129,17 +134,16 @@ HCPage.Plain {
   }
 
 
-/*
   // See also https://doc-snapshots.qt.io/qt5-5.9/location-plugin-itemsoverlay.html
+  property alias poiMap: poiMap
   Map {
-    id: featuresMap
+    id: poiMap
 
     //width: parent.width
     //height: parent.height
     anchors.fill: parent
     plugin: Plugin { name: "itemsoverlay" }
     gesture.enabled: false
-
 
     center: hikingCompanionMap.center
     color: 'transparent' // Necessary to make this map transparent
@@ -157,53 +161,18 @@ HCPage.Plain {
     fieldOfView: hikingCompanionMap.fieldOfView
     z: hikingCompanionMap.z + 1
 
-
-
-    PlaceSearchModel {
-      id: searchModel
-
-      plugin: mapSourcePlugin
-
-      searchTerm: "Pizza"
-      searchArea: QtPositioning.circle(hikingCompanionMap.center);
-
-      Component.onCompleted: update()
-      onCountChanged: {
-        console.log("pizarias: " + data);
-      }
-    }
-
-    MapItemView {
-      model: searchModel
-      delegate: MapQuickItem {
-        coordinate: place.location.coordinate
-
-        anchorPoint.x: image.width * 0.5
-        anchorPoint.y: image.height
-
-        sourceItem: Column {
-          Text {
-            id: image
-            font.pointSize: 20
-            text: "🍕"
-          }
-
-          Text {
-            text: title
-            font.bold: true
-          }
-        }
-      }
-    }
+    property alias searchPoi: searchPoi
+    HCMapFeatures.PoiSearch { id: searchPoi }
+    property alias poiModel: poiModel
+    HCMapFeatures.PoiModel { id: poiModel }
 
     // The code below enables SSAA
     layer.enabled: true
     layer.smooth: true
-    property int w : hillshadeOverlay.width
-    property int h : hillshadeOverlay.height
-    property int pr: Screen.devicePixelRatio
-    layer.textureSize: Qt.size( w  * 2 * pr, h * 2 * pr)
+    property int w : hikingCompanionMap.width
+    property int h : hikingCompanionMap.height
+    //property int pr: Screen.devicePixelRatio
+    //layer.textureSize: Qt.size( w  * 2 * pr, h * 2 * pr)
   }
-*/
 }
 
