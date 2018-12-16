@@ -22,58 +22,72 @@ MapItemView {
     zoomLevel: GlobalVariables.applicationWindow.mapPage.hikingCompanionMap.zoomLevel
 
     sourceItem: Column {
+      id: poiArea
+
+      Component.onCompleted: {
+        console.log("P keys: " + place);
+      }
+
+      spacing: 2
+
       Image {
         id: image
+        //source: place.icon
         source: "qrc:Assets/Images/Icon/Poi/FoodSleep/restaurant_italian.png"
-      }
 
-      Row {
-        id: titleText
-
-        width: parent.width
-        height: tt1.height
-        anchors.top: image.bottom
-
-        Rectangle {
+        MouseArea {
           anchors.fill: parent
-          width: parent.width
-          height: parent.height
+          hoverEnabled: true
+          onEntered: {
+            tt1Rct.visible = true;
+          }
 
-          color: "white"
-          opacity: 1
-
-          property alias tt1: tt1.text
-          Text {
-            id: tt1
-            text: title
-            font.bold: true
+          onExited: {
+            tt1Rct.visible = false;
           }
         }
       }
 
-      Row {
-        id: addressText
+      Rectangle {
+        id: tt1Rct
 
-        width: parent.width
-        height: tt2.height
-        anchors.top: titleText.bottom
+        visible: false
 
-        Rectangle {
-          anchors.fill: parent
-          width: parent.width
-          height: parent.height
+        width: tt1cw
+        height: tt1ch
 
-          color: "green"
-          opacity: 1
+        color: "white"
+        opacity: 0.8
 
-          property alias tt2: tt2.text
-          Text {
-            id: tt2
-            text: place.location.address.text
-            font.bold: true
-          }
+        property real tt1cw: tt1.contentWidth
+        property real tt1ch: tt1.contentHeight
+        Text {
+          id: tt1
+          text: title
+          font.bold: true
+          font.pointSize: 10
         }
       }
+/*
+      Rectangle {
+        id: tt2Rct
+
+        width: tt2cw
+        height: tt2ch
+
+        color: "white"
+        opacity: 0.8
+
+        property real tt2cw: tt2.contentWidth
+        property real tt2ch: tt2.contentHeight
+        Text {
+          id: tt2
+          text: place.location.address.text
+          font.bold: true
+          font.pointSize: 10
+        }
+      }
+*/
     }
   }
 }

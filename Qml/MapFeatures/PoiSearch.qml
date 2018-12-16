@@ -19,7 +19,17 @@ PlaceSearchModel {
   }
 
   onStatusChanged: {
-    console.log("Status changed: " + root.status);
+    if ( status === Place.Ready ) {
+      if ( !Place.detailsFetched ) {
+        this.getDetails();
+      }
+    }
+
+    else if ( status === Place.Error ) {
+      console.log("Error: " + status.toString());
+    }
+
+    console.log("Status changed: " + root.status.toString());
   }
 
   onCountChanged: {
