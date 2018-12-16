@@ -31,7 +31,7 @@ HCPage.Plain {
     trackCoordinates.addCoordinate( longitude, latitude, altitude);
 
     // Show on map
-    GlobalVariables.applicationWindow.mapPage.hikingCompanionMap.addCoordinate(
+    GlobalVariables.applicationWindow.mapPage.featuresMap.userTrackCourse.addCoordinate(
           longitude, latitude
           );
   }
@@ -158,7 +158,7 @@ HCPage.Plain {
 
           // initialize coordinates
           trackCoordinates.init();
-          GlobalVariables.applicationWindow.mapPage.hikingCompanionMap.init();
+          GlobalVariables.applicationWindow.mapPage.featuresMap.userTrackCourse.init();
 
           // accept coordinates
           configGrid.recordingTrack = true;
@@ -190,7 +190,7 @@ HCPage.Plain {
       }
     }
 
-    HCParts.ConfigLabel { text: qsTr("Pause Recording") }
+    HCParts.ConfigLabel { text: qsTr("Pause recording") }
     Row {
       id: pauseRecButtonRow
 
@@ -206,7 +206,7 @@ HCPage.Plain {
       }
     }
 
-    HCParts.ConfigLabel { text: qsTr("Continue Recording") }
+    HCParts.ConfigLabel { text: qsTr("Continue recording") }
     Row {
       HCButton.ButtonRowButton {
         id: contButton

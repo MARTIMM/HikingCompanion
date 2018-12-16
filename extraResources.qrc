@@ -2,13 +2,10 @@
 <RCC version="1.0">
     <qresource prefix="/">
         <file>Assets/Fonts/Symbola.ttf</file>
-        <file>Assets/Images/logo-met-groen-klein-1.png</file>
-        <file>Assets/Images/Icon/Android/hdpi.png</file>
-        <file>Assets/Images/Icon/Android/ldpi.png</file>
-        <file>Assets/Images/Icon/Android/mdpi.png</file>
-        <file>Assets/Images/Icon/Android/xhdpi.png</file>
-        <file>Assets/Images/Icon/Android/xxhdpi.png</file>
-        <file>Assets/Images/Icon/Android/xxxhdpi.png</file>
+        <file>Assets/Images/Icon/Android/HCLogo-96x96.png</file>
+        <file>Assets/Images/Icon/Android/HCLogo-144x144.png</file>
+        <file>Assets/Images/Icon/Android/HCLogo-192x192.png</file>
+        <file>Assets/Images/Icon/Poi/FoodSleep/restaurant_italian.png</file>
         <file>Assets/Pages/exitText.html</file>
         <file>Assets/Pages/appInfoText.html</file>
         <file>Assets/Pages/aboutText.html</file>

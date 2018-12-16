@@ -13,7 +13,8 @@ DEFINES += QT_DEPRECATED_WARNINGS
 DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x050000    # disables all the APIs deprecated before Qt 5.0.0
 
 ProjectRoot = /home/marcel/Projects/Mobile/Projects/HikingCompanion/HikingCompanion
-HEADERS += $$files("$$ProjectRoot/Cpp/*.h")
+HEADERS += $$files("$$ProjectRoot/Cpp/*.h") \
+    Cpp/setuplogging.h
 SOURCES +=  $$files("$$ProjectRoot/Cpp/*.cpp")
 
 RESOURCES += qml.qrc extraResources.qrc
@@ -47,33 +48,31 @@ unix:!android {
 android {
   QT += androidextras
 
-  # See part 'Adding External Libraries' at
-  # https://doc.qt.io/qtcreator/creator-deploying-android.html
-  # Important note: openssl must be compiled against the current use of SDK,
-  # NDK (r17c) and platform (android-25)
-
   DISTFILES += \
     android/AndroidManifest.xml \
-    android/gradle/wrapper/gradle-wrapper.jar \
-    android/gradlew \
-    android/res/values/libs.xml \
-    android/res/values/HCLibs.xml \
-    android/build.gradle \
-    android/gradle/wrapper/gradle-wrapper.properties \
-    android/gradlew.bat \
-    android/AndroidManifest.xml \
-    android/gradle/wrapper/gradle-wrapper.jar \
-    android/gradlew \
     android/res/values/libs.xml \
     android/build.gradle \
+    android/gradle/wrapper/gradle-wrapper.jar \
+    android/gradlew \
     android/gradle/wrapper/gradle-wrapper.properties \
     android/gradlew.bat
 
-    contains(ANDROID_TARGET_ARCH,armeabi-v7a) {
+  DISTFILES += \
+    android/res/values/HCLibs.xml
+
+  # See part 'Adding External Libraries' at
+  # https://doc.qt.io/qtcreator/creator-deploying-android.html. Following the
+  # instructions will result in the contains() line below.
+  # Important note: openssl must be compiled against the current use of SDK,
+  # NDK (r17b) and platform (android-24)
+  contains(ANDROID_TARGET_ARCH,armeabi-v7a) {
       ANDROID_EXTRA_LIBS = \
         $$ProjectRoot/libsHack/Android-armv7/libcrypto.so \
         $$ProjectRoot/libsHack/Android-armv7/libssl.so
     }
+
+  ANDROID_PACKAGE_SOURCE_DIR = $$PWD/android
 }
+
 
 

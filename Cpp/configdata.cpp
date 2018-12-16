@@ -1,8 +1,8 @@
 #include "singleton.h"
 #include "configdata.h"
 #include "gpxfile.h"
+#include "setuplogging.h"
 
-#include <QDebug>
 #include <QStandardPaths>
 #include <QApplication>
 #include <QDir>
@@ -16,13 +16,13 @@ ConfigData::ConfigData(QObject *parent) : QObject(parent) {
 
   // See also http://doc.qt.io/qt-5/qguiapplication.html#platformName-prop
   // For me it could be: android, ios or xcb (x11 on linux)
-  //qDebug() << "platform name: " << qApp->platformName();
+  qCDebug(config) << "platform name:" << qApp->platformName();
 
   // Check the data directories. Make use of GenericDataLocation standard path
   // and look for the directory made up by its id.
   QString id = QCoreApplication::organizationDomain() +
       "." + QCoreApplication::applicationName();
-  qDebug() << "Id: " << id;
+  qCDebug(config) << "Id:" << id;
 
   // Take first directory from the list. That one is the users data directory.
   // linux:     /home/marcel/.config/io.martimm.github.HikingCompanion
@@ -60,11 +60,11 @@ ConfigData::ConfigData(QObject *parent) : QObject(parent) {
   QFile::remove(_dataDir + "/HikingCompanion.json");
   QString stylePath = getSetting("style");
   if ( QFile::copy( stylePath, _dataDir + "/HikingCompanion.json") ) {
-    qDebug() << "copy stylesheet ok";
+    qCDebug(config) << "copy stylesheet ok";
   }
 
   else {
-    qDebug() << "copy stylesheet not ok";
+    qCDebug(config) << "copy stylesheet not ok";
   }
 
   // Create a Pages subdirectory for html files and copy html files to it.
@@ -77,11 +77,11 @@ ConfigData::ConfigData(QObject *parent) : QObject(parent) {
     QString htmlTextPath = getSetting(_pages[pi]);
     QFile::remove(_dataDir + "/Pages/" + _pages[pi] + ".html");
     if ( QFile::copy( htmlTextPath, _dataDir + "/Pages/" + _pages[pi] + ".html") ) {
-      qDebug() << "copy " << _pages[pi] + ".html ok";
+      qCDebug(config) << "copy " << _pages[pi] + ".html ok";
     }
 
     else {
-      qDebug() << "copy " << _pages[pi] + ".html not ok";
+      qCDebug(config) << "copy " << _pages[pi] + ".html not ok";
     }
   }
 
@@ -116,10 +116,10 @@ void ConfigData::checkForNewHikeData() {
 
   //TODO test for newHikeData to see if there is new data
   QDir *dd = new QDir(_dataShareDir);
-  qDebug() << _dataShareDir << dd->absoluteFilePath(_dataShareDir);
+  qCDebug(config) << _dataShareDir << dd->absoluteFilePath(_dataShareDir);
   if( dd->exists() ) {
     this->_installNewData();
-    qDebug() << "Remove public hike source data from" << _dataShareDir;
+    qCInfo(config) << "Remove public hike source data from" << _dataShareDir;
     dd = new QDir(_dataShareDir);
     dd->removeRecursively();
   }
@@ -136,7 +136,7 @@ void ConfigData::cleanupTracks() {
   QStringList topLevelKeys = _settings->childGroups();
   for ( int hi = 0; hi < topLevelKeys.count(); hi++ ) {
     if ( topLevelKeys[hi].contains(rx) ) {
-      qDebug() << "Remove keys of" << topLevelKeys[hi];
+      qCDebug(config) << "Remove keys of" << topLevelKeys[hi];
       _removeSettings(topLevelKeys[hi]);
     }
   }
@@ -152,20 +152,20 @@ void ConfigData::cleanupHike() {
   QString tableName = hikeTableName(entryKey);
   int nTracks = getSetting(tableName + "/ntracks").toInt();
   for ( int ti = 0; ti < nTracks; ti++) {
-    qDebug() << "Remove table" << this->tracksTableName( tableName, ti);
+    qCDebug(config) << "Remove table" << this->tracksTableName( tableName, ti);
     _removeSettings(this->tracksTableName( tableName, ti));
   }
 
   // Remove hike info from configuration
-  qDebug() << "Remove table" << tableName + ".Releases";
+  qCDebug(config) << "Remove table" << tableName + ".Releases";
   _removeSettings(tableName + ".Releases");
-  qDebug() << "Remove table" << tableName;
+  qCDebug(config) << "Remove table" << tableName;
   _removeSettings(tableName);
 
   // Remove hike content from directories
   QString hikeKey = getSetting("HikeList/" + entryKey);
   QString dir = _dataDir + "/" + hikeKey;
-  qDebug() << "Remove directory and content" << dir;
+  qCDebug(config) << "Remove directory and content" << dir;
   QDir *dd = new QDir(dir);
   dd->removeRecursively();
 
@@ -226,7 +226,7 @@ void ConfigData::cleanupHike() {
 // ----------------------------------------------------------------------------
 // Set only new string values to this applications config settings
 void ConfigData::setSetting( QString name, QString value ) {
-  qDebug() << QString("Set %1 to %2").arg(name).arg(value);
+  qCDebug(config) << QString("Set %1 to %2").arg(name).arg(value);
   _settings->setValue( name, value);
   _settings->sync();
 }
@@ -235,7 +235,7 @@ void ConfigData::setSetting( QString name, QString value ) {
 // Set only new integer values to this applications config settings
 void ConfigData::setSetting( QString name, int value ) {
 
-  qDebug() << QString("Set %1 to %2").arg(name).arg(value);
+  qCDebug(config) << QString("Set %1 to %2").arg(name).arg(value);
   _settings->setValue( name, value);
   _settings->sync();
 }
@@ -254,7 +254,7 @@ QString ConfigData::getSetting( QString name, QSettings *s ) {
 
   if ( settings->value(name).type() == QVariant::Invalid ) return "";
   QString v = settings->value(name).toString();
-  //qDebug() << "GS:" << name << v;
+  qCDebug(config) << "GS:" << name << v;
   return v;
 }
 
@@ -273,7 +273,7 @@ QStringList ConfigData::readKeys( QString group, QSettings *s ) {
 
   settings->beginGroup(group);
   QStringList keys = settings->childKeys();
-  //qDebug() << "returned keys for group: " << keys;
+  qCDebug(config) << "returned keys for group: " << keys;
   settings->endGroup();
   return keys;
 }
@@ -348,20 +348,20 @@ QString ConfigData::getHtmlPageFilename( QString pageName) {
 
   if ( tableName == "" ) {
     textPath = _dataDir + "/Pages/" + pageName + ".html";
-    qDebug() << "no html page name for entry" << entryKey << "-->" << textPath;
+    qCDebug(config) << "no html page name for entry" << entryKey << "-->" << textPath;
   }
 
   else {
     textPath = getSetting( tableName + "/" + pageName);
     if ( textPath == "" ) {
       textPath = _dataDir + "/Pages/" + pageName + ".html";
-      qDebug() << "no html page name for table" << tableName << "-->" << textPath;
+      qCDebug(config) << "no html page name for table" << tableName << "-->" << textPath;
     }
 
     else {
       QString ek = this->getSetting("HikeList/" + entryKey);
       textPath = _dataDir + "/" + ek + "/Pages/" + textPath;
-      qDebug() << "html page found" << textPath;
+      qCInfo(config) << "html page found" << textPath;
     }
   }
 
@@ -389,7 +389,7 @@ QString ConfigData::getTheme( ) {
     else {
       QString ek = this->getSetting("HikeList/" + entryKey);
       stylePath = _dataDir + "/" + ek + "/" + stylePath;
-      //qDebug() << "style:" << tableName << "->" << stylePath;
+      qCInfo(config) << "style:" << tableName << "->" << stylePath;
     }
   }
 
@@ -527,7 +527,7 @@ bool ConfigData::saveUserTrack(
   bool success = false;
 
   QString entryKey = hikeEntryKey(hikeKey);
-  qDebug() << "SUT:" << hikeKey << entryKey << trackTitle;
+  qCDebug(config) << "SUT:" << hikeKey << entryKey << trackTitle;
 
   if ( entryKey != "" ) {
     QString hikeTableName = entryKey + "." + hikeKey;
@@ -558,9 +558,9 @@ bool ConfigData::saveUserTrack(
 void ConfigData::_installNewData() {
 
   // Check for hike.conf configuration file
-  qDebug() << "Install data from" << _dataShareDir + "/hike.conf";
+  qCInfo(config) << "Install data from" << _dataShareDir + "/hike.conf";
   if ( ! QFile::exists(_dataShareDir + "/hike.conf") ) {
-    qDebug() << _dataShareDir + "/hike.conf does not exist";
+    qCCritical(config) << _dataShareDir + "/hike.conf does not exist";
     return;
   }
 
@@ -573,7 +573,7 @@ void ConfigData::_installNewData() {
 
   // Get the key name of this new hike and make path to hike subdir
   QString hikename = getSetting( "hike", s);
-  qDebug() << "Hike key" << hikename;
+  qCInfo(config) << "Hike key" << hikename;
   QString hikeDir = _dataDir + "/" + hikename;
 
   // Compare new version with installed version.
@@ -608,10 +608,10 @@ void ConfigData::_installNewData() {
     hikeVersion = getSetting(hikeTableName + "/version");
   }
 
-  qDebug() << "Versions old/new:" << hikeVersion << getSetting( "version", s);
+  qCInfo(config) << "Versions old/new:" << hikeVersion << getSetting( "version", s);
   // If version of imported hike is greater, then there is work to do
   if ( hikeVersion.compare(getSetting( "version", s)) < 0 ) {
-    qDebug() << "Remove old data from" << hikeDir;
+    qCDebug(config) << "Remove old data from" << hikeDir;
     QDir *dd = new QDir(hikeDir);
     dd->removeRecursively();
     dd->mkpath(hikeDir);
@@ -673,19 +673,19 @@ void ConfigData::_refreshData(
 
       // Remove table
       QString trackTableName = hikeTableName + QString(".Track%1").arg(gfi + 1);
-      qDebug() << "Remove table" << trackTableName;
+      qCDebug(config) << "Remove table" << trackTableName;
       _removeSettings(trackTableName);
     }
   }
 
   else {
-    qDebug() << "Create dir " << hikeSubdir;
+    qCInfo(config) << "Create dir " << hikeSubdir;
     dd->mkpath(hikeSubdir);
   }
 
   // Copy theme file
   QString themeFile = getSetting( "style", s);
-  qDebug() << "ThemeFile:" << themeFile;
+  qCInfo(config) << "ThemeFile:" << themeFile;
   if( themeFile != "" ) {
     QDir *tfd = new QDir(_dataShareDir);
     if( tfd->exists(themeFile) ) {
@@ -695,7 +695,7 @@ void ConfigData::_refreshData(
             );
     }
     else {
-      qDebug() << "themefile does not exist at" << _dataShareDir;
+      qCWarning(config) << "themefile does not exist at" << _dataShareDir;
     }
   }
 
@@ -711,11 +711,11 @@ void ConfigData::_refreshData(
     QString htmlSrcTextPath = sourcePagesDirectory + "/" + getSetting( _pages[pi], s);
     QString htmlDstTextPath = hikeSubdir + "/" + _pages[pi] + ".html";
     if ( QFile::copy( htmlSrcTextPath, htmlDstTextPath) ) {
-//      qDebug() << "copy" << htmlDstTextPath << "ok";
+      qCDebug(config) << "copy" << htmlDstTextPath << "ok";
     }
 
     else {
-      qDebug() << "copy" << htmlDstTextPath << "not ok";
+      qCWarning(config) << "copy" << htmlDstTextPath << "not ok";
     }
   }
 
@@ -725,8 +725,8 @@ void ConfigData::_refreshData(
   QDir *sgd = new QDir(sourceGpxDirectory);
   hikeSubdir = QString(hikeDir + "/Tracks");
 
-  qDebug() << "src hike tracks:" << sourceGpxDirectory;
-  qDebug() << "dest hike tracks:" << hikeSubdir;
+  qCInfo(config) << "source hike tracks:" << sourceGpxDirectory;
+  qCInfo(config) << "destination hike tracks:" << hikeSubdir;
 
   // Maximum number of files possible
   int nbrGpxFiles = sgd->entryList(QDir::Files).count();
@@ -737,7 +737,7 @@ void ConfigData::_refreshData(
     QString srcTrackTable = QString("Track%1").arg(gfi);
     QString destTrackTable = hikeTableName + QString(".Track%1").arg(gfi);
 
-    qDebug() << "src/dest table" << srcTrackTable << destTrackTable;
+    qCDebug(config) << "src/dest table" << srcTrackTable << destTrackTable;
 
     // If there are no keys for this table, we are done
     QStringList trackKeys = readKeys( srcTrackTable, s);
@@ -762,7 +762,7 @@ void ConfigData::_refreshData(
           sourceGpxDirectory + "/" + fname,
           hikeSubdir + "/" + fname
           );
-    qDebug() << "copy" << sourceGpxDirectory + "/" + fname;
+    qCInfo(config) << "copy" << sourceGpxDirectory + "/" + fname;
   }
 
   setSetting( hikeTableName + "/ntracks", nbrDefinedGpxFiles);
@@ -771,19 +771,19 @@ void ConfigData::_refreshData(
   dd = new QDir(hikeSubdir);
   if ( ! dd->exists() ) dd->mkpath(hikeSubdir);
   setSetting( hikeTableName + "/nphotos", 0);
-  qDebug() << "hike photos:" << hikeSubdir;
+  qCInfo(config) << "hike photos:" << hikeSubdir;
 
   hikeSubdir = hikeDir + "/Notes";
   dd = new QDir(hikeSubdir);
   if ( ! dd->exists() ) dd->mkpath(hikeSubdir);
   setSetting( hikeTableName + "/nnotes", 0);
-  qDebug() << "hike notes:" << hikeSubdir;
+  qCInfo(config) << "hike notes:" << hikeSubdir;
 
   hikeSubdir = hikeDir + "/Features";
   dd = new QDir(hikeSubdir);
   if ( ! dd->exists() ) dd->mkpath(hikeSubdir);
   setSetting( hikeTableName + "/nfeatures", 0);
-  qDebug() << "hike features:" << hikeSubdir;
+  qCInfo(config) << "hike features:" << hikeSubdir;
 }
 
 // ----------------------------------------------------------------------------
@@ -822,7 +822,7 @@ bool ConfigData::_mkpath(QString path) {
     }
 
     else {
-      qDebug() << p << parts[pi] << "fails";
+      qCCritical(config) << p << parts[pi] << "fails";
       ok = false;
       break;
     }
@@ -836,7 +836,7 @@ bool ConfigData::_mkpath(QString path) {
     }
   }
 
-  qDebug() << path << "ok:" << ok;
+  qCInfo(config) << path << "ok:" << ok;
   return ok;
 }
 
@@ -856,7 +856,7 @@ bool ConfigData::_storeCoordinates(
 
   bool success = false;
   QString filename = trackTitle + ".gpx";
-  qDebug() << "Store coords in" << filename;
+  qCInfo(config) << "Store coords in" << filename;
 
   // Check tracks directory
   QString trackPath = _dataDir + "/" + hikeKey + "/Tracks";
@@ -864,7 +864,7 @@ bool ConfigData::_storeCoordinates(
   if ( !dd->exists() ) _mkpath(trackPath);
 
   QFile *ff = new QFile(trackPath + "/" + filename);
-  qDebug() << "Path:" << trackPath + "/" + filename << ff->exists();
+  qCInfo(config) << "Path:" << trackPath + "/" + filename << ff->exists();
   if ( !ff->exists() ) {
     // Mise en place
     QString hikeTitle = getSetting(hikeTableName + "/title");
@@ -906,7 +906,7 @@ bool ConfigData::_storeCoordinates(
     gpx.writeStartElement("trkseg");
     for ( Coord c : coordinates ) {
       gpx.writeEmptyElement("trkpt");
-      qDebug() << c.longitude << c.latitude << c.altitude;
+      qCDebug(config) << c.longitude << c.latitude << c.altitude;
       gpx.writeAttribute( "lat", QString("%1").arg( c.latitude, 20, 'f', 20));
       gpx.writeAttribute( "lon", QString("%1").arg( c.longitude, 20, 'f', 20));
     }

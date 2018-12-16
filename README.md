@@ -254,10 +254,11 @@ This should show a dialog to ask the user if he/she really wants to quit the pro
     * [x] Hike data container app copies its data to the directory
     * [x] HikingCompanion app installs the data from the directory and cleans it afterwards.
 
-### Licenses Qt software
-### Licenses Android?
-### Licenses Ios?
-### License Symbola font
+### Licenses
+#### Licenses Qt software
+#### Licenses Android?
+#### Licenses Ios?
+#### License Symbola font
 Unicode Fonts for Ancient Scripts
 (UFAS)
  License Agreement
@@ -268,7 +269,7 @@ Commercial or educational use of UFAS is not permitted. This and all UFAS licens
 
 Font also found on Linux fedora! No license mentioned!
 
-### License for the hike data.
+#### License for the hike data.
 There must be a license which must describe the application in such a way that the software is free but that the data for some hikes is to be paid for.
 
 ---
@@ -282,9 +283,20 @@ There must be a license which must describe the application in such a way that t
 ---
 # Bugs
 
+* 2018-12-15
+  * User track not visible in config combobox
+  * Track not saved
+
 ---
 # Changes
 
+* 2018-12-15, 0.14.3, 160001402
+  * Poi is working in principle.
+* 2018-12-13, 0.14.2, 160001402
+  * Bug fixed; On android, launcher icons are not displayed. Thrown out the old manifest and generated a new one. Had to manually add the ' android:icon="@drawable/icon"' to the application element.
+* 2018-12-10, 0.14.1, 160001401
+  * OpenSSL libs are properly added for linux as well as android. It is now possible to reach map tile servers over https. Also features using nominatim are also possible now.
+  * Setting android version code as explained [here](https://medium.com/@maxirosson/versioning-android-apps-d6ec171cfd82) and [here](https://developer.android.com/google/play/publishing/multiple-apks#VersionCodes) above together with version on each change entry. It is like **MV S MJ MN PV** or minimum api version, screen size or 0, major version, minor version and patch version.
 * 2018-11-13, 0.14.0
   * Coordinate generator is build on the map page to test track recording on the UserTrackInfoPage.
   * Adding new hike data and track information as well as recording a new track is created on the UserTrackInfoPage.
