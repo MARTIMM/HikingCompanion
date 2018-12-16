@@ -1,5 +1,4 @@
-#QT += quick gui widgets core qml quickwidgets quickcontrols2
-QT += core quick qml quickcontrols2
+QT += core quick qml widgets quickcontrols2 positioning location network gui
 CONFIG += c++11
 
 # The following define makes your compiler emit warnings if you use
@@ -13,28 +12,10 @@ DEFINES += QT_DEPRECATED_WARNINGS
 # You can also select to disable deprecated APIs only up to a certain version of Qt.
 DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x050000    # disables all the APIs deprecated before Qt 5.0.0
 
-HEADERS += \
-    textload.h \
-    config.h \
-    configdata.h \
-    gpxmanager.h \
-    gpxfile.h \
-    singleton.h \
-    call_once.h \
-    language.h \
-    languages.h \
-    gpxfiles.h
-
-SOURCES += \
-    main.cpp \
-    textload.cpp \
-    config.cpp \
-    configdata.cpp \
-    gpxmanager.cpp \
-    gpxfile.cpp \
-    language.cpp \
-    languages.cpp \
-    gpxfiles.cpp
+ProjectRoot = /home/marcel/Projects/Mobile/Projects/HikingCompanion/HikingCompanion
+HEADERS += $$files("$$ProjectRoot/Cpp/*.h") \
+    Cpp/setuplogging.h
+SOURCES +=  $$files("$$ProjectRoot/Cpp/*.cpp")
 
 RESOURCES += qml.qrc extraResources.qrc
 
@@ -44,25 +25,54 @@ QML_IMPORT_PATH =
 # Additional import path used to resolve QML modules just for Qt Quick Designer
 QML_DESIGNER_IMPORT_PATH =
 
+# Location where quick controls config theme is defined
+# See also https://doc.qt.io/qt-5/qtquickcontrols2-environment.html
+#QT_QUICK_CONTROLS_CONF = ":/Assets/Theme/qtquickcontrols2.conf"
+#QT_QUICK_CONTROLS_STYLE = ":/Assets/Theme/HCTheme1"
+
 # Default rules for deployment.
 qnx: target.path = /tmp/$${TARGET}/bin
 else: unix:!android: target.path = /opt/$${TARGET}/bin
 !isEmpty(target.path): INSTALLS += target
 
-DISTFILES += \
+unix:!android {
+  # According to https://wiki.qt.io/Hacking_on_Qt%27s_SSL_Support
+  CONFIG += openssl-linked
+
+  # It is important to have a separate directory for this because referring them
+  # from /usr/lib directly creates a lot of errors. This is caused by the
+  # os installed qt libraries in /usr/lib and /usr/lib64
+  LIBS += -L$$ProjectRoot/libsHack/Linux -lssl -lcrypto
+}
+
+android {
+  QT += androidextras
+
+  DISTFILES += \
     android/AndroidManifest.xml \
-    android/gradle/wrapper/gradle-wrapper.jar \
-    android/gradlew \
     android/res/values/libs.xml \
     android/build.gradle \
-    android/gradle/wrapper/gradle-wrapper.properties \
-    android/gradlew.bat \
-    android/AndroidManifest.xml \
     android/gradle/wrapper/gradle-wrapper.jar \
     android/gradlew \
-    android/res/values/libs.xml \
-    android/build.gradle \
     android/gradle/wrapper/gradle-wrapper.properties \
     android/gradlew.bat
 
-ANDROID_PACKAGE_SOURCE_DIR = $$PWD/android
+  DISTFILES += \
+    android/res/values/HCLibs.xml
+
+  # See part 'Adding External Libraries' at
+  # https://doc.qt.io/qtcreator/creator-deploying-android.html. Following the
+  # instructions will result in the contains() line below.
+  # Important note: openssl must be compiled against the current use of SDK,
+  # NDK (r17b) and platform (android-24)
+  contains(ANDROID_TARGET_ARCH,armeabi-v7a) {
+      ANDROID_EXTRA_LIBS = \
+        $$ProjectRoot/libsHack/Android-armv7/libcrypto.so \
+        $$ProjectRoot/libsHack/Android-armv7/libssl.so
+    }
+
+  ANDROID_PACKAGE_SOURCE_DIR = $$PWD/android
+}
+
+
+

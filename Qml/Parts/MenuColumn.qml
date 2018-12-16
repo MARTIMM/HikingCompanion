@@ -15,7 +15,6 @@ import QtQuick.Controls 2.2
 
     // Menu must be kept above page(1) and button rows(50)
     width: 0
-    //width: Theme.mnWidth
     height: parent.height
     z: 100
     clip: true
@@ -23,13 +22,15 @@ import QtQuick.Controls 2.2
     //anchors.right: parent.right
     anchors.left: parent.left
 
+/*
     Component.onCompleted: {
       console.log("MM Menu WH: " + width + ", " + height);
     }
+*/
 
     //property alias menuEntryClicked: menuEntryClicked
     function menuEntryClicked(requestPage) {
-      console.log('current: ' + GlobalVariables.currentPage + ', request: ' + requestPage);
+      //console.log('current: ' + GlobalVariables.currentPage + ', request: ' + requestPage);
       if ( GlobalVariables.currentPage !== requestPage ) {
         GlobalVariables.currentPage.visible = false;
         requestPage.visible = true;
@@ -53,11 +54,11 @@ import QtQuick.Controls 2.2
 */
     // Set page to home page. The home pages will not have this button.
     function setHomePage() {
-      console.log("homeButton clicked");
-      console.log('current: ' + GlobalVariables.currentPage);
+      //console.log("homeButton clicked");
+      //console.log('current: ' + GlobalVariables.currentPage);
       GlobalVariables.currentPage.visible = false;
-      GlobalVariables.mapPage.visible = true;
-      GlobalVariables.setCurrentPage(GlobalVariables.mapPage);
+      GlobalVariables.applicationWindow.mapPage.visible = true;
+      GlobalVariables.setCurrentPage(GlobalVariables.applicationWindow.mapPage);
       //openMenu.visible = true
     }
 
@@ -70,7 +71,7 @@ import QtQuick.Controls 2.2
         property: "width"
         duration: 1000
         from: 0
-        to: Theme.mnWidth
+        to: Theme.component.menu.width
         easing.type: Easing.OutBounce
       }
     }
@@ -82,7 +83,7 @@ import QtQuick.Controls 2.2
         target: GlobalVariables.menu
         property: "width"
         duration: 1000
-        from: Theme.mnWidth
+        from: Theme.component.menu.width
         to: 0
         easing.type: Easing.OutBounce
       }

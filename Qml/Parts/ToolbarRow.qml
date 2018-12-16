@@ -1,25 +1,18 @@
 import QtQuick 2.9
 
-import io.github.martimm.HikingCompanion.Theme 0.1
-
 Row {
-  id: root
   spacing: 2
 
-  // Row must be kept above page(1)
   width: parent.width
-  height: Theme.tbHeight
-  z: 50
+  height: parent.height
 
   anchors {
-    top: parent.top
-    right: parent.right
-    left: parent.left
+    fill: parent
 
-    leftMargin: Theme.tbLRMargin
-    rightMargin: Theme.tbLRMargin
-    topMargin: Theme.tbTBMargin
-    bottomMargin: Theme.tbTBMargin
+    leftMargin: 2
+    rightMargin: 2
+    topMargin: 3
+    bottomMargin: 1
   }
 }
 

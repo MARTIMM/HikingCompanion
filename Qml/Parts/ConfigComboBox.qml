@@ -4,7 +4,6 @@ import QtQuick.Controls.Styles 1.4
 
 /*
 import io.github.martimm.HikingCompanion.Theme 0.1
-import io.github.martimm.HikingCompanion.HCTheme1 0.1
 import io.github.martimm.HikingCompanion.Config 0.2
 */
 

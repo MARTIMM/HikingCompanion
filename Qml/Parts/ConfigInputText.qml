@@ -4,50 +4,31 @@ import QtQuick.Controls 2.2
 import io.github.martimm.HikingCompanion.Theme 0.1
 
 Item {
-  id: root
+  id: control
 
-  width: parent.width
-  height: Theme.largeButtonHeight
+  width: parent.inputWidth
+  height: parent.configHeight
   //  anchors.fill: parent
 
   property alias inputText: inputText
-  property alias placeholderText: inputText.placeholderText
+  property string placeholderText
 
   TextField {
     id: inputText
-    //Setting focus will show keyboard to early focus: true
 
     width: parent.width
-/*
-    background: Rectangle {
-      color: HCStyle.compBackgroundColor
+    height: parent.height
+    placeholderText: control.placeholderText
+    inputMethodHints: Qt.ImhNoAutoUppercase
 
-      antialiasing: true
-      radius: HCStyle.smallButtonRadius
-      border {
-        color: HCStyle.buttonBorderColor
-        width: HCStyle.smallButtonBorder
-      }
-    }
-
-    // Lets assume the text is still wrong or empty
-    color: HCStyle.noktxtColor
-
-    font {
-      family: HCStyle.fontFamily
-      capitalization: Font.MixedCase
-      //bold: true
-      pointSize: HCStyle.cfgtxtPointSize
-    }
-*/
     // Show visible clue if input is right or wrong
     onTextChanged: {
       if ( inputText.acceptableInput ) {
-        color = Theme.oktxtColor;
+        color = Theme.main.color.okText;
       }
 
       else {
-        color = Theme.noktxtColor;
+        color = Theme.main.color.notOkText;
       }
     }
   }

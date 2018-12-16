@@ -4,80 +4,76 @@ import "../Parts" as HCParts
 
 import io.github.martimm.HikingCompanion.Theme 0.1
 import io.github.martimm.HikingCompanion.Config 0.3
-//import io.github.martimm.HikingCompanion.Language 0.2
-//import io.github.martimm.HikingCompanion.Languages 0.1
+import io.github.martimm.HikingCompanion.Languages 0.2
+import io.github.martimm.HikingCompanion.GlobalVariables 0.1
 
-import QtQuick 2.9
-import QtQuick.Controls 2.2
+import QtQuick 2.11
+import QtQuick.Controls 2.4
 
 HCPage.Plain {
   id: configPage
 
-  property string osType
+  //property string osType
 
   width: parent.width
   height: parent.height
   anchors.fill: parent
-  visible: false
 
   Component.onCompleted: {
-    //configPage.osType = config.osType;
-    config.readProperties;
+    // Define the list of languages after which the method will emit
+    // the languageListChanged signal. Do the same for hikes and
+    // catch signal hikeListDefined.
+    lngs.defineLanguages();
+    config.defineHikeList();
 
-//    console.log("language list: " + lngs.languageList);
+    username.inputText.text = config.getSetting("User/username");
+    email.inputText.text = config.getSetting("User/email");
+    consent.checked = config.getSetting("User/consent") === "1" ? true : false;
   }
 
-//  Languages { id: lngs }
+  Languages {
+    id: lngs
+
+    // Set the model data and the saved index of a previously
+    // chosen language
+    onLanguageListChanged: {
+      cbx1.model = lngs.languageList();
+      cbx1.currentIndex = parseInt(config.getSetting("languageindex"));
+    }
+  }
 
   Config {
     id: config
 
-    // This is using languageList() to set items in Config::_languages
-/*
-    languageList: [
-      Language { name: "English" },   // using append functions from Config
-      Language { name: "Nederlands" } // to add the Language objects
-    ]
-*//*
-    onLanguageListChanged: {
-      console.log("language list changed: " + config.languageList);
-    }
-*/
-    onUsernameChanged: {
-      console.log("username from data: " + config.username);
-      username.inputText.text = config.username;
-    }
-
-    onEmailChanged: {
-      console.log("email from data: " + config.email);
-      email.inputText.text = config.email;
-    }
-
-    onLanguageChanged: {
-      console.log("currentIndex from data: " + config.language);
-      language.currentIndex = config.language;
+    onHikeListDefined: {
+      cbx2.model = config.hikeList();
+      console.log("hikes: " + config.hikeList());
+      cbx2.currentIndex = parseInt(config.getSetting("selectedhikeindex"));
     }
   }
 
-  HCParts.ToolbarRow {
+  HCParts.ToolbarRectangle {
     id: pageToolbarRow
 
-    HCButton.OpenMenu {  }
-    HCButton.Home {  }
+    HCParts.ToolbarRow {
+      HCButton.OpenMenu { }
+      HCButton.Home { }
 
-    Text {
-      text: qsTr(" Configuration page")
+      Text {
+        text: qsTr(" Configuration page")
+      }
     }
   }
 
   property int leftWidth: 3 * width / 10 - Theme.cfgFieldMargin
   property int rightWidth: 7 * width / 10 - Theme.cfgFieldMargin
 
-  property Grid configGrid: configGrid
+  property alias configGrid: configGrid
   Grid {
     id: configGrid
 
-    columns: 1
+    //rows: 5
+    columns: 2
     spacing: 2
     width: parent.width
     height: parent.height - pageToolbarRow.height - pageButtonRow.height
@@ -90,292 +86,135 @@ HCPage.Plain {
 
       leftMargin: Theme.cfgFieldMargin
       rightMargin: Theme.cfgFieldMargin
+      topMargin: 2
+      bottomMargin: 2
     }
 
+    property int labelWidth: 3 * parent.width / 10 - Theme.cfgFieldMargin
+    property int inputWidth: 7 * parent.width / 10 - Theme.cfgFieldMargin
+    property int configHeight: Theme.cfgRowHeight
+
+    function labelWidth() { return leftWidth; }
+    function inputWidth() { return rightWidth; }
 
     // Selection of a language
-    property Row languageRow: languageRow
-    Row {
-      id: languageRow
-      width: parent.width
+    HCParts.ConfigLabel { text: qsTr("Language") }
+    ComboBox {
+      id: cbx1
+      width: rightWidth
       height: Theme.cfgRowHeight
-      spacing: 2
-
-      HCParts.ConfigLabel {
-        text: qsTr("Language")
-        width: leftWidth
-        height: parent.height
-        //anchors.topMargin: 10
-      }
-
-      property ComboBox languages: languages
-      ComboBox {
-        id: languages
-        width: rightWidth
-        height: parent.height
-        model: [ "English", "Nederlands"]
-        //model: lngs.languageList
-      }
     }
+
 
     // Setting consent of privacy variables
-    Row {
-      width: parent.width
+    HCParts.ConfigLabel { text: qsTr("Consent") }
+    HCParts.ConfigSwitch {
+      id: consent
+      width: rightWidth
       height: Theme.cfgRowHeight
-      spacing: 2
-
-      HCParts.ConfigLabel {
-        text: qsTr("Consent")
-        width: leftWidth
-        height: parent.height
-        //anchors.topMargin: 10
-      }
-
-      HCParts.ConfigSwitch {
-        id: consent
-        width: rightWidth
-        height: parent.height
-        text: ""
-        //scale: 0.8
-        //z: 50
-      }
+      text: ""
+      controlObjects: [ usernameLabel, username, emailLabel, email]
     }
+
 
     // Input of username
-    Row {
-      width: parent.width
-      height: Theme.cfgRowHeight
-      spacing: 2
-
-      HCParts.ConfigLabel {
-        text: qsTr("Name")
-        width: leftWidth
-        height: parent.height
-      }
-
-      HCParts.ConfigInputText {
-        id: username
-        width: rightWidth
-        height: parent.height
-
-        placeholderText: qsTr("type your name here")
-        inputText.validator: RegExpValidator {
-          regExp: /^\w+$/
-        }
-      }
+    HCParts.ConfigLabel {
+      id: usernameLabel
+      text: qsTr("Name")
     }
+    HCParts.ConfigInputText {
+      id: username
+      placeholderText: qsTr("type your name here")
+      inputText.validator: RegExpValidator { regExp: /^[\s\w]+$/ }
+    }
+
 
     // Input of email address
-    Row {
-      width: parent.width
-      height: Theme.cfgRowHeight
-      spacing: 2
-
-      HCParts.ConfigLabel {
-        text: qsTr("Email address")
-        width: leftWidth
-        height: parent.height
-      }
-
-      HCParts.ConfigInputText {
-        id: email
-        width: rightWidth
-        height: parent.height
-
-        placeholderText: qsTr("type your email address here")
-        inputText.validator: RegExpValidator {
-          regExp: /^[a-zA-Z0-9.!#$%&’*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/
-        }
+    HCParts.ConfigLabel {
+      id: emailLabel
+      text: qsTr("Email address")
+    }
+    HCParts.ConfigInputText {
+      id: email
+      placeholderText: qsTr("type your email address here")
+      inputText.validator: RegExpValidator {
+        regExp: /^[a-zA-Z0-9.!#$%&’*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/
       }
     }
+
+
+    // Selection of a hike
+    HCParts.ConfigLabel { text: qsTr("Hike/trips") }
+    ComboBox {
+      id: cbx2
+      width: rightWidth
+      height: Theme.cfgRowHeight
+    }
   }
+
 
   HCParts.PageButtonRow {
     id: pageButtonRow
 
     anchors.bottom: parent.bottom
 
-    Button {
-      width: textMetrics.boundingRect.width + 30
+    HCButton.ButtonRowButton {
       text: qsTr("Save")
       onClicked: {
-        config.language = language.currentIndex;
-        config.username = username.inputText.text;
-        config.email = email.inputText.text;
+        // Save settings from this page
+        config.setSetting( "languageindex", cbx1.currentIndex);
+        config.setSetting( "User/username", username.inputText.text);
+        config.setSetting( "User/email", email.inputText.text);
+        config.setSetting( "User/consent", consent.checked);
+
+        // If there aren't any hikes on the list, do a cleanup.
+        if ( cbx2.model.length === 0 ) {
+          config.cleanupTracks();
+        }
+
+        // Set the tracklist on the TracksPage
+        else {
+          if ( GlobalVariables.applicationWindow &&
+               GlobalVariables.applicationWindow.tracksPage
+             ) {
+            config.setSetting( "selectedhikeindex", cbx2.currentIndex);
+            GlobalVariables.applicationWindow.tracksPage.changeTrackList();
+          }
+        }
+
+        // Set the theme for this hike
+        var t = config.getTheme();
+        Theme.changeClrs(JSON.parse(t));
+
+        // Signal the change to the other pages
+        GlobalVariables.applicationWindow.aboutPage.changeContent();
+      }
+    }
+
+    // TODO: Dialog window
+    HCButton.ButtonRowButton {
+      text: qsTr("Remove Hike")
+      onClicked: {
+        if ( GlobalVariables.applicationWindow ) {
+          config.setSetting( "selectedhikeindex", cbx2.currentIndex);
+          config.cleanupHike();
+
+          if ( GlobalVariables.applicationWindow.tracksPage ) {
+            GlobalVariables.applicationWindow.tracksPage.changeTrackList();
+          }
+
+          config.defineHikeList();
+
+          // Set the theme for this hike
+          var t = config.getTheme();
+          Theme.changeClrs(JSON.parse(t));
+
+          // Signal the change to the other pages
+          if ( GlobalVariables.applicationWindow.aboutPage ) {
+            GlobalVariables.applicationWindow.aboutPage.changeContent();
+          }
+        }
       }
     }
   }
 }
-
-
-
-
-/*
-import QtQuick 2.9
-import QtQuick.Controls 2.2
-//import QtQuick.Layouts 1.3
-import QtQuick.Templates 2.1 as T
-
-
-import "../.."
-//import "../Menu" as HCMenu
-import "../Button" as HCButton
-import "../Parts" as HCParts
-//import "." as HCPage
-import io.github.martimm.HikingCompanion.Config 0.2
-//import io.github.martimm.HikingCompanion.HCStyle 0.1
-//import io.github.martimm.HikingCompanion.GlobalVariables 0.1
-import io.github.martimm.HikingCompanion.Theme 0.1
-//import Theme 0.1
-
-Rectangle {
-  id: configPage
-
-  Config {
-    id: config
-    onUsernameChanged: {
-      console.log("username from data: " + config.username);
-      username.inputText.text = config.username;
-    }
-
-    onEmailChanged: {
-      email.inputText.text = config.email;
-    }
-
-    onLanguageChanged: {
-      language.language = config.language;
-    }
-  }
-
-  property string osType
-  Row {
-    id: pageToolbarRow
-
-    height: Theme.largeButtonHeight + 2
-    width: parent.width
-    z: 50
-
-    spacing: 2
-    layoutDirection: Qt.RightToLeft
-
-    anchors {
-      right: parent.right
-      rightMargin: 14
-      left: parent.left
-      leftMargin: 6
-      topMargin: 4
-      bottom: parent.bottom
-      bottomMargin: 1
-    }
-
-    HCButton.OpenMenu { }
-    HCButton.Home { }
-  }
-
-*/
-/*
-  Component.onCompleted: {
-    configPage.osType = config.osType
-    console.log("os: " + configPage.osType)
-    var x = config.readProperties;
-    console.log("Read: " + x);
-  }
-
-  width: parent.width
-  height: parent.height
-  anchors.fill: parent
-  visible: false
-
-  property int Theme.cfgFieldMargin: 6
-  property int leftWidth: 3 * width / 10 - Theme.cfgFieldMargin
-  property int rightWidth: 7 * width / 10 - Theme.cfgFieldMargin
-  property Grid configGrid: configGrid
-
-  Grid {
-    id: configGrid
-
-    columns: 2
-    width: parent.width
-    height: parent.height - pageToolbarRow.height - pageButtonRow.height
-
-    anchors {
-      left: parent.left
-      leftMargin: Theme.cfgFieldMargin
-      right: parent.right
-      rightMargin: Theme.cfgFieldMargin
-      top: pageToolbarRow.bottom
-      bottom: pageButtonRow.top
-    }
-
-
-    HCParts.ConfigLabel {
-      text: qsTr("Language")
-      width: leftWidth
-      //anchors.topMargin: 10
-    }
-
-    HCParts.ConfigComboBox {
-      id: language
-      width: rightWidth
-      model: [ "English", "Nederlands"]
-    }
-
-
-    HCParts.ConfigLabel {
-      text: qsTr("Name")
-      width: leftWidth
-    }
-
-    HCParts.ConfigInputText {
-      id: username
-      placeholderText: qsTr("type your name here")
-      width: rightWidth
-      inputText.validator: RegExpValidator {
-        regExp: /^\w+$/
-      }
-    }
-
-
-    HCParts.ConfigLabel {
-      text: qsTr("Email address")
-      width: leftWidth
-    }
-
-    HCParts.ConfigInputText {
-      id: email
-      placeholderText: qsTr("type your email address here")
-      width: rightWidth
-      inputText.validator: RegExpValidator {
-        regExp: /^[a-zA-Z0-9.!#$%&’*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/
-      }
-    }
-  }
-
-  HCButton.PageButtonRow {
-    id: pageButtonRow
-
-    anchors.bottom: parent.bottom
-    Button {
-      text: qsTr("Save")
-      onClicked: {
-        config.language = language.currentIndex;
-        config.username = username.inputText.text;
-        config.email = email.inputText.text;
-      }
-    }
-
-*/
-/*
-    HCButton.PageButtonBase {
-      text: qsTr("Save")
-      onClicked: {
-        config.language = language.currentIndex;
-        config.username = username.inputText.text;
-        config.email = email.inputText.text;
-      }
-    }
-*/
-/*
-  }
-}
-*/

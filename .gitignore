@@ -1,3 +1,9 @@
 Old/*
 android/gradle*
 android/local*
+android-backup/*
+.precomp/*
+*/.precomp/*
+*.pro.user*
+Assets/Providers/*
+.qmake*

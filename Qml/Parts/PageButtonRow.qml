@@ -9,7 +9,7 @@ Row {
 
   // Row must be kept above page(1)
   width: parent.width
-  height: Theme.brHeight
+  height: Theme.component.buttonRow.height
   z: 50
 
   spacing: 2
@@ -20,10 +20,10 @@ Row {
     left: parent.left
     bottom: parent.bottom
 
-    rightMargin: Theme.brLRMargin
-    leftMargin: Theme.brLRMargin
-    topMargin: Theme.brTBMargin
-    bottomMargin: Theme.brTBMargin
+    rightMargin: Theme.component.buttonRow.rightMargin
+    leftMargin: Theme.component.buttonRow.leftMargin
+    topMargin: Theme.component.buttonRow.topMargin
+    bottomMargin: Theme.component.buttonRow.bottomMargin
   }
 
 
