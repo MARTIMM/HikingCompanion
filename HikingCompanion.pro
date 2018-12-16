@@ -13,8 +13,7 @@ DEFINES += QT_DEPRECATED_WARNINGS
 DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x050000    # disables all the APIs deprecated before Qt 5.0.0
 
 ProjectRoot = /home/marcel/Projects/Mobile/Projects/HikingCompanion/HikingCompanion
-HEADERS += $$files("$$ProjectRoot/Cpp/*.h") \
-    Cpp/setuplogging.h
+HEADERS += $$files("$$ProjectRoot/Cpp/*.h")
 SOURCES +=  $$files("$$ProjectRoot/Cpp/*.cpp")
 
 RESOURCES += qml.qrc extraResources.qrc
