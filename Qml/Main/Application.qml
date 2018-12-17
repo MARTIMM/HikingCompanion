@@ -33,7 +33,23 @@ ApplicationWindow {
     //console.log("style: " + t);
     Theme.changeClrs(JSON.parse(t));
 
-    config.setWindowSize( width, height);
+    config.setWindowSize(
+          width, height, Screen.devicePixelRatio, Screen.pixelDensity
+          );
+
+    /*
+    console.info("Screen.desktopAvailableHeight: " + Screen.desktopAvailableHeight);
+    console.info("Screen.desktopAvailableWidth: " + Screen.desktopAvailableWidth);
+    console.info("Screen.devicePixelRatio: " + Screen.devicePixelRatio);
+    console.info("Screen.pixelDensity: " + Screen.pixelDensity);
+    console.info("Screen.virtualX: " + Screen.virtualX);
+    console.info("Screen.virtualY: " + Screen.virtualY);
+    console.info("Screen.width: " + Screen.width);
+    console.info("Screen.height: " + Screen.height);
+
+    console.info("Window width: " + width);
+    console.info("Window height: " + height);
+    */
   }
 
   Config { id: config }
@@ -49,8 +65,17 @@ ApplicationWindow {
   height: 450
 
   // Changes only modifyable in desktop apps
-  onWidthChanged: {
-    config.setWindowSize( width, height);
+  onWidthChanged: { setWindowSize(); }
+  onHeightChanged: { setWindowSize(); }
+  function setWindowSize () {
+    config.setWindowSize(
+          width, height, Screen.devicePixelRatio, Screen.pixelDensity
+          );
+
+    console.log("width x height in mm: "
+                + config.fysLength(width) + ", "
+                + config.fysLength(height)
+                );
   }
 
   property alias aboutPage: aboutPage

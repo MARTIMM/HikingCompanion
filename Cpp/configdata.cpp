@@ -463,9 +463,30 @@ void ConfigData::_removeSettings(QString group) {
 }
 
 // ----------------------------------------------------------------------------
-void ConfigData::setWindowSize( int w, int h) {
+// Return length in millimeters
+double ConfigData::fysLength( int pixels ) {
+  qCDebug(config) << _pixelDensity << pixels << _pixelDensity / static_cast<double>(pixels);
+  if ( pixels <= 0 ) return 0.0;
+  return static_cast<double>(pixels) / _pixelDensity;
+}
+
+// ----------------------------------------------------------------------------
+// Return size in pixels given length in milimeters
+int ConfigData::pixels( double fysLength ) {
+  if ( fysLength <= 0.0 ) return 0;
+  return static_cast<int>(fysLength * _pixelDensity + 0.5);
+}
+
+// ----------------------------------------------------------------------------
+void ConfigData::setWindowSize(
+    int w, int h, double pixelRatio, double pixelDensity
+    ) {
+
+  qCDebug(config) << "setwin" << pixelRatio << pixelDensity;
   _width = w;
   _height = h;
+  _pixelRatio = pixelRatio;
+  _pixelDensity = pixelDensity;
 }
 
 // ----------------------------------------------------------------------------

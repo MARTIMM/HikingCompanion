@@ -105,8 +105,17 @@ public:
   Q_INVOKABLE inline int windowHeight() {
     return _configData->windowHeight();
   }
-  Q_INVOKABLE inline void setWindowSize( int w, int h) {
-    _configData->setWindowSize( w, h);
+
+  Q_INVOKABLE inline void setWindowSize(
+      int w, int h, double pixelRatio, double pixelDensity
+      ) {
+    _configData->setWindowSize( w, h, pixelRatio, pixelDensity);
+  }
+  Q_INVOKABLE inline double fysLength( int pixels ) {
+    return _configData->fysLength(pixels);
+  }
+  Q_INVOKABLE inline int pixels( double fysLength ) {
+    return _configData->pixels(fysLength);
   }
 
 signals:

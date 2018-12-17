@@ -77,7 +77,9 @@ public:
 
   inline int windowWidth() { return _width; }
   inline int windowHeight() { return _height; }
-  void setWindowSize( int w, int h);
+  double fysLength( int pixels );
+  int pixels( double fysLength );
+  void setWindowSize( int w, int h, double pixelRatio, double pixelDensity);
 
   void saveUserTrackNames( QString hikeTitle, QString hikeDesc, QString hikeKey);
   bool saveUserTrack(
@@ -114,6 +116,8 @@ private:
 
   int _width;
   int _height;
+  double _pixelRatio = -1.0;
+  double _pixelDensity = -1.0;
 };
 
 #endif // CONFIGDATA_H
