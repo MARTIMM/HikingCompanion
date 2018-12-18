@@ -21,7 +21,6 @@
         <!--file>Assets/Theme/HCTheme1.qml</file-->
         <file>Assets/Theme/HikingCompanionTheme.qml</file>
         <file>Assets/Theme/HikingCompanion.json</file>
-        <file>Assets/Theme/ThemeTest.qml</file>
         <file>HCTheme/Button.qml</file>
         <file>HCTheme/ComboBox.qml</file>
         <file>HCTheme/Frame.qml</file>
