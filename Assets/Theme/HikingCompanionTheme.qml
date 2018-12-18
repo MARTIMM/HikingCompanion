@@ -6,13 +6,17 @@
 */
 pragma Singleton
 
+import io.github.martimm.HikingCompanion.Config 0.3
+
 import QtQuick 2.8
 import QtGraphicalEffects 1.0
 
-QtObject {
+Item {
   id: themeControl
 
-  function changeClrs ( c ) {
+  Config { id: config }
+
+  function changeSettings ( c ) {
 
     setSubFields(
           c.main,
@@ -26,27 +30,67 @@ QtObject {
 
     setSubFields(
           c.toolbar,
-          [ "background", "topMargin", "bottomMargin", "leftMargin",
-           "rightMargin", "height"
-          ],
+          [ "background"],
           component.toolbar
+          );
+
+    setSubFieldXSizes(
+          c.toolbar,
+          [ "leftMargin", "rightMargin", "height" ],
+          component.toolbar
+          );
+
+    setSubFieldYSizes(
+          c.toolbar,
+          [ "topMargin", "bottomMargin" ],
+          component.toolbar
+          );
+
+    setSubFieldXSizes(
+          c.toolbar.border,
+          [ "width"],
+          component.toolbar.border
           );
 
     setSubFields(
           c.toolbar.border,
-          [ "width", "color"],
+          [ "color"],
           component.toolbar.border
           );
   }
 
   function setSubFields ( source, fields, destination) {
     for ( var fi = 0; fi < fields.length; fi++) {
-      if ( source[fields[fi]] ) {
-//        console.log("Field " + fields[fi] + " set");
+      if ( typeof source[fields[fi]] !== "undefined" ) {
+        console.info("Field " + fields[fi] + " set to " + source[fields[fi]]);
         destination[fields[fi]] = source[fields[fi]];
       }
       else {
-        console.log("Field " + fields[fi] + " not set");
+        console.warning("Field " + fields[fi] + " not set");
+      }
+    }
+  }
+
+  function setSubFieldXSizes ( source, fields, destination) {
+    for ( var fi = 0; fi < fields.length; fi++) {
+      if ( typeof source[fields[fi]] !== "undefined" ) {
+        console.info("Field size " + fields[fi] + ": " + source[fields[fi]] + " mm set to " + config.pixelsX(parseInt(source[fields[fi]])) + " pixels");
+        destination[fields[fi]] = config.pixelsX(source[fields[fi]]);
+      }
+      else {
+        console.warning("Field " + fields[fi] + " not set");
+      }
+    }
+  }
+
+  function setSubFieldYSizes ( source, fields, destination) {
+    for ( var fi = 0; fi < fields.length; fi++) {
+      if ( typeof source[fields[fi]] !== "undefined" ) {
+        console.info("Field size " + fields[fi] + ": " + source[fields[fi]] + " mm set to " + config.pixelsY(parseInt(source[fields[fi]])) + " pixels");
+        destination[fields[fi]] = config.pixelsY(source[fields[fi]]);
+      }
+      else {
+        console.warning("Field " + fields[fi] + " not set");
       }
     }
   }
@@ -69,7 +113,7 @@ QtObject {
       property color selectionText:     "#efbfcf"
     }
 
-    property int rounding:              25
+    property int rounding//:              { config.pixels(5.0) }
   }
 
   property QtObject component: QtObject {
@@ -84,18 +128,18 @@ QtObject {
       property color backgroundDark:    Qt.darker( background, 2.0)
     }
 
-    property int rounding:              6
+    property int rounding//:              config.pixels(6);
 
     property QtObject toolbar: QtObject {
       //property color foreground:
       property color background:        "transparent"
 
-      property real topMargin:          6
-      property real bottomMargin:       6
-      property real leftMargin:         6
-      property real rightMargin:        6
+      property real topMargin:          0;
+      property real bottomMargin:       0;
+      property real leftMargin:         0;
+      property real rightMargin:        0;
 
-      property real height:             28
+      property real height:             0;
 
       property QtObject border: QtObject {
         property int width:             0
@@ -103,26 +147,26 @@ QtObject {
       }
 
       property QtObject button: QtObject {
-        property int width:             component.toolbar.height - 5
-        property int height:            component.toolbar.height - 5
-        property int pixelSize:         18
+        property int width//:             { component.toolbar.height - config.pixels(5); }
+        property int height//:            { component.toolbar.height - config.pixels(5); }
+        property int pixelSize//:         { config.pixels(10); }
         //property int radius: 10
         //property int border: 1
       }
     }
 
     property QtObject buttonRow: QtObject {
-      property real topMargin:          6
-      property real bottomMargin:       6
-      property real leftMargin:         6
-      property real rightMargin:        6
+      property real topMargin//:          { config.pixels(6); }
+      property real bottomMargin//:       { config.pixels(6); }
+      property real leftMargin//:         { config.pixels(6); }
+      property real rightMargin//:        { config.pixels(6); }
 
-      property real height:             40
+      property real height//:             { config.pixels(30); }
 
       property QtObject button: QtObject {
         //property int width:             component.buttonRow.height - 5
-        property int height:            component.buttonRow.height - 5
-        property int pixelSize:         34
+        property int height//:            { component.buttonRow.height - config.pixels(5); }
+        property int pixelSize//:         { config.pixels(30); }
         //property int radius: 10
         //property int border: 1
       }
@@ -130,13 +174,13 @@ QtObject {
 
 
     property QtObject menu: QtObject {
-      property int width:               250
-      property int height:              50
+      property int width//:               { config.pixels(50); }
+      property int height//:              { config.pixels(20); }
 
       property QtObject button: QtObject {
-        property int width:             component.menu.width - 5
-        property int height:            component.menu.height
-        property int pixelSize:         40
+        property int width//:             { component.menu.width - config.pixels(5); }
+        property int height//:            component.menu.height
+        property int pixelSize//:         { config.pixels(15); }
         //property int mnBtRadius: 10
         //property int mnBtBorder: 1
       }

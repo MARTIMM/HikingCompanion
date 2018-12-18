@@ -31,25 +31,9 @@ ApplicationWindow {
 
     var t = config.getTheme();
     //console.log("style: " + t);
-    Theme.changeClrs(JSON.parse(t));
+    Theme.changeSettings(JSON.parse(t));
 
-    config.setWindowSize(
-          width, height, Screen.devicePixelRatio, Screen.pixelDensity
-          );
-
-    /*
-    console.info("Screen.desktopAvailableHeight: " + Screen.desktopAvailableHeight);
-    console.info("Screen.desktopAvailableWidth: " + Screen.desktopAvailableWidth);
-    console.info("Screen.devicePixelRatio: " + Screen.devicePixelRatio);
-    console.info("Screen.pixelDensity: " + Screen.pixelDensity);
-    console.info("Screen.virtualX: " + Screen.virtualX);
-    console.info("Screen.virtualY: " + Screen.virtualY);
-    console.info("Screen.width: " + Screen.width);
-    console.info("Screen.height: " + Screen.height);
-
-    console.info("Window width: " + width);
-    console.info("Window height: " + height);
-    */
+    config.setWindowSize( width, height);
   }
 
   Config { id: config }
@@ -64,17 +48,17 @@ ApplicationWindow {
   width: 600
   height: 450
 
-  // Changes only modifyable in desktop apps
+  // The changes are only fired in desktop apps
+  onXChanged: { setWindowSize(); }
+  onYChanged: { setWindowSize(); }
   onWidthChanged: { setWindowSize(); }
   onHeightChanged: { setWindowSize(); }
   function setWindowSize () {
-    config.setWindowSize(
-          width, height, Screen.devicePixelRatio, Screen.pixelDensity
-          );
+    config.setWindowSize( width, height);
 
     console.log("width x height in mm: "
-                + config.fysLength(width) + ", "
-                + config.fysLength(height)
+                + config.fysLengthX(width) + ", "
+                + config.fysLengthY(height)
                 );
   }
 

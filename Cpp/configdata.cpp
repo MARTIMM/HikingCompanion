@@ -10,6 +10,10 @@
 #include <QXmlStreamWriter>
 #include <QDateTime>
 #include <QSysInfo>
+#include <QScreen>
+#include <QQmlApplicationEngine>
+
+extern QQmlApplicationEngine *applicationEngine;
 
 // ----------------------------------------------------------------------------
 ConfigData::ConfigData(QObject *parent) : QObject(parent) {
@@ -23,6 +27,11 @@ ConfigData::ConfigData(QObject *parent) : QObject(parent) {
   QString id = QCoreApplication::organizationDomain() +
       "." + QCoreApplication::applicationName();
   qCDebug(config) << "Id:" << id;
+
+  QScreen *screen = QApplication::primaryScreen();
+  _pixelRatio = screen->devicePixelRatio();
+  _pixelDensityX = screen->logicalDotsPerInchX() / 25.4;
+  _pixelDensityY = screen->logicalDotsPerInchY() / 25.4;
 
   // Take first directory from the list. That one is the users data directory.
   // linux:     /home/marcel/.config/io.martimm.github.HikingCompanion
@@ -226,7 +235,7 @@ void ConfigData::cleanupHike() {
 // ----------------------------------------------------------------------------
 // Set only new string values to this applications config settings
 void ConfigData::setSetting( QString name, QString value ) {
-  qCDebug(config) << QString("Set %1 to %2").arg(name).arg(value);
+  qCDebug(configSetSel) << QString("Set %1 to %2").arg(name).arg(value);
   _settings->setValue( name, value);
   _settings->sync();
 }
@@ -234,8 +243,7 @@ void ConfigData::setSetting( QString name, QString value ) {
 // ----------------------------------------------------------------------------
 // Set only new integer values to this applications config settings
 void ConfigData::setSetting( QString name, int value ) {
-
-  qCDebug(config) << QString("Set %1 to %2").arg(name).arg(value);
+  qCDebug(configSetSel) << QString("Set %1 to %2").arg(name).arg(value);
   _settings->setValue( name, value);
   _settings->sync();
 }
@@ -254,7 +262,7 @@ QString ConfigData::getSetting( QString name, QSettings *s ) {
 
   if ( settings->value(name).type() == QVariant::Invalid ) return "";
   QString v = settings->value(name).toString();
-  qCDebug(config) << "GS:" << name << v;
+  qCDebug(configGetSel) << "Get selection:" << name << v;
   return v;
 }
 
@@ -273,7 +281,7 @@ QStringList ConfigData::readKeys( QString group, QSettings *s ) {
 
   settings->beginGroup(group);
   QStringList keys = settings->childKeys();
-  qCDebug(config) << "returned keys for group: " << keys;
+  qCDebug(configGetSel) << "returned keys for group: " << keys;
   settings->endGroup();
   return keys;
 }
@@ -464,29 +472,39 @@ void ConfigData::_removeSettings(QString group) {
 
 // ----------------------------------------------------------------------------
 // Return length in millimeters
-double ConfigData::fysLength( int pixels ) {
-  qCDebug(config) << _pixelDensity << pixels << _pixelDensity / static_cast<double>(pixels);
+double ConfigData::fysLengthX( int pixels ) {
+  qCDebug(config) << _pixelDensityX << pixels << _pixelDensityX / static_cast<double>(pixels);
   if ( pixels <= 0 ) return 0.0;
-  return static_cast<double>(pixels) / _pixelDensity;
+  return static_cast<double>(pixels) / _pixelDensityX;
+}
+
+// ----------------------------------------------------------------------------
+// Return length in millimeters
+double ConfigData::fysLengthY( int pixels ) {
+  qCDebug(config) << _pixelDensityY << pixels << _pixelDensityY / static_cast<double>(pixels);
+  if ( pixels <= 0 ) return 0.0;
+  return static_cast<double>(pixels) / _pixelDensityY;
 }
 
 // ----------------------------------------------------------------------------
 // Return size in pixels given length in milimeters
-int ConfigData::pixels( double fysLength ) {
+int ConfigData::pixelsX( double fysLength ) {
   if ( fysLength <= 0.0 ) return 0;
-  return static_cast<int>(fysLength * _pixelDensity + 0.5);
+  return static_cast<int>(fysLength * _pixelDensityX + 0.5);
 }
 
 // ----------------------------------------------------------------------------
-void ConfigData::setWindowSize(
-    int w, int h, double pixelRatio, double pixelDensity
-    ) {
+// Return size in pixels given length in milimeters
+int ConfigData::pixelsY( double fysLength ) {
+  if ( fysLength <= 0.0 ) return 0;
+  return static_cast<int>(fysLength * _pixelDensityY + 0.5);
+}
 
-  qCDebug(config) << "setwin" << pixelRatio << pixelDensity;
+// ----------------------------------------------------------------------------
+void ConfigData::setWindowSize( int w, int h) {
+
   _width = w;
   _height = h;
-  _pixelRatio = pixelRatio;
-  _pixelDensity = pixelDensity;
 }
 
 // ----------------------------------------------------------------------------

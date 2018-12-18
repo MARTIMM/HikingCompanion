@@ -106,16 +106,20 @@ public:
     return _configData->windowHeight();
   }
 
-  Q_INVOKABLE inline void setWindowSize(
-      int w, int h, double pixelRatio, double pixelDensity
-      ) {
-    _configData->setWindowSize( w, h, pixelRatio, pixelDensity);
+  Q_INVOKABLE inline void setWindowSize( int w, int h) {
+    _configData->setWindowSize( w, h);
   }
-  Q_INVOKABLE inline double fysLength( int pixels ) {
-    return _configData->fysLength(pixels);
+  Q_INVOKABLE inline double fysLengthX( int pixels ) {
+    return _configData->fysLengthX(pixels);
   }
-  Q_INVOKABLE inline int pixels( double fysLength ) {
-    return _configData->pixels(fysLength);
+  Q_INVOKABLE inline double fysLengthY( int pixels ) {
+    return _configData->fysLengthY(pixels);
+  }
+  Q_INVOKABLE inline int pixelsX( double fysLength ) {
+    return _configData->pixelsX(fysLength);
+  }
+  Q_INVOKABLE inline int pixelsY( double fysLength ) {
+    return _configData->pixelsY(fysLength);
   }
 
 signals:

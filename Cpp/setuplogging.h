@@ -9,6 +9,8 @@
 #include <QLoggingCategory>
 
 Q_LOGGING_CATEGORY( config, "hc.config")
+Q_LOGGING_CATEGORY( configGetSel, "hc.config.get.sel")
+Q_LOGGING_CATEGORY( configSetSel, "hc.config.set.sel")
 Q_LOGGING_CATEGORY( qpx, "hc.qpx")
 Q_LOGGING_CATEGORY( hikes, "hc.hikes")
 Q_LOGGING_CATEGORY( lang, "hc.lang")
