@@ -21,12 +21,12 @@ T.Button {
       height = Theme.component.toolbar.button.height;
     }
 
-    else if ( type === GlobalVariables.component.buttonRow.button.type ) {
-      font.pixelSize = Theme.component.buttonRow.button.pixelSize;
+    else if ( type === GlobalVariables.component.buttonrow.button.type ) {
+      font.pixelSize = Theme.component.buttonrow.button.pixelSize;
       font.family = Theme.fontFamily;
       // width depends on font size
       width = textMetrics.boundingRect.width + 20;
-      height = Theme.component.buttonRow.button.height;
+      height = Theme.component.buttonrow.button.height;
     }
 
     else if ( type === GlobalVariables.component.menu.button.type ) {
@@ -67,7 +67,7 @@ T.Button {
       color: Theme.component.color.foregroundLight
       width: 1
     }
-    radius: Theme.component.rounding
+    //radius: Theme.component.rounding
 /*
     layer.effect: DropShadow {
       horizontalOffset: 15

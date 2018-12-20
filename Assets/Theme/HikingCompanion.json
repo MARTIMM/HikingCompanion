@@ -1,32 +1,100 @@
 { "main": {
-    "foreground":     "#efefef",
-    "background":     "#5f5f5f",
+    "foreground": "#efefef",
+    "background": "#5f5f5f",
 
-    "okText":         "#a0ffa0",
-    "notOkText":      "#ffa0a0",
+    "okText": "#a0ffa0",
+    "notOkText": "#ffa0a0",
 
-    "selectedText":   "#efa0ca",
-    "selectionText":  "#efbfcf"
+    "selectedText": "#efa0ca",
+    "selectionText": "#efbfcf"
   },
 
   "component": {
-    "foreground":     "#dfa0ef",
-    "background":     "#8f0070"
+    "foreground": "#dfa0ef",
+    "background": "#8f0070"
   },
 
   "toolbar": {
-    "background":   "transparent",
+    "background": "transparent",
 
-    "topMargin":    6,
-    "bottomMargin": 6,
-    "leftMargin":   6,
-    "rightMargin":  6,
+    "topMargin": 1,
+    "bottomMargin": 1,
+    "leftMargin": 1,
+    "rightMargin": 1,
 
-    "height":       28,
+    "height": 11,
 
     "border": {
-      "width":      0,
-      "color":      "blue"
+      "width": 0.5,
+      "color": "transparent"
+    },
+
+    "button": {
+      "width": 9.5,
+      "height": 9.5,
+      "radius": 0,
+      "pixelSize": 8.5,
+      "background": "#f3d08e",
+      "foreground": "white",
+
+      "border": {
+        "width": 0.5,
+        "color": "transparent"
+      }
+    }
+  },
+
+  "buttonrow": {
+    "background": "transparent",
+
+    "topMargin": 0.5,
+    "bottomMargin": 0.5,
+    "leftMargin": 0.5,
+    "rightMargin": 0.5,
+
+    "height": 12,
+
+    "border": {
+      "width": 0.5,
+      "color": "transparent"
+    },
+
+    "button": {
+      "width": 10,
+      "height": 10,
+      "radius": 0,
+      "pixelSize": 9,
+      "background": "#f3d08e",
+      "foreground": "white",
+
+      "border": {
+        "width": 0.5,
+        "color": "transparent"
+      }
+    }
+  },
+
+  "menu": {
+    "width": 55,
+    "height": 12,
+    "background": "transparent",
+
+    "topMargin": 0.5,
+    "bottomMargin": 0.5,
+    "leftMargin": 0.5,
+    "rightMargin": 0.5,
+
+    "button": {
+      "width": 54,
+      "height": 10,
+      "pixelSize": 9,
+      "background": "#f3d08e",
+      "foreground": "white",
+
+      "border": {
+        "width": 0.5,
+        "color": "transparent"
+      }
     }
   }
 }

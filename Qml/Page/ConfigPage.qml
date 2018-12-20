@@ -184,7 +184,7 @@ HCPage.Plain {
 
         // Set the theme for this hike
         var t = config.getTheme();
-        Theme.changeSettings(JSON.parse(t));
+        Theme.changeColors(JSON.parse(t));
 
         // Signal the change to the other pages
         GlobalVariables.applicationWindow.aboutPage.changeContent();
@@ -207,7 +207,7 @@ HCPage.Plain {
 
           // Set the theme for this hike
           var t = config.getTheme();
-          Theme.changeSettings(JSON.parse(t));
+          Theme.changeColors(JSON.parse(t));
 
           // Signal the change to the other pages
           if ( GlobalVariables.applicationWindow.aboutPage ) {

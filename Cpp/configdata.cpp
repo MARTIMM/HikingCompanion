@@ -30,8 +30,15 @@ ConfigData::ConfigData(QObject *parent) : QObject(parent) {
 
   QScreen *screen = QApplication::primaryScreen();
   _pixelRatio = screen->devicePixelRatio();
-  _pixelDensityX = screen->logicalDotsPerInchX() / 25.4;
-  _pixelDensityY = screen->logicalDotsPerInchY() / 25.4;
+  qCInfo(config) << "DP ratio:" << _pixelRatio;
+
+  // Take the mean of the x and y densities and convert to mm.
+  // I like metric better than english inch, foot, miles(2 kinds) etc.
+  _pixelDensity = (
+        screen->physicalDotsPerInchX() + screen->physicalDotsPerInchY()
+        ) / 50.8;
+  qCInfo(config) << "DP X, Y:" << screen->physicalDotsPerInchX() << screen->physicalDotsPerInchY();
+  qCInfo(config) << "DP mm:" << _pixelDensity;
 
   // Take first directory from the list. That one is the users data directory.
   // linux:     /home/marcel/.config/io.martimm.github.HikingCompanion
@@ -377,12 +384,12 @@ QString ConfigData::getHtmlPageFilename( QString pageName) {
 }
 
 // ----------------------------------------------------------------------------
-QString ConfigData::getTheme( ) {
+QString ConfigData::getTheme( bool takeHCSettings = false ) {
 
   QString stylePath;
   QString entryKey = this->hikeEntryKey();
   QString tableName = this->hikeTableName(entryKey);
-  if ( tableName == "" ) {
+  if ( takeHCSettings || tableName == "" ) {
     stylePath = _dataDir + "/HikingCompanion.json";
     //qDebug() << "no tablename:" << stylePath;
   }
@@ -472,37 +479,21 @@ void ConfigData::_removeSettings(QString group) {
 
 // ----------------------------------------------------------------------------
 // Return length in millimeters
-double ConfigData::fysLengthX( int pixels ) {
-  qCDebug(config) << _pixelDensityX << pixels << _pixelDensityX / static_cast<double>(pixels);
+double ConfigData::fysLength( int pixels ) {
+  qCDebug(config) << _pixelDensity << pixels << _pixelDensity / static_cast<double>(pixels);
   if ( pixels <= 0 ) return 0.0;
-  return static_cast<double>(pixels) / _pixelDensityX;
-}
-
-// ----------------------------------------------------------------------------
-// Return length in millimeters
-double ConfigData::fysLengthY( int pixels ) {
-  qCDebug(config) << _pixelDensityY << pixels << _pixelDensityY / static_cast<double>(pixels);
-  if ( pixels <= 0 ) return 0.0;
-  return static_cast<double>(pixels) / _pixelDensityY;
+  return static_cast<double>(pixels) / _pixelDensity;
 }
 
 // ----------------------------------------------------------------------------
 // Return size in pixels given length in milimeters
-int ConfigData::pixelsX( double fysLength ) {
+int ConfigData::pixels( double fysLength ) {
   if ( fysLength <= 0.0 ) return 0;
-  return static_cast<int>(fysLength * _pixelDensityX + 0.5);
-}
-
-// ----------------------------------------------------------------------------
-// Return size in pixels given length in milimeters
-int ConfigData::pixelsY( double fysLength ) {
-  if ( fysLength <= 0.0 ) return 0;
-  return static_cast<int>(fysLength * _pixelDensityY + 0.5);
+  return static_cast<int>(fysLength * _pixelDensity + 0.5);
 }
 
 // ----------------------------------------------------------------------------
 void ConfigData::setWindowSize( int w, int h) {
-
   _width = w;
   _height = h;
 }

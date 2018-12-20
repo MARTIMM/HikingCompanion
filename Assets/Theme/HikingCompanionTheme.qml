@@ -16,8 +16,9 @@ Item {
 
   Config { id: config }
 
-  function changeSettings ( c ) {
-
+  // Called from Config to set colors only
+  function changeColors ( c ) {
+    console.info("Set colors");
     setSubFields(
           c.main,
           [ "foreground", "background", "okText", "notOkText",
@@ -28,75 +29,155 @@ Item {
 
     setSubFields( c.component, [ "foreground", "background"], component.color);
 
+    setSubFields( c.toolbar, [ "background"], component.toolbar);
     setSubFields(
+          c.toolbar.button,
+          [ "foreground", "background"],
+          component.toolbar.button
+          );
+    setSubFields( c.toolbar.border, ["color"], component.toolbar.border);
+
+    setSubFields( c.buttonrow, [ "background"], component.buttonrow);
+    setSubFields(
+          c.buttonrow.button,
+          [ "foreground", "background"],
+          component.buttonrow.button
+          );
+    setSubFields( c.buttonrow.border, ["color"], component.buttonrow.border);
+  }
+
+  // Called once from application window to set all modifiable settings
+  function changeSettings ( c ) {
+    console.info("Set colors and sizes");
+    setSubFields(
+          c.main,
+          [ "foreground", "background", "okText", "notOkText",
+           "selectedText", "selectionText"
+          ],
+          main.color
+          );
+
+    setSubFields( c.component, [ "foreground", "background"], component.color);
+
+    // Toolbar
+    setSubFields( c.toolbar, [ "background"], component.toolbar);
+    setSubFieldSizes(
           c.toolbar,
-          [ "background"],
+          [ "leftMargin", "rightMargin", "topMargin", "bottomMargin", "height"],
           component.toolbar
           );
 
-    setSubFieldXSizes(
-          c.toolbar,
-          [ "leftMargin", "rightMargin", "height" ],
-          component.toolbar
+    setSubFieldSizes( c.toolbar.border, [ "width"], component.toolbar.border);
+    setSubFields( c.toolbar.border, [ "color"], component.toolbar.border);
+
+    setSubFieldSizes(
+          c.toolbar.button,
+          [ "width", "height", "pixelSize", "radius"],
+          component.toolbar.button
           );
 
-    setSubFieldYSizes(
-          c.toolbar,
-          [ "topMargin", "bottomMargin" ],
-          component.toolbar
-          );
-
-    setSubFieldXSizes(
-          c.toolbar.border,
+    setSubFieldSizes(
+          c.toolbar.button.border,
           [ "width"],
-          component.toolbar.border
+          component.toolbar.button.border
           );
 
     setSubFields(
-          c.toolbar.border,
+          c.toolbar.button.border,
           [ "color"],
-          component.toolbar.border
+          component.toolbar.button.border
           );
+
+    // Button row
+    setSubFields( c.buttonrow, [ "background"], component.buttonrow);
+    setSubFieldSizes(
+          c.buttonrow,
+          [ "leftMargin", "rightMargin", "topMargin", "bottomMargin", "height"],
+          component.buttonrow
+          );
+
+    setSubFieldSizes( c.buttonrow.border, [ "width"], component.buttonrow.border);
+    setSubFields( c.buttonrow.border, [ "color"], component.buttonrow.border);
+
+    setSubFieldSizes(
+          c.buttonrow.button,
+          [ "width", "height", "pixelSize", "radius"],
+          component.buttonrow.button
+          );
+
+    setSubFields(
+          c.buttonrow.button,
+          [ "foreground", "background"],
+          component.buttonrow.button
+          );
+
+    setSubFieldSizes(
+          c.buttonrow.button.border,
+          [ "width"],
+          component.buttonrow.button.border
+          );
+
+    setSubFields(
+          c.buttonrow.button.border,
+          [ "color"],
+          component.buttonrow.button.border
+          );
+
+    // Menu
+    setSubFields( c.menu, ["background"], component.menu);
+    setSubFieldSizes( c.menu, [ "width", "height"], component.menu);
+
+    setSubFieldSizes(
+          c.menu.button,
+          [ "width", "height", "pixelSize", "radius"],
+          component.menu.button
+          );
+
+    setSubFields(
+          c.menu.button,
+          [ "foreground", "background"],
+          component.menu.button
+          );
+
+    setSubFieldSizes( c.menu.button.border, ["width"], component.menu.button.border);
+    setSubFields( c.menu.button.border, ["color"], component.menu.button.border);
   }
 
   function setSubFields ( source, fields, destination) {
     for ( var fi = 0; fi < fields.length; fi++) {
+      //console.info("Field length of " + fi + ": " + fields[fi].length);
       if ( typeof source[fields[fi]] !== "undefined" ) {
         console.info("Field " + fields[fi] + " set to " + source[fields[fi]]);
         destination[fields[fi]] = source[fields[fi]];
       }
+/*
+      else if ( fields[fi].length > 1 ) {
+
+      }
+*/
       else {
         console.warning("Field " + fields[fi] + " not set");
       }
     }
   }
 
-  function setSubFieldXSizes ( source, fields, destination) {
+  function setSubFieldSizes ( source, fields, destination) {
     for ( var fi = 0; fi < fields.length; fi++) {
       if ( typeof source[fields[fi]] !== "undefined" ) {
-        console.info("Field size " + fields[fi] + ": " + source[fields[fi]] + " mm set to " + config.pixelsX(parseInt(source[fields[fi]])) + " pixels");
-        destination[fields[fi]] = config.pixelsX(source[fields[fi]]);
+        console.info("Field size " + fields[fi] + ": " + source[fields[fi]]
+                     + " mm set to "
+                     + config.pixels(parseInt(source[fields[fi]])) + " pixels"
+                     );
+        destination[fields[fi]] = config.pixels(source[fields[fi]]);
       }
       else {
-        console.warning("Field " + fields[fi] + " not set");
+        console.info("Field " + fields[fi] + " not set");
       }
     }
   }
 
-  function setSubFieldYSizes ( source, fields, destination) {
-    for ( var fi = 0; fi < fields.length; fi++) {
-      if ( typeof source[fields[fi]] !== "undefined" ) {
-        console.info("Field size " + fields[fi] + ": " + source[fields[fi]] + " mm set to " + config.pixelsY(parseInt(source[fields[fi]])) + " pixels");
-        destination[fields[fi]] = config.pixelsY(source[fields[fi]]);
-      }
-      else {
-        console.warning("Field " + fields[fi] + " not set");
-      }
-    }
-  }
-
+  // Main page
   property QtObject main: QtObject {
-    // Main page
     property QtObject color: QtObject {
       property color foreground:        "#ffffff"
       property color foregroundLight:   Qt.lighter( foreground, 2.0)
@@ -112,12 +193,10 @@ Item {
       property color selectedText:      "#efa0ca"
       property color selectionText:     "#efbfcf"
     }
-
-    property int rounding//:              { config.pixels(5.0) }
   }
 
+  // General components
   property QtObject component: QtObject {
-
     property QtObject color: QtObject {
       property color foreground:        "#dfa0ef"
       property color foregroundLight:   Qt.lighter( foreground, 3.0)
@@ -128,61 +207,93 @@ Item {
       property color backgroundDark:    Qt.darker( background, 2.0)
     }
 
-    property int rounding//:              config.pixels(6);
-
     property QtObject toolbar: QtObject {
-      //property color foreground:
-      property color background:        "transparent"
+      property color background
 
-      property real topMargin:          0;
-      property real bottomMargin:       0;
-      property real leftMargin:         0;
-      property real rightMargin:        0;
+      property real topMargin
+      property real bottomMargin
+      property real leftMargin
+      property real rightMargin
 
-      property real height:             0;
+      property real height
 
       property QtObject border: QtObject {
-        property int width:             0
-        property color color:           "#ff05f0"
+        property int width
+        property color color
       }
 
       property QtObject button: QtObject {
-        property int width//:             { component.toolbar.height - config.pixels(5); }
-        property int height//:            { component.toolbar.height - config.pixels(5); }
-        property int pixelSize//:         { config.pixels(10); }
-        //property int radius: 10
-        //property int border: 1
+        property int width
+        property int height
+        property int pixelSize
+        property int radius
+        property color foreground
+        property color background
+
+        property QtObject border: QtObject {
+          property int width
+          property color color
+        }
       }
     }
 
-    property QtObject buttonRow: QtObject {
-      property real topMargin//:          { config.pixels(6); }
-      property real bottomMargin//:       { config.pixels(6); }
-      property real leftMargin//:         { config.pixels(6); }
-      property real rightMargin//:        { config.pixels(6); }
+    property QtObject buttonrow: QtObject {
+      property color background
 
-      property real height//:             { config.pixels(30); }
+      property real topMargin
+      property real bottomMargin
+      property real leftMargin
+      property real rightMargin
+
+      property real height
+
+      property QtObject border: QtObject {
+        property int width
+        property color color
+      }
 
       property QtObject button: QtObject {
-        //property int width:             component.buttonRow.height - 5
-        property int height//:            { component.buttonRow.height - config.pixels(5); }
-        property int pixelSize//:         { config.pixels(30); }
-        //property int radius: 10
-        //property int border: 1
+        property int width
+        property int height
+        property int pixelSize
+        property int radius
+        property color foreground
+        property color background
+
+        property QtObject border: QtObject {
+          property int width
+          property color color
+        }
       }
     }
-
 
     property QtObject menu: QtObject {
-      property int width//:               { config.pixels(50); }
-      property int height//:              { config.pixels(20); }
+      property int width
+      property int height
+      property color background
+
+      property real topMargin
+      property real bottomMargin
+      property real leftMargin
+      property real rightMargin
+
+      property QtObject border: QtObject {
+        property int width
+        property color color
+      }
 
       property QtObject button: QtObject {
-        property int width//:             { component.menu.width - config.pixels(5); }
-        property int height//:            component.menu.height
-        property int pixelSize//:         { config.pixels(15); }
-        //property int mnBtRadius: 10
-        //property int mnBtBorder: 1
+        property int width
+        property int height
+        property int pixelSize
+        property int radius
+        property color foreground
+        property color background
+
+        property QtObject border: QtObject {
+          property int width
+          property color color
+        }
       }
     }
 /*

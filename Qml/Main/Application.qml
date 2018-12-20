@@ -29,9 +29,16 @@ ApplicationWindow {
     GlobalVariables.setCurrentPage(mapPage);
     GlobalVariables.setMenu(menu);
 
-    var t = config.getTheme();
+    // Get the hiking companion settings for default colors and
+    // to specify sizes and other properties.
+    var t = config.getTheme(true);
     //console.log("style: " + t);
     Theme.changeSettings(JSON.parse(t));
+
+    // Change colors only for specific hike when different
+    t = config.getTheme(false);
+    //console.log("style: " + t);
+    Theme.changeColors(JSON.parse(t));
 
     config.setWindowSize( width, height);
   }
@@ -57,8 +64,7 @@ ApplicationWindow {
     config.setWindowSize( width, height);
 
     console.log("width x height in mm: "
-                + config.fysLengthX(width) + ", "
-                + config.fysLengthY(height)
+                + config.fysLength(width) + ", " + config.fysLength(height)
                 );
   }
 

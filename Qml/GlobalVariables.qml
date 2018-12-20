@@ -19,7 +19,7 @@ QtObject {
       }
     }
 
-    property QtObject buttonRow: QtObject {
+    property QtObject buttonrow: QtObject {
       property QtObject button: QtObject {
         property int type:        1
       }
