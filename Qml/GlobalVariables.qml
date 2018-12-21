@@ -6,10 +6,12 @@
 
 pragma Singleton
 
-import QtQuick 2.9
+import io.github.martimm.HikingCompanion.Theme 0.1
 
 import "Button" as HCButton
 import "Page" as HCPage
+
+import QtQuick 2.9
 
 QtObject {
   property QtObject component: QtObject {
@@ -52,6 +54,38 @@ QtObject {
   property Column menu
   function setMenu ( newMenu ) {
     menu = newMenu;
+  }
+
+  function setComponentFgColor( component ) {
+    var fg = component.foreground;
+    var clr;
+    if ( component.foregroundDark !== fg ) {
+      clr = component.foregroundDark;
+    }
+    else if ( component.foregroundLight !== fg ) {
+      clr = component.foregroundLight;
+    }
+    else {
+      clr = fg;
+    }
+
+    return clr;
+  }
+
+  function setComponentBgColor( component ) {
+    var bg = component.background;
+    var clr;
+    if ( component.backgroundDark !== bg ) {
+      clr = component.backgroundDark;
+    }
+    else if ( component.backgroundLight !== bg ) {
+      clr = component.backgroundLight;
+    }
+    else {
+      clr = bg;
+    }
+
+    return clr;
   }
 }
 
