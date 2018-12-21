@@ -183,7 +183,7 @@ HCPage.Plain {
           }
 
           // Set the theme for this hike
-          var t = config.getTheme();
+          var t = config.getTheme(false);
           Theme.changeColors(JSON.parse(t));
 
           // Signal the change to the other pages

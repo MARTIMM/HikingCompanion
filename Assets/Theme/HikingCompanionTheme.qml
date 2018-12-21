@@ -137,9 +137,6 @@ Item {
           [ "color"],
           component.toolbar.button.border
           );
-    console.info("tbar w & clr (1): " + component.toolbar.button.border.width +
-                 ", " + component.toolbar.button.border.color
-                 );
 
     // Button row
     setSubFields(
