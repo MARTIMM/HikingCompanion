@@ -153,65 +153,66 @@ HCPage.Plain {
   }
 
 
-  HCParts.PageButtonRow {
+  HCParts.PageButtonRowRectangle {
     id: pageButtonRow
+    HCParts.PageButtonRow {
+      anchors.bottom: parent.bottom
 
-    anchors.bottom: parent.bottom
+      HCButton.ButtonRowButton {
+        text: qsTr("Save")
+        onClicked: {
+          // Save settings from this page
+          config.setSetting( "languageindex", cbx1.currentIndex);
+          config.setSetting( "User/username", username.inputText.text);
+          config.setSetting( "User/email", email.inputText.text);
+          config.setSetting( "User/consent", consent.checked);
 
-    HCButton.ButtonRowButton {
-      text: qsTr("Save")
-      onClicked: {
-        // Save settings from this page
-        config.setSetting( "languageindex", cbx1.currentIndex);
-        config.setSetting( "User/username", username.inputText.text);
-        config.setSetting( "User/email", email.inputText.text);
-        config.setSetting( "User/consent", consent.checked);
-
-        // If there aren't any hikes on the list, do a cleanup.
-        if ( cbx2.model.length === 0 ) {
-          config.cleanupTracks();
-        }
-
-        // Set the tracklist on the TracksPage
-        else {
-          if ( GlobalVariables.applicationWindow &&
-               GlobalVariables.applicationWindow.tracksPage
-             ) {
-            config.setSetting( "selectedhikeindex", cbx2.currentIndex);
-            GlobalVariables.applicationWindow.tracksPage.changeTrackList();
-          }
-        }
-
-        // Set the theme for this hike
-        var t = config.getTheme();
-        Theme.changeColors(JSON.parse(t));
-
-        // Signal the change to the other pages
-        GlobalVariables.applicationWindow.aboutPage.changeContent();
-      }
-    }
-
-    // TODO: Dialog window
-    HCButton.ButtonRowButton {
-      text: qsTr("Remove Hike")
-      onClicked: {
-        if ( GlobalVariables.applicationWindow ) {
-          config.setSetting( "selectedhikeindex", cbx2.currentIndex);
-          config.cleanupHike();
-
-          if ( GlobalVariables.applicationWindow.tracksPage ) {
-            GlobalVariables.applicationWindow.tracksPage.changeTrackList();
+          // If there aren't any hikes on the list, do a cleanup.
+          if ( cbx2.model.length === 0 ) {
+            config.cleanupTracks();
           }
 
-          config.defineHikeList();
+          // Set the tracklist on the TracksPage
+          else {
+            if ( GlobalVariables.applicationWindow &&
+                GlobalVariables.applicationWindow.tracksPage
+                ) {
+              config.setSetting( "selectedhikeindex", cbx2.currentIndex);
+              GlobalVariables.applicationWindow.tracksPage.changeTrackList();
+            }
+          }
 
           // Set the theme for this hike
           var t = config.getTheme();
           Theme.changeColors(JSON.parse(t));
 
           // Signal the change to the other pages
-          if ( GlobalVariables.applicationWindow.aboutPage ) {
-            GlobalVariables.applicationWindow.aboutPage.changeContent();
+          GlobalVariables.applicationWindow.aboutPage.changeContent();
+        }
+      }
+
+      // TODO: Dialog window
+      HCButton.ButtonRowButton {
+        text: qsTr("Remove Hike")
+        onClicked: {
+          if ( GlobalVariables.applicationWindow ) {
+            config.setSetting( "selectedhikeindex", cbx2.currentIndex);
+            config.cleanupHike();
+
+            if ( GlobalVariables.applicationWindow.tracksPage ) {
+              GlobalVariables.applicationWindow.tracksPage.changeTrackList();
+            }
+
+            config.defineHikeList();
+
+            // Set the theme for this hike
+            var t = config.getTheme();
+            Theme.changeColors(JSON.parse(t));
+
+            // Signal the change to the other pages
+            if ( GlobalVariables.applicationWindow.aboutPage ) {
+              GlobalVariables.applicationWindow.aboutPage.changeContent();
+            }
           }
         }
       }
