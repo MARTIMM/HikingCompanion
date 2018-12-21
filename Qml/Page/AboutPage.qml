@@ -71,24 +71,4 @@ HCPage.Plain {
 
     //text: aboutTextData.text
   }
-/*
-  property alias aboutVersion: aboutVersion
-  Text {
-    id: aboutVersion
-
-    width: parent.width
-    //height: parent.height
-    //anchors.fill: parent
-
-    anchors {
-      left: parent.left
-      right: parent.right
-      top: aboutText.bottom
-      bottom: parent.bottom
-    }
-
-    textFormat: Text.RichText
-    text: ""
-  }
-*/
 }

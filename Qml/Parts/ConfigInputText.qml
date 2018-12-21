@@ -24,11 +24,11 @@ Item {
     // Show visible clue if input is right or wrong
     onTextChanged: {
       if ( inputText.acceptableInput ) {
-        color = Theme.main.color.okText;
+        color = Theme.component.color.okText;
       }
 
       else {
-        color = Theme.main.color.notOkText;
+        color = Theme.component.color.notOkText;
       }
     }
   }
