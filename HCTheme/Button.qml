@@ -4,6 +4,7 @@ import io.github.martimm.HikingCompanion.GlobalVariables 0.1
 import QtQuick 2.9
 import QtGraphicalEffects 1.0
 import QtQuick.Templates 2.1 as T
+import QtQuick.Layouts 1.3
 
 T.Button {
   id: control
@@ -17,27 +18,62 @@ T.Button {
     if ( type === GlobalVariables.component.toolbar.button.type ) {
       font.pixelSize = Theme.component.toolbar.button.pixelSize;
       font.family = Theme.fontFamily;
-      width = Theme.component.toolbar.button.width;
-      height = Theme.component.toolbar.button.height;
+
+      Layout.preferredWidth = parent.height -
+          Theme.component.toolbar.button.leftMargin -
+          Theme.component.toolbar.button.rightMargin;
+      Layout.preferredHeight = parent.height -
+          Theme.component.toolbar.button.topMargin -
+          Theme.component.toolbar.button.bottomMargin;
+
+      Layout.minimumWidth = Layout.preferredWidth;
+      Layout.minimumHeight = Layout.preferredHeight;
+
+      Layout.alignment = Qt.AlignVCenter | Qt.AlignLeft;
+      Layout.fillWidth = false;
+      Layout.fillHeight = false;
+
+      btBackground.color = GlobalVariables.setComponentBgColor(Theme.component.toolbar.button);
+      btBackground.radius = Theme.component.toolbar.button.radius;
+      btBackground.border.color = Theme.component.toolbar.button.border.color;
+      btBackground.border.width = Theme.component.toolbar.button.border.width;
     }
 
     else if ( type === GlobalVariables.component.buttonrow.button.type ) {
       font.pixelSize = Theme.component.buttonrow.button.pixelSize;
       font.family = Theme.fontFamily;
-      // width depends on font size
+
       width = textMetrics.boundingRect.width + 20;
       height = Theme.component.buttonrow.button.height;
+      anchors.leftMargin = Theme.component.buttonrow.button.leftMargin;
+      anchors.rightMargin = Theme.component.buttonrow.button.rightMargin;
+      anchors.topMargin = Theme.component.buttonrow.button.topMargin;
+      anchors.bottomMargin = Theme.component.buttonrow.button.bottomMargin;
+
+      btBackground.color = GlobalVariables.setComponentBgColor(Theme.component.buttonrow.button);
+      btBackground.radius = Theme.component.buttonrow.button.radius;
+      btBackground.border.color = Theme.component.buttonrow.button.border.color;
+      btBackground.border.width = Theme.component.buttonrow.button.border.width;
     }
 
     else if ( type === GlobalVariables.component.menu.button.type ) {
       font.pixelSize = Theme.component.menu.button.pixelSize;
       font.family = Theme.fontFamily;
+
       width = Theme.component.menu.button.width;
       height = Theme.component.menu.button.height;
-      anchors.topMargin = 1;
       anchors.left = parent.left;
+      anchors.leftMargin = Theme.component.menu.button.leftMargin;
+      anchors.rightMargin = Theme.component.menu.button.rightMargin;
+      anchors.topMargin = Theme.component.menu.button.topMargin;
+      anchors.bottomMargin = Theme.component.menu.button.bottomMargin;
       textItem.horizontalAlignment = Text.AlignLeft
       textItem.verticalAlignment = Text.AlignVCenter
+
+      btBackground.color = GlobalVariables.setComponentBgColor(Theme.component.menu.button);
+      btBackground.radius = Theme.component.menu.button.radius;
+      btBackground.border.color = Theme.component.menu.button.border.color;
+      btBackground.border.width = Theme.component.menu.button.border.width;
     }
   }
 
@@ -49,25 +85,21 @@ T.Button {
     //family: Theme.fontFamily
   }
 
-  //width: textMetrics.boundingRect.width + 30
-  //height: Theme.largeBtHeight
 
+/*
   leftPadding: 2
   rightPadding: 2
+  topPadding: 2
+  bottomPadding: 2
+*/
 
+  property alias btBackground: btBackground
   background: Rectangle {
     id: btBackground
 
     anchors.fill: parent
-
     opacity: enabled ? 1 : 0.7
 
-    color: Theme.component.color.backgroundDark
-    border {
-      color: Theme.component.color.foregroundLight
-      width: 1
-    }
-    //radius: Theme.component.rounding
 /*
     layer.effect: DropShadow {
       horizontalOffset: 15
@@ -78,25 +110,6 @@ T.Button {
       spread: 0.5
     }
 */
-/*
-    LinearGradient {
-      anchors.fill: parent
-      start: Qt.point( 0, 0)
-      end: Qt.point( 0, width)
-      gradient: Gradient {
-        GradientStop {
-          id: g0; position: 0.0
-          color: Theme.component.color.backgroundLight
-        }
-        GradientStop {
-          id: g1; position: 1.0
-          color: Theme.component.color.backgroundDark
-        }
-      }
-    }
-*/
-    // radius doesn't work with gradients
-//    radius: Theme.cmptRdng
 /*
     states: [
       State {
