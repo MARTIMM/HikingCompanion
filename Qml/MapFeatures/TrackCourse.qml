@@ -3,7 +3,7 @@ import QtLocation 5.9
 
 MapPolyline {
   id: root
-  line.width: 6
+  line.width: 4
   line.color: '#ff8050' //'#785a3a'
 /*
   BorderImage {
