@@ -20,47 +20,87 @@ Item {
   function changeColors ( c ) {
     console.info("Set colors");
     setSubFields(
-          c.main,
-          [ "foreground", "background", "okText", "notOkText",
-           "selectedText", "selectionText"
+          c.component,
+          [ "foreground", "foregroundLight", "foregroundDark",
+            "background", "backgroundLight", "backgroundDark",
+            "okText", "notOkText", "selectedText", "selectionText"
           ],
-          main.color
+          component.color
           );
 
-    setSubFields( c.component, [ "foreground", "background"], component.color);
-
-    setSubFields( c.toolbar, [ "background"], component.toolbar);
     setSubFields(
-          c.toolbar.button,
-          [ "foreground", "background"],
-          component.toolbar.button
+          c.toolbar,
+          [ "background", "backgroundLight", "backgroundDark"],
+          component.toolbar
           );
     setSubFields( c.toolbar.border, ["color"], component.toolbar.border);
-
-    setSubFields( c.buttonrow, [ "background"], component.buttonrow);
     setSubFields(
-          c.buttonrow.button,
-          [ "foreground", "background"],
-          component.buttonrow.button
+          c.toolbar.button,
+          [ "foreground", "foregroundLight", "foregroundDark",
+            "background", "backgroundLight", "backgroundDark"
+          ],
+          component.toolbar.button
+          );
+    setSubFields(
+          c.toolbar.button.border,
+          ["color"],
+          component.toolbar.button.border
+          );
+
+    setSubFields(
+          c.buttonrow,
+          [ "background", "backgroundLight", "backgroundDark"],
+          component.buttonrow
           );
     setSubFields( c.buttonrow.border, ["color"], component.buttonrow.border);
+    setSubFields(
+          c.buttonrow.button,
+          [ "foreground", "foregroundLight", "foregroundDark",
+           "background", "backgroundLight", "backgroundDark"
+          ],
+          component.buttonrow.button
+          );
+    setSubFields(
+          c.buttonrow.button.border,
+          ["color"],
+          component.buttonrow.button.border
+          );
+
+    // Menu
+    setSubFields(
+          c.menu,
+          ["background", "backgroundLight", "backgroundDark"],
+          component.menu
+          );
+
+    setSubFields(
+          c.menu.button,
+          [ "foreground", "foregroundLight", "foregroundDark",
+           "background", "backgroundLight", "backgroundDark"
+          ],
+          component.menu.button
+          );
+
+    setSubFields( c.menu.button.border, ["color"], component.menu.button.border);
   }
 
   // Called once from application window to set all modifiable settings
   function changeSettings ( c ) {
     console.info("Set colors and sizes");
     setSubFields(
-          c.main,
-          [ "foreground", "background", "okText", "notOkText",
-           "selectedText", "selectionText"
+          c.component,
+          [ "foreground", "foregroundLight", "foregroundDark",
+            "background", "backgroundLight", "backgroundDark",
+            "okText", "notOkText", "selectedText", "selectionText"
           ],
-          main.color
+          component.color
           );
 
-    setSubFields( c.component, [ "foreground", "background"], component.color);
-
     // Toolbar
-    setSubFields( c.toolbar, [ "background"], component.toolbar);
+    setSubFields(
+          c.toolbar, [ "background", "backgroundLight", "backgroundDark"],
+          component.toolbar
+          );
     setSubFieldSizes(
           c.toolbar,
           [ "leftMargin", "rightMargin", "topMargin", "bottomMargin", "height"],
@@ -72,7 +112,17 @@ Item {
 
     setSubFieldSizes(
           c.toolbar.button,
-          [ "width", "height", "pixelSize", "radius"],
+          [ "width", "height", "pixelSize", "radius",
+            "leftMargin", "rightMargin", "topMargin", "bottomMargin"
+          ],
+          component.toolbar.button
+          );
+
+    setSubFields(
+          c.toolbar.button,
+          [ "foreground", "foregroundLight", "foregroundDark",
+            "background", "backgroundLight", "backgroundDark"
+          ],
           component.toolbar.button
           );
 
@@ -87,9 +137,16 @@ Item {
           [ "color"],
           component.toolbar.button.border
           );
+    console.info("tbar w & clr (1): " + component.toolbar.button.border.width +
+                 ", " + component.toolbar.button.border.color
+                 );
 
     // Button row
-    setSubFields( c.buttonrow, [ "background"], component.buttonrow);
+    setSubFields(
+          c.buttonrow,
+          [ "background", "backgroundLight", "backgroundDark"],
+          component.buttonrow
+          );
     setSubFieldSizes(
           c.buttonrow,
           [ "leftMargin", "rightMargin", "topMargin", "bottomMargin", "height"],
@@ -101,13 +158,17 @@ Item {
 
     setSubFieldSizes(
           c.buttonrow.button,
-          [ "width", "height", "pixelSize", "radius"],
+          [ "width", "height", "pixelSize", "radius",
+            "leftMargin", "rightMargin", "topMargin", "bottomMargin"
+          ],
           component.buttonrow.button
           );
 
     setSubFields(
           c.buttonrow.button,
-          [ "foreground", "background"],
+          [ "foreground", "foregroundLight", "foregroundDark",
+            "background", "backgroundLight", "backgroundDark"
+          ],
           component.buttonrow.button
           );
 
@@ -124,18 +185,26 @@ Item {
           );
 
     // Menu
-    setSubFields( c.menu, ["background"], component.menu);
+    setSubFields(
+          c.menu,
+          ["background", "backgroundLight", "backgroundDark"],
+          component.menu
+          );
     setSubFieldSizes( c.menu, [ "width", "height"], component.menu);
 
     setSubFieldSizes(
           c.menu.button,
-          [ "width", "height", "pixelSize", "radius"],
+          [ "width", "height", "pixelSize", "radius",
+            "leftMargin", "rightMargin", "topMargin", "bottomMargin"
+          ],
           component.menu.button
           );
 
     setSubFields(
           c.menu.button,
-          [ "foreground", "background"],
+          [ "foreground", "foregroundLight", "foregroundDark",
+            "background", "backgroundLight", "backgroundDark"
+          ],
           component.menu.button
           );
 
@@ -148,7 +217,54 @@ Item {
       //console.info("Field length of " + fi + ": " + fields[fi].length);
       if ( typeof source[fields[fi]] !== "undefined" ) {
         console.info("Field " + fields[fi] + " set to " + source[fields[fi]]);
-        destination[fields[fi]] = source[fields[fi]];
+        if ( fields[fi] === "foregroundLight" ) {
+          // 0.0 - 1.0 is like darker and < 0.0 is undefined
+          if ( parseFloat(source[fields[fi]]) <= 1.0 ) {
+            destination[fields[fi]] = destination["foreground"];
+          }
+          else {
+            destination[fields[fi]] = Qt.lighter(
+                  destination["foreground"], parseFloat(source[fields[fi]])
+                  );
+          }
+        }
+
+        else if ( fields[fi] === "foregroundDark" ) {
+          if ( parseFloat(source[fields[fi]]) <= 1.0 ) {
+            destination[fields[fi]] = destination["foreground"];
+          }
+          else {
+            destination[fields[fi]] = Qt.darker(
+                  destination["foreground"], parseFloat(source[fields[fi]])
+                  );
+          }
+        }
+
+        else if ( fields[fi] === "backgroundLight" ) {
+          if ( parseFloat(source[fields[fi]]) <= 1.0 ) {
+            destination[fields[fi]] = destination["background"];
+          }
+          else {
+            destination[fields[fi]] = Qt.lighter(
+                  destination["background"], parseFloat(source[fields[fi]])
+                  );
+          }
+        }
+
+        else if ( fields[fi] === "backgroundDark" ) {
+          if ( parseFloat(source[fields[fi]]) <= 1.0 ) {
+            destination[fields[fi]] = destination["background"];
+          }
+          else {
+            destination[fields[fi]] = Qt.darker(
+                  destination["background"], parseFloat(source[fields[fi]])
+                  );
+          }
+        }
+
+        else {
+          destination[fields[fi]] = source[fields[fi]];
+        }
       }
 /*
       else if ( fields[fi].length > 1 ) {
@@ -156,7 +272,7 @@ Item {
       }
 */
       else {
-        console.warning("Field " + fields[fi] + " not set");
+        console.info("Field " + fields[fi] + " not set");
       }
     }
   }
@@ -166,9 +282,9 @@ Item {
       if ( typeof source[fields[fi]] !== "undefined" ) {
         console.info("Field size " + fields[fi] + ": " + source[fields[fi]]
                      + " mm set to "
-                     + config.pixels(parseInt(source[fields[fi]])) + " pixels"
+                     + config.pixels(parseFloat(source[fields[fi]])) + " pixels"
                      );
-        destination[fields[fi]] = config.pixels(source[fields[fi]]);
+        destination[fields[fi]] = config.pixels(parseFloat(source[fields[fi]]));
       }
       else {
         console.info("Field " + fields[fi] + " not set");
@@ -176,39 +292,28 @@ Item {
     }
   }
 
-  // Main page
-  property QtObject main: QtObject {
-    property QtObject color: QtObject {
-      property color foreground:        "#ffffff"
-      property color foregroundLight:   Qt.lighter( foreground, 2.0)
-      property color foregroundDark:    Qt.darker( foreground, 2.0)
-
-      property color background:        "#000000"
-      property color backgroundLight:   Qt.lighter( background, 2.0)
-      property color backgroundDark:    Qt.darker( background, 2.0)
-
-      property color okText:            "#a0ffa0"
-      property color notOkText:         "#ffa0a0"
-
-      property color selectedText:      "#efa0ca"
-      property color selectionText:     "#efbfcf"
-    }
-  }
-
   // General components
   property QtObject component: QtObject {
     property QtObject color: QtObject {
-      property color foreground:        "#dfa0ef"
-      property color foregroundLight:   Qt.lighter( foreground, 3.0)
-      property color foregroundDark:    Qt.darker( foreground, 2.0)
+      property color foreground
+      property color foregroundLight
+      property color foregroundDark
 
-      property color background:        "#8f0070"
-      property color backgroundLight:   Qt.lighter( background, 2.0)
-      property color backgroundDark:    Qt.darker( background, 2.0)
+      property color background
+      property color backgroundLight
+      property color backgroundDark
+
+      property color okText
+      property color notOkText
+
+      property color selectedText
+      property color selectionText
     }
 
     property QtObject toolbar: QtObject {
       property color background
+      property color backgroundLight
+      property color backgroundDark
 
       property real topMargin
       property real bottomMargin
@@ -227,8 +332,18 @@ Item {
         property int height
         property int pixelSize
         property int radius
+
         property color foreground
+        property color foregroundLight
+        property color foregroundDark
         property color background
+        property color backgroundLight
+        property color backgroundDark
+
+        property real topMargin
+        property real bottomMargin
+        property real leftMargin
+        property real rightMargin
 
         property QtObject border: QtObject {
           property int width
@@ -239,6 +354,8 @@ Item {
 
     property QtObject buttonrow: QtObject {
       property color background
+      property color backgroundLight
+      property color backgroundDark
 
       property real topMargin
       property real bottomMargin
@@ -257,8 +374,18 @@ Item {
         property int height
         property int pixelSize
         property int radius
+
         property color foreground
+        property color foregroundLight
+        property color foregroundDark
         property color background
+        property color backgroundLight
+        property color backgroundDark
+
+        property real topMargin
+        property real bottomMargin
+        property real leftMargin
+        property real rightMargin
 
         property QtObject border: QtObject {
           property int width
@@ -270,7 +397,10 @@ Item {
     property QtObject menu: QtObject {
       property int width
       property int height
+
       property color background
+      property color backgroundLight
+      property color backgroundDark
 
       property real topMargin
       property real bottomMargin
@@ -287,8 +417,18 @@ Item {
         property int height
         property int pixelSize
         property int radius
+
         property color foreground
+        property color foregroundLight
+        property color foregroundDark
         property color background
+        property color backgroundLight
+        property color backgroundDark
+
+        property real topMargin
+        property real bottomMargin
+        property real leftMargin
+        property real rightMargin
 
         property QtObject border: QtObject {
           property int width
