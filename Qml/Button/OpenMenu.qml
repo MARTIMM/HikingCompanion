@@ -8,7 +8,6 @@ import io.github.martimm.HikingCompanion.GlobalVariables 0.1
 HCButton.ToolbarButton {
   text: "☰"
   onClicked: {
-    console.info("open menu");
     if ( menu.width === 0 ) GlobalVariables.menu.menuAnimateOpen.start();
   }
 }
