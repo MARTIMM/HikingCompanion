@@ -1,5 +1,6 @@
 import io.github.martimm.HikingCompanion.Theme 0.1
 import io.github.martimm.HikingCompanion.GlobalVariables 0.1
+import io.github.martimm.HikingCompanion.Config 0.3
 
 import QtQuick 2.9
 import QtGraphicalEffects 1.0
@@ -8,6 +9,8 @@ import QtQuick.Layouts 1.3
 
 T.Button {
   id: control
+
+  Config { id: config }
 
   // Initialization function to keep the buttons as simple as possible.
   // The function is called with a type which is declared in GlobalVariables.
@@ -42,13 +45,25 @@ T.Button {
     else if ( type === GlobalVariables.component.buttonrow.button.type ) {
       font.pixelSize = Theme.component.buttonrow.button.pixelSize;
       font.family = Theme.fontFamily;
-
+/*
       width = textMetrics.boundingRect.width + 20;
       height = Theme.component.buttonrow.button.height;
       anchors.leftMargin = Theme.component.buttonrow.button.leftMargin;
       anchors.rightMargin = Theme.component.buttonrow.button.rightMargin;
       anchors.topMargin = Theme.component.buttonrow.button.topMargin;
       anchors.bottomMargin = Theme.component.buttonrow.button.bottomMargin;
+*/
+      Layout.preferredWidth = textMetrics.boundingRect.width + config.pixels(parseFloat(0.5));
+      Layout.preferredHeight = parent.height -
+          Theme.component.toolbar.button.topMargin -
+          Theme.component.toolbar.button.bottomMargin;
+
+      Layout.minimumWidth = Layout.preferredWidth;
+      Layout.minimumHeight = Layout.preferredHeight;
+
+      Layout.alignment = Qt.AlignVCenter | Qt.AlignLeft;
+      Layout.fillWidth = false;
+      Layout.fillHeight = false;
 
       btBackground.color = GlobalVariables.setComponentBgColor(Theme.component.buttonrow.button);
       btBackground.radius = Theme.component.buttonrow.button.radius;

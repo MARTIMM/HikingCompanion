@@ -35,5 +35,6 @@
         <file>Qml/Tests/ThemeTest.qml</file>
         <file>Qml/Tests/TimedCoordinateGenerator.qml</file>
         <file>Qml/MapFeatures/PoiModel.qml</file>
+        <file>Qml/Parts/PageButtonRowRectangle.qml</file>
     </qresource>
 </RCC>
