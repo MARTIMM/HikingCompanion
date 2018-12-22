@@ -37,6 +37,7 @@ T.Button {
       Layout.fillHeight = false;
 
       btBackground.color = GlobalVariables.setComponentBgColor(Theme.component.toolbar.button);
+      textItem.color = GlobalVariables.setComponentFgColor(Theme.component.toolbar.button);
       btBackground.radius = Theme.component.toolbar.button.radius;
       btBackground.border.color = Theme.component.toolbar.button.border.color;
       btBackground.border.width = Theme.component.toolbar.button.border.width;
@@ -66,6 +67,7 @@ T.Button {
       Layout.fillHeight = false;
 
       btBackground.color = GlobalVariables.setComponentBgColor(Theme.component.buttonrow.button);
+      textItem.color = GlobalVariables.setComponentFgColor(Theme.component.buttonrow.button);
       btBackground.radius = Theme.component.buttonrow.button.radius;
       btBackground.border.color = Theme.component.buttonrow.button.border.color;
       btBackground.border.width = Theme.component.buttonrow.button.border.width;
@@ -86,6 +88,7 @@ T.Button {
       textItem.verticalAlignment = Text.AlignVCenter
 
       btBackground.color = GlobalVariables.setComponentBgColor(Theme.component.menu.button);
+      textItem.color = GlobalVariables.setComponentFgColor(Theme.component.menu.button);
       btBackground.radius = Theme.component.menu.button.radius;
       btBackground.border.color = Theme.component.menu.button.border.color;
       btBackground.border.width = Theme.component.menu.button.border.width;
@@ -174,7 +177,8 @@ T.Button {
 
     font: control.font
     opacity: enabled ? 1.0 : 0.3
-    color: Theme.component.color.foregroundLight
+    //color: GlobalVariables.setComponentFgColor(Theme.component.toolbar.button);
+    //Theme.component.color.foregroundLight
     horizontalAlignment: Text.AlignHCenter
     verticalAlignment: Text.AlignVCenter
     //elide: Text.ElideRight

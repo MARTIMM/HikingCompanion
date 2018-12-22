@@ -1,6 +1,6 @@
 { "component": {
     "foreground": "#ffa000",
-    "foregroundLight": 0,
+    "foregroundLight": 1.5,
     "foregroundDark": 0,
     "background": "#a05000",
     "backgroundLight": 0,
@@ -15,7 +15,7 @@
 
   "toolbar": {
     "background": "#ffa000",
-    "backgroundLight": 0,
+    "backgroundLight": 2,
     "backgroundDark": 0,
 
     "topMargin": 0.5,
@@ -80,10 +80,10 @@
 
       "background": "#a05000",
       "backgroundLight": 0,
-      "backgroundDark": 2,
+      "backgroundDark": 0,
       "foreground": "white",
       "foregroundLight": 0,
-      "foregroundDark": 3,
+      "foregroundDark": 0,
 
       "topMargin": 0.5,
       "bottomMargin": 0.5,
@@ -92,7 +92,7 @@
 
       "border": {
         "width": 0.5,
-        "color": "transparent"
+        "color": "white"
       }
     }
   },
@@ -117,10 +117,10 @@
 
       "background": "#a05000",
       "backgroundLight": 0,
-      "backgroundDark": 2,
+      "backgroundDark": 0,
       "foreground": "white",
       "foregroundLight": 0,
-      "foregroundDark": 3,
+      "foregroundDark": 0,
 
       "topMargin": 0.5,
       "bottomMargin": 0.5,
