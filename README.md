@@ -289,7 +289,8 @@ There must be a license which must describe the application in such a way that t
 
 ---
 # Changes
-
+* 2018-12-22, 0.14.3, 160001403
+  * Styling of app is improved. 
 * 2018-12-15, 0.14.3, 160001402
   * Poi is working in principle.
 * 2018-12-13, 0.14.2, 160001402
