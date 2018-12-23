@@ -122,6 +122,8 @@ ConfigData::ConfigData(QObject *parent) : QObject(parent) {
   this->checkForNewHikeData();
 
   _hikes = new Hikes();
+
+  _loadThunderForestApiKey()
 }
 
 // ----------------------------------------------------------------------------
@@ -961,3 +963,17 @@ bool ConfigData::_storeCoordinates(
 
   return success;
 }
+
+// ----------------------------------------------------------------------------
+void ConfigData::_loadThunderForestApiKey() {
+  QFile f (":Assets/Providers/thunderForestApiKey");
+  if ( !f.open( QIODevice::ReadOnly | QIODevice::Text) ) {
+    qCWarning(config) << QString("Open file %1: %2").arg(filename).arg(f.errorString());
+    return;
+  }
+
+  _thunderForestApiKey = f.readLine();
+  qCInfo(config) << "Api key:" << _thunderForestApiKey;
+  f.close();
+}
+

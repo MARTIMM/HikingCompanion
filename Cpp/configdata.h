@@ -9,6 +9,8 @@
 
 #define HIKING_COMPANION_VERSION "0.14.4"
 
+constexpr double PI = 3.141592653589793;
+
 class ConfigData : public QObject {
   Q_OBJECT
 
@@ -87,6 +89,8 @@ public:
       QString trackType, std::vector<Coord> coordinates
       );
 
+  inline QString thunderForestApiKey() { return _thunderForestApiKey; }
+
 signals:
 
 public slots:
@@ -106,9 +110,12 @@ private:
       QString trackDesc, QString trackType, std::vector<Coord> coordinates,
       QString nTracks
       );
+  void _loadThunderForestApiKey();
 
   QString _dataDir;       // Location where all hikes are stored
   QString _dataShareDir;  // Location where new data is placed to install
+
+  QString _thunderForestApiKey;
 
   QSettings *_settings;
   QStringList _pages;
