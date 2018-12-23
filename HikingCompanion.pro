@@ -34,9 +34,11 @@ qnx: target.path = /tmp/$${TARGET}/bin
 else: unix:!android: target.path = /opt/$${TARGET}/bin
 !isEmpty(target.path): INSTALLS += target
 
-unix:!android {
+linux:!android {
   # According to https://wiki.qt.io/Hacking_on_Qt%27s_SSL_Support
   CONFIG += openssl-linked
+
+  QML_IMPORT_PATH += $$(HOME)/Qt/$$QT_VERSION/gcc_64/qml
 
   # It is important to have a separate directory for this because referring them
   # from /usr/lib directly creates a lot of errors. This is caused by the
@@ -46,6 +48,10 @@ unix:!android {
 
 android {
   QT += androidextras
+
+  QML_IMPORT_PATH += \
+    $$(HOME)/Qt/$$QT_VERSION/android_armv7/qml \
+    $$(HOME)/Qt/$$QT_VERSION/android_x86/qml
 
   DISTFILES += \
     android/AndroidManifest.xml \
