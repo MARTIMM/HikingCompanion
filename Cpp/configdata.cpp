@@ -60,6 +60,8 @@ ConfigData::ConfigData(QObject *parent) : QObject(parent) {
   _dataDir = QStandardPaths::standardLocations(
         QStandardPaths::GenericConfigLocation
         ).first();
+
+  // For linux we need to attach the id to the general config path
   _dataDir += "/" + id;
 
   // Create directory if needed
@@ -180,7 +182,7 @@ void ConfigData::cleanupHike() {
 
   // Remove hike content from directories
   QString hikeKey = getSetting("HikeList/" + entryKey);
-  QString dir = _dataDir + "/" + hikeKey;
+  QString dir = _dataDir + "/Hikes/" + hikeKey;
   qCDebug(config) << "Remove directory and content" << dir;
   QDir *dd = new QDir(dir);
   dd->removeRecursively();
@@ -361,21 +363,23 @@ QString ConfigData::getHtmlPageFilename( QString pageName) {
   QString entryKey = this->hikeEntryKey();
   QString tableName = this->hikeTableName(entryKey);
 
+  // If the tablename is not found, return the default page
   if ( tableName == "" ) {
     textPath = _dataDir + "/Pages/" + pageName + ".html";
-    qCDebug(config) << "no html page name for entry" << entryKey << "-->" << textPath;
+    qCWarning(config) << "no html page name for entry" << entryKey << "-->" << textPath;
   }
 
   else {
+    // If the textPath of the page is not found, return the default page
     textPath = getSetting( tableName + "/" + pageName);
     if ( textPath == "" ) {
       textPath = _dataDir + "/Pages/" + pageName + ".html";
-      qCDebug(config) << "no html page name for table" << tableName << "-->" << textPath;
+      qCWarning(config) << "no html page name for table" << tableName << "-->" << textPath;
     }
 
     else {
       QString ek = this->getSetting("HikeList/" + entryKey);
-      textPath = _dataDir + "/" + ek + "/Pages/" + textPath;
+      textPath = _dataDir + "/Hikes/" + ek + "/Pages/" + textPath;
       qCInfo(config) << "html page found" << textPath;
     }
   }
@@ -389,36 +393,35 @@ QString ConfigData::getTheme( bool takeHCSettings = false ) {
   QString stylePath;
   QString entryKey = this->hikeEntryKey();
   QString tableName = this->hikeTableName(entryKey);
+
+  // if HC settings are true or when the table is not found,
+  // take the default style
   if ( takeHCSettings || tableName == "" ) {
     stylePath = _dataDir + "/HikingCompanion.json";
-    //qDebug() << "no tablename:" << stylePath;
+    qCWarning(config) << "no tablename:" << stylePath;
   }
 
   else {
     stylePath = getSetting( tableName + "/style");
+
+    // If there is no style path, take the default
     if ( stylePath == "" ) {
       stylePath = _dataDir + "/HikingCompanion.json";
-      //qDebug() << "no style in:" << tableName << "->" << stylePath;
+      qCWarning(config) << "no style in:" << tableName << "->" << stylePath;
     }
 
     else {
       QString ek = this->getSetting("HikeList/" + entryKey);
-      stylePath = _dataDir + "/" + ek + "/" + stylePath;
+      stylePath = _dataDir + "/Hikes/" + ek + "/" + stylePath;
       qCInfo(config) << "style:" << tableName << "->" << stylePath;
     }
   }
 
+  // Read the JSON style and return it
   QFile *stylesheet = new QFile(stylePath);
   stylesheet->open(QIODevice::ReadOnly);
-  //if ( stylesheet->open(QIODevice::ReadOnly) ) {
-  //  qDebug() << "style opened";
-  //}
-  //else {
-  //  qDebug() << "style not opened";
-  //}
-
   QString styleText = QLatin1String(stylesheet->readAll());
-  //qDebug() << "json style text\n" << styleText;
+
   return styleText;
 }
 
@@ -604,7 +607,7 @@ void ConfigData::_installNewData() {
   // Get the key name of this new hike and make path to hike subdir
   QString hikename = getSetting( "hike", s);
   qCInfo(config) << "Hike key" << hikename;
-  QString hikeDir = _dataDir + "/" + hikename;
+  QString hikeDir = _dataDir + "/Hikes/" + hikename;
 
   // Compare new version with installed version.
   // First get hike list if there is any. Via the list we get to
@@ -889,7 +892,7 @@ bool ConfigData::_storeCoordinates(
   qCInfo(config) << "Store coords in" << filename;
 
   // Check tracks directory
-  QString trackPath = _dataDir + "/" + hikeKey + "/Tracks";
+  QString trackPath = _dataDir + "/Hikes/" + hikeKey + "/Tracks";
   QDir *dd = new QDir(trackPath);
   if ( !dd->exists() ) _mkpath(trackPath);
 
