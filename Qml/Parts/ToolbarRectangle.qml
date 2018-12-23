@@ -5,9 +5,8 @@ import QtQuick 2.0
 
 Rectangle {
 
-  // Cannot use width or anchors.right because items in the RowLayout child
-  // will be stretched over the width
   height: Theme.component.toolbar.height
+  width: parent.width
 
   // Row must be kept above page(1)
   z: 50
@@ -15,6 +14,7 @@ Rectangle {
   anchors {
     top: parent.top
     left: parent.left
+    right: parent.right
 
     leftMargin: Theme.component.toolbar.leftMargin
     rightMargin: Theme.component.toolbar.rightMargin

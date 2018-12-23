@@ -5,14 +5,14 @@ import QtQuick 2.0
 
 Rectangle {
 
-  // Cannot use width or anchors.left because items in the RowLayout child
-  // will be stretched over the width
   height: Theme.component.buttonrow.height
+  width: parent.width
 
   // Row must be kept above page(1)
   z: 50
 
   anchors {
+    left: parent.left
     right: parent.right
     bottom: parent.bottom
 

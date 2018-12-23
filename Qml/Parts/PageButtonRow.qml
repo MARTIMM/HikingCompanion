@@ -8,5 +8,12 @@ RowLayout {
   z: 10
   spacing: 2
   layoutDirection: Qt.RightToLeft
-  anchors.fill: parent
+
+  // Cannot use anchors.fill or anchors.right because items in the RowLayout
+  // child will be stretched or spread over its width
+  anchors {
+    top: parent.top
+    right: parent.right
+    bottom: parent.bottom
+  }
 }

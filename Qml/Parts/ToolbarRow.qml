@@ -7,7 +7,14 @@ RowLayout {
   // Row must be kept above page(1)
   z: 10
   spacing: 2
-  anchors.fill: parent
+
+  // Cannot use anchors.fill or anchors.right because items in the RowLayout
+  // child will be stretched or spread over its width
+  anchors {
+    top: parent.top
+    left: parent.left
+    bottom: parent.bottom
+  }
 }
 
 
