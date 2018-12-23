@@ -1,10 +1,10 @@
 { "component": {
-    "foreground": "#ffa000",
-    "foregroundLight": 1.5,
-    "foregroundDark": 0,
-    "background": "#a05000",
+    "foreground": "#ff8000",
+    "foregroundLight": 0,
+    "foregroundDark": 2,
+    "background": "#ffffff",
     "backgroundLight": 0,
-    "backgroundDark": 2,
+    "backgroundDark": 0,
 
     "okText": "#a0ffa0",
     "notOkText": "#ffa0a0",
@@ -14,8 +14,8 @@
   },
 
   "toolbar": {
-    "background": "#ffa000",
-    "backgroundLight": 2,
+    "background": "#ff8000",
+    "backgroundLight": 0,
     "backgroundDark": 0,
 
     "topMargin": 0.5,
@@ -36,9 +36,9 @@
       "radius": 1,
       "pixelSize": 7.5,
 
-      "background": "#a05000",
+      "background": "#ff8000",
       "backgroundLight": 0,
-      "backgroundDark": 0,
+      "backgroundDark": 1.7,
       "foreground": "white",
       "foregroundLight": 0,
       "foregroundDark": 0,
@@ -56,7 +56,7 @@
   },
 
   "buttonrow": {
-    "background": "ffa000",
+    "background": "#ff8000",
     "backgroundLight": 0,
     "backgroundDark": 0,
 
@@ -78,9 +78,9 @@
       "radius": 0.4,
       "pixelSize": 8,
 
-      "background": "#a05000",
+      "background": "#ff8000",
       "backgroundLight": 0,
-      "backgroundDark": 0,
+      "backgroundDark": 1.7,
       "foreground": "white",
       "foregroundLight": 0,
       "foregroundDark": 0,
@@ -101,9 +101,9 @@
     "width": 55,
     "height": 12,
 
-    "background": "#ffa000",
+    "background": "#ff8000",
     "backgroundLight": 0,
-    "backgroundDark": 2,
+    "backgroundDark": 0,
 
     "topMargin": 0.5,
     "bottomMargin": 0.5,
@@ -115,9 +115,9 @@
       "height": 11,
       "pixelSize": 10,
 
-      "background": "#a05000",
+      "background": "#ff8000",
       "backgroundLight": 0,
-      "backgroundDark": 0,
+      "backgroundDark": 1.7,
       "foreground": "white",
       "foregroundLight": 0,
       "foregroundDark": 0,
