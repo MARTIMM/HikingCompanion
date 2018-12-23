@@ -274,21 +274,24 @@ There must be a license which must describe the application in such a way that t
 
 ---
 # To do
-* [ ] The Plain qml page must have a status line at the bottom to show errors and other messages.
-* [ ] Remove a track must have a dialog window
-* [ ] Refine theming for all hikes and HikingCompanion. No gradients.
-* [ ] Texts must have more space on the side. It is too close to the edge.
-* [ ] Change color of route depending on type, walk (dark brown) or bike (blue)
+* The Plain qml page must have a status line at the bottom to show errors and other messages.
+* The Map page could show zoom level, hike icon of current hike, length of selected track.
+* 'Remove a track' must have a dialog window
+* Refine themes for all hikes and HikingCompanion. No gradients.
+* Info texts must have more space on the side. It is too close to the edge.
+* Change color of route depending on type, walk (dark brown) or bike (blue).
+
 
 ---
 # Bugs
 
 * 2018-12-23
   * Colors are not changed on all objects when another hike is selected.
+  * Selected font ignored on android.
 * 2018-12-15
   * User track not visible in config combobox
-  * Track not saved
-
+  * User track not saved
+  * User track meta data not saved
 ---
 # Changes
 * 2018-12-22, 0.14.3, 160001403
