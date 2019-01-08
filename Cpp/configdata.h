@@ -6,11 +6,18 @@
 
 #include <QObject>
 #include <QSettings>
+#include <QLoggingCategory>
 
+// ----------------------------------------------------------------------------
 #define HIKING_COMPANION_VERSION "0.14.4"
+
+Q_DECLARE_LOGGING_CATEGORY(config)
+Q_DECLARE_LOGGING_CATEGORY(configGetSel)
+Q_DECLARE_LOGGING_CATEGORY(configSetSel)
 
 constexpr double PI = 3.141592653589793;
 
+// ----------------------------------------------------------------------------
 class ConfigData : public QObject {
   Q_OBJECT
 

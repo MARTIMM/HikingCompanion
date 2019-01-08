@@ -1,7 +1,6 @@
 #include "singleton.h"
 #include "configdata.h"
 #include "gpxfile.h"
-#include "setuplogging.h"
 
 #include <QStandardPaths>
 #include <QApplication>
@@ -14,6 +13,11 @@
 #include <QQmlApplicationEngine>
 
 extern QQmlApplicationEngine *applicationEngine;
+
+// ----------------------------------------------------------------------------
+Q_LOGGING_CATEGORY( config, "hc.config")
+Q_LOGGING_CATEGORY( configGetSel, "hc.config.get.sel")
+Q_LOGGING_CATEGORY( configSetSel, "hc.config.set.sel")
 
 // ----------------------------------------------------------------------------
 ConfigData::ConfigData(QObject *parent) : QObject(parent) {
@@ -123,7 +127,7 @@ ConfigData::ConfigData(QObject *parent) : QObject(parent) {
 
   _hikes = new Hikes();
 
-  _loadThunderForestApiKey()
+  _loadThunderForestApiKey();
 }
 
 // ----------------------------------------------------------------------------
@@ -968,7 +972,8 @@ bool ConfigData::_storeCoordinates(
 void ConfigData::_loadThunderForestApiKey() {
   QFile f (":Assets/Providers/thunderForestApiKey");
   if ( !f.open( QIODevice::ReadOnly | QIODevice::Text) ) {
-    qCWarning(config) << QString("Open file %1: %2").arg(filename).arg(f.errorString());
+    qCWarning(config)
+        << QString("Open file %1: %2").arg(f.fileName()).arg(f.errorString());
     return;
   }
 

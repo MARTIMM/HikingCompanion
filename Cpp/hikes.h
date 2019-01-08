@@ -7,6 +7,10 @@
 #include <QGeoCoordinate>
 #include <QGeoPath>
 #include <QHash>
+#include <QLoggingCategory>
+
+// ----------------------------------------------------------------------------
+Q_DECLARE_LOGGING_CATEGORY(hikes)
 
 // ----------------------------------------------------------------------------
 class Hikes : public QObject {

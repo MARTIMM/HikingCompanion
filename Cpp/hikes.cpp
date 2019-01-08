@@ -2,7 +2,7 @@
 #include "gpxfile.h"
 #include "configdata.h"
 
-#include <QDebug>
+//#include <QDebug>
 #include <QApplication>
 #include <QFont>
 
@@ -10,6 +10,7 @@
 
 // ----------------------------------------------------------------------------
 //Hikes::Hikes(QObject *parent) : QObject(parent) { }
+Q_LOGGING_CATEGORY( hikes, "hc.hikes")
 
 // ----------------------------------------------------------------------------
 // Get information about hikes directly from the configuration in
@@ -148,7 +149,7 @@ QHash<QString, QString> Hikes::osmCacheFilenames( int minZoom, int maxZoom) {
         QString uri = QString(
               "http://a.tile.thunderforest.com/landscape/%1/%2/%3.png?apikey=%4"
               ).arg(zi).arg(x).arg(y).arg(tfApiKey);
-
+qCDebug(hikes) << uri;
         cacheFilenames[cacheFilename] = uri;
       }
     }

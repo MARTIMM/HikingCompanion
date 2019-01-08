@@ -19,18 +19,23 @@
 #include <QtDebug>
 #include <QFile>
 #include <QTextStream>
+#include <QLoggingCategory>
 
 // ----------------------------------------------------------------------------
 // Define global variables
 extern QQmlApplicationEngine *applicationEngine;
 QQmlApplicationEngine *applicationEngine;
 
+
+Q_DECLARE_LOGGING_CATEGORY(mainapp)
+Q_LOGGING_CATEGORY( mainapp, "hc.main")
+
 // ----------------------------------------------------------------------------
 int main( int argc, char *argv[]) {
 
-  qDebug() << "Ssl support: " << QSslSocket::supportsSsl();
-  qDebug() << "Version of the SSL library in use at compile time" << QSslSocket::sslLibraryBuildVersionString();
-  qDebug() << "Version of the SSL library in use at run-time" << QSslSocket::sslLibraryVersionString();
+  qCDebug(mainapp) << "Ssl support: " << QSslSocket::supportsSsl();
+  qCDebug(mainapp) << "Version of the SSL library in use at compile time" << QSslSocket::sslLibraryBuildVersionString();
+  qCDebug(mainapp) << "Version of the SSL library in use at run-time" << QSslSocket::sslLibraryVersionString();
 
 #if defined(Q_OS_ANDROID)
   // On android, we must request the user of the application for the following
@@ -107,8 +112,9 @@ int main( int argc, char *argv[]) {
   applicationEngine->load(QUrl(QStringLiteral("qrc:/Qml/Main/Application.qml")));
   //applicationEngine->load(QUrl(QStringLiteral("qrc:/Qml/Tests/ThemeTest.qml")));
 
-  qDebug() << "Root objects:" << applicationEngine->rootObjects();
+  qCDebug(mainapp) << "Root objects:" << applicationEngine->rootObjects();
   if ( applicationEngine->rootObjects().isEmpty() ) return -1;
 
+  qCInfo(mainapp) << "Start HikingCompanion interface";
   return app.exec();
 }
