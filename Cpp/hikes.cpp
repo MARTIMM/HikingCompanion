@@ -56,7 +56,7 @@ QVariantList Hikes::trackList() {
     QString trackLine;
     QString tracksTableName = cfg->tracksTableName( tableName, ni);
 
-    //qDebug() << "Default font" << qApp->font().family();
+    qCDebug(hikes) << "Default font" << qApp->font().family();
 
     // Get the type of walk, (W) walking, (B) biking or (?) bij rocket ;-)
     QString trackInfo = cfg->getSetting(tracksTableName + "/type");
@@ -80,10 +80,10 @@ QVariantList Hikes::trackList() {
       QString fname = cfg->getSetting(tracksTableName + "/fname");
       GpxFile *gf = new GpxFile();
       gf->setGpxFilename(
-            cfg->dataDir() + "/" + hikeKey + "/Tracks/", fname
+            cfg->dataDir() + "/Hikes/" + hikeKey + "/Tracks/", fname
             );
       QList<QGeoCoordinate> coordinateList = gf->coordinateList();
-//qDebug() << "nCoordinates:" << coordinateList.count();
+      qCDebug(hikes) << "nCoordinates:" << coordinateList.count();
       double length = gf->trackDistance(coordinateList) / 1000.0;
       trackInfo = QString("%1 km").arg( length, 8, 'f', 3);
       trackLine += trackInfo;
@@ -115,7 +115,7 @@ void Hikes::loadCoordinates(int index) {
 
   QString hikeName = cfg->getSetting("HikeList/" + entryKey);
   QString gpxFile =
-      cfg->dataDir() + "/" + hikeName + "/Tracks/" +
+      cfg->dataDir() + "/Hikes/" + hikeName + "/Tracks/" +
       cfg->getSetting(tracksTableName + "/fname");
 
   _coordinateList = GpxFile::coordinateList(gpxFile);
