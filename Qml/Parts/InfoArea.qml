@@ -27,6 +27,7 @@ Flickable {
     top: parent.top
     bottom: parent.bottom
     left: parent.left
+    leftMargin: 10
     right: parent.right
     rightMargin: Theme.sbWidth
   }
@@ -34,7 +35,7 @@ Flickable {
   property alias text: pageText.text
   Text {
     id: pageText
-    width: parent.width
+    width: parent.width - Theme.sbWidth - 10
     color: GlobalVariables.setComponentFgColor(Theme.component.color)
     wrapMode: Text.WordWrap
     textFormat: Text.RichText
