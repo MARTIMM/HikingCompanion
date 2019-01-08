@@ -6,9 +6,18 @@
 
 #include <QObject>
 #include <QSettings>
+#include <QLoggingCategory>
 
-#define HIKING_COMPANION_VERSION "0.14.3"
+// ----------------------------------------------------------------------------
+#define HIKING_COMPANION_VERSION "0.14.4"
 
+Q_DECLARE_LOGGING_CATEGORY(config)
+Q_DECLARE_LOGGING_CATEGORY(configGetSel)
+Q_DECLARE_LOGGING_CATEGORY(configSetSel)
+
+constexpr double PI = 3.141592653589793;
+
+// ----------------------------------------------------------------------------
 class ConfigData : public QObject {
   Q_OBJECT
 
@@ -68,7 +77,7 @@ public:
 
   QString getHtmlPageFilename( QString pageName);
 
-  QString getTheme();
+  QString getTheme( bool takeHCSettings );
 
   QString getHCVersion();
   QString getOsVersion();
@@ -77,6 +86,8 @@ public:
 
   inline int windowWidth() { return _width; }
   inline int windowHeight() { return _height; }
+  double fysLength( int pixels );
+  int pixels( double fysLength );
   void setWindowSize( int w, int h);
 
   void saveUserTrackNames( QString hikeTitle, QString hikeDesc, QString hikeKey);
@@ -84,6 +95,8 @@ public:
       QString hikeKey, QString trackTitle, QString trackDesc,
       QString trackType, std::vector<Coord> coordinates
       );
+
+  inline QString thunderForestApiKey() { return _thunderForestApiKey; }
 
 signals:
 
@@ -104,9 +117,12 @@ private:
       QString trackDesc, QString trackType, std::vector<Coord> coordinates,
       QString nTracks
       );
+  void _loadThunderForestApiKey();
 
   QString _dataDir;       // Location where all hikes are stored
   QString _dataShareDir;  // Location where new data is placed to install
+
+  QString _thunderForestApiKey;
 
   QSettings *_settings;
   QStringList _pages;
@@ -114,6 +130,8 @@ private:
 
   int _width;
   int _height;
+  double _pixelRatio = -1.0;
+  double _pixelDensity = -1.0;
 };
 
 #endif // CONFIGDATA_H

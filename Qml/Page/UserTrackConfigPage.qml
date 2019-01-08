@@ -222,28 +222,30 @@ HCPage.Plain {
   }
 
 
-  HCParts.PageButtonRow {
+  HCParts.PageButtonRowRectangle {
     id: pageButtonRow
+    HCParts.PageButtonRow {
 
-    anchors.bottom: parent.bottom
+      anchors.bottom: parent.bottom
 
-    HCButton.ButtonRowButton {
-      text: qsTr("Save")
-      onClicked: {
-        // Save settings from this page
-        config.setSetting( "User/hikekey", hikeKey.inputText.text);
-        config.setSetting( "User/hiketitle", hikeTitle.inputText.text);
-        config.setSetting( "User/hikedescr", hikeDesc.inputText.text);
-        config.setSetting( "User/tracktitle", trackTitle.inputText.text);
-        config.setSetting( "User/trackdescr", trackDesc.inputText.text);
-        config.setSetting(
-              "User/tracktype", trackType.rbWalk.checked ? "W" : "B"
-              );
+      HCButton.ButtonRowButton {
+        text: qsTr("Save")
+        onClicked: {
+          // Save settings from this page
+          config.setSetting( "User/hikekey", hikeKey.inputText.text);
+          config.setSetting( "User/hiketitle", hikeTitle.inputText.text);
+          config.setSetting( "User/hikedescr", hikeDesc.inputText.text);
+          config.setSetting( "User/tracktitle", trackTitle.inputText.text);
+          config.setSetting( "User/trackdescr", trackDesc.inputText.text);
+          config.setSetting(
+                "User/tracktype", trackType.rbWalk.checked ? "W" : "B"
+                );
 
-        trackCoordinates.saveUserTrackNames(
-              hikeTitle.inputText.text, hikeDesc.inputText.text,
-              hikeKey.inputText.text
-              );
+          trackCoordinates.saveUserTrackNames(
+                hikeTitle.inputText.text, hikeDesc.inputText.text,
+                hikeKey.inputText.text
+                );
+        }
       }
     }
   }

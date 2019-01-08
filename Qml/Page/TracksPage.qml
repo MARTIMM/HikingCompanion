@@ -21,6 +21,7 @@ HCPage.Plain {
       // Get the path of coordinates and show on map
       var path = config.coordinateList();
       var mapPage = GlobalVariables.applicationWindow.mapPage;
+console.info("Path: " + path);
       mapPage.featuresMap.trackCourse.setPath(path);
 
       // Get the boundaries of the set of coordinates to zoom in
@@ -87,14 +88,14 @@ HCPage.Plain {
     id: titleText
 
     anchors.top: pageToolbarRow.bottom
-    width: parent.width;
+    width: parent.width
     height: 40
-    color: "transparent"
+    color: GlobalVariables.setComponentBgColor(Theme.component.color)
 
     Text {
       anchors.centerIn: parent
       text: tracksPage.trackTitle
-      color: Theme.component.color.foregroundLight
+      color: GlobalVariables.setComponentFgColor(Theme.component.color)
       font {
         pixelSize: 20
         bold: true
@@ -103,12 +104,12 @@ HCPage.Plain {
   }
 
   // Set text of title via this property. Component is not yet ready
+//TODO: must set yet from track loading
   property string trackTitle
-
   property int currentIndex
   ListView {
     id: lv
-    width: parent.width;
+    width: parent.width
     contentWidth: parent.width
 
     anchors {
@@ -131,12 +132,12 @@ HCPage.Plain {
       // a certain range.
       z: 2
 
-      color: Theme.component.color.foregroundDark
+      color: GlobalVariables.setComponentBgColor(Theme.component.color)
       opacity: 0.2
       radius: 5
       border {
         width: 2
-        color: Theme.component.color.backgroundDark
+        color: GlobalVariables.setComponentFgColor(Theme.component.color)
       }
     }
 
@@ -151,7 +152,7 @@ HCPage.Plain {
         }
       }
 
-      color: "transparent"
+      color: GlobalVariables.setComponentBgColor(Theme.component.color)
 
       Text {
         id: wrapperText
@@ -160,28 +161,30 @@ HCPage.Plain {
         verticalAlignment: Text.AlignVCenter
         horizontalAlignment: Text.AlignLeft
         text: "[" + index + "] " + modelData
-        color: Theme.component.color.foregroundLight
+        color: GlobalVariables.setComponentFgColor(Theme.component.color)
         //font.family: Theme.fontFamily
         font.pointSize: 14
       }
     }
   }
 
-  HCParts.PageButtonRow {
+  HCParts.PageButtonRowRectangle {
     id: pageButtonRow
+    HCParts.PageButtonRow {
 
-    anchors.bottom: parent.bottom
+      anchors.bottom: parent.bottom
 
-    HCButton.ButtonRowButton {
-      id: selectButton
-      text: qsTr("Select")
-      onClicked: {
-        config.setGpxFileIndexSetting(currentIndex);
+      HCButton.ButtonRowButton {
+        id: selectButton
+        text: qsTr("Select")
+        onClicked: {
+          config.setGpxFileIndexSetting(currentIndex);
 
-        // Get the coordinates of the selected track and emit a
-        // signal when ready. This signal is catched on the mapPage
-        // where the coordinates are used.
-        config.loadCoordinates(currentIndex);
+          // Get the coordinates of the selected track and emit a
+          // signal when ready. This signal is catched on the mapPage
+          // where the coordinates are used.
+          config.loadCoordinates(currentIndex);
+        }
       }
     }
   }

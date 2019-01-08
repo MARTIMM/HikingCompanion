@@ -6,4 +6,5 @@ android-backup/*
 */.precomp/*
 *.pro.user*
 Assets/Providers/*
+Assets/Images/Icon/Poi/*
 .qmake*

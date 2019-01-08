@@ -13,8 +13,7 @@ DEFINES += QT_DEPRECATED_WARNINGS
 DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x050000    # disables all the APIs deprecated before Qt 5.0.0
 
 ProjectRoot = /home/marcel/Projects/Mobile/Projects/HikingCompanion/HikingCompanion
-HEADERS += $$files("$$ProjectRoot/Cpp/*.h") \
-    Cpp/setuplogging.h
+HEADERS += $$files("$$ProjectRoot/Cpp/*.h")
 SOURCES +=  $$files("$$ProjectRoot/Cpp/*.cpp")
 
 RESOURCES += qml.qrc extraResources.qrc
@@ -35,9 +34,11 @@ qnx: target.path = /tmp/$${TARGET}/bin
 else: unix:!android: target.path = /opt/$${TARGET}/bin
 !isEmpty(target.path): INSTALLS += target
 
-unix:!android {
+linux:!android {
   # According to https://wiki.qt.io/Hacking_on_Qt%27s_SSL_Support
   CONFIG += openssl-linked
+
+  QML_IMPORT_PATH += $$(HOME)/Qt/$$QT_VERSION/gcc_64/qml
 
   # It is important to have a separate directory for this because referring them
   # from /usr/lib directly creates a lot of errors. This is caused by the
@@ -47,6 +48,10 @@ unix:!android {
 
 android {
   QT += androidextras
+
+  QML_IMPORT_PATH += \
+    $$(HOME)/Qt/$$QT_VERSION/android_armv7/qml \
+    $$(HOME)/Qt/$$QT_VERSION/android_x86/qml
 
   DISTFILES += \
     android/AndroidManifest.xml \

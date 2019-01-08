@@ -29,9 +29,16 @@ ApplicationWindow {
     GlobalVariables.setCurrentPage(mapPage);
     GlobalVariables.setMenu(menu);
 
-    var t = config.getTheme();
+    // Get the hiking companion settings for default colors and
+    // to specify sizes and other properties.
+    var t = config.getTheme(true);
     //console.log("style: " + t);
-    Theme.changeClrs(JSON.parse(t));
+    Theme.changeSettings(JSON.parse(t));
+
+    // Change colors only for specific hike when different
+    t = config.getTheme(false);
+    //console.log("style: " + t);
+    Theme.changeColors(JSON.parse(t));
 
     config.setWindowSize( width, height);
   }
@@ -48,9 +55,17 @@ ApplicationWindow {
   width: 600
   height: 450
 
-  // Changes only modifyable in desktop apps
-  onWidthChanged: {
+  // The changes are only fired in desktop apps
+  onXChanged: { setWindowSize(); }
+  onYChanged: { setWindowSize(); }
+  onWidthChanged: { setWindowSize(); }
+  onHeightChanged: { setWindowSize(); }
+  function setWindowSize () {
     config.setWindowSize( width, height);
+
+    console.log("width x height in mm: "
+                + config.fysLength(width) + ", " + config.fysLength(height)
+                );
   }
 
   property alias aboutPage: aboutPage

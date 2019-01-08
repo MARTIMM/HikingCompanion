@@ -62,8 +62,8 @@ T.ComboBox {
 
     font: control.font
     color: control.editable ? control.palette.text : control.palette.buttonText
-    selectionColor: Theme.main.color.selectionText //control.palette.highlight
-    selectedTextColor: Theme.main.color.selectedText //control.palette.highlightedText
+    selectionColor: Theme.component.color.selectionText //control.palette.highlight
+    selectedTextColor: Theme.component.color.selectedText //control.palette.highlightedText
     verticalAlignment: Text.AlignVCenter
 
     background: Rectangle {

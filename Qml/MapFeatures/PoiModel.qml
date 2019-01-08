@@ -23,27 +23,43 @@ MapItemView {
 
     sourceItem: Column {
       id: poiArea
-
-      Component.onCompleted: {
-        console.log("P keys: " + place);
-      }
-
       spacing: 2
 
+      Component.onCompleted: {
+        if ( Qt.platform.os === "linux" ) {
+          image.mouseArea.hoverEnabled = true;
+        }
+      }
+
+      property alias image: image
       Image {
         id: image
         //source: place.icon
         source: "qrc:Assets/Images/Icon/Poi/FoodSleep/restaurant_italian.png"
+        fillMode: Image.PreserveAspectFit
 
+        property alias mouseArea: mouseArea
         MouseArea {
+          id: mouseArea
+
           anchors.fill: parent
-          hoverEnabled: true
+          hoverEnabled: false
+
           onEntered: {
-            tt1Rct.visible = true;
+            console.log("entered");
+            if ( Qt.platform.os === "android" ) {
+              tt1Rct.visible = !tt1Rct.visible;
+            }
+            else if ( Qt.platform.os === "linux" ) {
+              tt1Rct.visible = true;
+            }
           }
 
           onExited: {
-            tt1Rct.visible = false;
+            console.log("exited");
+            if ( Qt.platform.os === "linux" ) {
+              tt1Rct.visible = false;
+            }
           }
         }
       }
