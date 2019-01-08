@@ -1,6 +1,7 @@
 #include "hikes.h"
 #include "gpxfile.h"
 #include "configdata.h"
+#include "cachedata.h"
 
 //#include <QDebug>
 #include <QApplication>
@@ -119,9 +120,12 @@ void Hikes::loadCoordinates(int index) {
       cfg->getSetting(tracksTableName + "/fname");
 
   _coordinateList = GpxFile::coordinateList(gpxFile);
-  //qDebug() << _coordinateList.count() << " coordinates found";
+  qCDebug(hikes) << _coordinateList.count() << " coordinates found";
   _boundary = GpxFile::boundary(_coordinateList);
-  //qDebug() << _boundary.count() << " boundaries set";
+  qCDebug(hikes) << _boundary.count() << " boundaries set";
+
+  QHash<QString, QString> ocf = osmCacheFilenames( 5, 18);
+  createOsmCache(ocf);
 }
 
 // -----------------------------------------------------------------------------
@@ -151,8 +155,8 @@ QHash<QString, QString> Hikes::osmCacheFilenames( int minZoom, int maxZoom) {
               ).arg(zi).arg(x).arg(y).arg(tfApiKey);
         cacheFilenames[cacheFilename] = uri;
 
-        qCInfo(hikes) << "Cache filename:" << cacheFilename;
-        qCInfo(hikes) << "Uri of tile:" << uri;
+        qCDebug(hikes) << "Cache filename:" << cacheFilename;
+        qCDebug(hikes) << "Uri of tile:" << uri;
       }
     }
   }
@@ -176,12 +180,24 @@ int Hikes::lat2tileY( double lat, int zoomLevel) {
 // -----------------------------------------------------------------------------
 void Hikes::createOsmCache(QHash<QString, QString> osmCacheFilenames) {
 
+  CacheData *cache = new CacheData();
+  bool showedOnce = false;
+
+  ConfigData *cfg = ConfigData::instance();
+  QString cacheDir = cfg->cacheDir();
+
   QHashIterator<QString, QString> i(osmCacheFilenames);
   while ( i.hasNext() ) {
     i.next();
 
-    QString cacheFilename = i.key();
+    QString cacheFilename = cacheDir + "/" + i.key();
+    if ( !showedOnce )
+        qCInfo(hikes) << "Example cache map tile file" << cacheFilename;
+
     QString uri = i.value();
+    cache->cacheData( uri, cacheFilename);
+
+    showedOnce = true;
   }
 }
 
