@@ -8,11 +8,11 @@
 
 #include <cmath>
 
-// ----------------------------------------------------------------------------
+// -----------------------------------------------------------------------------
 //Hikes::Hikes(QObject *parent) : QObject(parent) { }
 Q_LOGGING_CATEGORY( hikes, "hc.hikes")
 
-// ----------------------------------------------------------------------------
+// -----------------------------------------------------------------------------
 // Get information about hikes directly from the configuration in
 // the HikeList table
 void Hikes::defineHikeList() {
@@ -33,14 +33,14 @@ void Hikes::defineHikeList() {
   }
 }
 
-// ----------------------------------------------------------------------------
+// -----------------------------------------------------------------------------
 QStringList Hikes::hikeList() {
 
   // Return the hike list
   return _hikeList;
 }
 
-// ----------------------------------------------------------------------------
+// -----------------------------------------------------------------------------
 // Create a list of tracks directly from the configuration using the
 // Track# tables. The list shows the title of each entry from each table.
 QVariantList Hikes::trackList() {
@@ -102,7 +102,7 @@ QVariantList Hikes::trackList() {
   return _trackList;
 }
 
-// ----------------------------------------------------------------------------
+// -----------------------------------------------------------------------------
 void Hikes::loadCoordinates(int index) {
 
   //qDebug() << "get coordinates from selected index: " << index;
@@ -124,7 +124,7 @@ void Hikes::loadCoordinates(int index) {
   //qDebug() << _boundary.count() << " boundaries set";
 }
 
-// ----------------------------------------------------------------------------
+// -----------------------------------------------------------------------------
 QHash<QString, QString> Hikes::osmCacheFilenames( int minZoom, int maxZoom) {
 
   QHash<QString, QString> cacheFilenames;
@@ -149,8 +149,10 @@ QHash<QString, QString> Hikes::osmCacheFilenames( int minZoom, int maxZoom) {
         QString uri = QString(
               "http://a.tile.thunderforest.com/landscape/%1/%2/%3.png?apikey=%4"
               ).arg(zi).arg(x).arg(y).arg(tfApiKey);
-qCDebug(hikes) << uri;
         cacheFilenames[cacheFilename] = uri;
+
+        qCInfo(hikes) << "Cache filename:" << cacheFilename;
+        qCInfo(hikes) << "Uri of tile:" << uri;
       }
     }
   }
@@ -158,12 +160,12 @@ qCDebug(hikes) << uri;
   return cacheFilenames;
 }
 
-// ----------------------------------------------------------------------------
+// -----------------------------------------------------------------------------
 int Hikes::lon2tileX( double lon, int zoomLevel) {
   return static_cast<int>( (lon + 180.0) / 360.0 * (1 << zoomLevel) );
 }
 
-// ----------------------------------------------------------------------------
+// -----------------------------------------------------------------------------
 int Hikes::lat2tileY( double lat, int zoomLevel) {
   int n = 1 << zoomLevel;
   double latRad = lat * PI / 180.0;
@@ -171,7 +173,7 @@ int Hikes::lat2tileY( double lat, int zoomLevel) {
   return static_cast<int>( n * ( 1 - (log(tan(latRad) + sec) / PI )) / 2.0 );
 }
 
-// ----------------------------------------------------------------------------
+// -----------------------------------------------------------------------------
 void Hikes::createOsmCache(QHash<QString, QString> osmCacheFilenames) {
 
   QHashIterator<QString, QString> i(osmCacheFilenames);
@@ -183,7 +185,7 @@ void Hikes::createOsmCache(QHash<QString, QString> osmCacheFilenames) {
   }
 }
 
-// ----------------------------------------------------------------------------
+// -----------------------------------------------------------------------------
 QGeoCoordinate Hikes::findClosestPointOnRoute(QGeoCoordinate c) {
 
   // Check if there are coordinates
@@ -206,7 +208,7 @@ QGeoCoordinate Hikes::findClosestPointOnRoute(QGeoCoordinate c) {
   return cOfMinDist;
 }
 
-// ----------------------------------------------------------------------------
+// -----------------------------------------------------------------------------
 double Hikes::distanceToPointOnRoute( QGeoCoordinate c1, QGeoCoordinate c2) {
   return c1.distanceTo(c2);
 /*
@@ -218,7 +220,7 @@ double Hikes::distanceToPointOnRoute( QGeoCoordinate c1, QGeoCoordinate c2) {
 }
 
 /*
-// ----------------------------------------------------------------------------
+// -----------------------------------------------------------------------------
 void Hikes::_setGpxFiles() {
 
   _gpxFileList.clear();
