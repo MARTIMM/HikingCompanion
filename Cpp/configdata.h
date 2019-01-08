@@ -56,8 +56,9 @@ public:
     return _hikes->distanceToPointOnRoute( c1, c2);
   }
 
-  QString dataDir() { return _dataDir; }
-  QString dataShareDir() { return _dataShareDir; }
+  inline QString dataDir() { return _dataDir; }
+  inline QString cacheDir() { return _dataDir + "/Cache"; }
+  inline QString dataShareDir() { return _dataShareDir; }
 
   void checkForNewHikeData();
   void cleanupTracks();

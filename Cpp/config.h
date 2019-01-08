@@ -16,6 +16,7 @@ public:
   }
 
   inline QString dataDir() { return _configData->dataDir(); }
+  inline QString cacheDir() { return _configData->cacheDir(); }
   inline QString dataShareDir() { return _configData->dataShareDir(); }
 
   Q_INVOKABLE inline void checkForNewHikeData() {
