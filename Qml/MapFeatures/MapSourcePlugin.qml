@@ -35,6 +35,11 @@ Plugin {
     value: true
   }
 
+  PluginParameter {
+    name: "osm.mapping.offline.directory"
+//TODO: must find proper name
+    value: "/home/marcel/.config/io.github.martimm.HikingCompanion/Cache"
+  }
   /*
   // Copy all files from <qt install>/5.11.2/Src/qtlocation/src/plugins/geoservices/osm/providers/5.8/*
   // to qrc:Assets/Providers and add to resources file. Then the api key
