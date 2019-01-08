@@ -20,6 +20,7 @@ MapPolyline {
 
   // Function to zoom in on the current selected track
   function zoomOnCurrentTrack() {
+    console.log("Features map: " + featuresMap.trackCourse.boundary);
     if ( featuresMap.trackCourse.boundary ) {
       hikingCompanionMap.visibleRegion = featuresMap.trackCourse.boundary;
       hikingCompanionMap.zoomLevel = hikingCompanionMap.zoomLevel - 0.2;

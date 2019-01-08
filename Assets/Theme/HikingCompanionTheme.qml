@@ -211,9 +211,9 @@ Item {
 
   function setSubFields ( source, fields, destination) {
     for ( var fi = 0; fi < fields.length; fi++) {
-      //console.info("Field length of " + fi + ": " + fields[fi].length);
+      //console.log("Field length of " + fi + ": " + fields[fi].length);
       if ( typeof source[fields[fi]] !== "undefined" ) {
-        console.info("Field " + fields[fi] + " set to " + source[fields[fi]]);
+        console.log("Field " + fields[fi] + " set to " + source[fields[fi]]);
         if ( fields[fi] === "foregroundLight" ) {
           // 0.0 - 1.0 is like darker and < 0.0 is undefined
           if ( parseFloat(source[fields[fi]]) <= 1.0 ) {
@@ -269,7 +269,7 @@ Item {
       }
 */
       else {
-        console.info("Field " + fields[fi] + " not set");
+        console.warn("Field " + fields[fi] + " not set");
       }
     }
   }
@@ -277,14 +277,14 @@ Item {
   function setSubFieldSizes ( source, fields, destination) {
     for ( var fi = 0; fi < fields.length; fi++) {
       if ( typeof source[fields[fi]] !== "undefined" ) {
-        console.info("Field size " + fields[fi] + ": " + source[fields[fi]]
+        console.log("Field size " + fields[fi] + ": " + source[fields[fi]]
                      + " mm set to "
                      + config.pixels(parseFloat(source[fields[fi]])) + " pixels"
                      );
         destination[fields[fi]] = config.pixels(parseFloat(source[fields[fi]]));
       }
       else {
-        console.info("Field " + fields[fi] + " not set");
+        console.warn("Field " + fields[fi] + " not set");
       }
     }
   }
