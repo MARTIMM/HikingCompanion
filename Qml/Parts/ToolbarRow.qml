@@ -1,18 +1,19 @@
-import QtQuick 2.9
+import io.github.martimm.HikingCompanion.Theme 0.1
 
-Row {
+import QtQuick 2.9
+import QtQuick.Layouts 1.3
+
+RowLayout {
+  // Row must be kept above page(1)
+  z: 10
   spacing: 2
 
-  width: parent.width
-  height: parent.height
-
+  // Cannot use anchors.fill or anchors.right because items in the RowLayout
+  // child will be stretched or spread over its width
   anchors {
-    fill: parent
-
-    leftMargin: 2
-    rightMargin: 2
-    topMargin: 3
-    bottomMargin: 1
+    top: parent.top
+    left: parent.left
+    bottom: parent.bottom
   }
 }
 

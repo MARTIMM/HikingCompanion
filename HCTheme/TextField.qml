@@ -40,17 +40,6 @@ T.TextField {
     }
     //radius: Theme.component.rounding
 /**/
-/*
-    LinearGradient {
-      anchors.fill: parent
-      start: Qt.point( 0, 0)
-      end: Qt.point( 0, width)
-      gradient: Gradient {
-        GradientStop { id: g0; position: 0.0; color: Theme.mainBgColorL}
-        GradientStop { id: g1; position: 1.0; color: Theme.mainBgColorD}
-      }
-    }
-*/
     // radius doesn't work with gradients
 //    radius: Theme.cmptRdng
 /*

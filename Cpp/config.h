@@ -57,7 +57,8 @@ public:
     return _configData->getHtmlPageFilename(pageName);
   }
 
-  Q_INVOKABLE inline QString getTheme() { return _configData->getTheme(); }
+  Q_INVOKABLE inline QString getTheme( bool takeHCSettings ) {
+    return _configData->getTheme(takeHCSettings); }
 
   Q_INVOKABLE inline QString getHCVersion() {
     return _configData->getHCVersion();
@@ -105,8 +106,15 @@ public:
   Q_INVOKABLE inline int windowHeight() {
     return _configData->windowHeight();
   }
+
   Q_INVOKABLE inline void setWindowSize( int w, int h) {
     _configData->setWindowSize( w, h);
+  }
+  Q_INVOKABLE inline double fysLength( int pixels ) {
+    return _configData->fysLength(pixels);
+  }
+  Q_INVOKABLE inline int pixels( double fysLength ) {
+    return _configData->pixels(fysLength);
   }
 
 signals:

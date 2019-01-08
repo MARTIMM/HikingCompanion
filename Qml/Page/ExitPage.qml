@@ -52,23 +52,25 @@ HCPage.Plain {
     text: exitTextData.text
   }
 
-  HCParts.PageButtonRow {
+  HCParts.PageButtonRowRectangle {
     id: pageButtonRow
+    HCParts.PageButtonRow {
 
-    anchors.bottom: parent.bottom
+      anchors.bottom: parent.bottom
 
-    HCButton.ButtonRowButton {
-      //id: exitBttn
-      text: qsTr("Exit")
-      onClicked: {
-        console.log("Exit click");
-        Qt.exit(0);
+      HCButton.ButtonRowButton {
+        //id: exitBttn
+        text: qsTr("Exit")
+        onClicked: {
+          console.log("Exit click");
+          Qt.exit(0);
+        }
       }
-    }
 
-    HCButton.ButtonRowButton {
-      text: qsTr("Save Track")
-      enabled: false
+      HCButton.ButtonRowButton {
+        text: qsTr("Save Track")
+        enabled: false
+      }
     }
   }
 }

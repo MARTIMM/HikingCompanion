@@ -3,7 +3,7 @@ import QtLocation 5.9
 
 MapPolyline {
   id: root
-  line.width: 6
+  line.width: 4
   line.color: '#ff8050' //'#785a3a'
 /*
   BorderImage {
@@ -20,6 +20,7 @@ MapPolyline {
 
   // Function to zoom in on the current selected track
   function zoomOnCurrentTrack() {
+    console.log("Features map: " + featuresMap.trackCourse.boundary);
     if ( featuresMap.trackCourse.boundary ) {
       hikingCompanionMap.visibleRegion = featuresMap.trackCourse.boundary;
       hikingCompanionMap.zoomLevel = hikingCompanionMap.zoomLevel - 0.2;

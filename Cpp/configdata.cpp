@@ -1,7 +1,6 @@
 #include "singleton.h"
 #include "configdata.h"
 #include "gpxfile.h"
-#include "setuplogging.h"
 
 #include <QStandardPaths>
 #include <QApplication>
@@ -10,6 +9,15 @@
 #include <QXmlStreamWriter>
 #include <QDateTime>
 #include <QSysInfo>
+#include <QScreen>
+#include <QQmlApplicationEngine>
+
+extern QQmlApplicationEngine *applicationEngine;
+
+// ----------------------------------------------------------------------------
+Q_LOGGING_CATEGORY( config, "hc.config")
+Q_LOGGING_CATEGORY( configGetSel, "hc.config.get.sel")
+Q_LOGGING_CATEGORY( configSetSel, "hc.config.set.sel")
 
 // ----------------------------------------------------------------------------
 ConfigData::ConfigData(QObject *parent) : QObject(parent) {
@@ -23,6 +31,18 @@ ConfigData::ConfigData(QObject *parent) : QObject(parent) {
   QString id = QCoreApplication::organizationDomain() +
       "." + QCoreApplication::applicationName();
   qCDebug(config) << "Id:" << id;
+
+  QScreen *screen = QApplication::primaryScreen();
+  _pixelRatio = screen->devicePixelRatio();
+  qCInfo(config) << "DP ratio:" << _pixelRatio;
+
+  // Take the mean of the x and y densities and convert to mm.
+  // I like metric better than english inch, foot, miles(2 kinds) etc.
+  _pixelDensity = (
+        screen->physicalDotsPerInchX() + screen->physicalDotsPerInchY()
+        ) / 50.8;
+  qCInfo(config) << "DP X, Y:" << screen->physicalDotsPerInchX() << screen->physicalDotsPerInchY();
+  qCInfo(config) << "DP mm:" << _pixelDensity;
 
   // Take first directory from the list. That one is the users data directory.
   // linux:     /home/marcel/.config/io.martimm.github.HikingCompanion
@@ -44,6 +64,8 @@ ConfigData::ConfigData(QObject *parent) : QObject(parent) {
   _dataDir = QStandardPaths::standardLocations(
         QStandardPaths::GenericConfigLocation
         ).first();
+
+  // For linux we need to attach the id to the general config path
   _dataDir += "/" + id;
 
   // Create directory if needed
@@ -104,6 +126,8 @@ ConfigData::ConfigData(QObject *parent) : QObject(parent) {
   this->checkForNewHikeData();
 
   _hikes = new Hikes();
+
+  _loadThunderForestApiKey();
 }
 
 // ----------------------------------------------------------------------------
@@ -164,7 +188,7 @@ void ConfigData::cleanupHike() {
 
   // Remove hike content from directories
   QString hikeKey = getSetting("HikeList/" + entryKey);
-  QString dir = _dataDir + "/" + hikeKey;
+  QString dir = _dataDir + "/Hikes/" + hikeKey;
   qCDebug(config) << "Remove directory and content" << dir;
   QDir *dd = new QDir(dir);
   dd->removeRecursively();
@@ -226,7 +250,7 @@ void ConfigData::cleanupHike() {
 // ----------------------------------------------------------------------------
 // Set only new string values to this applications config settings
 void ConfigData::setSetting( QString name, QString value ) {
-  qCDebug(config) << QString("Set %1 to %2").arg(name).arg(value);
+  qCDebug(configSetSel) << QString("Set %1 to %2").arg(name).arg(value);
   _settings->setValue( name, value);
   _settings->sync();
 }
@@ -234,8 +258,7 @@ void ConfigData::setSetting( QString name, QString value ) {
 // ----------------------------------------------------------------------------
 // Set only new integer values to this applications config settings
 void ConfigData::setSetting( QString name, int value ) {
-
-  qCDebug(config) << QString("Set %1 to %2").arg(name).arg(value);
+  qCDebug(configSetSel) << QString("Set %1 to %2").arg(name).arg(value);
   _settings->setValue( name, value);
   _settings->sync();
 }
@@ -254,7 +277,7 @@ QString ConfigData::getSetting( QString name, QSettings *s ) {
 
   if ( settings->value(name).type() == QVariant::Invalid ) return "";
   QString v = settings->value(name).toString();
-  qCDebug(config) << "GS:" << name << v;
+  qCDebug(configGetSel) << "Get selection:" << name << v;
   return v;
 }
 
@@ -273,7 +296,7 @@ QStringList ConfigData::readKeys( QString group, QSettings *s ) {
 
   settings->beginGroup(group);
   QStringList keys = settings->childKeys();
-  qCDebug(config) << "returned keys for group: " << keys;
+  qCDebug(configGetSel) << "returned keys for group: " << keys;
   settings->endGroup();
   return keys;
 }
@@ -346,21 +369,23 @@ QString ConfigData::getHtmlPageFilename( QString pageName) {
   QString entryKey = this->hikeEntryKey();
   QString tableName = this->hikeTableName(entryKey);
 
+  // If the tablename is not found, return the default page
   if ( tableName == "" ) {
     textPath = _dataDir + "/Pages/" + pageName + ".html";
-    qCDebug(config) << "no html page name for entry" << entryKey << "-->" << textPath;
+    qCWarning(config) << "no html page name for entry" << entryKey << "-->" << textPath;
   }
 
   else {
+    // If the textPath of the page is not found, return the default page
     textPath = getSetting( tableName + "/" + pageName);
     if ( textPath == "" ) {
       textPath = _dataDir + "/Pages/" + pageName + ".html";
-      qCDebug(config) << "no html page name for table" << tableName << "-->" << textPath;
+      qCWarning(config) << "no html page name for table" << tableName << "-->" << textPath;
     }
 
     else {
       QString ek = this->getSetting("HikeList/" + entryKey);
-      textPath = _dataDir + "/" + ek + "/Pages/" + textPath;
+      textPath = _dataDir + "/Hikes/" + ek + "/Pages/" + textPath;
       qCInfo(config) << "html page found" << textPath;
     }
   }
@@ -369,41 +394,40 @@ QString ConfigData::getHtmlPageFilename( QString pageName) {
 }
 
 // ----------------------------------------------------------------------------
-QString ConfigData::getTheme( ) {
+QString ConfigData::getTheme( bool takeHCSettings = false ) {
 
   QString stylePath;
   QString entryKey = this->hikeEntryKey();
   QString tableName = this->hikeTableName(entryKey);
-  if ( tableName == "" ) {
+
+  // if HC settings are true or when the table is not found,
+  // take the default style
+  if ( takeHCSettings || tableName == "" ) {
     stylePath = _dataDir + "/HikingCompanion.json";
-    //qDebug() << "no tablename:" << stylePath;
+    qCWarning(config) << "no tablename:" << stylePath;
   }
 
   else {
     stylePath = getSetting( tableName + "/style");
+
+    // If there is no style path, take the default
     if ( stylePath == "" ) {
       stylePath = _dataDir + "/HikingCompanion.json";
-      //qDebug() << "no style in:" << tableName << "->" << stylePath;
+      qCWarning(config) << "no style in:" << tableName << "->" << stylePath;
     }
 
     else {
       QString ek = this->getSetting("HikeList/" + entryKey);
-      stylePath = _dataDir + "/" + ek + "/" + stylePath;
+      stylePath = _dataDir + "/Hikes/" + ek + "/" + stylePath;
       qCInfo(config) << "style:" << tableName << "->" << stylePath;
     }
   }
 
+  // Read the JSON style and return it
   QFile *stylesheet = new QFile(stylePath);
   stylesheet->open(QIODevice::ReadOnly);
-  //if ( stylesheet->open(QIODevice::ReadOnly) ) {
-  //  qDebug() << "style opened";
-  //}
-  //else {
-  //  qDebug() << "style not opened";
-  //}
-
   QString styleText = QLatin1String(stylesheet->readAll());
-  //qDebug() << "json style text\n" << styleText;
+
   return styleText;
 }
 
@@ -460,6 +484,21 @@ QStringList ConfigData::getVersions() {
 void ConfigData::_removeSettings(QString group) {
   _settings->remove(group);
   _settings->sync();
+}
+
+// ----------------------------------------------------------------------------
+// Return length in millimeters
+double ConfigData::fysLength( int pixels ) {
+  qCDebug(config) << _pixelDensity << pixels << _pixelDensity / static_cast<double>(pixels);
+  if ( pixels <= 0 ) return 0.0;
+  return static_cast<double>(pixels) / _pixelDensity;
+}
+
+// ----------------------------------------------------------------------------
+// Return size in pixels given length in milimeters
+int ConfigData::pixels( double fysLength ) {
+  if ( fysLength <= 0.0 ) return 0;
+  return static_cast<int>(fysLength * _pixelDensity + 0.5);
 }
 
 // ----------------------------------------------------------------------------
@@ -574,7 +613,7 @@ void ConfigData::_installNewData() {
   // Get the key name of this new hike and make path to hike subdir
   QString hikename = getSetting( "hike", s);
   qCInfo(config) << "Hike key" << hikename;
-  QString hikeDir = _dataDir + "/" + hikename;
+  QString hikeDir = _dataDir + "/Hikes/" + hikename;
 
   // Compare new version with installed version.
   // First get hike list if there is any. Via the list we get to
@@ -859,7 +898,7 @@ bool ConfigData::_storeCoordinates(
   qCInfo(config) << "Store coords in" << filename;
 
   // Check tracks directory
-  QString trackPath = _dataDir + "/" + hikeKey + "/Tracks";
+  QString trackPath = _dataDir + "/Hikes/" + hikeKey + "/Tracks";
   QDir *dd = new QDir(trackPath);
   if ( !dd->exists() ) _mkpath(trackPath);
 
@@ -928,3 +967,18 @@ bool ConfigData::_storeCoordinates(
 
   return success;
 }
+
+// ----------------------------------------------------------------------------
+void ConfigData::_loadThunderForestApiKey() {
+  QFile f (":Assets/Providers/thunderForestApiKey");
+  if ( !f.open( QIODevice::ReadOnly | QIODevice::Text) ) {
+    qCWarning(config)
+        << QString("Open file %1: %2").arg(f.fileName()).arg(f.errorString());
+    return;
+  }
+
+  _thunderForestApiKey = f.readLine();
+  qCInfo(config) << "Api key:" << _thunderForestApiKey;
+  f.close();
+}
+

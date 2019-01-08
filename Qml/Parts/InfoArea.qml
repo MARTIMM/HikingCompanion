@@ -12,10 +12,6 @@ import "../Button" as HCButton
 Flickable {
   id: flickable
 
-  Component.onCompleted: {
-    console.log("H: " + height + ", " + contentHeight);
-  }
-
   // take away some space for the vertical scrollbar
   width: parent.width - Theme.sbWidth
   height: parent.height
@@ -26,12 +22,12 @@ Flickable {
   // clip content when going outside content borders
   clip: true
 
-  // anchor to the top and bottom because height is
-  // variable
+  // anchor to the top and bottom because height is variable
   anchors {
     top: parent.top
     bottom: parent.bottom
     left: parent.left
+    leftMargin: 10
     right: parent.right
     rightMargin: Theme.sbWidth
   }
@@ -39,8 +35,8 @@ Flickable {
   property alias text: pageText.text
   Text {
     id: pageText
-    width: parent.width
-    color: Theme.component.color.foregroundLight
+    width: parent.width - Theme.sbWidth - 10
+    color: GlobalVariables.setComponentFgColor(Theme.component.color)
     wrapMode: Text.WordWrap
     textFormat: Text.RichText
     text: ""

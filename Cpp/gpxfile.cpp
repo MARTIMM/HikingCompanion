@@ -5,42 +5,6 @@
 #include <QFile>
 #include <cmath>
 
-/*
-// ----------------------------------------------------------------------------
-GpxFile::GpxFile(QObject *parent) : QObject(parent) {}
-
-// ----------------------------------------------------------------------------
-QString GpxFile::name ( ) { return _name; }
-
-// ----------------------------------------------------------------------------
-QString GpxFile::gpxFilename() { return _gpxFilename; }
-
-// ----------------------------------------------------------------------------
-QString GpxFile::gpxPath() { return _gpxPath; }
-
-// ----------------------------------------------------------------------------
-QString GpxFile::gpxFilePath() {
-  return QString("%1/%2").arg(_gpxPath).arg(_gpxFilename);
-}
-*/
-
-/*
-// ----------------------------------------------------------------------------
-// Read the list of coordinates from the gpx file and return the list
-QList<QGeoCoordinate> GpxFile::coordinateList() {
-
-  return GpxFile::coordinateList(_gpxPath + "/" + _gpxFilename);
-}
-
-// ----------------------------------------------------------------------------
-QList<QGeoCoordinate> GpxFile::boundary() {
-
-  return GpxFile::boundary(
-        GpxFile::coordinateList(_gpxPath + "/" + _gpxFilename)
-        );
-}
-*/
-
 // ----------------------------------------------------------------------------
 void GpxFile::setGpxFilename( QString gpxPath, QString gpxFilename) {
 

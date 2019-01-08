@@ -2,12 +2,15 @@
 #include "gpxfile.h"
 #include "configdata.h"
 
-#include <QDebug>
+//#include <QDebug>
 #include <QApplication>
 #include <QFont>
 
+#include <cmath>
+
 // ----------------------------------------------------------------------------
 //Hikes::Hikes(QObject *parent) : QObject(parent) { }
+Q_LOGGING_CATEGORY( hikes, "hc.hikes")
 
 // ----------------------------------------------------------------------------
 // Get information about hikes directly from the configuration in
@@ -53,7 +56,7 @@ QVariantList Hikes::trackList() {
     QString trackLine;
     QString tracksTableName = cfg->tracksTableName( tableName, ni);
 
-    //qDebug() << "Default font" << qApp->font().family();
+    qCDebug(hikes) << "Default font" << qApp->font().family();
 
     // Get the type of walk, (W) walking, (B) biking or (?) bij rocket ;-)
     QString trackInfo = cfg->getSetting(tracksTableName + "/type");
@@ -77,10 +80,10 @@ QVariantList Hikes::trackList() {
       QString fname = cfg->getSetting(tracksTableName + "/fname");
       GpxFile *gf = new GpxFile();
       gf->setGpxFilename(
-            cfg->dataDir() + "/" + hikeKey + "/Tracks/", fname
+            cfg->dataDir() + "/Hikes/" + hikeKey + "/Tracks/", fname
             );
       QList<QGeoCoordinate> coordinateList = gf->coordinateList();
-//qDebug() << "nCoordinates:" << coordinateList.count();
+      qCDebug(hikes) << "nCoordinates:" << coordinateList.count();
       double length = gf->trackDistance(coordinateList) / 1000.0;
       trackInfo = QString("%1 km").arg( length, 8, 'f', 3);
       trackLine += trackInfo;
@@ -112,13 +115,72 @@ void Hikes::loadCoordinates(int index) {
 
   QString hikeName = cfg->getSetting("HikeList/" + entryKey);
   QString gpxFile =
-      cfg->dataDir() + "/" + hikeName + "/Tracks/" +
+      cfg->dataDir() + "/Hikes/" + hikeName + "/Tracks/" +
       cfg->getSetting(tracksTableName + "/fname");
 
   _coordinateList = GpxFile::coordinateList(gpxFile);
   //qDebug() << _coordinateList.count() << " coordinates found";
   _boundary = GpxFile::boundary(_coordinateList);
   //qDebug() << _boundary.count() << " boundaries set";
+}
+
+// ----------------------------------------------------------------------------
+QHash<QString, QString> Hikes::osmCacheFilenames( int minZoom, int maxZoom) {
+
+  QHash<QString, QString> cacheFilenames;
+  ConfigData *cfg = ConfigData::instance();
+  QString tfApiKey = cfg->thunderForestApiKey();
+  for( int ci = 0; ci < _coordinateList.count(); ci++) {
+    for( int zi = minZoom; zi <= maxZoom; zi++) {
+      int x = lon2tileX( _coordinateList[ci].longitude(), zi);
+      int y = lat2tileY( _coordinateList[ci].latitude(), zi);
+
+      // https://blog.qt.io/blog/2017/05/24/qtlocation-using-offline-map-tiles-openstreetmap-plugin/
+      // terrain maps are code maptype 6
+      QString cacheFilename = QString(
+            "osm_100-l-6-%1-%2-%3.png"
+            ).arg(zi).arg(x).arg(y);
+
+      // There will be many tiles recalculated so check hash before
+      // calculating the uri
+      if ( cacheFilenames.value(cacheFilename).isEmpty() ) {
+
+        // See qrs:Assets/Providers/terrain
+        QString uri = QString(
+              "http://a.tile.thunderforest.com/landscape/%1/%2/%3.png?apikey=%4"
+              ).arg(zi).arg(x).arg(y).arg(tfApiKey);
+qCDebug(hikes) << uri;
+        cacheFilenames[cacheFilename] = uri;
+      }
+    }
+  }
+
+  return cacheFilenames;
+}
+
+// ----------------------------------------------------------------------------
+int Hikes::lon2tileX( double lon, int zoomLevel) {
+  return static_cast<int>( (lon + 180.0) / 360.0 * (1 << zoomLevel) );
+}
+
+// ----------------------------------------------------------------------------
+int Hikes::lat2tileY( double lat, int zoomLevel) {
+  int n = 1 << zoomLevel;
+  double latRad = lat * PI / 180.0;
+  double sec = 1/cos(latRad);
+  return static_cast<int>( n * ( 1 - (log(tan(latRad) + sec) / PI )) / 2.0 );
+}
+
+// ----------------------------------------------------------------------------
+void Hikes::createOsmCache(QHash<QString, QString> osmCacheFilenames) {
+
+  QHashIterator<QString, QString> i(osmCacheFilenames);
+  while ( i.hasNext() ) {
+    i.next();
+
+    QString cacheFilename = i.key();
+    QString uri = i.value();
+  }
 }
 
 // ----------------------------------------------------------------------------
