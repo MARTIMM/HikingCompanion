@@ -89,6 +89,7 @@ ConfigData::ConfigData(QObject *parent) : QObject(parent) {
     qCDebug(config) << "copy stylesheet not ok";
   }
 
+  //TODO add another level for other types of caches
   // Create cache directory
   this->_mkpath(_dataDir + "/Cache");
 
