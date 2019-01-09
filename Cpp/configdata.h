@@ -57,7 +57,8 @@ public:
   }
 
   inline QString dataDir() { return _dataDir; }
-  inline QString cacheDir() { return _dataDir + "/Cache"; }
+  inline QString tileCacheDir() { return _dataDir + "/Cache/Tiles"; }
+  inline QString featureCacheDir() { return _dataDir + "/Cache/Features"; }
   inline QString dataShareDir() { return _dataShareDir; }
 
   void checkForNewHikeData();

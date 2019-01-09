@@ -15,9 +15,10 @@ public:
     _configData = ConfigData::instance();
   }
 
-  inline QString dataDir() { return _configData->dataDir(); }
-  inline QString cacheDir() { return _configData->cacheDir(); }
-  inline QString dataShareDir() { return _configData->dataShareDir(); }
+  Q_INVOKABLE inline QString dataDir() { return _configData->dataDir(); }
+  Q_INVOKABLE inline QString tileCacheDir() { return _configData->tileCacheDir(); }
+  Q_INVOKABLE inline QString featureCacheDir() { return _configData->featureCacheDir(); }
+  Q_INVOKABLE inline QString dataShareDir() { return _configData->dataShareDir(); }
 
   Q_INVOKABLE inline void checkForNewHikeData() {
     _configData->checkForNewHikeData();

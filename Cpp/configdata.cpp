@@ -89,9 +89,9 @@ ConfigData::ConfigData(QObject *parent) : QObject(parent) {
     qCDebug(config) << "copy stylesheet not ok";
   }
 
-  //TODO add another level for other types of caches
-  // Create cache directory
-  this->_mkpath(_dataDir + "/Cache");
+  // Create cache directories
+  this->_mkpath(_dataDir + "/Cache/Tiles");
+  this->_mkpath(_dataDir + "/Cache/Features");
 
   // Create a Pages subdirectory for html files and copy html files to it.
   // Also make config entries for them.
@@ -984,7 +984,7 @@ bool ConfigData::_storeCoordinates(
 
 // ----------------------------------------------------------------------------
 void ConfigData::_loadThunderForestApiKey() {
-  QFile f (":Assets/Providers/thunderForestApiKey");
+  QFile f (":Assets/thunderForestApiKey");
   if ( !f.open( QIODevice::ReadOnly | QIODevice::Text) ) {
     qCWarning(config)
         << QString("Open file %1: %2").arg(f.fileName()).arg(f.errorString());
