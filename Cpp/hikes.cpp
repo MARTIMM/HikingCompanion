@@ -124,8 +124,10 @@ void Hikes::loadCoordinates(int index) {
   _boundary = GpxFile::boundary(_coordinateList);
   qCDebug(hikes) << _boundary.count() << " boundaries set";
 
-  //TODO must be done for all tracks at once in a separate thread
-  QHash<QString, QString> ocf = osmCacheFilenames( 0, 18);
+  //TODO must be done for all tracks in the hike at once in a separate thread
+  //TODO removing must be between 0 and 19, check for overlap of tiles used
+  // for other hikes!
+  QHash<QString, QString> ocf = osmCacheFilenames( 6, 17);
   createOsmCache(ocf);
 }
 
@@ -141,9 +143,9 @@ QHash<QString, QString> Hikes::osmCacheFilenames( int minZoom, int maxZoom) {
       int y = lat2tileY( _coordinateList[ci].latitude(), zi);
 
       // https://blog.qt.io/blog/2017/05/24/qtlocation-using-offline-map-tiles-openstreetmap-plugin/
-      // terrain maps are code maptype 6
+      // terrain maps are code maptype 6 (we must use custom maps (8))
       QString cacheFilename = QString(
-            "osm_100-l-6-%1-%2-%3.png"
+            "osm_100-l-8-%1-%2-%3.png"
             ).arg(zi).arg(x).arg(y);
 
       // There will be many tiles recalculated so check hash before

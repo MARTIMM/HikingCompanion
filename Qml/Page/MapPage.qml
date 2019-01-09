@@ -6,6 +6,7 @@ import "../Parts" as HCParts
 
 import io.github.martimm.HikingCompanion.Theme 0.1
 import io.github.martimm.HikingCompanion.GlobalVariables 0.1
+import io.github.martimm.HikingCompanion.Config 0.3
 
 import QtQuick 2.11
 import QtQuick.Controls 2.4
@@ -23,6 +24,7 @@ HCPage.Plain {
   height: parent.height
   anchors.fill: parent
 
+  Config { id: config }
   Component.onCompleted: {
     // Turn on the gps coordinate gathering
     location.active = true;
@@ -36,6 +38,8 @@ HCPage.Plain {
     hikingCompanionMap.clearData();
 
     console.log("Map set to " + hikingCompanionMap.activeMapType.description);
+
+    hikingCompanionMap.zoomLevel = Theme.mapParameters.startZoomLevel;
   }
 
   HCParts.ToolbarRectangle {
@@ -67,15 +71,21 @@ HCPage.Plain {
     anchors.fill: parent
     gesture.enabled: true
     z: parent.z + 1
-    zoomLevel: 17
+    //zoomLevel: 15
+    minimumZoomLevel: Theme.mapParameters.minZoomLevel
+    maximumZoomLevel: Theme.mapParameters.maxZoomLevel
+    onZoomLevelChanged: { console.info("Zoom level: " + zoomLevel); }
 
     property alias mapSourcePlugin: mapSourcePlugin
     plugin: HCMapFeatures.MapSourcePlugin { id: mapSourcePlugin }
 
     Component.onCompleted: {
       mapSourcePlugin.setMapSource(MapType.CustomMap);
+      mapSourcePlugin.tileCache.value = config.tileCacheDir();
+      console.info("pp cache: " + mapSourcePlugin.tileCache.value);
     }
   }
+// /home/marcel/.config/io.github.martimm.HikingCompanion/Cache/Tiles
 
   // See also https://doc-snapshots.qt.io/qt5-5.9/location-plugin-itemsoverlay.html
   property alias featuresMap: featuresMap
