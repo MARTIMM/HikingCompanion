@@ -6,5 +6,6 @@ android-backup/*
 */.precomp/*
 *.pro.user*
 Assets/Providers/*
+Assets/thunderForestApiKey
 Assets/Images/Icon/Poi/*
 .qmake*
