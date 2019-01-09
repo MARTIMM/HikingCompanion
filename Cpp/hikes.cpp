@@ -124,7 +124,8 @@ void Hikes::loadCoordinates(int index) {
   _boundary = GpxFile::boundary(_coordinateList);
   qCDebug(hikes) << _boundary.count() << " boundaries set";
 
-  QHash<QString, QString> ocf = osmCacheFilenames( 5, 18);
+  //TODO must be done for all tracks at once in a separate thread
+  QHash<QString, QString> ocf = osmCacheFilenames( 0, 18);
   createOsmCache(ocf);
 }
 
@@ -184,7 +185,7 @@ void Hikes::createOsmCache(QHash<QString, QString> osmCacheFilenames) {
   bool showedOnce = false;
 
   ConfigData *cfg = ConfigData::instance();
-  QString cacheDir = cfg->cacheDir();
+  QString cacheDir = cfg->tileCacheDir();
 
   QHashIterator<QString, QString> i(osmCacheFilenames);
   while ( i.hasNext() ) {
