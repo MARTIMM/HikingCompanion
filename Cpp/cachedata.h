@@ -8,7 +8,7 @@
 #include <QLoggingCategory>
 
 // -----------------------------------------------------------------------------
-Q_DECLARE_LOGGING_CATEGORY(cache)
+Q_DECLARE_LOGGING_CATEGORY(cachedata)
 
 // -----------------------------------------------------------------------------
 class CacheData : public QObject {

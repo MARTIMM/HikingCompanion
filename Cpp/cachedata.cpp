@@ -2,7 +2,7 @@
 //#include "configdata.h"
 
 // -----------------------------------------------------------------------------
-Q_LOGGING_CATEGORY( cachedata, "hc.cache")
+Q_LOGGING_CATEGORY( cachedata, "hc.cachedata")
 
 class QSslError;
 
@@ -18,7 +18,14 @@ CacheData::CacheData(QObject *parent) : QObject(parent) {
 // -----------------------------------------------------------------------------
 void CacheData::cacheData( const QUrl &url, QString filename) {
 
-  //TODO test filename exists
+  QFile f(filename);
+  if ( f.exists() ) {
+    qCDebug(cachedata) << "File " << filename << "exists, no download";
+    return;
+
+    //TODO test if tile is newer than stored: use header only request
+  }
+
   QNetworkRequest request(url);
   QNetworkReply *reply = _manager.get(request);
 
@@ -48,8 +55,7 @@ bool CacheData::_isHttpRedirect(QNetworkReply *reply) {
 void CacheData::_sslErrors(const QList<QSslError> &sslErrors) {
 #if QT_CONFIG(ssl)
   for (const QSslError &error : sslErrors)
-    qCWarning(cachedata)
-        << QString("SSL error: %s\n").arg(qPrintable(error.errorString()));
+    qCWarning(cachedata) << "SSL error:" << qPrintable(error.errorString());
 #else
   Q_UNUSED(sslErrors);
 #endif
@@ -60,18 +66,17 @@ void CacheData::_downloaded(QNetworkReply *reply) {
   QUrl url = reply->url();
   if ( reply->error() ) {
     qCWarning(cachedata)
-        << QString("Download of %s failed: %s\n")
-           .arg(url.toEncoded().constData())
-           .arg(qPrintable(reply->errorString()));
+        << "Download of" << url.toString()
+        << "failed:" << qPrintable(reply->errorString());
   }
 
   else {
     if ( _isHttpRedirect(reply) ) {
-      qCInfo(cachedata) << "Request was redirected.\n";
+      qCInfo(cachedata) << "Request was redirected.";
     }
 
     else {
-      //TODO would like to have reply as a key, no loop to search for it
+      //TODO would like to have reply as a key, then no loop to search for it
       QHashIterator<QString, QNetworkReply *> i(_currentDownloads);
       while ( i.hasNext() ) {
         i.next();
@@ -82,9 +87,8 @@ void CacheData::_downloaded(QNetworkReply *reply) {
           _currentDownloads.remove(filename);
           if ( msg == "" ) {
             qCInfo(cachedata)
-                << QString("Download of %s succeeded (saved to %s)\n")
-                   .arg(url.toEncoded().constData())
-                   .arg(qPrintable(filename));
+                << "Download of" << url.toString()
+                << "succeeded, saved to " << filename;
           }
 
           else {
