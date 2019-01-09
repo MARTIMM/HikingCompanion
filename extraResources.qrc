@@ -10,7 +10,7 @@
         <file>Assets/Pages/appInfoText.html</file>
         <file>Assets/Pages/aboutText.html</file>
         <file alias="qtquickcontrols2.conf">Assets/Theme/qtquickcontrols2.conf</file>
-        <file>Assets/Providers/thunderForestApiKey</file>
+        <file>Assets/thunderForestApiKey</file>
         <file>Assets/Providers/cycle</file>
         <file>Assets/Providers/hiking</file>
         <file>Assets/Providers/night-transit</file>
