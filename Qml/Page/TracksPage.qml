@@ -12,8 +12,6 @@ import QtQuick.Controls 2.2
 HCPage.Plain {
   id: tracksPage
 
-  //TODO must be temporary
-  property alias config: config
   Config {
     id: config
 
