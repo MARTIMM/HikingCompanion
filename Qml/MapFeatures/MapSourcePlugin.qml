@@ -1,6 +1,7 @@
+//import io.github.martimm.HikingCompanion.Config 0.3
 import io.github.martimm.HikingCompanion.GlobalVariables 0.1
 
-//import QtQuick 2.11
+import QtQuick 2.11
 //import QtQuick.Controls 2.2
 import QtLocation 5.9
 //import QtPositioning 5.11
@@ -35,10 +36,16 @@ Plugin {
     value: true
   }
 
+  property alias tileCache: tileCache
   PluginParameter {
+    id: tileCache
     name: "osm.mapping.offline.directory"
-//TODO: must find proper name
-    value: "/home/marcel/.config/io.github.martimm.HikingCompanion/Cache"
+    //value: {config.tileCacheDir();} //"/home/marcel/.config/io.github.martimm.HikingCompanion/Cache"
+    Component.onCompleted: {
+      //TODO Can it be done better?
+      var config = GlobalVariables.applicationWindow.tracksPage.config;
+      tileCache.value = config.tileCacheDir();
+    }
   }
   /*
   // Copy all files from <qt install>/5.11.2/Src/qtlocation/src/plugins/geoservices/osm/providers/5.8/*
