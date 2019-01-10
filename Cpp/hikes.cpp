@@ -135,31 +135,19 @@ void Hikes::loadCoordinates(int index) {
 QHash<QString, QString> Hikes::osmCacheFilenames( int minZoom, int maxZoom) {
 
   QHash<QString, QString> cacheFilenames;
-  ConfigData *cfg = ConfigData::instance();
-  QString tfApiKey = cfg->thunderForestApiKey();
   for( int ci = 0; ci < _coordinateList.count(); ci++) {
     for( int zi = minZoom; zi <= maxZoom; zi++) {
       int x = lon2tileX( _coordinateList[ci].longitude(), zi);
       int y = lat2tileY( _coordinateList[ci].latitude(), zi);
+      insertTileCoords( zi, x, y, &cacheFilenames);
 
-      // https://blog.qt.io/blog/2017/05/24/qtlocation-using-offline-map-tiles-openstreetmap-plugin/
-      // terrain maps are code maptype 6 (we must use custom maps (8))
-      QString cacheFilename = QString(
-            "osm_100-l-8-%1-%2-%3.png"
-            ).arg(zi).arg(x).arg(y);
-
-      // There will be many tiles recalculated so check hash before
-      // calculating the uri
-      if ( cacheFilenames.value(cacheFilename).isEmpty() ) {
-
-        // See qrs:Assets/Providers/terrain
-        QString uri = QString(
-              "http://a.tile.thunderforest.com/landscape/%1/%2/%3.png?apikey=%4"
-              ).arg(zi).arg(x).arg(y).arg(tfApiKey);
-        cacheFilenames[cacheFilename] = uri;
-
-        qCDebug(hikes) << "Cache filename:" << cacheFilename;
-        qCDebug(hikes) << "Uri of tile:" << uri;
+      // insert some surrounding tiles when zoomlevel is higher
+      if ( zi > 12 ) {
+        for( int xi = x - 1; xi < x + 2; xi++ ) {
+          for( int yi = y - 1; yi < y + 2; yi++ ) {
+            insertTileCoords( zi, x, y, &cacheFilenames);
+          }
+        }
       }
     }
   }
@@ -181,12 +169,42 @@ int Hikes::lat2tileY( double lat, int zoomLevel) {
 }
 
 // -----------------------------------------------------------------------------
+void  Hikes::insertTileCoords(
+    int zi, int x, int y, QHash<QString, QString> *cacheFilenames
+    ) {
+
+  ConfigData *cfg = ConfigData::instance();
+  QString tfApiKey = cfg->thunderForestApiKey();
+
+  // https://blog.qt.io/blog/2017/05/24/qtlocation-using-offline-map-tiles-openstreetmap-plugin/
+  // terrain maps are code maptype 6 (we must use custom maps (8))
+  QString cacheFilename = QString(
+        "osm_100-l-8-%1-%2-%3.png"
+        ).arg(zi).arg(x).arg(y);
+
+  // There will be many tiles recalculated so check hash before
+  // calculating the uri
+  if ( cacheFilenames->value(cacheFilename).isEmpty() ) {
+
+    // See qrs:Assets/Providers/terrain
+    QString uri = QString(
+          "http://a.tile.thunderforest.com/landscape/%1/%2/%3.png?apikey=%4"
+          ).arg(zi).arg(x).arg(y).arg(tfApiKey);
+    cacheFilenames->insert( cacheFilename, uri);
+
+    qCDebug(hikes) << "Cache filename:" << cacheFilename;
+    qCDebug(hikes) << "Uri of tile:" << uri;
+  }
+}
+
+// -----------------------------------------------------------------------------
 void Hikes::createOsmCache(QHash<QString, QString> osmCacheFilenames) {
 
   CacheData *cache = new CacheData();
   bool showedOnce = false;
 
   ConfigData *cfg = ConfigData::instance();
+  //QString cacheDir = ":/Assets/Cache/Tiles";
   QString cacheDir = cfg->tileCacheDir();
 
   QHashIterator<QString, QString> i(osmCacheFilenames);

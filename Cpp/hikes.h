@@ -36,6 +36,9 @@ public:
   QHash<QString, QString> osmCacheFilenames( int minZoom, int maxZoom);
   int lon2tileX( double lon, int zoomLevel);
   int lat2tileY( double lat, int zoomLevel);
+  void insertTileCoords(
+      int zi, int x, int y, QHash<QString, QString> *osmCacheFilenames
+      );
   void createOsmCache(QHash<QString, QString> osmCacheFilenames);
 
   QGeoCoordinate findClosestPointOnRoute(QGeoCoordinate c);
