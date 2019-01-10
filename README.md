@@ -45,10 +45,13 @@ There are several events which occur upon changing conditions in a device. These
 
 Caching of data is needed for those moments that there is no network available.
 
-<progress value='0' max='4'></progress>
+<progress value='2' max='7'></progress>
 
+* [x] Cache locations are in the configuration environment. A searchpath is made to refer to the data from the PluginParameter.
+* [x] For the moment, tiles are cached when a track is selected from the hike.
 * [ ] At start up and network is on and a track is installed, caching must start. Caching must be inhibited when network is off or very slow.
 * [ ] Store data (like date and time) to check for revisiting the caching process.
+* [ ] Cleanup cache when hike is removed. Take care not to remove tiles also used by other hikes in the neighborhood.
 * Tile caching.
   * [ ] Make caching process visible when done for the first time. This can be a long process. Low resolution tiles are cached for places such as the current location when it is off track. Make use of the cache information provided by the installed track app.
 * Feature caching.
