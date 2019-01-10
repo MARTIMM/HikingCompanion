@@ -89,9 +89,15 @@ ConfigData::ConfigData(QObject *parent) : QObject(parent) {
     qCDebug(config) << "copy stylesheet not ok";
   }
 
+
   // Create cache directories
   this->_mkpath(_dataDir + "/Cache/Tiles");
   this->_mkpath(_dataDir + "/Cache/Features");
+
+  // With this I can use "cache:Tiles" or "cache/Features" in e.g.
+  // value of PluginParameter name "osm.mapping.offline.directory"
+  QDir::setSearchPaths("cache", QStringList(_dataDir + "/Cache"));
+
 
   // Create a Pages subdirectory for html files and copy html files to it.
   // Also make config entries for them.

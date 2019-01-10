@@ -36,18 +36,12 @@ Plugin {
     value: true
   }
 
-  property alias tileCache: tileCache
   PluginParameter {
-    id: tileCache
     name: "osm.mapping.offline.directory"
-    //value: {config.tileCacheDir();} //"/home/marcel/.config/io.github.martimm.HikingCompanion/Cache"
-    Component.onCompleted: {
-      //TODO Can it be done better?
-      var config = GlobalVariables.applicationWindow.tracksPage.config;
-      tileCache.value = config.tileCacheDir();
-    }
+    value: "cache:Tiles"
   }
-  /*
+
+/*
   // Copy all files from <qt install>/5.11.2/Src/qtlocation/src/plugins/geoservices/osm/providers/5.8/*
   // to qrc:Assets/Providers and add to resources file. Then the api key
   // can be added to the url strings for the thunderforest site.

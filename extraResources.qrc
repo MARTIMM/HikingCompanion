@@ -1,6 +1,8 @@
 <!DOCTYPE RCC>
 <RCC version="1.0">
     <qresource prefix="/">
+        <!--file>Assets/Cache/Tiles</file>
+        <file>Assets/Cache/Features</file-->
         <file>Assets/Fonts/Symbola.ttf</file>
         <file>Assets/Images/Icon/Android/HCLogo-96x96.png</file>
         <file>Assets/Images/Icon/Android/HCLogo-144x144.png</file>

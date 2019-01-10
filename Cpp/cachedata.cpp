@@ -109,12 +109,14 @@ void CacheData::_downloaded(QNetworkReply *reply) {
 
 // -----------------------------------------------------------------------------
 QString CacheData::_saveData( const QString &filename, QIODevice *data) {
+
+  //QFileInfo fi(filename);
+  //QFile file(fi.absoluteFilePath());
   QFile file(filename);
+  qCInfo(cachedata) << "F: " << file.fileName();
   if ( !file.open(QIODevice::WriteOnly) ) {
     QString errorMessage =
-        QString("Could not open %s for writing: %s\n")
-        .arg(qPrintable(filename))
-        .arg(qPrintable(file.errorString()));
+        "Could not open " + filename + " for writing: " + file.errorString();
     return errorMessage;
   }
 

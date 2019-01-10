@@ -81,11 +81,10 @@ HCPage.Plain {
 
     Component.onCompleted: {
       mapSourcePlugin.setMapSource(MapType.CustomMap);
-      mapSourcePlugin.tileCache.value = config.tileCacheDir();
-      console.info("pp cache: " + mapSourcePlugin.tileCache.value);
+      // mapSourcePlugin.tileCache.value = config.tileCacheDir();
+      //console.info("pp cache: " + mapSourcePlugin.tileCache.value);
     }
   }
-// /home/marcel/.config/io.github.martimm.HikingCompanion/Cache/Tiles
 
   // See also https://doc-snapshots.qt.io/qt5-5.9/location-plugin-itemsoverlay.html
   property alias featuresMap: featuresMap
