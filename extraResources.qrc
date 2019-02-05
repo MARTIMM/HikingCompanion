@@ -1,6 +1,8 @@
 <!DOCTYPE RCC>
 <RCC version="1.0">
     <qresource prefix="/">
+        <!--file>Assets/Cache/Tiles</file>
+        <file>Assets/Cache/Features</file-->
         <file>Assets/Fonts/Symbola.ttf</file>
         <file>Assets/Images/Icon/Android/HCLogo-96x96.png</file>
         <file>Assets/Images/Icon/Android/HCLogo-144x144.png</file>
@@ -10,7 +12,7 @@
         <file>Assets/Pages/appInfoText.html</file>
         <file>Assets/Pages/aboutText.html</file>
         <file alias="qtquickcontrols2.conf">Assets/Theme/qtquickcontrols2.conf</file>
-        <file>Assets/Providers/thunderForestApiKey</file>
+        <file>Assets/thunderForestApiKey</file>
         <file>Assets/Providers/cycle</file>
         <file>Assets/Providers/hiking</file>
         <file>Assets/Providers/night-transit</file>

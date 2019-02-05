@@ -469,6 +469,12 @@ Item {
     property real p5:  1.0
   }
 
+  property QtObject mapParameters: QtObject {
+    property real startZoomLevel: 15
+    property real minZoomLevel: 6
+    property real maxZoomLevel: 17
+  }
+
   // Grid config measures
   property int cfgFieldMargin: 6
   property int cfgRowHeight: 35

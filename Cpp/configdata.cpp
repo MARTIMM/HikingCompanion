@@ -24,13 +24,13 @@ ConfigData::ConfigData(QObject *parent) : QObject(parent) {
 
   // See also http://doc.qt.io/qt-5/qguiapplication.html#platformName-prop
   // For me it could be: android, ios or xcb (x11 on linux)
-  qCDebug(config) << "platform name:" << qApp->platformName();
+  qCInfo(config) << "Platform name:" << qApp->platformName();
 
   // Check the data directories. Make use of GenericDataLocation standard path
   // and look for the directory made up by its id.
   QString id = QCoreApplication::organizationDomain() +
       "." + QCoreApplication::applicationName();
-  qCDebug(config) << "Id:" << id;
+  qCInfo(config) << "Program id:" << id;
 
   QScreen *screen = QApplication::primaryScreen();
   _pixelRatio = screen->devicePixelRatio();
@@ -41,8 +41,8 @@ ConfigData::ConfigData(QObject *parent) : QObject(parent) {
   _pixelDensity = (
         screen->physicalDotsPerInchX() + screen->physicalDotsPerInchY()
         ) / 50.8;
-  qCInfo(config) << "DP X, Y:" << screen->physicalDotsPerInchX() << screen->physicalDotsPerInchY();
-  qCInfo(config) << "DP mm:" << _pixelDensity;
+  qCInfo(config) << "Physical dots/inch X, Y:" << screen->physicalDotsPerInchX() << screen->physicalDotsPerInchY();
+  qCInfo(config) << "Mean of x and y physical dots/mm:" << _pixelDensity;
 
   // Take first directory from the list. That one is the users data directory.
   // linux:     /home/marcel/.config/io.martimm.github.HikingCompanion
@@ -89,6 +89,16 @@ ConfigData::ConfigData(QObject *parent) : QObject(parent) {
     qCDebug(config) << "copy stylesheet not ok";
   }
 
+
+  // Create cache directories
+  this->_mkpath(_dataDir + "/Cache/Tiles");
+  this->_mkpath(_dataDir + "/Cache/Features");
+
+  // With this I can use "cache:Tiles" or "cache/Features" in e.g.
+  // value of PluginParameter name "osm.mapping.offline.directory"
+  QDir::setSearchPaths("cache", QStringList(_dataDir + "/Cache"));
+
+
   // Create a Pages subdirectory for html files and copy html files to it.
   // Also make config entries for them.
   this->_mkpath(_dataDir + "/Pages");
@@ -108,7 +118,7 @@ ConfigData::ConfigData(QObject *parent) : QObject(parent) {
   }
 
 
-  // Prepare for data sharing location and create the root of it
+  // Prepare a location for data sharing and create the root of it
   // linux:     /home/marcel/.local/share/io.github.martimm.HikingCompanion
   // Android:   /storage/emulated/0/Android/Data/io.github.martimm.HikingCompanion
   QString publicLoc = QStandardPaths::standardLocations(
@@ -121,12 +131,16 @@ ConfigData::ConfigData(QObject *parent) : QObject(parent) {
   publicLoc += "/" + id;
 #endif
 
+
   this->_mkpath(publicLoc);
   _dataShareDir = publicLoc + "/newHikeData";
   this->checkForNewHikeData();
 
+  // Instantiate hikes object
   _hikes = new Hikes();
 
+  // Load api key. This way the key stored in a file stays out of github
+  // using the gitignore filter.
   _loadThunderForestApiKey();
 }
 
@@ -139,9 +153,15 @@ ConfigData *ConfigData::instance() {
 void ConfigData::checkForNewHikeData() {
 
   //TODO test for newHikeData to see if there is new data
+  //Now the directory must be created by user/external application
+
   QDir *dd = new QDir(_dataShareDir);
   qCDebug(config) << _dataShareDir << dd->absoluteFilePath(_dataShareDir);
+
   if( dd->exists() ) {
+    qCInfo(config)
+        << "Data sharing directory" << _dataShareDir <<
+           "exists. look for data";
     this->_installNewData();
     qCInfo(config) << "Remove public hike source data from" << _dataShareDir;
     dd = new QDir(_dataShareDir);
@@ -970,14 +990,16 @@ bool ConfigData::_storeCoordinates(
 
 // ----------------------------------------------------------------------------
 void ConfigData::_loadThunderForestApiKey() {
-  QFile f (":Assets/Providers/thunderForestApiKey");
+  QFile f (":Assets/thunderForestApiKey");
   if ( !f.open( QIODevice::ReadOnly | QIODevice::Text) ) {
     qCWarning(config)
         << QString("Open file %1: %2").arg(f.fileName()).arg(f.errorString());
     return;
   }
 
+  // Read key and remove newline char(unix)
   _thunderForestApiKey = f.readLine();
+  _thunderForestApiKey.chop(1);
   qCInfo(config) << "Api key:" << _thunderForestApiKey;
   f.close();
 }

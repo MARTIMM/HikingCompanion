@@ -13,7 +13,7 @@ MapCircle {
   border.color: 'blue'
 
   Component.onCompleted: {
-    // Initialise circle on top of the current map center.
+    // Initialize circle on top of the current map center.
     var mainWin = GlobalVariables.applicationWindow;
     if ( mainWin && mainWin.mapPage ) {
       root.center = mainWin.mapPage.hikingCompanionMap.center;
@@ -23,6 +23,6 @@ MapCircle {
   // Function to zoom in on the current location
   function zoomOnCurrentLocation() {
     hikingCompanionMap.center = currentLocationFeature.center;
-    hikingCompanionMap.zoomLevel = 17;
+    hikingCompanionMap.zoomLevel = 16;
   }
 }

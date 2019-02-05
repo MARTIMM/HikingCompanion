@@ -1,6 +1,7 @@
+//import io.github.martimm.HikingCompanion.Config 0.3
 import io.github.martimm.HikingCompanion.GlobalVariables 0.1
 
-//import QtQuick 2.11
+import QtQuick 2.11
 //import QtQuick.Controls 2.2
 import QtLocation 5.9
 //import QtPositioning 5.11
@@ -35,7 +36,12 @@ Plugin {
     value: true
   }
 
-  /*
+  PluginParameter {
+    name: "osm.mapping.offline.directory"
+    value: "cache:Tiles"
+  }
+
+/*
   // Copy all files from <qt install>/5.11.2/Src/qtlocation/src/plugins/geoservices/osm/providers/5.8/*
   // to qrc:Assets/Providers and add to resources file. Then the api key
   // can be added to the url strings for the thunderforest site.

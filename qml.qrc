@@ -7,6 +7,7 @@
         <file>Qml/Button/MenuButton.qml</file>
         <file>Qml/Button/OpenMenu.qml</file>
         <file>Qml/Button/ToolbarButton.qml</file>
+        <file>Qml/Dialog/YesNoDialog.qml</file>
         <file>Qml/GlobalVariables.qml</file>
         <file>Qml/Main/Application.qml</file>
         <file>Qml/MapFeatures/CurrentLocationFeature.qml</file>
