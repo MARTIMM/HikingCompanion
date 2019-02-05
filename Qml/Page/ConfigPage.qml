@@ -1,6 +1,7 @@
 import "." as HCPage
 import "../Button" as HCButton
 import "../Parts" as HCParts
+import "../Dialog" as HCDialog
 
 import io.github.martimm.HikingCompanion.Theme 0.1
 import io.github.martimm.HikingCompanion.Config 0.3
@@ -9,6 +10,7 @@ import io.github.martimm.HikingCompanion.GlobalVariables 0.1
 
 import QtQuick 2.11
 import QtQuick.Controls 2.4
+import QtQuick.Dialogs 1.2
 
 HCPage.Plain {
   id: configPage
@@ -193,8 +195,28 @@ HCPage.Plain {
 
       // TODO: Dialog window
       HCButton.ButtonRowButton {
+
+        HCDialog.YesNoDialog {
+          id: removeHike
+          messageText: 'Do you really want to remove the hike?'
+          titleText: 'Remove Hike Dialog'
+          standardButtons: StandardButton.Yes | StandardButton.No
+          onYes: {
+            console.info("Yes typed");
+            removeHike.close()
+          }
+
+          onNo: {
+            console.info("No typed");
+            removeHike.close()
+          }
+        }
+
         text: qsTr("Remove Hike")
         onClicked: {
+          removeHike.open();
+          //removeHike.close();
+/*
           if ( GlobalVariables.applicationWindow ) {
             config.setSetting( "selectedhikeindex", cbx2.currentIndex);
             config.cleanupHike();
@@ -214,6 +236,7 @@ HCPage.Plain {
               GlobalVariables.applicationWindow.aboutPage.changeContent();
             }
           }
+*/
         }
       }
     }
