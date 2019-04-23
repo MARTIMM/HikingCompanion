@@ -198,23 +198,26 @@ double GpxFile::trackDistance(QList<QGeoCoordinate> coordinateList) {
   double lon1 = coordinateList[0].longitude();
   double lat1 = coordinateList[0].latitude();
   qDebug() << "coordinate 0: " << lon1 << lat1;
-  for ( int ci = 1; ci < coordinateList.count(); ci++) {
-    double lon2 = coordinateList[ci].longitude();
-    double lat2 = coordinateList[ci].latitude();
-    trackDistance += GpxFile::geoDistance( lon1, lat1, lon2, lat2);
-    if ( ci < 10 )
-      qDebug() << "coordinate n + dist: " << lon2 << lat2 << trackDistance;
+  for ( int ci = 1; ci < coordinateList.count() - 1; ci++) {
+    //double lon2 = coordinateList[ci].longitude();
+    //double lat2 = coordinateList[ci].latitude();
+    //trackDistance += GpxFile::geoDistance( lon1, lat1, lon2, lat2);
+    trackDistance += coordinateList[ci].distanceTo(coordinateList[ci+1]);
+    //if ( ci < 10 )
+      //qDebug() << "coordinate n + dist: " << lon2 << lat2 << trackDistance;
 
     // prepare for next
-    lon1 = lon2;
-    lat1 = lat2;
+    //lon1 = lon2;
+    //lat1 = lat2;
   }
 
   qDebug() << "Total:" << trackDistance;
   return trackDistance;
 }
 
+/* (Keep this method in as documentation)
 // ----------------------------------------------------------------------------
+// Haversine formula: https://www.movable-type.co.uk/scripts/latlong.html
 // Calculate distance between two points on earth using the Haversine formula.
 // It returns the distance in metres.
 double GpxFile::geoDistance(
@@ -225,10 +228,10 @@ double GpxFile::geoDistance(
   // (mean radius = 6371km);
   // note that angles need to be in radians to pass to trig functions!
   double R = 6371e3; // metres
-  double phi1 = lat1 * M_PI / 100.0;
-  double phi2 = lat2 * M_PI / 100.0;
-  double deltaPhi = (lat1 - lat2) * M_PI / 100.0;
-  double deltaLambda = (lon1 - lon2) * M_PI / 100.0;
+  double phi1 = lat1 * M_PI / 180.0;
+  double phi2 = lat2 * M_PI / 180.0;
+  double deltaPhi = (lat1 - lat2) * M_PI / 180.0;
+  double deltaLambda = (lon1 - lon2) * M_PI / 180.0;
 
   double a = sin(deltaPhi/2) * sin(deltaPhi/2) +
           cos(phi1) * cos(phi2) *
@@ -239,3 +242,4 @@ double GpxFile::geoDistance(
 
   return d;
 }
+*/

@@ -37,7 +37,7 @@ public:
   static QList<QGeoCoordinate> coordinateList(QString gpxFilePath);
   static QList<QGeoCoordinate> boundary(QList<QGeoCoordinate> coordinateList);
 
-  static double geoDistance( double lon1, double lat1, double lon2, double lat2);
+  //static double geoDistance( double lon1, double lat1, double lon2, double lat2);
   static double trackDistance(QList<QGeoCoordinate> coordinateList);
 
 signals:
