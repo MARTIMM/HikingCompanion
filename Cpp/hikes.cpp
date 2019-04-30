@@ -127,7 +127,7 @@ void Hikes::loadCoordinates(int index) {
   //TODO must be done for all tracks in the hike at once in a separate thread
   //TODO removing must be between 0 and 19, check for overlap of tiles used
   // for other hikes!
-  QHash<QString, QString> ocf = osmCacheFilenames( 6, 17);
+  QHash<QString, QString> ocf = osmCacheFilenames( 6, 16);
   createOsmCache(ocf);
 }
 
@@ -143,6 +143,7 @@ QHash<QString, QString> Hikes::osmCacheFilenames( int minZoom, int maxZoom) {
 
       // insert some surrounding tiles when zoomlevel is higher
       if ( zi > 12 ) {
+        qCInfo(hikes) << "X:" << x-1 << x << x+1;
         for( int xi = x - 1; xi < x + 2; xi++ ) {
           for( int yi = y - 1; yi < y + 2; yi++ ) {
             insertTileCoords( zi, x, y, &cacheFilenames);
@@ -187,9 +188,16 @@ void  Hikes::insertTileCoords(
   if ( cacheFilenames->value(cacheFilename).isEmpty() ) {
 
     // See qrs:Assets/Providers/terrain
+/*
     QString uri = QString(
-          "http://a.tile.thunderforest.com/landscape/%1/%2/%3.png?apikey=%4"
+          "https://a.tile.thunderforest.com/landscape/%1/%2/%3.png?apikey=%4"
           ).arg(zi).arg(x).arg(y).arg(tfApiKey);
+*/
+
+    QString uri = QString(
+          "https://c.tile.opentopomap.org/%1/%2/%3.png"
+          ).arg(zi).arg(x).arg(y);
+
     cacheFilenames->insert( cacheFilename, uri);
 
     qCDebug(hikes) << "Cache filename:" << cacheFilename;
@@ -201,10 +209,8 @@ void  Hikes::insertTileCoords(
 void Hikes::createOsmCache(QHash<QString, QString> osmCacheFilenames) {
 
   CacheData *cache = new CacheData();
-  bool showedOnce = false;
 
   ConfigData *cfg = ConfigData::instance();
-  //QString cacheDir = ":/Assets/Cache/Tiles";
   QString cacheDir = cfg->tileCacheDir();
 
   QHashIterator<QString, QString> i(osmCacheFilenames);
@@ -212,13 +218,8 @@ void Hikes::createOsmCache(QHash<QString, QString> osmCacheFilenames) {
     i.next();
 
     QString cacheFilename = cacheDir + "/" + i.key();
-    if ( !showedOnce )
-        qCInfo(hikes) << "Example cache map tile file" << cacheFilename;
-
     QString uri = i.value();
     cache->cacheData( uri, cacheFilename);
-
-    showedOnce = true;
   }
 }
 
@@ -234,14 +235,12 @@ QGeoCoordinate Hikes::findClosestPointOnRoute(QGeoCoordinate c) {
   QGeoCoordinate cOfMinDist = _coordinateList[0];
   for ( int ci = 0; ci < _coordinateList.count(); ci++ ) {
     double d = c.distanceTo(_coordinateList[ci]);
-    //qDebug() << "ci:" << ci << _coordinateList[ci] << d;
     if ( minDist > d ) {
       minDist = d;
       cOfMinDist = _coordinateList[ci];
     }
   }
 
-  //qDebug() << "min distance:" << cOfMinDist;
   return cOfMinDist;
 }
 
@@ -249,6 +248,7 @@ QGeoCoordinate Hikes::findClosestPointOnRoute(QGeoCoordinate c) {
 double Hikes::distanceToPointOnRoute( QGeoCoordinate c1, QGeoCoordinate c2) {
   return c1.distanceTo(c2);
 /*
+  // original calculations; keep this in as well ass geoDistance()
   return GpxFile::geoDistance(
         c1.longitude(), c1.latitude(),
         c2.longitude(), c2.latitude()
