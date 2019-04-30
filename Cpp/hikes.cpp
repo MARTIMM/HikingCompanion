@@ -127,7 +127,7 @@ void Hikes::loadCoordinates(int index) {
   //TODO must be done for all tracks in the hike at once in a separate thread
   //TODO removing must be between 0 and 19, check for overlap of tiles used
   // for other hikes!
-  QHash<QString, QString> ocf = osmCacheFilenames( 6, 16);
+  QHash<QString, QString> ocf = osmCacheFilenames( 8, 16);
   createOsmCache(ocf);
 }
 
@@ -158,15 +158,18 @@ QHash<QString, QString> Hikes::osmCacheFilenames( int minZoom, int maxZoom) {
 
 // -----------------------------------------------------------------------------
 int Hikes::lon2tileX( double lon, int zoomLevel) {
-  return static_cast<int>( (lon + 180.0) / 360.0 * (1 << zoomLevel) );
+//  return static_cast<int>( (lon + 180.0) / 360.0 * (1 << zoomLevel) );
+  return static_cast<int>( (lon + 180.0) / 360.0 * pow( 2.0, zoomLevel)); //(1 << zoomLevel) );
 }
 
 // -----------------------------------------------------------------------------
 int Hikes::lat2tileY( double lat, int zoomLevel) {
-  int n = 1 << zoomLevel;
+  double n = pow( 2.0, zoomLevel); //1 << zoomLevel;
   double latRad = lat * PI / 180.0;
-  double sec = 1/cos(latRad);
-  return static_cast<int>( n * ( 1 - (log(tan(latRad) + sec) / PI )) / 2.0 );
+  //double sec = 1/cos(latRad);
+  return static_cast<int>(
+        ( 1 - log(tan(latRad) + 1/cos(latRad) ) / PI ) / 2.0 * n
+        );
 }
 
 // -----------------------------------------------------------------------------
@@ -193,7 +196,7 @@ void  Hikes::insertTileCoords(
           "https://a.tile.thunderforest.com/landscape/%1/%2/%3.png?apikey=%4"
           ).arg(zi).arg(x).arg(y).arg(tfApiKey);
 */
-
+/**/
     QString uri = QString(
           "https://c.tile.opentopomap.org/%1/%2/%3.png"
           ).arg(zi).arg(x).arg(y);
