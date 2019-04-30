@@ -9,7 +9,7 @@
 #include <QLoggingCategory>
 
 // ----------------------------------------------------------------------------
-#define HIKING_COMPANION_VERSION "0.14.4"
+#define HIKING_COMPANION_VERSION "0.14.5"
 
 Q_DECLARE_LOGGING_CATEGORY(config)
 Q_DECLARE_LOGGING_CATEGORY(configGetSel)
