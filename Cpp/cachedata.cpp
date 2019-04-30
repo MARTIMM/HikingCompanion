@@ -18,6 +18,8 @@ CacheData::CacheData(QObject *parent) : QObject(parent) {
 // -----------------------------------------------------------------------------
 void CacheData::cacheData( const QUrl &url, QString filename) {
 
+  qCDebug(cachedata) << "File " << filename << url.url();
+
   QFile f(filename);
   if ( f.exists() ) {
     qCDebug(cachedata) << "File " << filename << "exists, no download";
