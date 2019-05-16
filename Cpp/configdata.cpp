@@ -24,13 +24,14 @@ ConfigData::ConfigData(QObject *parent) : QObject(parent) {
 
   // See also http://doc.qt.io/qt-5/qguiapplication.html#platformName-prop
   // For me it could be: android, ios or xcb (x11 on linux)
-  qCInfo(config) << "Platform name:" << qApp->platformName();
+  _platformName = qApp->platformName();
+  qCInfo(config) << "Platform name:" << _platformName;
 
   // Check the data directories. Make use of GenericDataLocation standard path
   // and look for the directory made up by its id.
-  QString id = QCoreApplication::organizationDomain() +
+  _programId = QCoreApplication::organizationDomain() +
       "." + QCoreApplication::applicationName();
-  qCInfo(config) << "Program id:" << id;
+  qCInfo(config) << "Program id:" << _programId;
 
   QScreen *screen = QApplication::primaryScreen();
   _pixelRatio = screen->devicePixelRatio();
@@ -44,129 +45,26 @@ ConfigData::ConfigData(QObject *parent) : QObject(parent) {
   qCInfo(config) << "Physical dots/inch X, Y:" << screen->physicalDotsPerInchX() << screen->physicalDotsPerInchY();
   qCInfo(config) << "Mean of x and y physical dots/mm:" << _pixelDensity;
 
-  // Take first directory from the list. That one is the users data directory.
-  // linux:     /home/marcel/.config/io.martimm.github.HikingCompanion
-  // android:   /data/user/0/io.martimm.github.HikingCompanion/files/settings
+  // Do rest of hking companion configuration
+  this->_manageHCConfig();
 
-#if defined(Q_OS_ANDROID)
-  _dataDir = QStandardPaths::standardLocations(
-        QStandardPaths::AppConfigLocation
-        ).first();
+  // Check for new or updated hike data
+  if( this->_checkForNewHikeData() ) {
+    this->_manageHikeConfig();
+    //this->_refreshData();
 
-  // Create directory if needed
-  this->_mkpath(_dataDir);
-
-  // Create settings and load them
-  _settings = new QSettings();
-  _settings->setIniCodec("UTF-8");
-
-#elif defined(Q_OS_LINUX)
-  _dataDir = QStandardPaths::standardLocations(
-        QStandardPaths::GenericConfigLocation
-        ).first();
-
-  // For linux we need to attach the id to the general config path
-  _dataDir += "/" + id;
-
-  // Create directory if needed
-  this->_mkpath(_dataDir);
-
-  // Create settings and load them
-  _settings = new QSettings( _dataDir + "/HikingCompanion.conf", QSettings::IniFormat);
-  _settings->setIniCodec("UTF-8");
-#endif
-
-  // Place default stylesheet into _dataDir directory. Make
-  // a config entry for the style file
-  setSetting( "style", ":Assets/Theme/HikingCompanion.json");
-  QFile::remove(_dataDir + "/HikingCompanion.json");
-  QString stylePath = getSetting("style");
-  if ( QFile::copy( stylePath, _dataDir + "/HikingCompanion.json") ) {
-    qCDebug(config) << "copy stylesheet ok";
+    //qCInfo(config) << "Remove public hike source data from" << _dataShareDir;
+    //dd = new QDir(_dataShareDir);
+    //dd->removeRecursively();
   }
-
-  else {
-    qCDebug(config) << "copy stylesheet not ok";
-  }
-
-
-  // Create cache directories
-  this->_mkpath(_dataDir + "/Cache/Tiles");
-  this->_mkpath(_dataDir + "/Cache/Features");
-
-  // With this I can use "cache:Tiles" or "cache/Features" in e.g.
-  // value of PluginParameter name "osm.mapping.offline.directory"
-  QDir::setSearchPaths("cache", QStringList(_dataDir + "/Cache"));
-
-
-  // Create a Pages subdirectory for html files and copy html files to it.
-  // Also make config entries for them.
-  this->_mkpath(_dataDir + "/Pages");
-  setSetting( "aboutText", ":Assets/Pages/aboutText.html");
-
-  _pages = QStringList({ "aboutText"});
-  for ( int pi = 0; pi < _pages.count(); pi++) {
-    QString htmlTextPath = getSetting(_pages[pi]);
-    QFile::remove(_dataDir + "/Pages/" + _pages[pi] + ".html");
-    if ( QFile::copy( htmlTextPath, _dataDir + "/Pages/" + _pages[pi] + ".html") ) {
-      qCDebug(config) << "copy " << _pages[pi] + ".html ok";
-    }
-
-    else {
-      qCDebug(config) << "copy " << _pages[pi] + ".html not ok";
-    }
-  }
-
-
-  // Prepare a location for data sharing and create the root of it
-  // linux:     /home/marcel/.local/share/io.github.martimm.HikingCompanion
-  // Android:   /storage/emulated/0/Android/Data/io.github.martimm.HikingCompanion
-  QString publicLoc = QStandardPaths::standardLocations(
-        QStandardPaths::GenericDataLocation
-        ).first();
-
-#if defined(Q_OS_ANDROID)
-  publicLoc += "/Android/Data/" + id;
-#elif defined(Q_OS_LINUX)
-  publicLoc += "/" + id;
-#endif
-
-
-  this->_mkpath(publicLoc);
-  _dataShareDir = publicLoc + "/newHikeData";
-  this->checkForNewHikeData();
 
   // Instantiate hikes object
   _hikes = new Hikes();
-
-  // Load api key. This way the key stored in a file stays out of github
-  // using the gitignore filter.
-  _loadThunderForestApiKey();
 }
 
 // ----------------------------------------------------------------------------
 ConfigData *ConfigData::instance() {
   return Singleton<ConfigData>::instance(ConfigData::_createInstance);
-}
-
-// ----------------------------------------------------------------------------
-void ConfigData::checkForNewHikeData() {
-
-  //TODO test for newHikeData to see if there is new data
-  //Now the directory must be created by user/external application
-
-  QDir *dd = new QDir(_dataShareDir);
-  qCDebug(config) << _dataShareDir << dd->absoluteFilePath(_dataShareDir);
-
-  if( dd->exists() ) {
-    qCInfo(config)
-        << "Data sharing directory" << _dataShareDir <<
-           "exists. look for data";
-    this->_installNewData();
-    qCInfo(config) << "Remove public hike source data from" << _dataShareDir;
-    dd = new QDir(_dataShareDir);
-    dd->removeRecursively();
-  }
 }
 
 // ----------------------------------------------------------------------------
@@ -188,7 +86,7 @@ void ConfigData::cleanupTracks() {
 
 // ----------------------------------------------------------------------------
 // Cleanup all information of a selected hike in config and all directories
-// with data as well.
+// with data as well. Called from qml module.
 void ConfigData::cleanupHike() {
 
   // Remove track info from configuration
@@ -365,7 +263,6 @@ QString ConfigData::tracksTableName( QString hikeTableName, int trackCount) {
   return QString("%1.Track%2").arg(hikeTableName).arg(trackCount);
 }
 
-
 // ----------------------------------------------------------------------------
 int ConfigData::getGpxFileIndexSetting() {
 
@@ -419,12 +316,14 @@ QString ConfigData::getTheme( bool takeHCSettings = false ) {
   QString stylePath;
   QString entryKey = this->hikeEntryKey();
   QString tableName = this->hikeTableName(entryKey);
+  qCInfo(config) <<"takeHC, key & table" << takeHCSettings
+                 << entryKey << tableName;
 
   // if HC settings are true or when the table is not found,
   // take the default style
   if ( takeHCSettings || tableName == "" ) {
-    stylePath = _dataDir + "/HikingCompanion.json";
-    qCWarning(config) << "no tablename:" << stylePath;
+    stylePath = getSetting("styleHC");
+    qCWarning(config) << "Get HC style" << stylePath;
   }
 
   else {
@@ -432,8 +331,9 @@ QString ConfigData::getTheme( bool takeHCSettings = false ) {
 
     // If there is no style path, take the default
     if ( stylePath == "" ) {
-      stylePath = _dataDir + "/HikingCompanion.json";
-      qCWarning(config) << "no style in:" << tableName << "->" << stylePath;
+      stylePath = getSetting("styleHC");
+      qCWarning(config) << "no style in:" << tableName
+                        << "default is" << stylePath;
     }
 
     else {
@@ -498,12 +398,6 @@ QStringList ConfigData::getVersions() {
   vlist.append(this->getOsVersion());
 
   return vlist;
-}
-
-// ----------------------------------------------------------------------------
-void ConfigData::_removeSettings(QString group) {
-  _settings->remove(group);
-  _settings->sync();
 }
 
 // ----------------------------------------------------------------------------
@@ -614,26 +508,50 @@ bool ConfigData::saveUserTrack(
 }
 
 // ----------------------------------------------------------------------------
-void ConfigData::_installNewData() {
+ConfigData *ConfigData::_createInstance() {
+  return new ConfigData;
+}
+
+// ----------------------------------------------------------------------------
+bool ConfigData::_checkForNewHikeData() {
+
+  // The _dataShareDir directory must be created by user or external application
+  QDir *dd = new QDir(_dataShareDir);
+  qCDebug(config) << "DSD" << _dataShareDir
+                  << dd->absoluteFilePath(_dataShareDir);
+
+  return dd->exists() && this->_checkHikeVersion();
+}
+
+// ----------------------------------------------------------------------------
+// Settings
+//   currHikeConfig       _dataShareDir/hike.conf
+//   currHikename         <hike name> from hike.conf
+//   currHikeEntry        h<digit> in hikingcompanion config
+//   currHikeTableName    h<digit>.currHikename in hikingcompanion config
+//   currHikeDir          _dataDir/Hikes/<hikename>
+//
+bool ConfigData::_checkHikeVersion() {
 
   // Check for hike.conf configuration file
-  qCInfo(config) << "Install data from" << _dataShareDir + "/hike.conf";
-  if ( ! QFile::exists(_dataShareDir + "/hike.conf") ) {
-    qCCritical(config) << _dataShareDir + "/hike.conf does not exist";
-    return;
+  QString hikeConfig = _dataShareDir + "/hike.conf";
+  setSetting( "currHikeConfig", hikeConfig);
+  qCInfo(config) << "Install data from" << hikeConfig;
+  if ( ! QFile::exists(hikeConfig) ) {
+    qCCritical(config) << hikeConfig + "does not exist";
+    return false;
   }
 
   // Use the configuration file
-  QSettings *s = new QSettings(
-        _dataShareDir + "/hike.conf",
-        QSettings::IniFormat
-        );
-  s->setIniCodec("UTF-8");
+  _hikeSettings = new QSettings( hikeConfig, QSettings::IniFormat);
+  _hikeSettings->setIniCodec("UTF-8");
 
   // Get the key name of this new hike and make path to hike subdir
-  QString hikename = getSetting( "hike", s);
+  QString hikename = getSetting( "hike", _hikeSettings);
+  setSetting( "currHikename", hikename);
   qCInfo(config) << "Hike key" << hikename;
   QString hikeDir = _dataDir + "/Hikes/" + hikename;
+  setSetting( "currHikeDir", hikeDir);
 
   // Compare new version with installed version.
   // First get hike list if there is any. Via the list we get to
@@ -647,7 +565,9 @@ void ConfigData::_installNewData() {
     // If name is found in the hike list, save the entry key and table name
     if ( name.compare(hikename) == 0 ) {
       hikeEntryKey = hikeListKeys[hli];
+      setSetting( "currHikeEntry", hikeEntryKey);
       hikeTableName = hikeEntryKey + "." + hikename;
+      setSetting( "currHikeTableName", hikeTableName);
       break;
     }
   }
@@ -657,7 +577,9 @@ void ConfigData::_installNewData() {
   // count in the hike list.
   if ( hikeEntryKey.compare("") == 0 ) {
     hikeEntryKey = QString("h%1").arg(hikeListKeys.count());
+    setSetting( "currHikeEntry", hikeEntryKey);
     hikeTableName = hikeEntryKey + "." + hikename;
+    setSetting( "currHikeTableName", hikeTableName);
     hikeVersion = "";
 
     setSetting( QString("HikeList/") + hikeEntryKey, hikename);
@@ -667,24 +589,20 @@ void ConfigData::_installNewData() {
     hikeVersion = getSetting(hikeTableName + "/version");
   }
 
-  qCInfo(config) << "Versions old/new:" << hikeVersion << getSetting( "version", s);
-  // If version of imported hike is greater, then there is work to do
-  if ( hikeVersion.compare(getSetting( "version", s)) < 0 ) {
-    qCDebug(config) << "Remove old data from" << hikeDir;
-    QDir *dd = new QDir(hikeDir);
-    dd->removeRecursively();
-    dd->mkpath(hikeDir);
+  qCInfo(config) << "Versions old/new:" << hikeVersion
+                 << getSetting( "version", _hikeSettings);
 
-    _mkNewTables( s, hikeTableName);
-    _refreshData( s, hikeTableName, hikeDir);
-  }
+  // return true if hike version is newer.
+  return hikeVersion.compare(getSetting( "version", _hikeSettings)) < 0;
 }
 
+/*
 // ----------------------------------------------------------------------------
 // Create new tables. One for the hike and one for its release notes
-void ConfigData::_mkNewTables( QSettings *s, QString hikeTableName ) {
+void ConfigData::_mkNewTables() {
 
   // Remove the hike table and the releases table
+  QString hikeTableName = getSetting("currHikeTableName");
   _removeSettings(hikeTableName);
   QString releaseTableName = hikeTableName + ".Releases";
   _removeSettings(releaseTableName);
@@ -697,7 +615,7 @@ void ConfigData::_mkNewTables( QSettings *s, QString hikeTableName ) {
   };
 
   for ( int ki = 0; ki < keys.count(); ki++) {
-    QString v = getSetting( keys[ki], s);
+    QString v = getSetting( keys[ki], _hikeSettings);
     setSetting( hikeTableName + "/" + keys[ki], v);
   }
 
@@ -705,19 +623,21 @@ void ConfigData::_mkNewTables( QSettings *s, QString hikeTableName ) {
   setSetting( hikeTableName + "/gpxfileindex", 0);
 
   // Release notes table
-  QStringList releaseKeys = readKeys( "Releases", s);
+  QStringList releaseKeys = readKeys( "Releases", _hikeSettings);
   for ( int ri = 0; ri < releaseKeys.count(); ri++) {
     setSetting(
           releaseTableName + "/" + releaseKeys[ri],
-          getSetting( "Releases/" + releaseKeys[ri], s)
+          getSetting( "Releases/" + releaseKeys[ri], _hikeSettings)
           );
   }
 }
-
+*/
+/*
 // ----------------------------------------------------------------------------
-void ConfigData::_refreshData(
-    QSettings *s, QString hikeTableName, QString hikeDir
-    ) {
+void ConfigData::_refreshData() {
+
+  QString hikeTableName = getSetting("currHikeTableName");
+  QString hikeDir = getSetting("currHikeDir");
 
   // Remove all data first then create all directories, if needed,
   // and add data to it
@@ -743,7 +663,7 @@ void ConfigData::_refreshData(
   }
 
   // Copy theme file
-  QString themeFile = getSetting( "style", s);
+  QString themeFile = getSetting( "style", _hikeSettings);
   qCInfo(config) << "ThemeFile:" << themeFile;
   if( themeFile != "" ) {
     QDir *tfd = new QDir(_dataShareDir);
@@ -765,10 +685,11 @@ void ConfigData::_refreshData(
   dd->mkpath(hikeSubdir);
 
   // Copy info pages
-  QString sourcePagesDirectory = _dataShareDir + "/" + getSetting( "pagesdir", s);
+  QString sourcePagesDirectory = _dataShareDir + "/Pages";
   for ( int pi = 0; pi < _pages.count(); pi++) {
-    QString htmlSrcTextPath = sourcePagesDirectory + "/" + getSetting( _pages[pi], s);
+    QString htmlSrcTextPath = sourcePagesDirectory + "/" + _pages[pi] + ".html"; //getSetting( _pages[pi], s);
     QString htmlDstTextPath = hikeSubdir + "/" + _pages[pi] + ".html";
+    qCDebug(config) << "from" << htmlSrcTextPath << "to" << htmlDstTextPath;
     if ( QFile::copy( htmlSrcTextPath, htmlDstTextPath) ) {
       qCDebug(config) << "copy" << htmlDstTextPath << "ok";
     }
@@ -778,9 +699,30 @@ void ConfigData::_refreshData(
     }
   }
 
+  // Copy HC Css files
+  this->_mkpath(_dataDir + "/Pages/Css");
+  dd = new QDir(":Assets/Pages/Css");
+  QStringList cssFiles = dd->entryList( QDir::Files, QDir::Name);
+  for ( int sfi = 0; sfi < cssFiles.count(); sfi++) {
+    QString cssPath = _dataDir + "/Pages/Css/" + cssFiles[sfi];
+    QFile::remove(cssPath);
+    QFile::copy( ":Assets/Pages/Css", cssPath);
+  }
+
+  // Copy HC Image files
+  this->_mkpath(_dataDir + "/Pages/Images");
+  dd = new QDir(":Assets/Pages/Css");
+  QStringList imgFiles = dd->entryList( QDir::Files, QDir::Name);
+  for ( int sfi = 0; sfi < imgFiles.count(); sfi++) {
+    QString imgPath = _dataDir + "/Pages/Images/" + imgFiles[sfi];
+    QFile::remove(imgPath);
+    QFile::copy( ":Assets/Pages/Images", imgPath);
+  }
+
+
   // Add tracks to empty directory and create tables
   // Get source directory and list of files
-  QString sourceGpxDirectory = _dataShareDir + "/" + getSetting( "tracksdir", s);
+  QString sourceGpxDirectory = _dataShareDir + "/Tracks";
   QDir *sgd = new QDir(sourceGpxDirectory);
   hikeSubdir = QString(hikeDir + "/Tracks");
 
@@ -799,7 +741,7 @@ void ConfigData::_refreshData(
     qCDebug(config) << "src/dest table" << srcTrackTable << destTrackTable;
 
     // If there are no keys for this table, we are done
-    QStringList trackKeys = readKeys( srcTrackTable, s);
+    QStringList trackKeys = readKeys( srcTrackTable, _hikeSettings);
     if ( trackKeys.count() == 0 ) {
       nbrDefinedGpxFiles = gfi;
       break;
@@ -811,12 +753,12 @@ void ConfigData::_refreshData(
     };
 
     for ( int ki = 0; ki < keys.count(); ki++) {
-      QString v = getSetting( srcTrackTable + "/" + keys[ki], s);
+      QString v = getSetting( srcTrackTable + "/" + keys[ki], _hikeSettings);
       setSetting( destTrackTable + "/" + keys[ki], v);
     }
 
     // Copy file
-    QString fname = getSetting( srcTrackTable + "/fname", s);
+    QString fname = getSetting( srcTrackTable + "/fname", _hikeSettings);
     QFile::copy(
           sourceGpxDirectory + "/" + fname,
           hikeSubdir + "/" + fname
@@ -825,6 +767,10 @@ void ConfigData::_refreshData(
   }
 
   setSetting( hikeTableName + "/ntracks", nbrDefinedGpxFiles);
+
+
+
+
 
   hikeSubdir = QString(hikeDir + "/Photos");
   dd = new QDir(hikeSubdir);
@@ -844,6 +790,7 @@ void ConfigData::_refreshData(
   setSetting( hikeTableName + "/nfeatures", 0);
   qCInfo(config) << "hike features:" << hikeSubdir;
 }
+*/
 
 // ----------------------------------------------------------------------------
 // Copy one table to the other and remove the old one
@@ -900,8 +847,32 @@ bool ConfigData::_mkpath(QString path) {
 }
 
 // ----------------------------------------------------------------------------
-ConfigData *ConfigData::_createInstance() {
-  return new ConfigData;
+bool ConfigData::_copy( QString from, QString to ) {
+  qCInfo(config) << "copy" << from << "to" << to;
+  if( QFile(to).exists() )  QFile::remove(to);
+  return QFile::copy( from, to);
+}
+
+// ----------------------------------------------------------------------------
+void ConfigData::_dirCopy( QString fromDir, QString toDir ) {
+  this->_mkpath(toDir);
+  QDir *dd = new QDir(fromDir);
+  QStringList files = dd->entryList( QDir::Files, QDir::Name);
+  for ( int fi = 0; fi < files.count(); fi++ ) {
+    if( this->_copy( fromDir + "/" + files[fi], toDir + "/" + files[fi]) ) {
+      qCDebug(config) << "copy" << fromDir << "to" << toDir << " went ok";
+    }
+
+    else {
+      qCDebug(config) << "copy" << fromDir << "to" << toDir << "went wrong";
+    }
+  }
+}
+
+// ----------------------------------------------------------------------------
+void ConfigData::_removeSettings( QString group ) {
+  _settings->remove(group);
+  _settings->sync();
 }
 
 // ----------------------------------------------------------------------------
@@ -1004,3 +975,345 @@ void ConfigData::_loadThunderForestApiKey() {
   f.close();
 }
 
+// ----------------------------------------------------------------------------
+// Settings
+//   styleSrc   :Assets/Theme/HikingCompanion.json
+//   styleHC    _dataDir/HikingCompanion.json
+//
+// Directories in project
+//   ./Assets/Theme/HikingCompanion.json
+//
+// Directories in run config. See https://doc.qt.io/qt-5/qstandardpaths.html
+//   linux:     _dataDir == $HOME/.config
+//   linux:     _dataShareDir == $HOME/.local/share/io.github.martimm.HikingCompanion/newHikeData
+//   android:   _dataDir == /data/user/0/io.martimm.github.HikingCompanion/files
+//   android:   _dataShareDir == /storage/emulated/0/Android/Data/io.github.martimm.HikingCompanion/newHikeData
+//   *:         _dataDir/HikingCompanion.json
+//   *:         _dataDir/Cache/Tiles
+//   *:         _dataDir/Cache/Features
+//
+void ConfigData::_manageHCConfig() {
+
+  // Take first directory from the list. That one is the users data directory.
+  // linux:     /home/marcel/.config/io.martimm.github.HikingCompanion
+  // android:   /data/user/0/io.martimm.github.HikingCompanion/files/settings
+
+#if defined(Q_OS_ANDROID)
+  _dataDir = QStandardPaths::standardLocations(
+        QStandardPaths::AppConfigLocation
+        ).first();
+
+  // Create directory if needed
+  this->_mkpath(_dataDir);
+
+  // Create settings and load them
+  _settings = new QSettings();
+  _settings->setIniCodec("UTF-8");
+
+#elif defined(Q_OS_LINUX)
+  _dataDir = QStandardPaths::standardLocations(
+        QStandardPaths::GenericConfigLocation
+        ).first();
+
+  // For linux we need to attach the id to the general config path
+  _dataDir += "/" + _programId;
+
+  // Create directory if needed
+  this->_mkpath(_dataDir);
+
+  // Create settings and load them
+  _settings = new QSettings(
+        _dataDir + "/HikingCompanion.conf",
+        QSettings::IniFormat
+        );
+  _settings->setIniCodec("UTF-8");
+#endif
+
+  qCDebug(config) << "Data dir and config" << _dataDir
+                  << _dataDir + "/HikingCompanion.conf";
+
+  // Make a config entries for the style file.
+  setSetting( "styleSrc", ":Assets/Theme/HikingCompanion.json");
+  setSetting( "styleHC", _dataDir + "/HikingCompanion.json");
+
+  // (Re)place default stylesheet in _dataDir directory.
+  //QString stylePath = getSetting("style");
+  QString stylePath = ":Assets/Theme/HikingCompanion.json";
+  if ( this->_copy( stylePath, _dataDir + "/HikingCompanion.json") ) {
+    qCDebug(config) << "copy stylesheet ok";
+  }
+
+  else {
+    qCDebug(config) << "copy stylesheet not ok";
+  }
+
+  // Create cache directories for all tiles and features
+  this->_mkpath(_dataDir + "/Cache/Tiles");
+  this->_mkpath(_dataDir + "/Cache/Features");
+
+  // With this I can use "cache:Tiles" or "cache:Features" in e.g.
+  // value of PluginParameter name "osm.mapping.offline.directory"
+  QDir::setSearchPaths("cache", QStringList(_dataDir + "Cache"));
+
+
+  // Prepare a location for data sharing and create the root of it
+  // linux:     /home/marcel/.local/share/io.github.martimm.HikingCompanion
+  // Android:   /storage/emulated/0/Android/Data/io.github.martimm.HikingCompanion
+  QString publicLoc = QStandardPaths::standardLocations(
+        QStandardPaths::GenericDataLocation
+        ).first();
+
+#if defined(Q_OS_ANDROID)
+  publicLoc += "/Android/Data/" + _programId;
+#elif defined(Q_OS_LINUX)
+  publicLoc += "/" + _programId;
+#endif
+
+  _dataShareDir = publicLoc + "/newHikeData";
+  this->_mkpath(publicLoc);
+
+  // Load api key. This way the key stored in a file stays out of github
+  // using the gitignore filter.
+  _loadThunderForestApiKey();
+}
+
+// ----------------------------------------------------------------------------
+// Directories for current hike
+//   _currHikeDir == _dataDir/Hikes/<hikename>. must be set before call
+//
+void ConfigData::_manageHikeConfig() {
+
+  // Remove the hike table
+  QString hikeTableName = getSetting("currHikeTableName");
+  _removeSettings(hikeTableName);
+
+  // Remove the releases table
+  QString releaseTableName = hikeTableName + ".Releases";
+  _removeSettings(releaseTableName);
+
+  // Keys needed for the hike table
+  QStringList keys = {
+    "programVersion", "version", "title", "shortdescr", "www",
+    "defaultlang", "supportedlang", "translationfile", "style",
+    "aboutText"
+  };
+
+  // Rebuild the hike table
+  for ( int ki = 0; ki < keys.count(); ki++) {
+    QString v = getSetting( keys[ki], _hikeSettings);
+    setSetting( hikeTableName + "/" + keys[ki], v);
+  }
+
+  // The first track is selected by default
+  setSetting( hikeTableName + "/gpxfileindex", 0);
+
+  // Rebuild release notes table
+  QStringList releaseKeys = readKeys( "Releases", _hikeSettings);
+  for ( int ri = 0; ri < releaseKeys.count(); ri++) {
+    setSetting(
+          releaseTableName + "/" + releaseKeys[ri],
+          getSetting( "Releases/" + releaseKeys[ri], _hikeSettings)
+          );
+  }
+
+  // Copy hikes theme file
+  QString hikeDir = getSetting("currHikeDir");
+  QString themeFile = getSetting( "style", _hikeSettings);
+  qCInfo(config) << "ThemeFile:" << themeFile;
+  if( themeFile != "" ) {
+    this->_copy( _dataShareDir + '/' + themeFile, hikeDir + '/' + themeFile);
+  }
+
+  // Get the other items from the import directory
+  this->_manageFeatures();
+  this->_manageNotes();
+  this->_managePages();
+  this->_managePhotos();
+  this->_manageTracks();
+}
+
+// ----------------------------------------------------------------------------
+// Directories for current hike
+//   _currHikeDir == _dataDir/Hikes/<hikename>. must be set before call
+//   _currHikeDir/Features/*
+//
+void ConfigData::_manageFeatures() {
+
+  QString hikeDir = getSetting("currHikeDir");
+  QString hikeSubdir = QString(hikeDir + "/Features");
+  QString hikeTableName = getSetting("currHikeTableName");
+  QDir *dd = new QDir(hikeSubdir);
+  if ( ! dd->exists() ) dd->mkpath(hikeSubdir);
+  setSetting( hikeTableName + "/nfeatures", 0);
+  qCInfo(config) << "hike features:" << hikeSubdir;
+}
+
+// ----------------------------------------------------------------------------
+// Directories for current hike
+//   _currHikeDir == _dataDir/Hikes/<hikename>. must be set before call
+//   _currHikeDir/Notes/*.txt
+//
+void ConfigData::_manageNotes() {
+
+  QString hikeDir = getSetting("currHikeDir");
+  QString hikeSubdir = QString(hikeDir + "/Notes");
+  QString hikeTableName = getSetting("currHikeTableName");
+  QDir *dd = new QDir(hikeSubdir);
+  if ( ! dd->exists() ) dd->mkpath(hikeSubdir);
+  setSetting( hikeTableName + "/nnotes", 0);
+  qCInfo(config) << "hike notes:" << hikeSubdir;
+
+}
+
+// ----------------------------------------------------------------------------
+// -Settings
+// -  frontPage     :Assets/Pages/frontPage.html
+// -  aboutText     :Assets/Pages/aboutText.html
+//
+// Directories in project
+//   ./Assets/Pages/*.html
+//   ./Assets/Pages/Css/*
+//   ./Assets/Pages/Images/*
+//
+// Directories for defaults
+//   _dataDir/Pages/*.html
+//   _dataDir/Pages/Css/*
+//   _dataDir/Pages/Images/*
+//
+// Directories for hike
+//   _currHikeDir == _dataDir/Hikes/<hikename>. must be set before call
+//   _currHikeDir/Pages/*.html
+//   _currHikeDir/Pages/Css/*
+//   _currHikeDir/Pages/Images/*
+//
+void ConfigData::_managePages() {
+
+  // Replace the pages subdirectory for html files and other support files.
+  // Also make config entries for them. These are used as default when
+  // pages are not available in a hike config.
+  QDir *dd = new QDir(_dataDir + "/Pages");
+  if ( dd->exists() ) dd->removeRecursively();
+  this->_mkpath(_dataDir + "/Pages");
+  //setSetting( "frontPage", ":Assets/Pages/frontPage.html");
+  //setSetting( "aboutText", ":Assets/Pages/aboutText.html");
+
+  // Copy default pages and support directories
+  this->_dirCopy( ":Assets/Pages", _dataDir + "/Pages");
+  this->_dirCopy( ":Assets/Pages/Css", _dataDir + "/Pages/Css");
+  this->_dirCopy( ":Assets/Pages/Images", _dataDir + "/Pages/Images");
+
+  // Create/Replace the directories and contents of the hike pages
+  QString hikeDir = getSetting("currHikeDir");
+  QString hikeSubdir = QString(hikeDir + "/Pages");
+  dd = new QDir(hikeSubdir);
+  if ( dd->exists() ) dd->removeRecursively();
+  dd->mkpath(hikeSubdir);
+
+  // Copy info pages
+  QString sourcePagesDirectory = _dataShareDir + "/Pages";
+  this->_dirCopy( sourcePagesDirectory, hikeSubdir);
+  this->_dirCopy( sourcePagesDirectory + "/Css", hikeSubdir + "/Css");
+  this->_dirCopy( sourcePagesDirectory + "/Images", hikeSubdir + "/Images");
+}
+
+// ----------------------------------------------------------------------------
+// Directories for current hike
+//   _currHikeDir == _dataDir/Hikes/<hikename>. must be set before call
+//   _currHikeDir/Photos/*.jpg
+//
+void ConfigData::_managePhotos() {
+
+  QString hikeDir = getSetting("currHikeDir");
+  QString hikeSubdir = QString(hikeDir + "/Photos");
+  QString hikeTableName = getSetting("currHikeTableName");
+  QDir *dd = new QDir(hikeSubdir);
+  if ( ! dd->exists() ) dd->mkpath(hikeSubdir);
+  setSetting( hikeTableName + "/nphotos", 0);
+  qCInfo(config) << "hike photos:" << hikeSubdir;
+}
+
+// ----------------------------------------------------------------------------
+// Directories for current hike
+//   _currHikeDir == _dataDir/Hikes/<hikename>. must be set before call
+//   _currHikeDir/Tracks/*.gpx
+//
+void ConfigData::_manageTracks() {
+
+  // Remove all data first then create all directories, if needed,
+  // and add data to it
+  QString hikeDir = getSetting("currHikeDir");
+  QString hikeTableName = getSetting("currHikeTableName");
+  QString hikeSubdir = hikeDir + "/Tracks";
+  QDir *dd = new QDir(hikeSubdir);
+
+  // Remove track files and config tables. Table count must follow track names.
+  if ( dd->exists() ) {
+
+    // Remove config info about this hike tracks
+    QStringList gpxFiles = dd->entryList( QDir::Files, QDir::Name);
+    for ( int gfi = 0; gfi < gpxFiles.count(); gfi++) {
+
+      // Remove table
+      QString trackTableName = hikeTableName + QString(".Track%1").arg(gfi + 1);
+      qCDebug(config) << "Remove table" << trackTableName;
+      _removeSettings(trackTableName);
+    }
+
+    // Remove track files
+    dd->removeRecursively();
+  }
+
+  else {
+    qCInfo(config) << "Create dir " << hikeSubdir;
+    dd->mkpath(hikeSubdir);
+  }
+
+  // Add tracks to empty directory and create tables
+  // Get source directory and list of files
+  QString sourceGpxDirectory = _dataShareDir + "/Tracks";
+  QDir *sgd = new QDir(sourceGpxDirectory);
+  hikeSubdir = QString(hikeDir + "/Tracks");
+
+  qCInfo(config) << "source hike tracks:" << sourceGpxDirectory;
+  qCInfo(config) << "destination hike tracks:" << hikeSubdir;
+
+  // Maximum number of files possible
+  int nbrGpxFiles = sgd->entryList(QDir::Files).count();
+  int nbrDefinedGpxFiles = 0;
+  for ( int gfi = 0; gfi < nbrGpxFiles; gfi++) {
+
+    // Create table
+    QString srcTrackTable = QString("Track%1").arg(gfi);
+    QString destTrackTable = hikeTableName + QString(".Track%1").arg(gfi);
+
+    qCDebug(config) << "src/dest table" << srcTrackTable << destTrackTable;
+
+    // If there are no keys for this table, we are done
+    QStringList trackKeys = readKeys( srcTrackTable, _hikeSettings);
+    if ( trackKeys.count() == 0 ) {
+      nbrDefinedGpxFiles = gfi;
+      break;
+    }
+
+    //TODO: Length and boundaries must be calculated
+    //TODO: Cache tiles must be downloaded
+    QStringList keys = {
+      "fname", "title", "shortdescr", "type", "length",
+    };
+
+    for ( int ki = 0; ki < keys.count(); ki++) {
+      QString v = getSetting( srcTrackTable + "/" + keys[ki], _hikeSettings);
+      setSetting( destTrackTable + "/" + keys[ki], v);
+    }
+
+    // Copy gpx file
+    QString fname = getSetting( srcTrackTable + "/fname", _hikeSettings);
+    QFile::copy(
+          sourceGpxDirectory + "/" + fname,
+          hikeSubdir + "/" + fname
+          );
+    qCInfo(config) << "copy" << sourceGpxDirectory + "/" + fname;
+  }
+
+  setSetting( hikeTableName + "/ntracks", nbrDefinedGpxFiles);
+}

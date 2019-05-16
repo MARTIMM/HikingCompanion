@@ -20,9 +20,11 @@ public:
   Q_INVOKABLE inline QString featureCacheDir() { return _configData->featureCacheDir(); }
   Q_INVOKABLE inline QString dataShareDir() { return _configData->dataShareDir(); }
 
+/*
   Q_INVOKABLE inline void checkForNewHikeData() {
     _configData->checkForNewHikeData();
   }
+*/
   Q_INVOKABLE inline void cleanupTracks() { _configData->cleanupTracks(); }
   Q_INVOKABLE inline void cleanupHike() { _configData->cleanupHike(); }
 

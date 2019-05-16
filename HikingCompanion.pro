@@ -24,6 +24,7 @@ QML_IMPORT_PATH =
 # Additional import path used to resolve QML modules just for Qt Quick Designer
 QML_DESIGNER_IMPORT_PATH =
 
+
 # Location where quick controls config theme is defined
 # See also https://doc.qt.io/qt-5/qtquickcontrols2-environment.html
 #QT_QUICK_CONTROLS_CONF = ":/Assets/Theme/qtquickcontrols2.conf"

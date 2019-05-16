@@ -61,7 +61,6 @@ public:
   inline QString featureCacheDir() { return _dataDir + "/Cache/Features"; }
   inline QString dataShareDir() { return _dataShareDir; }
 
-  void checkForNewHikeData();
   void cleanupTracks();
   void cleanupHike();
 
@@ -108,27 +107,40 @@ private:
   ConfigData(QObject *parent = nullptr);
   static ConfigData *_createInstance();
 
-  void _removeSettings(QString group);
-  void _installNewData();
-  void _mkNewTables( QSettings *s,  QString hikeTableName);
-  void _refreshData( QSettings *s, QString hikeTableName, QString hikeDir);
+  bool _checkForNewHikeData();
+  bool _checkHikeVersion();
+//  void _mkNewTables();
+//  void _refreshData();
   void _moveTable( QString fromTable, QString toTable);
   bool _mkpath(QString path);
+  bool _copy( QString from, QString to );
+  void _dirCopy( QString from, QString to );
+  void _removeSettings(QString group);
   bool _storeCoordinates(
       QString hikeKey, QString hikeTableName, QString trackTitle,
       QString trackDesc, QString trackType, std::vector<Coord> coordinates,
       QString nTracks
       );
   void _loadThunderForestApiKey();
+  void _manageHCConfig();    // Hiking companion config
+  void _manageHikeConfig();  // Imported hike config
+  void _manageFeatures();
+  void _manageNotes();
+  void _managePages();
+  void _managePhotos();
+  void _manageTracks();
 
+  QString _programId;     // Program identification as reversed domainname
+  QString _platformName;  // Name of platform os
   QString _dataDir;       // Location where all hikes are stored
   QString _dataShareDir;  // Location where new data is placed to install
 
   QString _thunderForestApiKey;
 
-  QSettings *_settings;
-  QStringList _pages;
-  Hikes *_hikes;
+  QSettings *_settings;     // Hiking companions config
+  QSettings *_hikeSettings; // Config of newly imported hike
+  QStringList _pages;       // Html pages
+  Hikes *_hikes;            // Available hikes
 
   int _width;
   int _height;

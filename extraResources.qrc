@@ -11,6 +11,9 @@
         <file>Assets/Pages/exitText.html</file>
         <file>Assets/Pages/appInfoText.html</file>
         <file>Assets/Pages/aboutText.html</file>
+        <file>Assets/Pages/frontPage.html</file>
+        <file>Assets/Pages/Css/hc.css</file>
+        <file>Assets/Pages/Images/map-of-the-world-429784_960_720.jpg</file>
         <file alias="qtquickcontrols2.conf">Assets/Theme/qtquickcontrols2.conf</file>
         <file>Assets/thunderForestApiKey</file>
         <file>Assets/Providers/cycle</file>
