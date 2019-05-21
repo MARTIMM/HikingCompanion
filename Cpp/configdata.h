@@ -9,7 +9,7 @@
 #include <QLoggingCategory>
 
 // ----------------------------------------------------------------------------
-#define HIKING_COMPANION_VERSION "0.14.5"
+#define HIKING_COMPANION_VERSION "0.14.6"
 
 Q_DECLARE_LOGGING_CATEGORY(config)
 Q_DECLARE_LOGGING_CATEGORY(configGetSel)
@@ -122,13 +122,13 @@ private:
       QString nTracks
       );
   void _loadThunderForestApiKey();
-  void _manageHCConfig();    // Hiking companion config
-  void _manageHikeConfig();  // Imported hike config
-  void _manageFeatures();
-  void _manageNotes();
-  void _managePages();
-  void _managePhotos();
-  void _manageTracks();
+  void _manageHCConfig();              // Hiking companion config
+  void _manageHikeConfig(bool check);  // Imported hike config
+  void _manageFeatures(bool check);
+  void _manageNotes(bool check);
+  void _managePages(bool check);
+  void _managePhotos(bool check);
+  void _manageTracks(bool check);
 
   QString _programId;     // Program identification as reversed domainname
   QString _platformName;  // Name of platform os

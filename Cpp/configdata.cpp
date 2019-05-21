@@ -49,14 +49,15 @@ ConfigData::ConfigData(QObject *parent) : QObject(parent) {
   this->_manageHCConfig();
 
   // Check for new or updated hike data
-  if( this->_checkForNewHikeData() ) {
-    this->_manageHikeConfig();
+  bool check = this->_checkForNewHikeData();
+  //if( check ) {
+    this->_manageHikeConfig(check);
     //this->_refreshData();
 
     //qCInfo(config) << "Remove public hike source data from" << _dataShareDir;
     //dd = new QDir(_dataShareDir);
     //dd->removeRecursively();
-  }
+  //}
 
   // Instantiate hikes object
   _hikes = new Hikes();
@@ -1081,55 +1082,58 @@ void ConfigData::_manageHCConfig() {
 // Directories for current hike
 //   _currHikeDir == _dataDir/Hikes/<hikename>. must be set before call
 //
-void ConfigData::_manageHikeConfig() {
+void ConfigData::_manageHikeConfig(bool check) {
 
-  // Remove the hike table
-  QString hikeTableName = getSetting("currHikeTableName");
-  _removeSettings(hikeTableName);
+  if( check ) {
 
-  // Remove the releases table
-  QString releaseTableName = hikeTableName + ".Releases";
-  _removeSettings(releaseTableName);
+    // Remove the hike table
+    QString hikeTableName = getSetting("currHikeTableName");
+    _removeSettings(hikeTableName);
 
-  // Keys needed for the hike table
-  QStringList keys = {
-    "programVersion", "version", "title", "shortdescr", "www",
-    "defaultlang", "supportedlang", "translationfile", "style",
-    "aboutText"
-  };
+    // Remove the releases table
+    QString releaseTableName = hikeTableName + ".Releases";
+    _removeSettings(releaseTableName);
 
-  // Rebuild the hike table
-  for ( int ki = 0; ki < keys.count(); ki++) {
-    QString v = getSetting( keys[ki], _hikeSettings);
-    setSetting( hikeTableName + "/" + keys[ki], v);
-  }
+    // Keys needed for the hike table
+    QStringList keys = {
+      "programVersion", "version", "title", "shortdescr", "www",
+      "defaultlang", "supportedlang", "translationfile", "style",
+      "aboutText"
+    };
 
-  // The first track is selected by default
-  setSetting( hikeTableName + "/gpxfileindex", 0);
+    // Rebuild the hike table
+    for ( int ki = 0; ki < keys.count(); ki++) {
+      QString v = getSetting( keys[ki], _hikeSettings);
+      setSetting( hikeTableName + "/" + keys[ki], v);
+    }
 
-  // Rebuild release notes table
-  QStringList releaseKeys = readKeys( "Releases", _hikeSettings);
-  for ( int ri = 0; ri < releaseKeys.count(); ri++) {
-    setSetting(
-          releaseTableName + "/" + releaseKeys[ri],
-          getSetting( "Releases/" + releaseKeys[ri], _hikeSettings)
-          );
-  }
+    // The first track is selected by default
+    setSetting( hikeTableName + "/gpxfileindex", 0);
 
-  // Copy hikes theme file
-  QString hikeDir = getSetting("currHikeDir");
-  QString themeFile = getSetting( "style", _hikeSettings);
-  qCInfo(config) << "ThemeFile:" << themeFile;
-  if( themeFile != "" ) {
-    this->_copy( _dataShareDir + '/' + themeFile, hikeDir + '/' + themeFile);
+    // Rebuild release notes table
+    QStringList releaseKeys = readKeys( "Releases", _hikeSettings);
+    for ( int ri = 0; ri < releaseKeys.count(); ri++) {
+      setSetting(
+            releaseTableName + "/" + releaseKeys[ri],
+            getSetting( "Releases/" + releaseKeys[ri], _hikeSettings)
+            );
+    }
+
+    // Copy hikes theme file
+    QString hikeDir = getSetting("currHikeDir");
+    QString themeFile = getSetting( "style", _hikeSettings);
+    qCInfo(config) << "ThemeFile:" << themeFile;
+    if( themeFile != "" ) {
+      this->_copy( _dataShareDir + '/' + themeFile, hikeDir + '/' + themeFile);
+    }
   }
 
   // Get the other items from the import directory
-  this->_manageFeatures();
-  this->_manageNotes();
-  this->_managePages();
-  this->_managePhotos();
-  this->_manageTracks();
+  this->_manageFeatures(check);
+  this->_manageNotes(check);
+  this->_managePages(check);
+  this->_managePhotos(check);
+  this->_manageTracks(check);
 }
 
 // ----------------------------------------------------------------------------
@@ -1137,7 +1141,9 @@ void ConfigData::_manageHikeConfig() {
 //   _currHikeDir == _dataDir/Hikes/<hikename>. must be set before call
 //   _currHikeDir/Features/*
 //
-void ConfigData::_manageFeatures() {
+void ConfigData::_manageFeatures(bool check) {
+
+  if( !check ) return;
 
   QString hikeDir = getSetting("currHikeDir");
   QString hikeSubdir = QString(hikeDir + "/Features");
@@ -1153,7 +1159,9 @@ void ConfigData::_manageFeatures() {
 //   _currHikeDir == _dataDir/Hikes/<hikename>. must be set before call
 //   _currHikeDir/Notes/*.txt
 //
-void ConfigData::_manageNotes() {
+void ConfigData::_manageNotes(bool check) {
+
+  if( !check ) return;
 
   QString hikeDir = getSetting("currHikeDir");
   QString hikeSubdir = QString(hikeDir + "/Notes");
@@ -1162,7 +1170,6 @@ void ConfigData::_manageNotes() {
   if ( ! dd->exists() ) dd->mkpath(hikeSubdir);
   setSetting( hikeTableName + "/nnotes", 0);
   qCInfo(config) << "hike notes:" << hikeSubdir;
-
 }
 
 // ----------------------------------------------------------------------------
@@ -1186,10 +1193,12 @@ void ConfigData::_manageNotes() {
 //   _currHikeDir/Pages/Css/*
 //   _currHikeDir/Pages/Images/*
 //
-void ConfigData::_managePages() {
+void ConfigData::_managePages(bool check) {
 
-  // Replace the pages subdirectory for html files and other support files.
-  // Also make config entries for them. These are used as default when
+  qCDebug(config) << "manage pages:";
+
+  // Replace the pages subdirectory for default html files and other support
+  // files. Also make config entries for them. These are used as default when
   // pages are not available in a hike config.
   QDir *dd = new QDir(_dataDir + "/Pages");
   if ( dd->exists() ) dd->removeRecursively();
@@ -1202,18 +1211,20 @@ void ConfigData::_managePages() {
   this->_dirCopy( ":Assets/Pages/Css", _dataDir + "/Pages/Css");
   this->_dirCopy( ":Assets/Pages/Images", _dataDir + "/Pages/Images");
 
-  // Create/Replace the directories and contents of the hike pages
-  QString hikeDir = getSetting("currHikeDir");
-  QString hikeSubdir = QString(hikeDir + "/Pages");
-  dd = new QDir(hikeSubdir);
-  if ( dd->exists() ) dd->removeRecursively();
-  dd->mkpath(hikeSubdir);
+  if( check ) {
+    // Create/Replace the directories and contents of the hike pages
+    QString hikeDir = getSetting("currHikeDir");
+    QString hikeSubdir = QString(hikeDir + "/Pages");
+    dd = new QDir(hikeSubdir);
+    if ( dd->exists() ) dd->removeRecursively();
+    dd->mkpath(hikeSubdir);
 
-  // Copy info pages
-  QString sourcePagesDirectory = _dataShareDir + "/Pages";
-  this->_dirCopy( sourcePagesDirectory, hikeSubdir);
-  this->_dirCopy( sourcePagesDirectory + "/Css", hikeSubdir + "/Css");
-  this->_dirCopy( sourcePagesDirectory + "/Images", hikeSubdir + "/Images");
+    // Copy info pages
+    QString sourcePagesDirectory = _dataShareDir + "/Pages";
+    this->_dirCopy( sourcePagesDirectory, hikeSubdir);
+    this->_dirCopy( sourcePagesDirectory + "/Css", hikeSubdir + "/Css");
+    this->_dirCopy( sourcePagesDirectory + "/Images", hikeSubdir + "/Images");
+  }
 }
 
 // ----------------------------------------------------------------------------
@@ -1221,7 +1232,9 @@ void ConfigData::_managePages() {
 //   _currHikeDir == _dataDir/Hikes/<hikename>. must be set before call
 //   _currHikeDir/Photos/*.jpg
 //
-void ConfigData::_managePhotos() {
+void ConfigData::_managePhotos(bool check) {
+
+  if( !check ) return;
 
   QString hikeDir = getSetting("currHikeDir");
   QString hikeSubdir = QString(hikeDir + "/Photos");
@@ -1237,7 +1250,9 @@ void ConfigData::_managePhotos() {
 //   _currHikeDir == _dataDir/Hikes/<hikename>. must be set before call
 //   _currHikeDir/Tracks/*.gpx
 //
-void ConfigData::_manageTracks() {
+void ConfigData::_manageTracks(bool check) {
+
+  if( !check ) return;
 
   // Remove all data first then create all directories, if needed,
   // and add data to it
