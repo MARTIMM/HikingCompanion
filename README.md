@@ -20,7 +20,7 @@ A tracking app should hold any or all of the following data
 This mobile app is a re-try of the previously developed SufiTrail app where I stumbled upon problems using the methods at hand. After some searches and some suggestions from a good friend of mine, a new setup is tried with `Qt` using the tool `qtcreator`.
 
 ## License
-Something public domain and risk free (for me that is ;-)
+Something public domain and risk free (for me that is )
 
 ## Installing
 This app will be placed in the app store when ready.
