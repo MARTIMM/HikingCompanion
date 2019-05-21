@@ -26,7 +26,7 @@ ApplicationWindow {
 
   Component.onCompleted: {
     GlobalVariables.setApplicationWindow(this);
-    GlobalVariables.setCurrentPage(mapPage);
+    GlobalVariables.setCurrentPage(homePage);
     GlobalVariables.setMenu(menu);
 
     // Get the hiking companion settings for default colors and
@@ -68,6 +68,9 @@ ApplicationWindow {
                 );
   }
 
+  property alias homePage: homePage
+  HCPage.HomePage { id: homePage; visible: true }
+
   property alias aboutPage: aboutPage
   HCPage.AboutPage { id: aboutPage }
 
@@ -81,7 +84,7 @@ ApplicationWindow {
   HCPage.ExitPage { id: exitPage }
 
   property alias mapPage: mapPage
-  HCPage.MapPage { id: mapPage; visible: true }
+  HCPage.MapPage { id: mapPage; }
 
   property alias tracksPage: tracksPage
   HCPage.TracksPage { id: tracksPage }
@@ -89,6 +92,16 @@ ApplicationWindow {
   // Menu
   HCParts.MenuColumn {
     id: menu
+
+    property alias homeButton: homeButton
+    HCButton.MenuButton {
+      id: homeButton
+      text: qsTr("⌂ Home")
+      //      text: qsTr("Home")
+      onClicked: {
+        GlobalVariables.menu.menuEntryClicked(homePage);
+      }
+    }
 
     property alias mapButton: mapButton
     HCButton.MenuButton {
