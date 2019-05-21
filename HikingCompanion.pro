@@ -1,4 +1,4 @@
-QT += core quick qml widgets quickcontrols2 positioning location network gui
+QT += core quick qml widgets quickcontrols2 positioning location network gui webview
 CONFIG += c++11
 
 # The following define makes your compiler emit warnings if you use

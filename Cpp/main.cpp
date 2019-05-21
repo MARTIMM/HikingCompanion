@@ -20,6 +20,9 @@
 #include <QFile>
 #include <QTextStream>
 #include <QLoggingCategory>
+#include <QQmlContext>
+//#include <QQuickStyle>
+#include <QtWebView>
 
 // ----------------------------------------------------------------------------
 // Define global variables
@@ -66,6 +69,7 @@ int main( int argc, char *argv[]) {
 
   // Create application
   QApplication app( argc, argv);
+  QtWebView::initialize();
 
   // Get version from ConfigData object and set version of application.
   // It is kept there because of other reasons.
@@ -109,6 +113,13 @@ int main( int argc, char *argv[]) {
 
   // Create engine, test and execute.
   applicationEngine = new QQmlApplicationEngine();
+/*
+  bool isEmbedded = false;
+#ifdef QTWEBENGINE_RECIPE_BROWSER_EMBEDDED
+  isEmbedded = true;
+#endif
+  applicationEngine->rootContext()->setContextProperty(QStringLiteral("isEmbedded"), isEmbedded);
+*/
   applicationEngine->load(QUrl(QStringLiteral("qrc:/Qml/Main/Application.qml")));
   //applicationEngine->load(QUrl(QStringLiteral("qrc:/Qml/Tests/ThemeTest.qml")));
 
