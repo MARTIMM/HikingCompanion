@@ -22,6 +22,7 @@
         <file>Qml/Page/ExitPage.qml</file>
         <file>Qml/Page/MapPage.qml</file>
         <file>Qml/Page/Plain.qml</file>
+        <file>Qml/Page/HomePage.qml</file>
         <file>Qml/Page/TracksPage.qml</file>
         <file>Qml/Page/UserTrackConfigPage.qml</file>
         <file>Qml/Parts/ConfigComboBox.qml</file>
@@ -33,6 +34,7 @@
         <file>Qml/Parts/PageButtonRow.qml</file>
         <file>Qml/Parts/ToolbarRectangle.qml</file>
         <file>Qml/Parts/ToolbarRow.qml</file>
+        <file>Qml/Parts/WWWInfoArea.qml</file>
         <file>Qml/Tests/ThemeTest.qml</file>
         <file>Qml/Tests/TimedCoordinateGenerator.qml</file>
         <file>Qml/MapFeatures/PoiModel.qml</file>
