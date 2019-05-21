@@ -3,8 +3,11 @@
 #include <QDebug>
 
 // ----------------------------------------------------------------------------
+Q_LOGGING_CATEGORY( textload, "hc.textload")
+
+// ----------------------------------------------------------------------------
 TextLoad::TextLoad(QObject *parent) : QObject(parent) {
-  qDebug() << QString("TextLoad init");
+  qCInfo(textload) << QString("TextLoad init");
 }
 
 // ----------------------------------------------------------------------------
@@ -20,23 +23,22 @@ QString TextLoad::text() {
 // ----------------------------------------------------------------------------
 void TextLoad::setFilename(QString filename) {
 
-  qDebug() << QString("set filename %1").arg(filename);
+  qCInfo(textload) << QString("set filename %1").arg(filename);
 
   // read the file
   QFile f (filename);
   if ( !f.open( QIODevice::ReadOnly | QIODevice::Text) ) {
-    qDebug() << QString("Open file %1: %2").arg(filename).arg(f.errorString());
+    qCWarning(textload) << QString("Open file %1: %2").arg(filename).arg(f.errorString());
     return;
   }
 
   _source = filename;
   _loadedText = "";
-  while ( !f.atEnd() ) {
-    _loadedText += f.readLine();
-//    qDebug() << _loadedText;
-  }
+  while ( !f.atEnd() ) { _loadedText += f.readLine(); }
   f.close();
+  qCDebug(textload) << _loadedText;
 
+  qCInfo(textload) << "emit textReady";
   emit textReady();
 }
 

@@ -4,6 +4,10 @@
 #include <QObject>
 #include <QString>
 #include <QFile>
+#include <QLoggingCategory>
+
+// ----------------------------------------------------------------------------
+Q_DECLARE_LOGGING_CATEGORY(textload)
 
 // ----------------------------------------------------------------------------
 class TextLoad : public QObject {
