@@ -281,7 +281,7 @@ void ConfigData::setGpxFileIndexSetting( int currentIndex ) {
 }
 
 // ----------------------------------------------------------------------------
-QString ConfigData::getHtmlPageFilename( QString pageName) {
+QString ConfigData::getHtmlPageFilename( QString pageName ) {
 
   QString textPath;
   QString entryKey = this->hikeEntryKey();
@@ -317,7 +317,7 @@ QString ConfigData::getTheme( bool takeHCSettings = false ) {
   QString stylePath;
   QString entryKey = this->hikeEntryKey();
   QString tableName = this->hikeTableName(entryKey);
-  qCInfo(config) <<"takeHC, key & table" << takeHCSettings
+  qCInfo(config) << "takeHC, key & table" << takeHCSettings
                  << entryKey << tableName;
 
   // if HC settings are true or when the table is not found,
