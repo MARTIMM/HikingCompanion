@@ -1,6 +1,7 @@
 import QtQuick 2.9
 //import QtQuick.Window 2.3
 import QtQuick.Controls 2.2
+import QtQuick.Controls.Styles 1.4
 import QtQuick.Layouts 1.3
 
 import io.github.martimm.HikingCompanion.Theme 0.1
@@ -33,13 +34,26 @@ Flickable {
   }
 
   property alias text: pageText.text
-  Text {
+  TextArea {
     id: pageText
     width: parent.width - Theme.sbWidth - 10
     color: GlobalVariables.setComponentFgColor(Theme.component.color)
     wrapMode: Text.WordWrap
     textFormat: Text.RichText
     text: ""
+    background: Rectangle {
+      color: Qt.rgba(240,240,255,0.75)
+      radius: 7
+
+      width: parent.width - Theme.sbWidth
+      height: parent.height
+      anchors {
+        top: parent.top
+        bottom: parent.bottom
+        left: parent.left
+        right: parent.right
+      }
+    }
   }
 
   ScrollBar.vertical: ScrollBar {
