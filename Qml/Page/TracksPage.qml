@@ -12,6 +12,10 @@ import QtQuick.Controls 2.2
 HCPage.Plain {
   id: tracksPage
 
+  Image {
+    source: "qrc:/Assets/Pages/Images/map-of-the-world-429784_960_720.jpg"
+  }
+
   Config {
     id: config
 

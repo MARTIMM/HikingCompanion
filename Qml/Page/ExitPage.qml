@@ -13,6 +13,10 @@ HCPage.Plain {
   id: exitPage
 //  objectName: "exitPage"
 
+  Image {
+    source: "qrc:/Assets/Pages/Images/map-of-the-world-429784_960_720.jpg"
+  }
+
   width: parent.width
   height: parent.height
   anchors.fill: parent

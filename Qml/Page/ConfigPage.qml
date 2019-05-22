@@ -15,6 +15,10 @@ import QtQuick.Dialogs 1.2
 HCPage.Plain {
   id: configPage
 
+  Image {
+    source: "qrc:/Assets/Pages/Images/map-of-the-world-429784_960_720.jpg"
+  }
+
   //property string osType
 
   width: parent.width
