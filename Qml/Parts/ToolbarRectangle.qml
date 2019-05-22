@@ -22,7 +22,7 @@ Rectangle {
     bottomMargin: Theme.component.toolbar.bottomMargin
   }
 
-  color: GlobalVariables.setComponentBgColor(Theme.component.toolbar)
+  color: "transparent" //GlobalVariables.setComponentBgColor(Theme.component.toolbar)
 
   border {
     width: Theme.component.toolbar.border.width

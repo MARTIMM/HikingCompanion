@@ -44,7 +44,7 @@ HCPage.Plain {
 
   HCParts.ToolbarRectangle {
     id: pageToolbarRow
-    color: "transparent"
+    //color: "transparent"
 
     HCParts.ToolbarRow {
       HCButton.OpenMenu { }
