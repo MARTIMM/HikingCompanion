@@ -13,14 +13,18 @@ HCPage.Plain {
   id: aboutPage
 
   Image {
-    source: "qrc:/Assets/Pages/Images/map-of-the-world-429784_960_720.jpg"
+    id: backgroundImage
+    //source: "qrc:/Assets/Pages/Images/map-of-the-world-429784_960_720.jpg"
   }
 
   Config { id: config }
   Component.onCompleted: { changeContent(); }
 
   function changeContent ( ) {
-    aboutText.aboutTextData.filename = config.getHtmlPageFilename("aboutText");
+    backgroundImage.source = "file://" + config.getFilenameFromPart("Images/background.png");
+
+    //aboutText.aboutTextData.filename = config.getHtmlPageFilename("aboutText");
+    aboutText.aboutTextData.filename = config.getFilenameFromPart("aboutText.html");
     var versionList = config.getVersions();
     //console.log("Versions: " + versionList);
 

@@ -16,7 +16,8 @@ HCPage.Plain {
   id: configPage
 
   Image {
-    source: "qrc:/Assets/Pages/Images/map-of-the-world-429784_960_720.jpg"
+    id: backgroundImage
+    //source: "qrc:/Assets/Pages/Images/map-of-the-world-429784_960_720.jpg"
   }
 
   //property string osType
@@ -26,6 +27,8 @@ HCPage.Plain {
   anchors.fill: parent
 
   Component.onCompleted: {
+    backgroundImage.source = "file://" + config.getFilenameFromPart("Images/background.png");
+
     // Define the list of languages after which the method will emit
     // the languageListChanged signal. Do the same for hikes and
     // catch signal hikeListDefined.

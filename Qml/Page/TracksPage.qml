@@ -13,7 +13,8 @@ HCPage.Plain {
   id: tracksPage
 
   Image {
-    source: "qrc:/Assets/Pages/Images/map-of-the-world-429784_960_720.jpg"
+    id: backgroundImage
+    //source: "qrc:/Assets/Pages/Images/map-of-the-world-429784_960_720.jpg"
   }
 
   Config {
@@ -52,6 +53,8 @@ HCPage.Plain {
   }
 
   function changeTrackList() {
+    backgroundImage.source = "file://" + config.getFilenameFromPart("Images/background.png");
+
     // Get the track list and check if empty. If empty, the select button
     // must be disabled. If not empty, set the previous selected entry
     // in the tracklist.

@@ -13,7 +13,7 @@
         <file>Assets/Pages/aboutText.html</file>
         <file>Assets/Pages/homeText.html</file>
         <!--file>Assets/Pages/Css/hc.css</file-->
-        <file>Assets/Pages/Images/map-of-the-world-429784_960_720.jpg</file>
+        <file>Assets/Pages/Images/background.png</file>
         <!--file>Assets/Pages/Images/HCLogo-96x96.png</file-->
         <file alias="qtquickcontrols2.conf">Assets/Theme/qtquickcontrols2.conf</file>
         <file>Assets/thunderForestApiKey</file>

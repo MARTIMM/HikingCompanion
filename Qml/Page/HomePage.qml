@@ -17,17 +17,22 @@ HCPage.Plain {
   anchors.fill: parent
 
   Image {
-    width: parent.width
-    height: parent.height
-    source: "qrc:/Assets/Pages/Images/map-of-the-world-429784_960_720.jpg"
-    anchors.fill: parent
+    id: backgroundImage
+    //width: parent.width
+    //height: parent.height
+    //source: "qrc:/Assets/Pages/Images/map-of-the-world-429784_960_720.jpg"
+    //anchors.fill: parent
   }
 
   Config { id: config }
   Component.onCompleted: { changeContent(); }
 
   function changeContent ( ) {
-    homeText.homeTextData.filename = config.getHtmlPageFilename("homeText");
+    // Change textual
+    backgroundImage.source = "file://" + config.getFilenameFromPart("Images/background.png");
+
+    //homeText.homeTextData.filename = config.getHtmlPageFilename("homeText");
+    homeText.homeTextData.filename = config.getFilenameFromPart("homeText.html");
     console.info('fp: ' + homeText.url);
     homeText.text = homeText.homeTextData.text;
   }

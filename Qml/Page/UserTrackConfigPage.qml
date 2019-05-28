@@ -16,7 +16,8 @@ HCPage.Plain {
   id: userTrackConfigPage
 
   Image {
-    source: "qrc:/Assets/Pages/Images/map-of-the-world-429784_960_720.jpg"
+    //source: "qrc:/Assets/Pages/Images/map-of-the-world-429784_960_720.jpg"
+    id: backgroundImage
   }
 
   width: parent.width
@@ -41,6 +42,7 @@ HCPage.Plain {
   }
 
   Component.onCompleted: {
+    backgroundImage.source = "file://" + config.getFilenameFromPart("Images/background.png");
     //console.log("UTCP");
 
     // Load settings this page
