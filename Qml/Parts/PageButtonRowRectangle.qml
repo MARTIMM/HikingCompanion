@@ -22,7 +22,7 @@ Rectangle {
     bottomMargin: Theme.component.buttonrow.bottomMargin
   }
 
-  color: GlobalVariables.setComponentBgColor(Theme.component.buttonrow)
+  color: "transparent" //GlobalVariables.setComponentBgColor(Theme.component.buttonrow)
 
   border {
     width: Theme.component.buttonrow.border.width
