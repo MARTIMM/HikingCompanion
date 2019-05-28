@@ -57,8 +57,8 @@ public:
     return _configData->getGpxFileIndexSetting();
   }
 
-  Q_INVOKABLE inline QString getHtmlPageFilename( QString pageName) {
-    return _configData->getHtmlPageFilename(pageName);
+  Q_INVOKABLE inline QString getFilenameFromPart( QString fileName ) {
+    return _configData->getFilenameFromPart(fileName);
   }
 
   Q_INVOKABLE inline QString getTheme( bool takeHCSettings ) {

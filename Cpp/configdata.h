@@ -76,7 +76,7 @@ public:
   void setGpxFileIndexSetting(int currentIndex);
   int getGpxFileIndexSetting();
 
-  QString getHtmlPageFilename( QString pageName);
+  QString getFilenameFromPart( QString partName );
 
   QString getTheme( bool takeHCSettings );
 

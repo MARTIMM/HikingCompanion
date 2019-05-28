@@ -223,7 +223,8 @@ QStringList ConfigData::readKeys( QString group, QSettings *s ) {
 // ----------------------------------------------------------------------------
 // Return a key name like "h0" for an entry in the HikeList.
 // An empty string is returned when the selectedhikeindex is not found or,
-// in case of a provided hikeKey, the key is not found.
+// in case of a provided hikeKey, the key is not found. If hikeKey is empty,
+// the current active hike is selected.
 QString ConfigData::hikeEntryKey(QString hikeKey) {
 
   QString hikeIndex = "";
@@ -281,34 +282,27 @@ void ConfigData::setGpxFileIndexSetting( int currentIndex ) {
 }
 
 // ----------------------------------------------------------------------------
-QString ConfigData::getHtmlPageFilename( QString pageName ) {
+QString ConfigData::getFilenameFromPart( QString partName ) {
 
   QString textPath;
   QString entryKey = this->hikeEntryKey();
-  QString tableName = this->hikeTableName(entryKey);
+  QString hikeKey = getSetting("HikeList/" + entryKey);
+  QFile *fp;
 
-  // If the tablename is not found, return the default page
-  if ( tableName == "" ) {
-    textPath = _dataDir + "/Pages/" + pageName + ".html";
-    qCWarning(config) << "no html page name for entry" << entryKey << "-->" << textPath;
-  }
+  // Create path from part
+  textPath = _dataDir + "/Hikes/" + hikeKey + "/Pages/" + partName;
+qCInfo(config) << "Test path" << textPath;
+  fp = new QFile(textPath);
+  if( fp->exists() ) return textPath;
 
-  else {
-    // If the textPath of the page is not found, return the default page
-    textPath = getSetting( tableName + "/" + pageName);
-    if ( textPath == "" ) {
-      textPath = _dataDir + "/Pages/" + pageName + ".html";
-      qCWarning(config) << "no html page name for table" << tableName << "-->" << textPath;
-    }
+  // If no path is found, try the default
+  qCWarning(config) << "no part name" << partName  << "found for hike" << hikeKey;
+  textPath = _dataDir + "/Pages/" + partName;
+  fp = new QFile(textPath);
+  if( fp->exists() ) return textPath;
 
-    else {
-      QString ek = this->getSetting("HikeList/" + entryKey);
-      textPath = _dataDir + "/Hikes/" + ek + "/Pages/" + textPath;
-      qCInfo(config) << "html page found" << textPath;
-    }
-  }
-
-  return textPath;
+  // Return empty string if nothing is found
+  return "";
 }
 
 // ----------------------------------------------------------------------------
@@ -849,9 +843,11 @@ bool ConfigData::_mkpath(QString path) {
 
 // ----------------------------------------------------------------------------
 bool ConfigData::_copy( QString from, QString to ) {
-  qCInfo(config) << "copy" << from << "to" << to;
   if( QFile(to).exists() )  QFile::remove(to);
-  return QFile::copy( from, to);
+  bool r = QFile::copy( from, to);
+  qCInfo(config) << "copy" << from << "to" << to
+                 << (r ? "ok" : "not ok");
+  return r;
 }
 
 // ----------------------------------------------------------------------------
@@ -860,13 +856,7 @@ void ConfigData::_dirCopy( QString fromDir, QString toDir ) {
   QDir *dd = new QDir(fromDir);
   QStringList files = dd->entryList( QDir::Files, QDir::Name);
   for ( int fi = 0; fi < files.count(); fi++ ) {
-    if( this->_copy( fromDir + "/" + files[fi], toDir + "/" + files[fi]) ) {
-      qCDebug(config) << "copy" << fromDir << "to" << toDir << " went ok";
-    }
-
-    else {
-      qCDebug(config) << "copy" << fromDir << "to" << toDir << "went wrong";
-    }
+    this->_copy( fromDir + "/" + files[fi], toDir + "/" + files[fi]);
   }
 }
 
