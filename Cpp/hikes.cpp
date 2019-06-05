@@ -143,7 +143,7 @@ QHash<QString, QString> Hikes::osmCacheFilenames( int minZoom, int maxZoom) {
 
       // insert some surrounding tiles when zoomlevel is higher
       if ( zi > 12 ) {
-        qCInfo(hikes) << "X:" << x-1 << x << x+1;
+        qCDebug(hikes) << "X:" << x-1 << x << x+1;
         for( int xi = x - 1; xi < x + 2; xi++ ) {
           for( int yi = y - 1; yi < y + 2; yi++ ) {
             insertTileCoords( zi, x, y, &cacheFilenames);
