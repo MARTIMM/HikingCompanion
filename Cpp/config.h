@@ -94,6 +94,10 @@ public:
     emit coordinatesReady();
   }
 
+  Q_INVOKABLE inline void loadCoordinatesNoEmit(int index) {
+    _configData->loadCoordinates(index);
+  }
+
   Q_INVOKABLE inline QGeoCoordinate findClosestPointOnRoute(QGeoCoordinate c) {
     return _configData->findClosestPointOnRoute(c);
   }
