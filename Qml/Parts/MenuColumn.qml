@@ -37,7 +37,7 @@ Column {
 
     if ( menu.width !== 0 ) menuAnimateClose.start()
   }
-  /*
+/*
     // Current page displayed.
     property HCPage.Plain currentPage
     function setCurrentPage ( newPage ) {
@@ -50,8 +50,9 @@ Column {
       mapPage = newMapPage;
     }
 */
-  // Set page to home page. The home pages will not have this button.
-  function setHomePage() {
+
+  // Set page to map page. The map page will not have this button.
+  function setMapPage() {
     //console.log("homeButton clicked");
     //console.log('current: ' + GlobalVariables.currentPage);
     GlobalVariables.currentPage.visible = false;
