@@ -42,7 +42,7 @@ Flickable {
     textFormat: Text.RichText
     text: ""
     background: Rectangle {
-      color: Qt.rgba(240,240,255,0.75)
+      color: Qt.rgba(240,240,255,0.90)
       radius: 7
 
       width: parent.width - Theme.sbWidth
