@@ -15,6 +15,7 @@ import QtQuick.Dialogs 1.2
 HCPage.Plain {
   id: configPage
 
+  property alias backgroundImage: backgroundImage
   Image {
     id: backgroundImage
     //source: "qrc:/Assets/Pages/Images/map-of-the-world-429784_960_720.jpg"
@@ -195,8 +196,20 @@ HCPage.Plain {
           var t = config.getTheme(false);
           Theme.changeColors(JSON.parse(t));
 
-          // Signal the change to the other pages
+          // Change texts on front and about page
+          GlobalVariables.applicationWindow.homePage.changeContent();
           GlobalVariables.applicationWindow.aboutPage.changeContent();
+
+          var pages = [
+                "aboutPage", "configPage", "exitPage", "homePage",
+                "tracksPage", "userTrackConfigPage"
+              ];
+          var fn = function ( page ) {
+            GlobalVariables.applicationWindow[page].backgroundImage.source =
+              "file://" + config.getFilenameFromPart("Images/background.png");
+console.info("Src: " + page + ", " + GlobalVariables.applicationWindow[page].backgroundImage.source);
+          }
+          pages.forEach(fn);
         }
       }
 
@@ -222,7 +235,6 @@ HCPage.Plain {
         text: qsTr("Remove Hike")
         onClicked: {
           removeHike.open();
-          //removeHike.close();
 /*
           if ( GlobalVariables.applicationWindow ) {
             config.setSetting( "selectedhikeindex", cbx2.currentIndex);

@@ -12,21 +12,18 @@ import QtQuick.Controls 2.4
 HCPage.Plain {
   id: aboutPage
 
+  property alias backgroundImage: backgroundImage
   Image {
     id: backgroundImage
-    //source: "qrc:/Assets/Pages/Images/map-of-the-world-429784_960_720.jpg"
+    source: "file://" + config.getFilenameFromPart("Images/background.png");
   }
 
   Config { id: config }
   Component.onCompleted: { changeContent(); }
 
   function changeContent ( ) {
-    backgroundImage.source = "file://" + config.getFilenameFromPart("Images/background.png");
-
-    //aboutText.aboutTextData.filename = config.getHtmlPageFilename("aboutText");
     aboutText.aboutTextData.filename = config.getFilenameFromPart("aboutText.html");
     var versionList = config.getVersions();
-    //console.log("Versions: " + versionList);
 
     aboutText.text = aboutTextData.text + "
 <p><table width=\"95%\" style=\"margin:auto;\">
@@ -36,8 +33,6 @@ HCPage.Plain {
   "</td></tr><tr><td>Hike Data Program for '" + versionList[1] + "'</td><td>" +
   versionList[3] + "</td></tr><tr><td colspan=\"2\">" + versionList[4] +
   "</td></tr></table></p>";
-
-    //console.log(aboutText.text);
   }
 
   width: parent.width
@@ -61,9 +56,6 @@ HCPage.Plain {
     id: aboutText
 
     width: parent.width
-    //height: parent.height / 2
-    //anchors.fill: parent
-
     anchors {
       left: parent.left
       right: parent.right
@@ -74,9 +66,6 @@ HCPage.Plain {
     property alias aboutTextData: aboutTextData
     TextLoad {
       id: aboutTextData
-      //filename: ":Assets/Pages/aboutText.html"
     }
-
-    //text: aboutTextData.text
   }
 }

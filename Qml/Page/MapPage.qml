@@ -40,6 +40,36 @@ HCPage.Plain {
     console.log("Map set to " + hikingCompanionMap.activeMapType.description);
 
     hikingCompanionMap.zoomLevel = Theme.mapParameters.startZoomLevel;
+
+
+    var currentIndex = config.getGpxFileIndexSetting();
+console.log("Current track index " + currentIndex);
+    config.setGpxFileIndexSetting(currentIndex);
+    config.loadCoordinatesNoEmit(currentIndex);
+
+    // Get the path of coordinates and show on map
+    var path = config.coordinateList();
+    var mapPage = GlobalVariables.applicationWindow.mapPage;
+    mapPage.featuresMap.trackCourse.setPath(path);
+
+    // Get the boundaries of the set of coordinates to zoom in
+    // on the track shown on the map. Using boundaries will zoom in until
+    // the track touches the edge. To prevent this, zoom out a small bit.
+    var bounds = config.boundary();
+    mapPage.hikingCompanionMap.visibleRegion = bounds;
+    mapPage.hikingCompanionMap.zoomLevel =
+        mapPage.hikingCompanionMap.zoomLevel - 0.2;
+console.log("bound set to " + mapPage.hikingCompanionMap.visibleRegion);
+console.log("zoom level set to " + mapPage.hikingCompanionMap.zoomLevel);
+
+    // For safekeeping so we can zoom on it again later
+    mapPage.featuresMap.trackCourse.boundary = bounds;
+
+    // Show a line when we wander off track
+    mapPage.featuresMap.wanderOffTrackNotation.setWanderOffTrackNotation();
+
+    // Make map visible
+    //GlobalVariables.menu.setMapPage();
   }
 
   HCParts.ToolbarRectangle {

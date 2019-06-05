@@ -13,6 +13,7 @@ HCPage.Plain {
   id: exitPage
 //  objectName: "exitPage"
 
+  property alias backgroundImage: backgroundImage
   Image {
     id: backgroundImage
     //source: "qrc:/Assets/Pages/Images/map-of-the-world-429784_960_720.jpg"

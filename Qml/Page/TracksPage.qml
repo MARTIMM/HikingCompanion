@@ -12,6 +12,7 @@ import QtQuick.Controls 2.2
 HCPage.Plain {
   id: tracksPage
 
+  property alias backgroundImage: backgroundImage
   Image {
     id: backgroundImage
     //source: "qrc:/Assets/Pages/Images/map-of-the-world-429784_960_720.jpg"
@@ -43,7 +44,7 @@ HCPage.Plain {
       mapPage.featuresMap.wanderOffTrackNotation.setWanderOffTrackNotation();
 
       // Make map visible
-      GlobalVariables.menu.setHomePage();
+      GlobalVariables.menu.setMapPage();
     }
   }
 
