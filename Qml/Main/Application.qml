@@ -84,7 +84,7 @@ ApplicationWindow {
   HCPage.ExitPage { id: exitPage }
 
   property alias mapPage: mapPage
-  HCPage.MapPage { id: mapPage; }
+  HCPage.MapPage { id: mapPage; backgroundImage.visible: false }
 
   property alias tracksPage: tracksPage
   HCPage.TracksPage { id: tracksPage }
