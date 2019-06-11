@@ -235,7 +235,6 @@ console.info("Src: " + page + ", " + GlobalVariables.applicationWindow[page].bac
         text: qsTr("Remove Hike")
         onClicked: {
           removeHike.open();
-/*
           if ( GlobalVariables.applicationWindow ) {
             config.setSetting( "selectedhikeindex", cbx2.currentIndex);
             config.cleanupHike();
@@ -255,7 +254,7 @@ console.info("Src: " + page + ", " + GlobalVariables.applicationWindow[page].bac
               GlobalVariables.applicationWindow.aboutPage.changeContent();
             }
           }
-*/
+
         }
       }
     }
