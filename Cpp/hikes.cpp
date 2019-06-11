@@ -190,15 +190,19 @@ void  Hikes::insertTileCoords(
   // calculating the uri
   if ( cacheFilenames->value(cacheFilename).isEmpty() ) {
 
-    // See qrs:Assets/Providers/terrain
 /*
+    // See qrs:Assets/Providers/terrain
     QString uri = QString(
           "https://a.tile.thunderforest.com/landscape/%1/%2/%3.png?apikey=%4"
           ).arg(zi).arg(x).arg(y).arg(tfApiKey);
 */
-/**/
+/*
     QString uri = QString(
           "https://c.tile.opentopomap.org/%1/%2/%3.png"
+          ).arg(zi).arg(x).arg(y);
+*/
+    QString uri = QString(
+          "https://b.tile.openstreetmap.org/%1/%2/%3.png"
           ).arg(zi).arg(x).arg(y);
 
     cacheFilenames->insert( cacheFilename, uri);

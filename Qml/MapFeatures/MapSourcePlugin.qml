@@ -18,12 +18,14 @@ Plugin {
   // QtCreator must have ssl support!
   PluginParameter {
     name: "osm.mapping.custom.host"
-    value: "https://a.tile.opentopomap.org/"
+    //value: "https://a.tile.opentopomap.org/"
+    value: "https://b.tile.openstreetmap.org/"
   }
 
   PluginParameter {
     name: "osm.mapping.custom.mapcopyright"
-    value: "<a href='http://www.opentopomap.org/'>OpenTopoMap</a>"
+    //value: "<a href='http://www.opentopomap.org/'>OpenTopoMap</a>"
+    value: "<a href='http://www.openstreetomap.org/'>OpenStreetMap</a>"
   }
 
   PluginParameter {
@@ -58,7 +60,7 @@ Plugin {
     var mainWin = GlobalVariables.applicationWindow;
     var suppMapTypes = mainWin.mapPage.hikingCompanionMap.supportedMapTypes;
     for ( var mt in suppMapTypes ) {
-      /*
+/*
       console.log("---");
       console.log("name: " + supportedMapTypes[mt].name);
       console.log("descr: " + supportedMapTypes[mt].description);
@@ -66,7 +68,7 @@ Plugin {
       console.log("night: " + supportedMapTypes[mt].night);
       console.log("style: " + supportedMapTypes[mt].style);
 */
-      /*
+/*
 From MapType QML component
       MapType.NoMap - No map.
       MapType.StreetMap - A street map.
