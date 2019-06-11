@@ -16,16 +16,6 @@ HCPage.Plain {
   height: parent.height
   anchors.fill: parent
 
-  property alias backgroundImage: backgroundImage
-  Image {
-    id: backgroundImage
-    source: "file://" + config.getFilenameFromPart("Images/background.png");
-    //width: parent.width
-    //height: parent.height
-    //source: "qrc:/Assets/Pages/Images/map-of-the-world-429784_960_720.jpg"
-    //anchors.fill: parent
-  }
-
   Config { id: config }
   Component.onCompleted: { changeContent(); }
 

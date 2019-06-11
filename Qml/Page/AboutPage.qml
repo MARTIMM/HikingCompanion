@@ -12,12 +12,6 @@ import QtQuick.Controls 2.4
 HCPage.Plain {
   id: aboutPage
 
-  property alias backgroundImage: backgroundImage
-  Image {
-    id: backgroundImage
-    source: "file://" + config.getFilenameFromPart("Images/background.png");
-  }
-
   Config { id: config }
   Component.onCompleted: { changeContent(); }
 
@@ -45,10 +39,11 @@ HCPage.Plain {
     HCParts.ToolbarRow {
       HCButton.OpenMenu { }
       HCButton.Home { }
-
+/*
       Text {
         text: qsTr(" About page")
       }
+*/
     }
   }
 

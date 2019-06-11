@@ -15,12 +15,6 @@ import QtQuick.Dialogs 1.2
 HCPage.Plain {
   id: configPage
 
-  property alias backgroundImage: backgroundImage
-  Image {
-    id: backgroundImage
-    //source: "qrc:/Assets/Pages/Images/map-of-the-world-429784_960_720.jpg"
-  }
-
   //property string osType
 
   width: parent.width
@@ -62,6 +56,7 @@ HCPage.Plain {
     }
   }
 
+  property alias pageToolbarRow: pageToolbarRow
   HCParts.ToolbarRectangle {
     id: pageToolbarRow
 
@@ -69,14 +64,40 @@ HCPage.Plain {
       HCButton.OpenMenu { }
       HCButton.Home { }
 
+/*
       Text {
         text: qsTr(" Configuration page")
       }
+*/
     }
   }
 
   property int leftWidth: 3 * width / 10 - Theme.cfgFieldMargin
   property int rightWidth: 7 * width / 10 - Theme.cfgFieldMargin
+
+  Rectangle {
+    color: Qt.rgba(240,240,255,0.90)
+    radius: 7
+
+    width: parent.width
+    height: parent.height - pageToolbarRow.height - pageButtonRow.height
+    //anchors.fill: parent
+
+    anchors {
+      left: parent.left
+      right: parent.right
+      //top: parent.top
+      //bottom: parent.bottom
+      top: pageToolbarRow.bottom
+      bottom: pageButtonRow.top
+
+      leftMargin: 0
+      rightMargin: 0
+      topMargin: 0
+      bottomMargin: 0
+    }
+
+  }
 
   property alias configGrid: configGrid
   Grid {
@@ -113,6 +134,7 @@ HCPage.Plain {
       id: cbx1
       width: rightWidth
       height: Theme.cfgRowHeight
+      //editable: false
     }
 
 
@@ -163,6 +185,8 @@ HCPage.Plain {
   }
 
 
+
+  property alias pageButtonRow: pageButtonRow
   HCParts.PageButtonRowRectangle {
     id: pageButtonRow
     HCParts.PageButtonRow {
@@ -200,16 +224,17 @@ HCPage.Plain {
           GlobalVariables.applicationWindow.homePage.changeContent();
           GlobalVariables.applicationWindow.aboutPage.changeContent();
 
-          var pages = [
-                "aboutPage", "configPage", "exitPage", "homePage",
-                "tracksPage", "userTrackConfigPage"
-              ];
+          //var pages = [
+          //      "aboutPage", "configPage", "exitPage", "homePage",
+          //      "tracksPage", "userTrackConfigPage"
+          //    ];
           var fn = function ( page ) {
             GlobalVariables.applicationWindow[page].backgroundImage.source =
               "file://" + config.getFilenameFromPart("Images/background.png");
 console.info("Src: " + page + ", " + GlobalVariables.applicationWindow[page].backgroundImage.source);
           }
-          pages.forEach(fn);
+          //pages.forEach(fn);
+          fn('aboutPage');
         }
       }
 

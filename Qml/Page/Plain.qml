@@ -16,6 +16,17 @@ Frame {
   anchors.fill: parent
   visible: false
 
+  property alias backgroundImage: backgroundImage
+  Image {
+    id: backgroundImage
+    source: "file://" + config.getFilenameFromPart("Images/background.png");
+    fillMode: Image.PreserveAspectCrop
+    horizontalAlignment: Image.AlignHCenter
+    verticalAlignment: Image.AlignVCenter
+    width: parent.width
+    height: parent.height
+  }
+
   MouseArea {
     width: parent.width
     height: parent.height
