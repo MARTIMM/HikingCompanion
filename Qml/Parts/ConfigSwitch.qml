@@ -9,7 +9,7 @@ Rectangle {
   width: parent.width
   height: Theme.largeButtonHeight
 
-  color: Theme.component.color.background
+  color: "transparent" //Theme.component.color.background
 
   property var controlObjects: []
   property bool checked;

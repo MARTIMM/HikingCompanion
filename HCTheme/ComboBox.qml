@@ -70,7 +70,7 @@ T.ComboBox {
       visible: control.enabled && control.editable && !control.flat
       border.width: parent && parent.activeFocus ? 2 : 1
       border.color: parent && parent.activeFocus ? control.palette.highlight : control.palette.button
-      color: control.palette.base
+      color: "transparent" //control.palette.base
     }
   }
 

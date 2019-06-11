@@ -19,6 +19,7 @@
         <file>Qml/MapFeatures/UserTrackCourse.qml</file>
         <file>Qml/MapFeatures/WanderOffTrackNotation.qml</file>
         <file>Qml/Page/AboutPage.qml</file>
+        <!--file>Qml/Page/ConfigPage-old.qml</file-->
         <file>Qml/Page/ConfigPage.qml</file>
         <file>Qml/Page/ExitPage.qml</file>
         <file>Qml/Page/MapPage.qml</file>
