@@ -1044,7 +1044,7 @@ void ConfigData::_manageHCConfig() {
 
   // With this I can use "cache:Tiles" or "cache:Features" in e.g.
   // value of PluginParameter name "osm.mapping.offline.directory"
-  QDir::setSearchPaths("cache", QStringList(_dataDir + "Cache"));
+  QDir::setSearchPaths( "cache", QStringList(_dataDir + "/Cache"));
 
 
   // Prepare a location for data sharing and create the root of it
