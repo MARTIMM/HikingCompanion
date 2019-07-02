@@ -26,7 +26,9 @@ Flickable {
   // anchor to the top and bottom because height is variable
   anchors {
     top: parent.top
+    topMargin: 5
     bottom: parent.bottom
+    bottomMargin: 5
     left: parent.left
     leftMargin: 10
     right: parent.right
@@ -47,12 +49,7 @@ Flickable {
 
       width: parent.width - Theme.sbWidth
       height: parent.height
-      anchors {
-        top: parent.top
-        bottom: parent.bottom
-        left: parent.left
-        right: parent.right
-      }
+      anchors.fill: parent
     }
   }
 
