@@ -224,17 +224,17 @@ HCPage.Plain {
           GlobalVariables.applicationWindow.homePage.changeContent();
           GlobalVariables.applicationWindow.aboutPage.changeContent();
 
-          //var pages = [
-          //      "aboutPage", "configPage", "exitPage", "homePage",
-          //      "tracksPage", "userTrackConfigPage"
-          //    ];
+          // Change the background image for each page
+          var pages = [
+                "aboutPage", "configPage", "exitPage", "homePage",
+                "tracksPage", "userTrackConfigPage"
+              ];
           var fn = function ( page ) {
             GlobalVariables.applicationWindow[page].backgroundImage.source =
               "file://" + config.getFilenameFromPart("Images/background.png");
-console.info("Src: " + page + ", " + GlobalVariables.applicationWindow[page].backgroundImage.source);
           }
-          //pages.forEach(fn);
-          fn('aboutPage');
+
+          pages.forEach(fn);
         }
       }
 
