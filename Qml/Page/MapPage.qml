@@ -104,7 +104,7 @@ console.log("zoom level set to " + mapPage.hikingCompanionMap.zoomLevel);
     //zoomLevel: 15
     minimumZoomLevel: Theme.mapParameters.minZoomLevel
     maximumZoomLevel: Theme.mapParameters.maxZoomLevel
-    onZoomLevelChanged: { console.info("Zoom level: " + zoomLevel); }
+    //onZoomLevelChanged: { console.info("Zoom level: " + zoomLevel); }
 
     property alias mapSourcePlugin: mapSourcePlugin
     plugin: HCMapFeatures.MapSourcePlugin { id: mapSourcePlugin }
