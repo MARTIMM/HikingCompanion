@@ -69,14 +69,15 @@ MapItemView {
 
         visible: false
 
+        property real tt1cw: tt1.contentWidth
         width: tt1cw
+
+        property real tt1ch: tt1.contentHeight
         height: tt1ch
 
         color: "white"
         opacity: 0.8
 
-        property real tt1cw: tt1.contentWidth
-        property real tt1ch: tt1.contentHeight
         Text {
           id: tt1
           text: title
