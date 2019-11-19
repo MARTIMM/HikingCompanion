@@ -13,7 +13,7 @@
         <file>Qml/MapFeatures/CurrentLocationFeature.qml</file>
         <file>Qml/MapFeatures/CurrentPositionSource.qml</file>
         <file>Qml/MapFeatures/MapSourcePlugin.qml</file>
-        <file>Qml/MapFeatures/PoiModel.qml</file>
+        <file>Qml/MapFeatures/PoiSearchResult.qml</file>
         <file>Qml/MapFeatures/PoiSearch.qml</file>
         <file>Qml/MapFeatures/TrackCourse.qml</file>
         <file>Qml/MapFeatures/UserTrackCourse.qml</file>

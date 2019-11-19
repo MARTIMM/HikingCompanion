@@ -70,12 +70,14 @@ android {
   # https://doc.qt.io/qtcreator/creator-deploying-android.html. Following the
   # instructions will result in the contains() line below.
   # Important note: openssl must be compiled against the current use of SDK,
-  # NDK (r17b) and platform (android-24)
+  # NDK (e.g. r17b) and platform (e.g. android-24)
   contains(ANDROID_TARGET_ARCH,armeabi-v7a) {
       ANDROID_EXTRA_LIBS = \
-        $$ProjectRoot/libsHack/Android-armv7/libcrypto.so \
-        $$ProjectRoot/libsHack/Android-armv7/libssl.so
+        $$ProjectRoot/libsHack/Android-armv7-r20b-lib-1.1/libcrypto.so \
+        $$ProjectRoot/libsHack/Android-armv7-r20b-lib-1.1/libssl.so
     }
+#        $$ProjectRoot/libsHack/Android-armv7-r17b/libcrypto.so \
+#        $$ProjectRoot/libsHack/Android-armv7-r17b/libssl.so
 
   ANDROID_PACKAGE_SOURCE_DIR = $$PWD/android
 }
