@@ -90,6 +90,8 @@ public:
   double fysLength( int pixels );
   int pixels( double fysLength );
   void setWindowSize( int w, int h);
+  inline int getWindowWidth() { return _width; }
+  inline int getWindowHeight() { return _height; }
 
   void saveUserTrackNames( QString hikeTitle, QString hikeDesc, QString hikeKey);
   bool saveUserTrack(

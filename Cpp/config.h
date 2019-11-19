@@ -118,6 +118,12 @@ public:
   Q_INVOKABLE inline void setWindowSize( int w, int h) {
     _configData->setWindowSize( w, h);
   }
+  Q_INVOKABLE inline int getWindowWidth() {
+    return _configData->getWindowWidth();
+  }
+  Q_INVOKABLE inline int getWindowHeight() {
+    return _configData->getWindowHeight();
+  }
   Q_INVOKABLE inline double fysLength( int pixels ) {
     return _configData->fysLength(pixels);
   }
