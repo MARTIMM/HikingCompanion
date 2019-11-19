@@ -6,15 +6,47 @@ import QtLocation 5.9
 MapItemView {
   id: root
 
-  model: GlobalVariables.applicationWindow.mapPage.poiMap.searchPoi
+  model: GlobalVariables.applicationWindow.mapPage.poiMap.poiSearch
   delegate: MapQuickItem {
+    // place item on visible part of the map
     coordinate: place.location.coordinate
+
     onCoordinateChanged: {
-      console.info(
-            "Coordinate found: " +
-            place.location.coordinate + ", " +
-            place.location.address.text
-            );
+      var loc = place.location.coordinate;
+      var addr = place.location.address.text;
+      console.log('loc: ' + loc);
+
+      // filter items when not in area
+      if ( typeof loc.longitude !== "undefined" &&
+           typeof loc.latitude !== "undefined" ) {
+
+        var hcm = GlobalVariables.applicationWindow.mapPage.hikingCompanionMap;
+        var vr = hcm.visibleRegion.boundingGeoRectangle();
+
+        var longMin = vr.topLeft.longitude;
+        var latMin = vr.topLeft.latitude;
+        var longMax = vr.bottomRight.longitude;
+        var latMax = vr.bottomRight.latitude;
+
+        console.info('Addr: ' + addr);
+        console.info('compare ' + loc.longitude + ' >= ' + longMin + ': ' + (loc.longitude >= longMin));
+        console.info('compare ' + loc.latitude + ' >= ' + latMin + ': ' + (loc.latitude >= latMin));
+        console.info('compare ' + loc.longitude + ' <= ' + longMax + ': ' + (loc.longitude <= longMax));
+        console.info('compare ' + loc.latitude + ' <= ' + latMax + ': ' + (loc.latitude <= latMax));
+
+        if( loc.longitude >= longMin &&
+            loc.latitude >= latMin &&
+            loc.longitude <= longMax &&
+            loc.latitude <= latMax ) {
+
+          this.coordinate = loc;
+          console.info(
+                "Coordinate found: " +
+                place.location.coordinate + ", " +
+                place.location.address.text
+                );
+        }
+      }
     }
 
     anchorPoint.x: image.width * 0.5

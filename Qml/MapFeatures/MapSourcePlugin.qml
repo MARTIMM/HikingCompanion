@@ -8,12 +8,11 @@ import QtLocation 5.9
 
 // Source of the maps
 Plugin {
-  id: root
+  id: mapSourcePlugin
 
   name: "osm" // "mapboxgl" // "mapbox" // "esri" //
   //required: Plugin.AnyMappingFeatures | Plugin.AnyGeocodingFeatures
-  locales: [ "nl_NL", "en_US"]
-
+  //locales: [ "nl_NL", "en_US"]
   // In script above select MapType.CustomMap
   // QtCreator must have ssl support!
   PluginParameter {
@@ -21,22 +20,31 @@ Plugin {
     //value: "https://a.tile.opentopomap.org/"
     value: "https://b.tile.openstreetmap.org/"
   }
-
+/*
+  PluginParameter {
+    name: "osm.geocoding.debug_query"
+    value: true
+  }
+*/
+  /*
   PluginParameter {
     name: "osm.mapping.custom.mapcopyright"
     //value: "<a href='http://www.opentopomap.org/'>OpenTopoMap</a>"
     value: "<a href='http://www.openstreetomap.org/'>OpenStreetMap</a>"
   }
+*/
 
   PluginParameter {
     name: "osm.mapping.custom.datacopyright"
     value: "<a href='http://www.openstreetmap.com/'>OpenStreetMap</a>"
   }
 
+/*
   PluginParameter {
     name: "osm.mapping.providersrepository.disabled"
     value: true
   }
+*/
 
   PluginParameter {
     name: "osm.mapping.offline.directory"
