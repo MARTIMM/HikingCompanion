@@ -471,7 +471,7 @@ Item {
 
   property QtObject mapParameters: QtObject {
     property real startZoomLevel: 15
-    property real minZoomLevel: 8
+    property real minZoomLevel: 4
     property real maxZoomLevel: 16
   }
 

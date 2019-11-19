@@ -12,6 +12,8 @@ import QtQuick 2.11
 import QtQuick.Controls 2.4
 import QtLocation 5.9
 import QtPositioning 5.8
+//import Qt.labs.handlers 1.0
+import QtQuick.Layouts 1.3
 
 HCPage.Plain {
   id: mapPage
@@ -43,7 +45,7 @@ HCPage.Plain {
 
 
     var currentIndex = config.getGpxFileIndexSetting();
-console.log("Current track index " + currentIndex);
+    console.log("Current track index " + currentIndex);
     config.setGpxFileIndexSetting(currentIndex);
     config.loadCoordinatesNoEmit(currentIndex);
 
@@ -59,8 +61,8 @@ console.log("Current track index " + currentIndex);
     mapPage.hikingCompanionMap.visibleRegion = bounds;
     mapPage.hikingCompanionMap.zoomLevel =
         mapPage.hikingCompanionMap.zoomLevel - 0.2;
-console.log("bound set to " + mapPage.hikingCompanionMap.visibleRegion);
-console.log("zoom level set to " + mapPage.hikingCompanionMap.zoomLevel);
+    console.log("bound set to " + mapPage.hikingCompanionMap.visibleRegion);
+    console.log("zoom level set to " + mapPage.hikingCompanionMap.zoomLevel);
 
     // For safekeeping so we can zoom on it again later
     mapPage.featuresMap.trackCourse.boundary = bounds;
@@ -85,12 +87,20 @@ console.log("zoom level set to " + mapPage.hikingCompanionMap.zoomLevel);
       //TODO Reset tilt
       //TODO Camera button to make a picture
       //TODO Note button to make a note
+
+      property alias poiSearchChoice: poiSearchChoice
+      ComboBox {
+        id: poiSearchChoice
+        model: [ "Food", "Sleep", "History", "Transport"]
+        onActivated: {
+          console.info( "cbx: " + poiSearchChoice.model[poiSearchChoice.currentIndex]);
+        }
+      }
     }
   }
 
   property alias location: location
   HCMapFeatures.CurrentPositionSource { id: location }
-
 
   // https://doc-snapshots.qt.io/qt5-5.9/location-plugin-osm.html#
   property alias hikingCompanionMap: hikingCompanionMap
@@ -104,7 +114,6 @@ console.log("zoom level set to " + mapPage.hikingCompanionMap.zoomLevel);
     //zoomLevel: 15
     minimumZoomLevel: Theme.mapParameters.minZoomLevel
     maximumZoomLevel: Theme.mapParameters.maxZoomLevel
-    //onZoomLevelChanged: { console.info("Zoom level: " + zoomLevel); }
 
     property alias mapSourcePlugin: mapSourcePlugin
     plugin: HCMapFeatures.MapSourcePlugin { id: mapSourcePlugin }
@@ -113,6 +122,12 @@ console.log("zoom level set to " + mapPage.hikingCompanionMap.zoomLevel);
       mapSourcePlugin.setMapSource(MapType.CustomMap);
       // mapSourcePlugin.tileCache.value = config.tileCacheDir();
       //console.info("pp cache: " + mapSourcePlugin.tileCache.value);
+
+      // example check on what a Plugin supports
+      // https://www3.sra.co.jp/qt/relation/doc/qtlocation/qml-qtlocation-plugin.html#
+      for ( var i = 0; i < 6; i++) {
+        console.info("f[" + i + "]: " + mapSourcePlugin.supportsGeocoding(i));
+      }
     }
   }
 
@@ -127,7 +142,6 @@ console.log("zoom level set to " + mapPage.hikingCompanionMap.zoomLevel);
     anchors.fill: parent
     plugin: Plugin { name: "itemsoverlay" }
     gesture.enabled: false
-
 
     center: hikingCompanionMap.center
     color: 'transparent' // Necessary to make this map transparent
@@ -200,10 +214,28 @@ console.log("zoom level set to " + mapPage.hikingCompanionMap.zoomLevel);
     fieldOfView: hikingCompanionMap.fieldOfView
     z: hikingCompanionMap.z + 1
 
-    property alias searchPoi: searchPoi
-    HCMapFeatures.PoiSearch { id: searchPoi }
-    property alias poiModel: poiModel
-    HCMapFeatures.PoiModel { id: poiModel }
+    property alias poiSearch: poiSearch
+    HCMapFeatures.PoiSearch { id: poiSearch }
+    property alias poiSearchResult: poiSearchResult
+    HCMapFeatures.PoiSearchResult { id: poiSearchResult }
+
+    onBearingChanged: { console.info("Bearing: " + this.bearing); }
+    onZoomLevelChanged: { console.info("Zoom level: " + this.zoomLevel); }
+    onTiltChanged: { console.info("Tilt: " + this.tilt); }
+    onCenterChanged: {
+      var vr = hikingCompanionMap.visibleRegion.boundingGeoRectangle();
+      console.info("visibleReagion: " + vr);
+      poiSearch.searchTerm = "Pizza";
+      poiSearch.categories = null;
+
+      //poiSearch.searchArea.center.longitude = vr.longitude;
+      //poiSearch.searchArea.center.latitude = vr.latitude;
+      //poiSearch.searchArea = QtPositioning.rectangle(vr);
+      poiSearch.searchArea = QtPositioning.circle(
+            QtPositioning.coordinate( hikingCompanionMap.center, 10)
+            );
+      poiSearch.update();
+    }
 
     // The code below enables SSAA
     layer.enabled: true
@@ -212,6 +244,215 @@ console.log("zoom level set to " + mapPage.hikingCompanionMap.zoomLevel);
     property int h : hikingCompanionMap.height
     //property int pr: Screen.devicePixelRatio
     //layer.textureSize: Qt.size( w  * 2 * pr, h * 2 * pr)
+
+/*
+    function moveMap ( x, y ) {
+      // pick values from set boundary at hikingCompanionMap.visibleRegion.
+      // also copy zoomlevel which must be set back at the end.
+      //var vr = featuresMap.trackCourse.boundary;
+      var vr = hikingCompanionMap.visibleRegion.boundingGeoRectangle();
+      var z = hikingCompanionMap.zoomLevel;
+
+      //console.info("w&h m: " + poiMap.w + ", " + poiMap.h);
+      //console.info("w&h b: " + vr.width + ', ' + vr.height);
+
+      var xMoved = vr.width * (mArea.oldMx - x) / poiMap.w;
+      var yMoved = vr.height * (mArea.oldMy - y) / poiMap.h;
+      //console.info("Moved to " + xMoved + ', ' + yMoved);
+      setXY( x, y);
+
+      // translate ( latitude northwards, longitude westwards), x = longitude
+      vr.translate( -yMoved, xMoved);
+
+      poiSearch.searchArea = QtPositioning.rectangle(vr);
+      poiSearch.update();
+
+      // Move map and set zoomlevel
+      hikingCompanionMap.visibleRegion = vr;
+      hikingCompanionMap.zoomLevel = z;
+    }
+
+    function setXY ( x, y ) {
+      if( x ) mArea.oldMx = x;
+      if( y ) mArea.oldMy = y;
+    }
+*/
+    property alias clickInfoArea: clickInfoArea
+    Popup {
+      id: clickInfoArea
+      width: 200; //min( 300, config.getWindowWidth)
+      height: 350; //min( 400, config.getWindowHeight)
+      visible: false
+      property alias popupText: popupText
+      contentItem: Text {
+        id: popupText
+        //text: "Content"
+        textFormat: Text.RichText
+        wrapMode: Text.Wrap
+      }
+    }
+
+/*
+    property alias mArea: mArea
+    MouseArea {
+      id: mArea
+
+      width: parent.width
+      height: parent.height
+      anchors.fill: parent;
+
+      enabled: true
+      acceptedButtons: Qt.AllButtons
+      preventStealing: true
+      propagateComposedEvents: false
+      //drag.target: poiMap;
+
+      property var vr
+      property var oldMx
+      property var oldMy
+
+      // need this because mouseclick starts popup visible = false
+      property bool popupVisible: false
+
+      onClicked: {
+        mArea.vr = hikingCompanionMap.visibleRegion.boundingGeoRectangle();
+        console.info( "clicked: " + mouse.button +
+                     ", ( " + mouse.x + ", " + mouse.y + "), " +
+                     mouse.source + ", " + mouse.wasHeld + ", " +
+                     vr + ', ' + poiMap.clickInfoArea.visible
+                     );
+        //mouse.accepted = true;
+        //mouse.accepted = false;
+
+        //mArea.wasHeld = false;
+        if( popupVisible ) {
+          poiMap.clickInfoArea.visible = false;
+          popupVisible = false;
+        }
+
+        else {
+console.info("img: " + ":Assets/Images/Icon/Android/HCLogo-96x96.png");
+          poiMap.clickInfoArea.popupText.text = '
+<div style="background-color:white;">
+<h2>some info</h2>
+<p>bla sjhdgf sdjhgsjdgfj sdjfg dsfjgsd die bla</p>
+<p>jhgsf jdhgsf sjhdgf sdjhgsjdgfj sdjfg dsfjgsd f
+<img src="' + "qrc:Assets/Images/Icon/Android/HCLogo-96x96.png" + '"/>
+</p>
+</div>
+';
+          poiMap.clickInfoArea.visible = true;
+          popupVisible = true;
+          poiMap.clickInfoArea.x = mouse.x;
+          poiMap.clickInfoArea.y = mouse.y;
+          //poiMap.clickInfoArea.
+        }
+
+        poiMap.setXY( mouse.x, mouse.y);
+      }
+
+      onPressed: {
+        console.info( "pressed: " + mouse.button +
+                     ", ( " + mouse.x + ", " + mouse.y + "), " +
+                     mouse.source + ", " + mouse.wasHeld
+                     );
+
+        //mouse.accepted = true;
+        //mouse.accepted = false;
+        //poiMap.mArea.pressed(mouse)
+
+        //if( mArea.wasHeld && mouse.button === Qt.LeftButton )
+        //  mouse.accepted = false;
+        poiMap.setXY( mouse.x, mouse.y)
+      }
+
+      onPositionChanged: {
+        console.info( "pos changed: " + mouse.button +
+                     ", ( " + mouse.x + ", " + mouse.y + "), " +
+                     mouse.source + ", " + mouse.wasHeld + ", " +
+                     hikingCompanionMap.visibleRegion
+                     );
+        //mouse.accepted = true;
+        //mouse.accepted = false;
+        //console.log(hikingCompanionMap.visibleRegion);
+        poiMap.moveMap( mouse.x, mouse.y)
+      }
+
+      onPressAndHold: {
+
+        console.info( "pressed and hold: " + mouse.button +
+                     ", ( " + mouse.x + ", " + mouse.y + "), " +
+                     mouse.source + ", " + mouse.wasHeld + ", " +
+                     hikingCompanionMap.visibleRegion
+                     );
+
+        //mouse.accepted = true;
+        //mouse.accepted = false;
+        //mArea.wasHeld = mouse.wasHeld;
+      }
+
+      onPressAndHoldIntervalChanged: {
+
+        console.info( "pressed and hold int changed: " + mouse.button +
+                     ", ( " + mouse.x + ", " + mouse.y + "), " +
+                     mouse.source + ", " + mouse.wasHeld + ", " +
+                     hikingCompanionMap.visibleRegion
+                     );
+
+        //mouse.accepted = true;
+        //mouse.accepted = false;
+      }
+
+      onPreventStealingChanged:  {
+        //console.info( "prevent stealing changed: " );
+        //mouse.accepted = true;
+        //mouse.accepted = false;
+      }
+    }
+*/
+/*
+    PinchHandler {
+//      target: hikingCompanionMap
+//TODO Reactions are too big
+
+      target: null
+      minimumPointCount: 2
+      //minimumRotation: 3.0
+      //minimumScale: 0.5
+
+      property real bearing: 0.0
+      property var boundRect
+      onActiveChanged: {
+        bearing = hikingCompanionMap.bearing;
+        boundRect = hikingCompanionMap.visibleRegion.boundingGeoRectangle();
+      }
+
+      onScaleChanged: {
+        if ( this.scale > 0.0 ) {
+          var br = boundRect
+          br.width /= this.scale;
+          br.height /= this.scale;
+          hikingCompanionMap.visibleRegion = br;
+
+          console.info(
+                "scale changed: " + this.scale +
+                ", z: " + hikingCompanionMap.zoomLevel
+                );
+        }
+      }
+
+      onRotationChanged: {
+        console.info("rotation changed: " + this.rotation);
+        if ( this.rotation === 0 ) {
+          //hikingCompanionMap.bearing = bearing;
+          bearing = hikingCompanionMap.bearing;
+        }
+
+        hikingCompanionMap.bearing = bearing - this.rotation;
+      }
+
+    }
+*/
   }
 }
 

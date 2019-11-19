@@ -25,7 +25,7 @@ PositionSource {
   }
 
   function processNewPosition() {
-    console.log( "Coordinate: " + coord.longitude + ", " + coord.latitude);
+    console.log( "New coordinate: " + coord.longitude + ", " + coord.latitude);
 
     // change the current location marker but do not center on it!
     currentLocationFeature.center = coord
