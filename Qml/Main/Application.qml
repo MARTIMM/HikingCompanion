@@ -1,8 +1,6 @@
 /* ----------------------------------------------------------------------------
   Author: Marcel Timmerman
-  License: ...
-  Copyright: © Sultanstrail 2018 .. ∞
-  Copyright: © Sufitrail 2018 .. ∞
+  License: Artistic 2.0
   Copyright: © Marcel Timmerman 2018 .. ∞
 
   This is the main page where the root of the gui tree is described. This is
@@ -29,6 +27,8 @@ ApplicationWindow {
     GlobalVariables.setCurrentPage(homePage);
     GlobalVariables.setMenu(menu);
 
+    config.setWindowSize( width, height);
+
     // Get the hiking companion settings for default colors and
     // to specify sizes and other properties.
     var t = config.getTheme(true);
@@ -39,8 +39,6 @@ ApplicationWindow {
     t = config.getTheme(false);
     //console.log("style: " + t);
     Theme.changeColors(JSON.parse(t));
-
-    config.setWindowSize( width, height);
   }
 
   Config { id: config }
@@ -71,8 +69,14 @@ ApplicationWindow {
   property alias homePage: homePage
   HCPage.HomePage { id: homePage; visible: true }
 
-  property alias aboutPage: aboutPage
-  HCPage.AboutPage { id: aboutPage }
+  property alias hikeSelectPage: hikeSelectPage
+  HCPage.HikeSelectPage { id: hikeSelectPage }
+
+  property alias trackSelectPage: trackSelectPage
+  HCPage.TrackSelectPage { id: trackSelectPage }
+
+  property alias mapPage: mapPage
+  HCPage.MapPage { id: mapPage; backgroundImage.visible: false }
 
   property alias configPage: configPage
   HCPage.ConfigPage { id: configPage }
@@ -80,14 +84,11 @@ ApplicationWindow {
   property alias userTrackConfigPage: userTrackConfigPage
   HCPage.UserTrackConfigPage { id: userTrackConfigPage }
 
+  property alias aboutPage: aboutPage
+  HCPage.AboutPage { id: aboutPage }
+
   property alias exitPage: exitPage
   HCPage.ExitPage { id: exitPage }
-
-  property alias mapPage: mapPage
-  HCPage.MapPage { id: mapPage; backgroundImage.visible: false }
-
-  property alias tracksPage: tracksPage
-  HCPage.TracksPage { id: tracksPage }
 
   // Menu
   HCParts.MenuColumn {
@@ -96,38 +97,53 @@ ApplicationWindow {
     property alias homeButton: homeButton
     HCButton.MenuButton {
       id: homeButton
-      text: qsTr("⌂ Home")
-      //      text: qsTr("Home")
+      //text: qsTr("⌂ Home")
+      text: qsTr(" Home")
       onClicked: {
         GlobalVariables.menu.menuEntryClicked(homePage);
       }
     }
 
-    property alias mapButton: mapButton
+    property alias hikeSelectButton: hikeSelectButton
     HCButton.MenuButton {
-      id: mapButton
-      text: qsTr("🌍 Map")
-      //      text: qsTr("Map")
+      id: hikeSelectButton
+      //text: qsTr("🚶 Hikes")
+      text: qsTr(" Hikes")
       onClicked: {
-        GlobalVariables.menu.menuEntryClicked(mapPage);
+        GlobalVariables.menu.menuEntryClicked(hikeSelectPage);
       }
     }
 
     property alias tracksButton: tracksButton
     HCButton.MenuButton {
       id: tracksButton
-      text: qsTr("🚶 Tracks")
-      //      text: qsTr("Tracks")
+      //text: qsTr("🚶 Tracks")
+      text: qsTr(" Tracks")
       onClicked: {
-        GlobalVariables.menu.menuEntryClicked(tracksPage);
+        GlobalVariables.menu.menuEntryClicked(trackSelectPage);
+      }
+    }
+
+    property alias mapButton: mapButton
+    HCButton.MenuButton {
+      id: mapButton
+      //text: qsTr("🌍 Map")
+/*
+      Image {
+        source: "qrc:/Assets/Images/Icon/Buttons/Map.svg"
+      }
+*/
+      text: qsTr(" Map")
+      onClicked: {
+        GlobalVariables.menu.menuEntryClicked(mapPage);
       }
     }
 
     property alias configButton: configButton
     HCButton.MenuButton {
       id: configButton
-      text: "🛠 " + qsTr("Config")
-      //      text: qsTr("Config")
+      //text: "🛠 " + qsTr("Config")
+      text: qsTr(" Config")
       onClicked: {
         GlobalVariables.menu.menuEntryClicked(configPage);
       }
@@ -136,8 +152,8 @@ ApplicationWindow {
     property alias userTrackConfigButton: userTrackConfigButton
     HCButton.MenuButton {
       id: userTrackConfigButton
-      text: qsTr("📡 Recording")
-      //      text: qsTr("Recording")
+      //text: qsTr("📡 Recording")
+      text: qsTr(" Recording")
 
       onClicked: {
         GlobalVariables.menu.menuEntryClicked(userTrackConfigPage);
@@ -147,8 +163,8 @@ ApplicationWindow {
     property alias aboutButton: aboutButton
     HCButton.MenuButton {
       id: aboutButton
-      text: qsTr("👥 About")
-      //      text: qsTr("About")
+      //text: qsTr("👥 About")
+      text: qsTr(" About")
       onClicked: {
         GlobalVariables.menu.menuEntryClicked(aboutPage);
       }
@@ -156,6 +172,8 @@ ApplicationWindow {
 
     property alias exitButton: exitButton
     HCButton.MenuButton {
+      id: exitButton
+/*
       Component.onCompleted: {
         if ( Qt.platform.os == "Android" ) {
           txt = "■ ";
@@ -167,10 +185,11 @@ ApplicationWindow {
         txt += qsTr("Exit");
       }
 
-      id: exitButton
       property string txt
       text: txt
-      //       text: qsTr("Exit")
+*/
+      //text: qsTr("⏻ Exit")
+      text: qsTr(" Exit")
       onClicked: {
         GlobalVariables.menu.menuEntryClicked(exitPage);
       }
