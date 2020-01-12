@@ -14,25 +14,31 @@ import "Page" as HCPage
 import QtQuick 2.9
 
 QtObject {
-  property QtObject component: QtObject {
-    property QtObject toolbar: QtObject {
-      property QtObject button: QtObject {
-        property int type:        0
-      }
-    }
+  // Button types. buttonType is set by the onCompletion() of a specific button
+  // when created in a Toolbar or ButtonRow. The button template checks the type
+  // and sets sizes or whatever.
+  enum ButtonType { ToolbarButton, ButtonRowButton, MenuButton }
 
-    property QtObject buttonrow: QtObject {
-      property QtObject button: QtObject {
-        property int type:        1
-      }
-    }
+  // Likewise there are other types
+  enum TextType {
+    InfoAreaText,     // larger on page texts
+    MessageAreaText,  // small messages
+    WarningAreaText,  // warning text messages
+    SuccessAreaText,  // success text messages
 
-    property QtObject menu: QtObject {
-      property QtObject button: QtObject {
-        property int type:        2
-      }
-    }
+    LabelText,        // texts on labels, buttons, combo boxes etc.
+    EnabledText,      // enabled widgets === LabelText
+    DisabledText,     // disabled widgets
+
+    TitleText,        // titles
+    ListText          // list entries
   }
+
+  enum ButtonBar { Toolbar, FooterBar, MenuBar }
+
+//  enum TrailType { Walk, Bike }
+
+
 
   // Currently displayed page.
   property HCPage.Plain currentPage
@@ -46,7 +52,7 @@ QtObject {
   }
 
   // Open menu button
-  property HCButton.OpenMenu openMenu
+  property HCButton.OpenMenuTbButton openMenu
   function setOpenMenu ( newOpenMenu ) {
     openMenu = newOpenMenu;
   }
@@ -54,38 +60,6 @@ QtObject {
   property Column menu
   function setMenu ( newMenu ) {
     menu = newMenu;
-  }
-
-  function setComponentFgColor( component ) {
-    var fg = component.foreground;
-    var clr;
-    if ( component.foregroundDark !== fg ) {
-      clr = component.foregroundDark;
-    }
-    else if ( component.foregroundLight !== fg ) {
-      clr = component.foregroundLight;
-    }
-    else {
-      clr = fg;
-    }
-
-    return clr;
-  }
-
-  function setComponentBgColor( component ) {
-    var bg = component.background;
-    var clr;
-    if ( component.backgroundDark !== bg ) {
-      clr = component.backgroundDark;
-    }
-    else if ( component.backgroundLight !== bg ) {
-      clr = component.backgroundLight;
-    }
-    else {
-      clr = bg;
-    }
-
-    return clr;
   }
 }
 
