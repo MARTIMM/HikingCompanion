@@ -4,6 +4,7 @@ import "../Parts" as HCParts
 
 import io.github.martimm.HikingCompanion.Theme 0.1
 import io.github.martimm.HikingCompanion.Textload 0.1
+import io.github.martimm.HikingCompanion.GlobalVariables 0.1
 
 import QtQuick 2.9
 import QtQuick.Controls 2.2
@@ -11,71 +12,61 @@ import QtQuick.Layouts 1.3
 
 HCPage.Plain {
   id: exitPage
-//  objectName: "exitPage"
 
   width: parent.width
   height: parent.height
   anchors.fill: parent
 
   Component.onCompleted: {
-    backgroundImage.source = "file://" + config.getFilenameFromPart("Images/background.png");
+    // Info text
+    exitText.exitTextData.filename = config.getFilenameFromPart("exitText.html");
+
+    // headerMatch[0] is whole regex match
+    var text = exitText.exitTextData.text;
+    var headerMatch = text.match(/<h1>([^<]+)<\/h1>/i);
+    exitText.title = headerMatch[1];
+    exitText.text = text.split(headerMatch[0]).join('');
   }
 
-  HCParts.ToolbarRectangle {
-    id: pageToolbarRow
+  HCParts.ButtonRow {
+    id: toolbarButtons
 
-    HCParts.ToolbarRow {
-      HCButton.OpenMenu { }
-      HCButton.Home { }
-/*
-      Text {
-        text: qsTr(" Exit page")
-      }
-*/
+    Component.onCompleted: {
+      init(GlobalVariables.ToolbarButton);
+      addButton("qrc:Qml/Button/OpenMenuTbButton.qml");
+      addButton("qrc:Qml/Button/HomeTbButton.qml");
     }
+
+    anchors.top: parent.top
   }
 
+  property alias exitText: exitText
   HCParts.InfoArea {
     id: exitText
 
     width: parent.width
-    height: parent.height
-    //anchors.fill: parent
 
     anchors {
       left: parent.left
       right: parent.right
-      top: pageToolbarRow.bottom
-      bottom: pageButtonRow.top
+      top: toolbarButtons.bottom
+      bottom: footerButtons.top
     }
 
+    property alias exitTextData: exitTextData
     TextLoad {
       id: exitTextData
-      filename: ":Assets/Pages/exitText.html"
     }
-
-    text: exitTextData.text
   }
 
-  HCParts.PageButtonRowRectangle {
-    id: pageButtonRow
-    HCParts.PageButtonRow {
+  HCParts.ButtonRow {
+    id: footerButtons
 
-      anchors.bottom: parent.bottom
-
-      HCButton.ButtonRowButton {
-        //id: exitBttn
-        text: qsTr("Exit")
-        onClicked: {
-          console.log("Exit click");
-          Qt.exit(0);
-        }
-      }
-
-      HCButton.ButtonRowButton {
-        text: qsTr("Save Track")
-        enabled: false
-      }
+    Component.onCompleted: {
+      init(GlobalVariables.FooterBar);
+      addButton("qrc:Qml/Button/ExitAppButton.qml");
     }
+
+    anchors.bottom: parent.bottom
   }
 }

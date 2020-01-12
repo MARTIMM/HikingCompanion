@@ -5,6 +5,7 @@ import "../Parts" as HCParts
 import io.github.martimm.HikingCompanion.Config 0.3
 import io.github.martimm.HikingCompanion.Theme 0.1
 import io.github.martimm.HikingCompanion.Textload 0.1
+import io.github.martimm.HikingCompanion.GlobalVariables 0.1
 
 import QtQuick 2.11
 import QtQuick.Controls 2.4
@@ -17,27 +18,30 @@ HCPage.Plain {
   anchors.fill: parent
 
   Config { id: config }
-  Component.onCompleted: { changeContent(); }
-
-  function changeContent ( ) {
-    // Change textual
-    //backgroundImage.source = "file://" + config.getFilenameFromPart("Images/background.png");
-
-    //homeText.homeTextData.filename = config.getHtmlPageFilename("homeText");
+  Component.onCompleted: {
+    // Info text
     homeText.homeTextData.filename = config.getFilenameFromPart("homeText.html");
-    console.info('fp: ' + homeText.url);
-    homeText.text = homeText.homeTextData.text;
+
+    // headerMatch[0] is whole regex match
+    var text = homeText.homeTextData.text;
+    var headerMatch = text.match(/<h1>([^<]+)<\/h1>/i);
+    homeText.title = headerMatch[1];
+    homeText.text = text.split(headerMatch[0]).join('');
   }
 
-  HCParts.ToolbarRectangle {
-    id: pageToolbarRow
+  HCParts.ButtonRow {
+    id: toolbarButtons
 
-    HCParts.ToolbarRow {
-      HCButton.OpenMenu { }
-      HCButton.Home { }
+    Component.onCompleted: {
+      init(GlobalVariables.ToolbarButton);
+      addButton("qrc:Qml/Button/OpenMenuTbButton.qml");
+      addButton("qrc:Qml/Button/HomeTbButton.qml");
     }
+
+    anchors.top: parent.top
   }
 
+  property alias homeText: homeText
   HCParts.InfoArea {
     id: homeText
 
@@ -46,7 +50,7 @@ HCPage.Plain {
     anchors {
       left: parent.left
       right: parent.right
-      top: pageToolbarRow.bottom
+      top: toolbarButtons.bottom
       bottom: parent.bottom
     }
 

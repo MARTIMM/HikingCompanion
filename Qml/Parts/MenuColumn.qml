@@ -1,30 +1,33 @@
-import "../Page" as HCPage
+//import "../Page" as HCPage
 
 import io.github.martimm.HikingCompanion.Theme 0.1
 import io.github.martimm.HikingCompanion.GlobalVariables 0.1
 
-import QtQuick 2.9
-import QtQuick.Controls 2.2
+import QtQuick 2.12
+import QtQuick.Controls 2.12
 
 
 Column {
   id: menu
-  property alias menu: menu
+
+  property QtObject properties: Theme.menuProperties
+  property int menuOpenedWidth: properties.width
+  property int menuClosedWidth: 0
 
   spacing: 2
 
-  // Menu must be kept above page(1) and button rows(50)
-  width: 0
+  width: 0  // menu button will reveal menu
   height: parent.height
-  z: 100
+
+  z: 100  // Menu must be kept above page(1) and button rows(50)
   clip: true
 
   //anchors.right: parent.right
   anchors.left: parent.left
 
-  Component.onCompleted: {
-    console.info("MM Menu WH: " + width + ", " + height);
-  }
+//  Component.onCompleted: {
+//    console.info("MM Menu WH: " + width + ", " + height);
+//  }
 
   //property alias menuEntryClicked: menuEntryClicked
   function menuEntryClicked(requestPage) {
@@ -66,32 +69,38 @@ Column {
   SequentialAnimation {
     id: menuAnimateOpen
     NumberAnimation {
-      target: GlobalVariables.menu
+      target: menu
       property: "width"
       duration: 1000
-      from: 0
-      to: Theme.component.menu.width
+      from: menuClosedWidth
+      to: menuOpenedWidth
       easing.type: Easing.OutBounce
     }
+/*
+    onStopped: {
+      //currentPage.openMenu.visible = true;
+      console.log("Stopped open width = " + width + ', ' + properties.width);
+    }
+*/
   }
 
   property alias menuAnimateClose: menuAnimateClose
   SequentialAnimation {
     id: menuAnimateClose
     NumberAnimation {
-      target: GlobalVariables.menu
+      target: menu
       property: "width"
       duration: 1000
-      from: Theme.component.menu.width
-      to: 0
+      from: menuOpenedWidth
+      to: menuClosedWidth
       easing.type: Easing.OutBounce
     }
-
-    /*
-      onStopped: {
-        currentPage.openMenu.visible = true;
-      }
-  */
+/*
+    onStopped: {
+      //currentPage.openMenu.visible = true;
+      console.log("Stopped close width = " + width + ', ' + properties.width);
+    }
+*/
   }
 }
 

@@ -2,8 +2,8 @@
   Basic page setup where all pages are by default invisible
 */
 
-import QtQuick 2.9
-import QtQuick.Controls 2.4
+import QtQuick 2.12
+import QtQuick.Controls 2.12
 
 import io.github.martimm.HikingCompanion.GlobalVariables 0.1
 

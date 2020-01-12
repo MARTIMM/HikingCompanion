@@ -8,12 +8,12 @@ import io.github.martimm.HikingCompanion.Theme 0.1
 import io.github.martimm.HikingCompanion.GlobalVariables 0.1
 import io.github.martimm.HikingCompanion.Config 0.3
 
-import QtQuick 2.11
-import QtQuick.Controls 2.4
-import QtLocation 5.9
-import QtPositioning 5.8
+import QtQuick 2.12
+import QtQuick.Controls 2.12
+import QtLocation 5.11
+import QtPositioning 5.12
 //import Qt.labs.handlers 1.0
-import QtQuick.Layouts 1.3
+import QtQuick.Layouts 1.12
 
 HCPage.Plain {
   id: mapPage
@@ -74,6 +74,7 @@ HCPage.Plain {
     //GlobalVariables.menu.setMapPage();
   }
 
+/*
   HCParts.ToolbarRectangle {
     id: pageToolbarRow
     //color: "transparent"
@@ -91,12 +92,38 @@ HCPage.Plain {
       property alias poiSearchChoice: poiSearchChoice
       ComboBox {
         id: poiSearchChoice
-        model: [ "Food", "Sleep", "History", "Transport"]
+        model: [ "Food", "Sleep", "History", "Transport", "Your Data"]
         onActivated: {
-          console.info( "cbx: " + poiSearchChoice.model[poiSearchChoice.currentIndex]);
+          var ci = poiSearchChoice.model[poiSearchChoice.currentIndex];
+          console.info( "cbx: " + ci);
+          if( ci === "Food" || ci === "Sleep" ||
+              ci === "History" || ci === "Transport" ) {
+            console.log("set search to " + ci);
+          }
+
+          else if( ci === "Your Data" ) {
+            console.log("show user data");
+          }
+
+          else {
+          }
         }
       }
     }
+  }
+*/
+
+  HCParts.ButtonRow {
+    id: toolbarButtons
+
+    Component.onCompleted: {
+      init(GlobalVariables.ToolbarButton);
+      addButton("qrc:Qml/Button/OpenMenuTbButton.qml");
+      addButton("qrc:Qml/Button/CurrentLocationTbButton.qml");
+      addButton("qrc:Qml/Button/CurrentTrackTbButton.qml");
+    }
+
+    anchors.top: parent.top
   }
 
   property alias location: location
@@ -123,11 +150,29 @@ HCPage.Plain {
       // mapSourcePlugin.tileCache.value = config.tileCacheDir();
       //console.info("pp cache: " + mapSourcePlugin.tileCache.value);
 
+/*
       // example check on what a Plugin supports
       // https://www3.sra.co.jp/qt/relation/doc/qtlocation/qml-qtlocation-plugin.html#
       for ( var i = 0; i < 6; i++) {
-        console.info("f[" + i + "]: " + mapSourcePlugin.supportsGeocoding(i));
+        console.info("SG[" + i + "]: " + mapSourcePlugin.supportsGeocoding(i));
       }
+
+      for ( i = 0; i < 6; i++) {
+        console.info("SM[" + i + "]: " + mapSourcePlugin.supportsMapping(i));
+      }
+
+      for ( i = 0; i < 6; i++) {
+        console.info("SN[" + i + "]: " + mapSourcePlugin.supportsNavigation(i));
+      }
+
+      for ( i = 0; i < 6; i++) {
+        console.info("SP[" + i + "]: " + mapSourcePlugin.supportsPlaces(i));
+      }
+
+      for ( i = 0; i < 6; i++) {
+        console.info("SR[" + i + "]: " + mapSourcePlugin.supportsRouting(i));
+      }
+*/
     }
   }
 
@@ -167,11 +212,11 @@ HCPage.Plain {
     //property int pr: Screen.devicePixelRatio
     //layer.textureSize: Qt.size( w  * 2 * pr, h * 2 * pr)
 
-
+    // Show small blue circle on real location
     property alias currentLocationFeature: currentLocationFeature
     HCMapFeatures.CurrentLocationFeature { id: currentLocationFeature }
 
-    // This object is set from the tracksPage after selecting a track.
+    // This object is set from the TrackSelectPage after selecting a track.
     property alias trackCourse: trackCourse
     HCMapFeatures.TrackCourse { id: trackCourse }
 
@@ -224,16 +269,20 @@ HCPage.Plain {
     onTiltChanged: { console.info("Tilt: " + this.tilt); }
     onCenterChanged: {
       var vr = hikingCompanionMap.visibleRegion.boundingGeoRectangle();
-      console.info("visibleReagion: " + vr);
+//      console.info("visibleReagion: " + vr.topLeft + ', ' + vr.bottomRight);
       poiSearch.searchTerm = "Pizza";
       poiSearch.categories = null;
 
-      //poiSearch.searchArea.center.longitude = vr.longitude;
-      //poiSearch.searchArea.center.latitude = vr.latitude;
-      //poiSearch.searchArea = QtPositioning.rectangle(vr);
-      poiSearch.searchArea = QtPositioning.circle(
-            QtPositioning.coordinate( hikingCompanionMap.center, 10)
-            );
+//      console.info("HC center: " + hikingCompanionMap.center);
+      poiSearch.searchArea = QtPositioning.rectangle(
+            QtPositioning.coordinate(
+              vr.topLeft.latitude, vr.topLeft.longitude
+              ),
+            QtPositioning.coordinate(
+              vr.bottomRight.latitude, vr.bottomRight.longitude
+              )
+      );
+
       poiSearch.update();
     }
 
