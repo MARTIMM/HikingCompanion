@@ -13,7 +13,7 @@ MapCircle {
   border.color: 'blue'
 
   Component.onCompleted: {
-    // Initialize circle on top of the current map center.
+    // Initialize circle on top of the current map center as a program starting point.
     var mainWin = GlobalVariables.applicationWindow;
     if ( mainWin && mainWin.mapPage ) {
       root.center = mainWin.mapPage.hikingCompanionMap.center;

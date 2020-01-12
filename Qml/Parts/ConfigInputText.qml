@@ -6,6 +6,8 @@ import io.github.martimm.HikingCompanion.Theme 0.1
 Item {
   id: control
 
+  property QtObject colors: Theme.appColors
+
   width: parent.inputWidth
   height: parent.configHeight
   //  anchors.fill: parent
@@ -18,18 +20,15 @@ Item {
 
     width: parent.width
     height: parent.height
-    placeholderText: control.placeholderText
+    placeholderText: control.colors.placeholderText
     inputMethodHints: Qt.ImhNoAutoUppercase
 
     // Show visible clue if input is right or wrong
     onTextChanged: {
-      if ( inputText.acceptableInput ) {
-        color = Theme.component.color.okText;
-      }
-
-      else {
-        color = Theme.component.color.notOkText;
-      }
+      color = inputText.acceptableInput
+      ? "#00ff00" : "#ff0000";
+//          ? Theme.colors.positive
+//          : Theme.colors.negative;
     }
   }
 }
