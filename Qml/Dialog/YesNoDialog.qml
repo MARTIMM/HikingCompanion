@@ -6,30 +6,32 @@ import QtQuick.Controls 1.2
 import QtQuick.Dialogs 1.2
 
 Dialog {
-  property string messageText;
-  property string button1Text: "Yes"
-  property string button2Text: "No"
   property string titleText
-  //property StandardButton buttons
+  property string messageText
 
   visible: false
   title: qsTr(titleText)
 
-  //standardButtons: StandardButton.Yes | StandardButton.No
-
-  /*
-  // TODO adjust width of button
-  Component.onCompleted: {
-    button1Text = "Yes";
-    button2Text = "No";
-  }
-  */
-
   Text {
     text: qsTr(messageText)
     color: "navy"
-    anchors.centerIn: parent
+    anchors {
+      centerIn: parent
+      bottom: footerButtons.top
+    }
     //font.pixelSize: 20
+  }
+
+  HCParts.ButtonRow {
+    id: footerButtons
+
+    Component.onCompleted: {
+      init(GlobalVariables.FooterBar);
+// TODO 'yes', 'no' or 'ok' depending on arguments to dialog
+//      addButton("qrc:Qml/Button/SelectTrackButton.qml");
+    }
+
+    anchors.bottom: parent.bottom
   }
 
 /*
