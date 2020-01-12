@@ -8,7 +8,7 @@ pragma Singleton
 
 import io.github.martimm.HikingCompanion.Config 0.3
 
-import QtQuick 2.8
+import QtQuick 2.12
 import QtGraphicalEffects 1.0
 
 Item {
@@ -16,9 +16,109 @@ Item {
 
   Config { id: config }
 
-  // Called from Config to set colors only
+  // Called once from application window to set all modifiable settings
+  function changeSettings ( c ) {
+    console.info("Set colors and sizes");
+
+    changeColors(c);
+
+    // set properties
+    setProperties( c.toolbarProperties, toolbarProperties);
+    setProperties( c.buttonRowProperties, buttonRowProperties);
+    setProperties( c.menuProperties, menuProperties);
+    setProperties( c.frameProperties, frameProperties);
+    setProperties( c.infoAreaProperties, infoAreaProperties);
+    setProperties( c.titleTextProperties, titleTextProperties);
+    setProperties( c.listTextProperties, listTextProperties);
+    setProperties( c.labelTextProperties, labelTextProperties);
+
+/*
+    setSubFieldSizes(
+          c.toolbar,
+          [ "leftMargin", "rightMargin", "topMargin", "bottomMargin", "height"],
+          component.toolbar
+          );
+
+    setSubFieldSizes( c.toolbar.border, [ "width"], component.toolbar.border);
+
+    setSubFieldSizes(
+          c.toolbar.button,
+          [ "width", "height", "pixelSize", "radius",
+            "leftMargin", "rightMargin", "topMargin", "bottomMargin"
+          ],
+          component.toolbar.button
+          );
+
+    setSubFieldSizes(
+          c.toolbar.button.border,
+          [ "width"],
+          component.toolbar.button.border
+          );
+
+    // Button row
+    setSubFieldSizes(
+          c.buttonrow,
+          [ "leftMargin", "rightMargin", "topMargin", "bottomMargin", "height"],
+          component.buttonrow
+          );
+
+    setSubFieldSizes( c.buttonrow.border, [ "width"], component.buttonrow.border);
+
+    setSubFieldSizes(
+          c.buttonrow.button,
+          [ "width", "height", "pixelSize", "radius",
+            "leftMargin", "rightMargin", "topMargin", "bottomMargin"
+          ],
+          component.buttonrow.button
+          );
+
+    setSubFieldSizes(
+          c.buttonrow.button.border,
+          [ "width"],
+          component.buttonrow.button.border
+          );
+
+    // Menu
+    setSubFieldSizes( c.menu, [ "width", "height"], component.menu);
+
+    setSubFieldSizes(
+          c.menu.button,
+          [ "width", "height", "pixelSize", "radius",
+            "leftMargin", "rightMargin", "topMargin", "bottomMargin"
+          ],
+          component.menu.button
+          );
+
+    setSubFieldSizes( c.menu.button.border, ["width"], component.menu.button.border);
+*/
+  }
+
+  // Called from Config to set colors only. This can be from the hiking
+  // companion app or from an imported trail
   function changeColors ( c ) {
+  return;
     console.info("Set colors");
+    setPaletteFields(
+          c.appColors,
+          [ 'alternateBase', 'base', 'brightText', 'button', 'buttonText',
+            'text', 'toolTipBase', 'toolTipText', 'window',
+            'windowText',
+
+            'dark', 'light', 'mid', 'midlight', 'shadow',
+
+            'highlight', 'highlightedText',
+            'link', 'linkVisited',
+
+            "transparent0", "transparent1", "transparent2", "transparent3",
+            "transparent4", "transparent5", "transparent6", "transparent7",
+            "transparent8", "transparent9", "transparentA", "transparentB",
+            "transparentC", "transparentD", "transparentE", "transparentF"
+
+            //'placeholderText', 'noRole'
+          ],
+          appColors
+          );
+
     setSubFields(
           c.component,
           [ "foreground", "foregroundLight", "foregroundDark",
@@ -33,6 +133,7 @@ Item {
           [ "background", "backgroundLight", "backgroundDark"],
           component.toolbar
           );
+/*
     setSubFields( c.toolbar.border, ["color"], component.toolbar.border);
     setSubFields(
           c.toolbar.button,
@@ -46,7 +147,7 @@ Item {
           ["color"],
           component.toolbar.button.border
           );
-
+*/
     setSubFields(
           c.buttonrow,
           [ "background", "backgroundLight", "backgroundDark"],
@@ -55,8 +156,8 @@ Item {
     setSubFields( c.buttonrow.border, ["color"], component.buttonrow.border);
     setSubFields(
           c.buttonrow.button,
-          [ "foreground", "foregroundLight", "foregroundDark",
-           "background", "backgroundLight", "backgroundDark"
+          [ "foreground", // "foregroundLight", "foregroundDark",
+           "background"   //, "backgroundLight", "backgroundDark"
           ],
           component.buttonrow.button
           );
@@ -84,136 +185,45 @@ Item {
     setSubFields( c.menu.button.border, ["color"], component.menu.button.border);
   }
 
-  // Called once from application window to set all modifiable settings
-  function changeSettings ( c ) {
-    console.info("Set colors and sizes");
-    setSubFields(
-          c.component,
-          [ "foreground", "foregroundLight", "foregroundDark",
-            "background", "backgroundLight", "backgroundDark",
-            "okText", "notOkText", "selectedText", "selectionText"
-          ],
-          component.color
-          );
+  function setPaletteFields ( source, fields, destination) {
+    for ( var fi = 0; fi < fields.length; fi++) {
+      if ( typeof source[fields[fi]] !== "undefined" ) {
+        //console.log("Field " + fields[fi] + " set to " + source[fields[fi]]);
 
-    // Toolbar
-    setSubFields(
-          c.toolbar, [ "background", "backgroundLight", "backgroundDark"],
-          component.toolbar
-          );
-    setSubFieldSizes(
-          c.toolbar,
-          [ "leftMargin", "rightMargin", "topMargin", "bottomMargin", "height"],
-          component.toolbar
-          );
-
-    setSubFieldSizes( c.toolbar.border, [ "width"], component.toolbar.border);
-    setSubFields( c.toolbar.border, [ "color"], component.toolbar.border);
-
-    setSubFieldSizes(
-          c.toolbar.button,
-          [ "width", "height", "pixelSize", "radius",
-            "leftMargin", "rightMargin", "topMargin", "bottomMargin"
-          ],
-          component.toolbar.button
-          );
-
-    setSubFields(
-          c.toolbar.button,
-          [ "foreground", "foregroundLight", "foregroundDark",
-            "background", "backgroundLight", "backgroundDark"
-          ],
-          component.toolbar.button
-          );
-
-    setSubFieldSizes(
-          c.toolbar.button.border,
-          [ "width"],
-          component.toolbar.button.border
-          );
-
-    setSubFields(
-          c.toolbar.button.border,
-          [ "color"],
-          component.toolbar.button.border
-          );
-
-    // Button row
-    setSubFields(
-          c.buttonrow,
-          [ "background", "backgroundLight", "backgroundDark"],
-          component.buttonrow
-          );
-    setSubFieldSizes(
-          c.buttonrow,
-          [ "leftMargin", "rightMargin", "topMargin", "bottomMargin", "height"],
-          component.buttonrow
-          );
-
-    setSubFieldSizes( c.buttonrow.border, [ "width"], component.buttonrow.border);
-    setSubFields( c.buttonrow.border, [ "color"], component.buttonrow.border);
-
-    setSubFieldSizes(
-          c.buttonrow.button,
-          [ "width", "height", "pixelSize", "radius",
-            "leftMargin", "rightMargin", "topMargin", "bottomMargin"
-          ],
-          component.buttonrow.button
-          );
-
-    setSubFields(
-          c.buttonrow.button,
-          [ "foreground", "foregroundLight", "foregroundDark",
-            "background", "backgroundLight", "backgroundDark"
-          ],
-          component.buttonrow.button
-          );
-
-    setSubFieldSizes(
-          c.buttonrow.button.border,
-          [ "width"],
-          component.buttonrow.button.border
-          );
-
-    setSubFields(
-          c.buttonrow.button.border,
-          [ "color"],
-          component.buttonrow.button.border
-          );
-
-    // Menu
-    setSubFields(
-          c.menu,
-          ["background", "backgroundLight", "backgroundDark"],
-          component.menu
-          );
-    setSubFieldSizes( c.menu, [ "width", "height"], component.menu);
-
-    setSubFieldSizes(
-          c.menu.button,
-          [ "width", "height", "pixelSize", "radius",
-            "leftMargin", "rightMargin", "topMargin", "bottomMargin"
-          ],
-          component.menu.button
-          );
-
-    setSubFields(
-          c.menu.button,
-          [ "foreground", "foregroundLight", "foregroundDark",
-            "background", "backgroundLight", "backgroundDark"
-          ],
-          component.menu.button
-          );
-
-    setSubFieldSizes( c.menu.button.border, ["width"], component.menu.button.border);
-    setSubFields( c.menu.button.border, ["color"], component.menu.button.border);
+        destination[fields[fi]] = source[fields[fi]];
+      }
+    }
   }
+
+  function setProperties ( source, destination) {
+    for ( var field in source ) {
+//console.log("Source field type of " + field + " is " + typeof source[field]);
+      if ( typeof source[field] === "color" ) {
+        destination[field] = source[field];
+      }
+
+      else {
+console.info("Dest field type of " + field + " is " + typeof source[field]);
+        if ( typeof destination[field] === 'number' ) {
+          destination[field] = config.pixels(parseFloat(source[field]));
+        }
+
+        else {
+          destination[field] = source[field];
+        }
+      }
+    }
+  }
+
 
   function setSubFields ( source, fields, destination) {
     for ( var fi = 0; fi < fields.length; fi++) {
-      //console.log("Field length of " + fi + ": " + fields[fi].length);
+//      console.log("Field [" + fi + "]: " + fields[fi].length);
+
       if ( typeof source[fields[fi]] !== "undefined" ) {
-        console.log("Field " + fields[fi] + " set to " + source[fields[fi]]);
+//        console.log("Field " + fields[fi] + " set to " + source[fields[fi]]);
+
+/*
         if ( fields[fi] === "foregroundLight" ) {
           // 0.0 - 1.0 is like darker and < 0.0 is undefined
           if ( parseFloat(source[fields[fi]]) <= 1.0 ) {
@@ -262,6 +272,10 @@ Item {
         else {
           destination[fields[fi]] = source[fields[fi]];
         }
+*/
+        if( fields[fi] === "foreground" || fields[fi] === "background" ) {
+          destination[fields[fi]] = source[fields[fi]];
+        }
       }
 /*
       else if ( fields[fi].length > 1 ) {
@@ -277,17 +291,396 @@ Item {
   function setSubFieldSizes ( source, fields, destination) {
     for ( var fi = 0; fi < fields.length; fi++) {
       if ( typeof source[fields[fi]] !== "undefined" ) {
+/*
         console.log("Field size " + fields[fi] + ": " + source[fields[fi]]
-                     + " mm set to "
-                     + config.pixels(parseFloat(source[fields[fi]])) + " pixels"
-                     );
+                      + " mm set to "
+                      + config.pixels(parseFloat(source[fields[fi]])) + " pixels"
+                      );
+*/
         destination[fields[fi]] = config.pixels(parseFloat(source[fields[fi]]));
       }
+
       else {
         console.warn("Field " + fields[fi] + " not set");
       }
     }
   }
+/*
+  From https://doc.qt.io/qt-5/qpalette.html
+
+  AlternateBase   Used as the alternate background color in views with alternating row colors (see QAbstractItemView::setAlternatingRowColors()).
+  Base            Used mostly as the background color for text entry widgets, but can also be used for other painting - such as the background of combobox drop down lists and toolbar handles. It is usually white or another light color.
+  BrightText      A text color that is very different from WindowText, and contrasts well with e.g. Dark. Typically used for text that needs to be drawn where Text or WindowText would give poor contrast, such as on pressed push buttons. Note that text colors can be used for things other than just words; text colors are usually used for text, but it's quite common to use the text color roles for lines, icons, etc.
+  Button          The general button background color. This background can be different from Window as some styles require a different background color for buttons.
+  ButtonText      A foreground color used with the Button color.
+  PlaceholderText	Used as the placeholder color for various text input widgets. This enum value has been introduced in Qt 5.12
+  Text            The foreground color used with Base. This is usually the same as the WindowText, in which case it must provide good contrast with Window and Base.
+  ToolTipBase     Used as the background color for QToolTip and QWhatsThis. Tool tips use the Inactive color group of QPalette, because tool tips are not active windows.
+  ToolTipText   	Used as the foreground color for QToolTip and QWhatsThis. Tool tips use the Inactive color group of QPalette, because tool tips are not active windows.
+  Window          A general background color.
+  WindowText      A general foreground color.
+
+  Dark            Darker than Button.
+  Light           Lighter than Button color.
+  Mid             Between Button and Dark.
+  Midlight        Between Button and Light.
+  Shadow          A very dark color. By default, the shadow color is Qt::black.
+
+  Highlight     	A color to indicate a selected item or the current item. By default, the highlight color is Qt::darkBlue.
+  HighlightedText	A text color that contrasts with Highlight. By default, the highlighted text color is Qt::white.
+
+  Link          	A text color used for unvisited hyperlinks. By default, the link color is Qt::blue.
+  LinkVisited     A text color used for already visited hyperlinks. By default, the linkvisited color is Qt::magenta.
+
+  NoRole          No role; this special role is often used to indicate that a role has not been assigned.
+*/
+
+  property QtObject appColors: appColors
+  QtObject {
+    id: appColors
+
+    property color alternateBase
+    property color base
+    property color brightText
+    property color button
+    property color buttonText
+    property color text
+    property color toolTipBase
+    property color toolTipText
+    property color window
+    property color windowText
+
+    property color dark
+    property color light
+    property color mid
+    property color midlight
+    property color shadow
+
+    property color highlight
+    property color highlightedText
+
+    property color link
+    property color linkVisited
+
+    property color transparent0
+    property color transparent1
+    property color transparent2
+    property color transparent3
+    property color transparent4
+    property color transparent5
+    property color transparent6
+    property color transparent7
+    property color transparent8
+    property color transparent9
+    property color transparentA
+    property color transparentB
+    property color transparentC
+    property color transparentD
+    property color transparentE
+    property color transparentF
+
+    property color placeholderText
+    //property color noRole: '#a0a0a0'
+
+    property color positive
+    property color negative
+    property color selectedText
+    property color selectionText
+  }
+
+  /**************************************************************************
+    The following *Sizes sections are fixed so as to have all properties
+    the same for all trails
+  **************************************************************************/
+
+  // toolbar with buttons
+  property QtObject toolbarProperties: toolbarProperties
+  QtObject {
+    // toolbar properties
+    id: toolbarProperties
+
+    property color background
+
+    property real height
+    property real radius
+
+    property real topMargin
+    property real bottomMargin
+    property real leftMargin
+    property real rightMargin
+
+    property real spacing
+
+    property real topPadding
+    property real bottomPadding
+    property real leftPadding
+    property real rightPadding
+
+    property int borderWidth
+    property color borderColor
+
+    // buttons in a toolbar
+    property color buttonDark
+    property color buttonButton
+    property color buttonMid
+
+    //property real buttonWidth
+    //property real buttonHeight
+    property real buttonRadius
+    property real buttonSpacing
+
+    property int buttonFontPixelSize
+    property string buttonFontFamily
+
+    property real buttonTopPadding
+    property real buttonBottomPadding
+    property real buttonLeftPadding
+    property real buttonRightPadding
+
+    property color buttonIconLabelBrightText
+    property color buttonIconLabelHighlight
+    property color buttonIconLabelWindowText
+    property color buttonIconLabelButtonText
+
+    property real buttonIconWidth      //: 24
+    property real buttonIconHeight     //: 24
+
+    property int buttonBorderWidth
+    property color buttonBorderColor
+  }
+
+  // button row at bottom of page
+  property QtObject buttonRowProperties: buttonRowProperties
+  QtObject {
+    id: buttonRowProperties
+
+    property color background
+
+    property real height
+    property real radius
+
+    property real topMargin
+    property real bottomMargin
+    property real leftMargin
+    property real rightMargin
+
+    property real spacing
+
+    property real topPadding
+    property real bottomPadding
+    property real leftPadding
+    property real rightPadding
+
+    property int borderWidth
+    property color borderColor
+
+    // buttons in a button row
+    property color buttonDark
+    property color buttonButton
+    property color buttonMid
+
+    //property real buttonWidth
+    //property real buttonHeight
+    property real buttonRadius
+    property real buttonSpacing
+
+    property int buttonFontPixelSize
+    property string buttonFontFamily
+
+    property real buttonTopPadding
+    property real buttonBottomPadding
+    property real buttonLeftPadding
+    property real buttonRightPadding
+
+    property color buttonIconLabelBrightText
+    property color buttonIconLabelHighlight
+    property color buttonIconLabelWindowText
+    property color buttonIconLabelButtonText
+
+    property real buttonIconWidth      //: 24
+    property real buttonIconHeight     //: 24
+
+    property int buttonBorderWidth
+    property color buttonBorderColor
+  }
+
+  // menu on the side of page
+  property QtObject menuProperties: menuProperties
+  QtObject {
+    id: menuProperties
+
+    property color background
+
+    property real width
+    property real height
+    property real radius
+
+    property real topMargin
+    property real bottomMargin
+    property real leftMargin
+    property real rightMargin
+
+    property real spacing
+
+    property real topPadding
+    property real bottomPadding
+    property real leftPadding
+    property real rightPadding
+
+    property int borderWidth
+    property color borderColor
+
+    // buttons in a button row
+    property color buttonDark
+    property color buttonButton
+    property color buttonMid
+
+    //property real buttonWidth
+    property real buttonHeight
+    property real buttonRadius
+    property real buttonSpacing
+
+    property int buttonFontPixelSize
+    property string buttonFontFamily
+
+    property real buttonTopPadding
+    property real buttonBottomPadding
+    property real buttonLeftPadding
+    property real buttonRightPadding
+
+    property color buttonIconLabelBrightText
+    property color buttonIconLabelHighlight
+    property color buttonIconLabelWindowText
+    property color buttonIconLabelButtonText
+
+    property real buttonIconWidth      //: 24
+    property real buttonIconHeight     //: 24
+
+    property int buttonBorderWidth
+    property color buttonBorderColor
+  }
+
+  property QtObject frameProperties: frameProperties
+  QtObject {
+    id: frameProperties
+
+    property color background
+    property real padding
+    property real topMargin
+    property real bottomMargin
+    property real leftMargin
+    property real rightMargin
+
+    property color borderColor
+    property real borderWidth
+  }
+
+  property QtObject infoAreaProperties: infoAreaProperties
+  QtObject {
+    id: infoAreaProperties
+
+    property color background
+    property color textColor
+    property color textSelectionColor
+    property color textSelectedColor
+
+    property real textFontPixelSize
+    property string textFontFamily
+
+    property real leftPadding: 1
+    property real rightPadding: 1
+    property real topPadding: 1
+    property real bottomPadding: 1
+
+    property real radius: 6
+
+    property color borderColor
+    property real borderWidth
+  }
+
+  property QtObject titleTextProperties: titleTextProperties
+  QtObject {
+    id: titleTextProperties
+
+    property color background
+    property real bgTransparency
+
+    property real radius
+    property real height
+
+    property color textColor
+    property color textSelectedColor
+    property real textFontPixelSize
+    property string textFontFamily
+    property bool textFontBold
+    property int horizontalAlignment
+
+    property real topMargin
+    property real bottomMargin
+    property real leftMargin
+    property real rightMargin
+
+    property color borderColor
+    property real borderWidth
+  }
+
+  property QtObject listTextProperties: listTextProperties
+  QtObject {
+    id: listTextProperties
+
+    property color background
+    property real bgTransparency
+
+    property real radius
+    property real height
+
+    property color textColor
+    property color textSelectedColor
+    property real textFontPixelSize
+    property string textFontFamily
+    property bool textFontBold
+
+    property real topMargin
+    property real bottomMargin
+    property real leftMargin
+    property real rightMargin
+
+    property color borderColor
+    property real borderWidth
+  }
+
+  property QtObject labelTextProperties: labelTextProperties
+  QtObject {
+    id: labelTextProperties
+
+    property color background
+    property real bgTransparency
+
+    property real radius
+    property real height
+
+    property color textSelectedColor
+    property color textColor
+    property color textLinkColor
+    property real textFontPixelSize
+    property string textFontFamily
+    property bool textFontBold
+
+    property real topMargin
+    property real bottomMargin
+    property real leftMargin
+    property real rightMargin
+
+    property color borderColor
+    property real borderWidth
+  }
+
+
+
+
+
+
+
 
   // General components
   property QtObject component: QtObject {
@@ -556,4 +949,4 @@ Item {
   //property int cfgtxtHeight: 20
 
   property int sbWidth: 10
-}
+}//

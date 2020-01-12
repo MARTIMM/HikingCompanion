@@ -1,109 +1,196 @@
-{ "component": {
-    "foreground": "#ff8000",
-    "foregroundLight": 0,
-    "foregroundDark": 2,
-    "background": "#ffffff",
-    "backgroundLight": 0,
-    "backgroundDark": 0,
+{ "appColors": {
+    "alternateBase": "#a04000",
+    "base": "#a04000",
+    "brightText": "#a04000",
+    "button": "#905faf",
+    "buttonText": "#fae0ff",
+    "placeholderText": "#00f0f0",
+    "text": "#00f0f0",
+    "toolTipBase": "#00f0f0",
+    "toolTipText": "#00f0f0",
+    "window": "#8040a0",
+    "windowText": "#fef0ff",
 
-    "okText": "#a0ffa0",
-    "notOkText": "#ffa0a0",
+    "dark": "#004040",
+    "light": "#004040",
+    "mid": "#0000f0",
+    "midlight": "#0000f0",
+    "shadow": "#0000f0",
 
+    "highlight": "#fae0ff",
+    "highlightedText": "#905faf",
+
+    "link": "#404040",
+    "linkVisited": "#a0a0a0",
+
+    "_HC1-COLORS": "Following are non functional QML colors",
+    "noRole": "transparent",
+
+    "_HC2-COLORS": "Following are added colors",
+    "transparent0": "transparent",
+    "transparent1": "#00000011",
+    "transparent2": "#00000022",
+    "transparent3": "#00000033",
+    "transparent4": "#00000044",
+    "transparent5": "#00000055",
+    "transparent6": "#00000066",
+    "transparent7": "#00000077",
+    "transparent8": "#00000088",
+    "transparent9": "#00000099",
+    "transparentA": "#000000aa",
+    "transparentB": "#000000bb",
+    "transparentC": "#000000cc",
+    "transparentD": "#000000dd",
+    "transparentE": "#000000ee",
+    "transparentF": "#000000ff",
+
+    "positive": "#a0ffa0",
+    "negative": "#ffa0a0",
     "selectedText": "#efa0ca",
     "selectionText": "#efbfcf"
   },
 
-  "toolbar": {
-    "background": "#ff8000",
-    "backgroundLight": 0,
-    "backgroundDark": 0,
-
-    "topMargin": 0.5,
-    "bottomMargin": 0.5,
-    "leftMargin": 0.5,
-    "rightMargin": 0.5,
-
-    "height": 9,
-
-    "border": {
-      "width": 0.5,
-      "color": "transparent"
-    },
-
-    "button": {
-      "width": 8,
-      "height": 8,
-      "radius": 1,
-      "pixelSize": 7.5,
-
-      "background": "#ff8000",
-      "backgroundLight": 0,
-      "backgroundDark": 1.7,
-      "foreground": "white",
-      "foregroundLight": 0,
-      "foregroundDark": 0,
-
-      "topMargin": 0.5,
-      "bottomMargin": 0.5,
-      "leftMargin": 0.5,
-      "rightMargin": 0.5,
-
-      "border": {
-        "width": 0.5,
-        "color": "transparent"
-      }
-    }
+  "component": {
+    "foreground": "#ffffff",
+    "background": "#9050c0"
   },
 
-  "buttonrow": {
-    "background": "#ff8000",
-    "backgroundLight": 0,
-    "backgroundDark": 0,
+  "toolbarProperties": {
+    "background": "transparent",
+
+    "height": 8,
+    "radius": 0,
 
     "topMargin": 0.5,
     "bottomMargin": 0.5,
     "leftMargin": 0.5,
     "rightMargin": 0.5,
 
-    "height": 10.5,
+    "spacing": 0.6,
 
-    "border": {
-      "width": 0.5,
-      "color": "transparent"
-    },
+    "borderWidth": 0,
+    "borderColor": "transparent",
 
-    "button": {
-      "width": 9.5,
-      "height": 9.5,
-      "radius": 0.4,
-      "pixelSize": 8,
+    "buttonDark": "#2d3280",
+    "buttonButton": "#2d73af",
+    "buttonMid": "#5da0ff",
 
-      "background": "#ff8000",
-      "backgroundLight": 0,
-      "backgroundDark": 1.7,
-      "foreground": "white",
-      "foregroundLight": 0,
-      "foregroundDark": 0,
+    "buttonRadius": 20,
+    "buttonSpacing": 0.2,
 
-      "topMargin": 0.5,
-      "bottomMargin": 0.5,
-      "leftMargin": 0.5,
-      "rightMargin": 0.5,
+    "buttonFontPixelSize": 4.5,
+    "buttonFontFamily": "Helvetica",
 
-      "border": {
-        "width": 0.5,
-        "color": "white"
-      }
-    }
+    "buttonTopPadding": 1,
+    "buttonBottomPadding": 1,
+    "buttonLeftPadding": 1.5,
+    "buttonRightPadding": 1.5,
+
+    "buttonIconLabelBrightText": "#cdf6fe",
+    "buttonIconLabelHighlight": "#f8feff",
+    "buttonIconLabelWindowText": "#88d0ee",
+    "buttonIconLabelButtonText": "#ffffff",
+
+    "buttonIconWidth": 4,
+    "buttonIconHeight": 4,
+
+    "buttonBorderWidth": 0,
+    "buttonBorderColor": "transparent"
+  },
+
+  "buttonRowProperties": {
+    "background": "transparent",
+
+    "height": 9,
+    "radius": 0,
+
+    "topMargin": 0.5,
+    "bottomMargin": 0.5,
+    "leftMargin": 0.5,
+    "rightMargin": 0.5,
+
+    "spacing": 5,
+
+    "borderWidth": 0,
+    "borderColor": "transparent",
+
+    "buttonDark": "#2d3280",
+    "buttonButton": "#2d73af",
+    "buttonMid": "#5da0ff",
+
+    "buttonRadius": 1,
+    "buttonSpacing": 1,
+
+    "buttonFontPixelSize": 6,
+    "buttonFontFamily": "Helvetica",
+
+    "buttonTopPadding": 1,
+    "buttonBottomPadding": 1,
+    "buttonLeftPadding": 1.5,
+    "buttonRightPadding": 1.5,
+
+    "buttonIconLabelBrightText": "#cdf6fe",
+    "buttonIconLabelHighlight": "#f8feff",
+    "buttonIconLabelWindowText": "#88d0ee",
+    "buttonIconLabelButtonText": "#ffffff",
+
+    "buttonIconWidth": 4,
+    "buttonIconHeight": 4,
+
+    "buttonBorderWidth": 0,
+    "buttonBorderColor": "transparent"
+  },
+
+  "menuProperties": {
+    "background": "transparent",
+
+    "width": 40,
+    "height": 9,
+    "radius": 0,
+
+    "topMargin": 0.5,
+    "bottomMargin": 0.5,
+    "leftMargin": 0.5,
+    "rightMargin": 0.5,
+
+    "spacing": 5,
+
+    "borderWidth": 0,
+    "borderColor": "transparent",
+
+    "buttonDark": "#2d3280",
+    "buttonButton": "#2d73af",
+    "buttonMid": "#5da0ff",
+
+    "buttonHeight": 9.5,
+    "buttonRadius": 0.4,
+    "buttonSpacing": 1,
+
+    "buttonFontPixelSize": 5,
+    "buttonFontFamily": "Helvetica",
+
+    "buttonTopPadding": 1,
+    "buttonBottomPadding": 1,
+    "buttonLeftPadding": 1.5,
+    "buttonRightPadding": 1.5,
+
+    "buttonIconLabelBrightText": "#cdf6fe",
+    "buttonIconLabelHighlight": "#f8feff",
+    "buttonIconLabelWindowText": "#88d0ee",
+    "buttonIconLabelButtonText": "#ffffff",
+
+    "buttonIconWidth": 4,
+    "buttonIconHeight": 4,
+
+    "buttonBorderWidth": 0,
+    "buttonBorderColor": "transparent"
   },
 
   "menu": {
     "width": 55,
     "height": 12,
 
-    "background": "#ff8000",
-    "backgroundLight": 0,
-    "backgroundDark": 0,
+    "background": "#9050c0",
 
     "topMargin": 0.5,
     "bottomMargin": 0.5,
@@ -115,12 +202,8 @@
       "height": 11,
       "pixelSize": 10,
 
-      "background": "#ff8000",
-      "backgroundLight": 0,
-      "backgroundDark": 1.7,
+      "background": "#9050c0",
       "foreground": "white",
-      "foregroundLight": 0,
-      "foregroundDark": 0,
 
       "topMargin": 0.5,
       "bottomMargin": 0.5,
@@ -132,5 +215,96 @@
         "color": "transparent"
       }
     }
+  },
+
+  "frameProperties": {
+    "background": "transparent",
+    "padding": 0,
+    "topMargin": 0.5,
+    "bottomMargin": 0.5,
+    "leftMargin": 0.5,
+    "rightMargin": 0.5,
+
+    "borderColor": "transparent",
+    "borderWidth": 0
+  },
+
+  "infoAreaProperties": {
+    "background": "#00000000",
+    "textColor": "#2d73af",
+    "textSelectionColor": "#0000af",
+    "textSelectedColor": "#00afaf",
+
+    "textFontPixelSize": 5.0,
+    "textFontFamily": "Symbola",
+
+    "borderColor": "#88d0ee",
+    "borderWidth": 0
+  },
+
+  "titleTextProperties": {
+    "background": "#2d73af",
+    "bgTransparency": 0.5,
+
+    "radius": 1,
+    "height": 7,
+
+    "leftMargin": 0.5,
+    "rightMargin": 0.5,
+    "topMargin": 0.5,
+    "bottomMargin": 0.5,
+
+    "textColor": "#cdf6fe",
+    "textFontPixelSize": 4.0,
+    "textFontFamily": "Symbola",
+    "textFontBold": true,
+
+    "borderColor": "#88d0ee",
+    "borderWidth": 0
+  },
+
+  "listTextProperties": {
+    "background": "transparent",
+    "bgTransparency": 0.2,
+
+    "radius": 0,
+    "height": 4,
+
+    "leftMargin": 0.5,
+    "rightMargin": 0.5,
+    "topMargin": 0,
+    "bottomMargin": 0,
+
+    "textSelectedColor": "#88d0ee",
+    "textColor": "#2d73af",
+    "textFontPixelSize": 2.8,
+    "textFontFamily": "Symbola",
+    "textFontBold": false,
+
+    "borderColor": "#88d0ee",
+    "borderWidth": 0
+  },
+
+  "labelTextProperties": {
+    "background": "transparent",
+    "bgTransparency": 0.2,
+
+    "radius": 0,
+    "height": 4,
+
+    "leftMargin": 0.5,
+    "rightMargin": 0.5,
+    "topMargin": 0,
+    "bottomMargin": 0,
+
+    "textSelectedColor": "#88d0ee",
+    "textColor": "#2d73af",
+    "textLinkColor": "#00aaff",
+    "textFontPixelSize": 2.8,
+    "textFontFamily": "Symbola",
+    "textFontBold": false,
+
+    "borderColor": "#88d0ee",
+    "borderWidth": 0
   }
 }
