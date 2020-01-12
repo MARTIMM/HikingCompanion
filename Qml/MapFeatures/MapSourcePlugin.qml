@@ -3,7 +3,7 @@ import io.github.martimm.HikingCompanion.GlobalVariables 0.1
 
 import QtQuick 2.11
 //import QtQuick.Controls 2.2
-import QtLocation 5.9
+import QtLocation 5.11
 //import QtPositioning 5.11
 
 // Source of the maps
@@ -11,6 +11,7 @@ Plugin {
   id: mapSourcePlugin
 
   name: "osm" // "mapboxgl" // "mapbox" // "esri" //
+  //preferred: [ "here", "osm"]
   //required: Plugin.AnyMappingFeatures | Plugin.AnyGeocodingFeatures
   //locales: [ "nl_NL", "en_US"]
   // In script above select MapType.CustomMap

@@ -14,7 +14,7 @@ MapItemView {
     onCoordinateChanged: {
       var loc = place.location.coordinate;
       var addr = place.location.address.text;
-      console.log('loc: ' + loc);
+ //     console.log('loc: ' + loc);
 
       // filter items when not in area
       if ( typeof loc.longitude !== "undefined" &&
@@ -27,24 +27,20 @@ MapItemView {
         var latMin = vr.topLeft.latitude;
         var longMax = vr.bottomRight.longitude;
         var latMax = vr.bottomRight.latitude;
+//        console.info('Addr: ' + addr + ', vr: ' + vr);
 
+/*
         console.info('Addr: ' + addr);
         console.info('compare ' + loc.longitude + ' >= ' + longMin + ': ' + (loc.longitude >= longMin));
         console.info('compare ' + loc.latitude + ' >= ' + latMin + ': ' + (loc.latitude >= latMin));
         console.info('compare ' + loc.longitude + ' <= ' + longMax + ': ' + (loc.longitude <= longMax));
         console.info('compare ' + loc.latitude + ' <= ' + latMax + ': ' + (loc.latitude <= latMax));
-
-        if( loc.longitude >= longMin &&
-            loc.latitude >= latMin &&
-            loc.longitude <= longMax &&
-            loc.latitude <= latMax ) {
+*/
+        if( loc.longitude >= longMin && loc.latitude >= latMin &&
+            loc.longitude <= longMax && loc.latitude <= latMax ) {
 
           this.coordinate = loc;
-          console.info(
-                "Coordinate found: " +
-                place.location.coordinate + ", " +
-                place.location.address.text
-                );
+          console.info( "Coordinate " + addr + "accepted: " + loc + ", " + addr);
         }
       }
     }
@@ -77,25 +73,27 @@ MapItemView {
           anchors.fill: parent
           hoverEnabled: false
 
+          property alias ttRectangle: tt2Rct
           onEntered: {
             console.log("entered");
             if ( Qt.platform.os === "android" ) {
-              tt1Rct.visible = !tt1Rct.visible;
+              ttRectangle.visible = true; //!ttRectangle.visible;
             }
             else if ( Qt.platform.os === "linux" ) {
-              tt1Rct.visible = true;
+              ttRectangle.visible = true;
             }
           }
 
           onExited: {
             console.log("exited");
             if ( Qt.platform.os === "linux" ) {
-              tt1Rct.visible = false;
+              ttRectangle.visible = false;
             }
           }
         }
       }
 
+/*
       Rectangle {
         id: tt1Rct
 
@@ -117,9 +115,12 @@ MapItemView {
           font.pointSize: 10
         }
       }
-/*
+*/
+/**/
       Rectangle {
         id: tt2Rct
+
+        visible: false
 
         width: tt2cw
         height: tt2ch
@@ -136,7 +137,7 @@ MapItemView {
           font.pointSize: 10
         }
       }
-*/
+
     }
   }
 }
