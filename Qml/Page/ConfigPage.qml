@@ -56,6 +56,7 @@ HCPage.Plain {
     }
   }
 
+/*
   property alias pageToolbarRow: pageToolbarRow
   HCParts.ToolbarRectangle {
     id: pageToolbarRow
@@ -63,24 +64,32 @@ HCPage.Plain {
     HCParts.ToolbarRow {
       HCButton.OpenMenu { }
       HCButton.Home { }
-
-/*
-      Text {
-        text: qsTr(" Configuration page")
-      }
-*/
     }
+  }
+*/
+
+  HCParts.ButtonRow {
+    id: toolbarButtons
+
+    Component.onCompleted: {
+      init(GlobalVariables.ToolbarButton);
+      addButton("qrc:Qml/Button/OpenMenuTbButton.qml");
+      addButton("qrc:Qml/Button/HomeTbButton.qml");
+    }
+
+    anchors.top: parent.top
   }
 
   property int leftWidth: 3 * width / 10 - Theme.cfgFieldMargin
   property int rightWidth: 7 * width / 10 - Theme.cfgFieldMargin
 
+/*
   Rectangle {
     color: Qt.rgba(240,240,255,0.90)
     radius: 7
 
     width: parent.width
-    height: parent.height - pageToolbarRow.height - pageButtonRow.height
+    height: parent.height - pageToolbarRow.height - footerButtons.height
     //anchors.fill: parent
 
     anchors {
@@ -88,17 +97,17 @@ HCPage.Plain {
       right: parent.right
       //top: parent.top
       //bottom: parent.bottom
-      top: pageToolbarRow.bottom
-      bottom: pageButtonRow.top
+      top: toolbarButtons.bottom
+      bottom: footerButtons.top
 
       leftMargin: 0
       rightMargin: 0
       topMargin: 0
       bottomMargin: 0
     }
-
   }
-
+*/
+/**/
   property alias configGrid: configGrid
   Grid {
     id: configGrid
@@ -107,13 +116,13 @@ HCPage.Plain {
     columns: 2
     spacing: 2
     width: parent.width
-    height: parent.height - pageToolbarRow.height - pageButtonRow.height
+    height: parent.height - pageToolbarRow.height - footerButtons.height
 
     anchors {
       left: parent.left
       right: parent.right
       top: pageToolbarRow.bottom
-      bottom: pageButtonRow.top
+      bottom: footerButtons.top
 
       leftMargin: Theme.cfgFieldMargin
       rightMargin: Theme.cfgFieldMargin
@@ -184,8 +193,20 @@ HCPage.Plain {
     }
   }
 
+  HCParts.ButtonRow {
+    id: footerButtons
+
+    Component.onCompleted: {
+      init(GlobalVariables.FooterBar);
+//TODO 'Save config', 'Remove Hike' -> HikeSelectPage?
+//      addButton("qrc:Qml/Button/SelectTrackButton.qml");
+    }
+
+    anchors.bottom: parent.bottom
+  }
 
 
+/*
   property alias pageButtonRow: pageButtonRow
   HCParts.PageButtonRowRectangle {
     id: pageButtonRow
@@ -206,13 +227,13 @@ HCPage.Plain {
             config.cleanupTracks();
           }
 
-          // Set the tracklist on the TracksPage
+          // Set the tracklist on the trackSelectPage
           else {
             if ( GlobalVariables.applicationWindow &&
-                GlobalVariables.applicationWindow.tracksPage
+                GlobalVariables.applicationWindow.trackSelectPage
                 ) {
               config.setSetting( "selectedhikeindex", cbx2.currentIndex);
-              GlobalVariables.applicationWindow.tracksPage.changeTrackList();
+              GlobalVariables.applicationWindow.trackSelectPage.changeTrackList();
             }
           }
 
@@ -227,7 +248,7 @@ HCPage.Plain {
           // Change the background image for each page
           var pages = [
                 "aboutPage", "configPage", "exitPage", "homePage",
-                "tracksPage", "userTrackConfigPage"
+                "trackSelectPage", "userTrackConfigPage"
               ];
           var fn = function ( page ) {
             GlobalVariables.applicationWindow[page].backgroundImage.source =
@@ -264,8 +285,8 @@ HCPage.Plain {
             config.setSetting( "selectedhikeindex", cbx2.currentIndex);
             config.cleanupHike();
 
-            if ( GlobalVariables.applicationWindow.tracksPage ) {
-              GlobalVariables.applicationWindow.tracksPage.changeTrackList();
+            if ( GlobalVariables.applicationWindow.trackSelectPage ) {
+              GlobalVariables.applicationWindow.trackSelectPage.changeTrackList();
             }
 
             config.defineHikeList();
@@ -284,4 +305,5 @@ HCPage.Plain {
       }
     }
   }
+  */
 }

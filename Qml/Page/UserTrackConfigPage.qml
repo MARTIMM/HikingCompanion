@@ -35,7 +35,7 @@ HCPage.Plain {
           longitude, latitude
           );
   }
-
+/*
   Component.onCompleted: {
     backgroundImage.source = "file://" + config.getFilenameFromPart("Images/background.png");
     //console.log("UTCP");
@@ -54,23 +54,33 @@ HCPage.Plain {
       trackType.rbBike.checked = true;
     }
   }
+*/
 
+/*
   HCParts.ToolbarRectangle {
     id: pageToolbarRow
 
     HCParts.ToolbarRow {
       HCButton.OpenMenu { }
       HCButton.Home { }
-/*
-      Text {
-        text: qsTr("User tracks configuration page")
-      }
-*/
     }
+  }
+*/
+
+  HCParts.ButtonRow {
+    id: toolbarButtons
+
+    Component.onCompleted: {
+      init(GlobalVariables.ToolbarButton);
+      addButton("qrc:Qml/Button/OpenMenuTbButton.qml");
+      addButton("qrc:Qml/Button/HomeTbButton.qml");
+    }
+
+    anchors.top: parent.top
   }
 
 
-
+/*
   property alias configGrid: configGrid
   Grid {
     id: configGrid
@@ -78,13 +88,13 @@ HCPage.Plain {
     columns: 2
     spacing: 2
     width: parent.width
-    height: parent.height - pageToolbarRow.height - pageButtonRow.height
+    height: parent.height - pageToolbarRow.height - footerButtons.height
 
     anchors {
       left: parent.left
       right: parent.right
-      top: pageToolbarRow.bottom
-      bottom: pageButtonRow.top
+      top: toolbarButtons.bottom
+      bottom: footerButtons.top
 
       leftMargin: Theme.cfgFieldMargin
       rightMargin: Theme.cfgFieldMargin
@@ -186,7 +196,7 @@ HCPage.Plain {
                 trackDesc.inputText.text, config.getSetting("User/tracktype")
                 );
           if ( ok ) {
-            GlobalVariables.applicationWindow.tracksPage.changeTrackList();
+            GlobalVariables.applicationWindow.trackSelectPage.changeTrackList();
           }
         }
       }
@@ -222,8 +232,22 @@ HCPage.Plain {
       }
     }
   }
+*/
+
+  HCParts.ButtonRow {
+    id: footerButtons
+
+    Component.onCompleted: {
+      init(GlobalVariables.FooterBar);
+// TODO 'Save'
+//      addButton("qrc:Qml/Button/SelectTrackButton.qml");
+    }
+
+    anchors.bottom: parent.bottom
+  }
 
 
+/*
   HCParts.PageButtonRowRectangle {
     id: pageButtonRow
     HCParts.PageButtonRow {
@@ -251,4 +275,5 @@ HCPage.Plain {
       }
     }
   }
+*/
 }

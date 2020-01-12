@@ -15,7 +15,7 @@ MapPolyline {
   }
 */
 
-  // Set from the TracksPage when a track is selected
+  // Set from the TrackSelectPage when a track is selected
   property var boundary;
 
   // Function to zoom in on the current selected track
