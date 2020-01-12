@@ -5,9 +5,14 @@ import QtQuick 2.9
 import QtQuick.Controls 2.2
 
 Button {
-//  height: Theme.menuProperties.height
+  text: "☰"
 
   Component.onCompleted: {
-    init(GlobalVariables.MenuButton);
+    init(GlobalVariables.ToolbarButton);
+  }
+
+  onClicked: {
+    if ( menu.width === 0 )
+      GlobalVariables.menu.menuAnimateOpen.start();
   }
 }

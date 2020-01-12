@@ -1,15 +1,16 @@
 import io.github.martimm.HikingCompanion.GlobalVariables 0.1
+import io.github.martimm.HikingCompanion.Theme 0.1
 
 import QtQuick 2.9
 import QtQuick.Controls 2.2
 
 Button {
+
+/*
   Component.onCompleted: {
-    console.log("Button width: " + width);
-
-    init(GlobalVariables.ToolbarButton);
+    init(GlobalVariables.component.toolbar.button.type);
   }
-
+*/
 /*
   width: parent.width //Theme.component.toolbar.button.width
   height: parent.height //Theme.component.toolbar.button.height
