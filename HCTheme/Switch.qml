@@ -1,129 +1,122 @@
-/* ----------------------------------------------------------------------------
-  This one is more complex. Take a copy from the sources and change that.
-  Location: /opt/Sources/QT/5.11.1/gcc_64/qml/QtQuick/Controls.2
-*/
-
-import QtQuick 2.8
-//import QtGraphicalEffects 1.0
-import QtQuick.Templates 2.1 as T
-import QtQuick.Controls.Styles 1.4
-import QtQuick.Controls 2.4
-import QtQuick.Controls.impl 2.4
+/****************************************************************************
+**
+** Copyright (C) 2017 The Qt Company Ltd.
+** Contact: http://www.qt.io/licensing/
+**
+** This file is part of the Qt Quick Controls 2 module of the Qt Toolkit.
+**
+** $QT_BEGIN_LICENSE:LGPL3$
+** Commercial License Usage
+** Licensees holding valid commercial Qt licenses may use this file in
+** accordance with the commercial license agreement provided with the
+** Software or, alternatively, in accordance with the terms contained in
+** a written agreement between you and The Qt Company. For licensing terms
+** and conditions see http://www.qt.io/terms-conditions. For further
+** information use the contact form at http://www.qt.io/contact-us.
+**
+** GNU Lesser General Public License Usage
+** Alternatively, this file may be used under the terms of the GNU Lesser
+** General Public License version 3 as published by the Free Software
+** Foundation and appearing in the file LICENSE.LGPLv3 included in the
+** packaging of this file. Please review the following information to
+** ensure the GNU Lesser General Public License version 3 requirements
+** will be met: https://www.gnu.org/licenses/lgpl.html.
+**
+** GNU General Public License Usage
+** Alternatively, this file may be used under the terms of the GNU
+** General Public License version 2.0 or later as published by the Free
+** Software Foundation and appearing in the file LICENSE.GPL included in
+** the packaging of this file. Please review the following information to
+** ensure the GNU General Public License version 2.0 requirements will be
+** met: http://www.gnu.org/licenses/gpl-2.0.html.
+**
+** $QT_END_LICENSE$
+**
+****************************************************************************/
 
 import io.github.martimm.HikingCompanion.Theme 0.1
 
+import QtQuick 2.12
+import QtQuick.Templates 2.12 as T
+import QtQuick.Controls 2.12
+import QtQuick.Controls.impl 2.12
+
 T.Switch {
-  id: control
+    id: control
 
+    palette {
+      alternateBase: Theme.palette.alternateBase
+      base: Theme.palette.base
+      brightText: Theme.palette.brightText
+      button: Theme.palette.button
+      buttonText: Theme.palette.buttonText
+      //placeholderText: Theme.palette.placeholderText
+      text: Theme.palette.text
+      toolTipBase: Theme.palette.toolTipBase
+      toolTipText: Theme.palette.toolTipText
+      window: Theme.palette.window
+      windowText: Theme.palette.windowText
 
-  implicitWidth: Math.max(background ? background.implicitWidth : 0,
-                                       contentItem.implicitWidth + leftPadding + rightPadding)
-  implicitHeight: Math.max(background ? background.implicitHeight : 0,
-                                        Math.max(contentItem.implicitHeight,
-                                                 indicator ? indicator.implicitHeight : 0) + topPadding + bottomPadding)
-  baselineOffset: contentItem.y + contentItem.baselineOffset
+      dark: Theme.palette.dark
+      light: Theme.palette.light
+      mid: Theme.palette.mid
+      //midLight: Theme.palette.midLight
+      shadow: Theme.palette.shadow
 
-  padding: 6
-  spacing: 6
+      highlight: Theme.palette.highlight
+      highlightedText: Theme.palette.highlightedText
 
-  indicator: PaddedRectangle {
-    implicitWidth: 56
-    implicitHeight: 28
+      link: Theme.palette.link
+      linkVisited: Theme.palette.linkVisited
 
-    x: text ? (control.mirrored ? control.width - width - control.rightPadding : control.leftPadding) : control.leftPadding + (control.availableWidth - width) / 2
-    y: control.topPadding + (control.availableHeight - height) / 2
-
-    radius: 8
-    leftPadding: 0
-    rightPadding: 0
-    padding: (height - 16) / 2
-    color: control.checked ? control.palette.dark : control.palette.midlight
-
-    Rectangle {
-      x: Math.max(0, Math.min(parent.width - width, control.visualPosition * parent.width - (width / 2)))
-      y: (parent.height - height) / 2
-      width: 28
-      height: 28
-      radius: 16
-      color: control.down ? control.palette.light : control.palette.window
-      border.width: control.visualFocus ? 2 : 1
-      border.color: control.visualFocus ? control.palette.highlight : control.enabled ? control.palette.mid : control.palette.midlight
-
-      Behavior on x {
-        enabled: !control.down
-        SmoothedAnimation { velocity: 200 }
-      }
+      //noRole: Theme.palette.noRole
     }
-  }
 
-  contentItem: CheckLabel {
-    leftPadding: control.indicator && !control.mirrored ? control.indicator.width + control.spacing : 0
-    rightPadding: control.indicator && control.mirrored ? control.indicator.width + control.spacing : 0
+    implicitWidth: Math.max(implicitBackgroundWidth + leftInset + rightInset,
+                            implicitContentWidth + leftPadding + rightPadding)
+    implicitHeight: Math.max(implicitBackgroundHeight + topInset + bottomInset,
+                             implicitContentHeight + topPadding + bottomPadding,
+                             implicitIndicatorHeight + topPadding + bottomPadding)
 
-    text: control.text
-    font: control.font
-    color: control.palette.windowText
-  }
+    padding: 6
+    spacing: 6
 
+    indicator: PaddedRectangle {
+        implicitWidth: 56
+        implicitHeight: 28
 
+        x: text ? (control.mirrored ? control.width - width - control.rightPadding : control.leftPadding) : control.leftPadding + (control.availableWidth - width) / 2
+        y: control.topPadding + (control.availableHeight - height) / 2
 
+        radius: 8
+        leftPadding: 0
+        rightPadding: 0
+        padding: (height - 16) / 2
+        color: control.checked ? control.palette.dark : control.palette.midlight
 
+        Rectangle {
+            x: Math.max(0, Math.min(parent.width - width, control.visualPosition * parent.width - (width / 2)))
+            y: (parent.height - height) / 2
+            width: 28
+            height: 28
+            radius: 16
+            color: control.down ? control.palette.light : control.palette.window
+            border.width: control.visualFocus ? 2 : 1
+            border.color: control.visualFocus ? control.palette.highlight : control.enabled ? control.palette.mid : control.palette.midlight
 
-
-
-
-
-
-
-
-
-
-
-
-  /*
-  width: parent.width
-  height: parent.height
-  anchors.fill: parent
-
-  //horizontalAlignment: Text.AlignLeft
-  //verticalAlignment: Text.AlignVCenter
-
-  leftPadding: 2
-  checked: false
-  //rightPadding: 2
-
-  font {
-    bold: true
-    underline: false
-    pixelSize: Theme.lblPixelSize
-    family: Theme.fontFamily
-  }
-
-  background: Rectangle {
-    id: btBackground
-
-    anchors.fill: parent
-
-    opacity: enabled ? 1 : 0.7
-
-    color: Theme.cmptBgColor
-    border {
-      color: Theme.cmptFgColorL
-      width: 1
+            Behavior on x {
+                enabled: !control.down
+                SmoothedAnimation { velocity: 200 }
+            }
+        }
     }
-  }
 
-  property alias textItem: textItem
-  contentItem: Text {
-    id: textItem
-    text: control.text
+    contentItem: CheckLabel {
+        leftPadding: control.indicator && !control.mirrored ? control.indicator.width + control.spacing : 0
+        rightPadding: control.indicator && control.mirrored ? control.indicator.width + control.spacing : 0
 
-    font: control.font
-    opacity: enabled ? 1.0 : 0.3
-    color: Theme.cmptFgColorLL
-    horizontalAlignment: Text.AlignHCenter
-    verticalAlignment: Text.AlignVCenter
-    //elide: Text.ElideRight
-  }
-*/
+        text: control.text
+        font: control.font
+        color: control.palette.windowText
+    }
 }

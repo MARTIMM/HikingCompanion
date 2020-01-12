@@ -1,203 +1,141 @@
 import io.github.martimm.HikingCompanion.Theme 0.1
 import io.github.martimm.HikingCompanion.GlobalVariables 0.1
-import io.github.martimm.HikingCompanion.Config 0.3
+//import io.github.martimm.HikingCompanion.Config 0.3
 
-import QtQuick 2.9
-import QtGraphicalEffects 1.0
-import QtQuick.Templates 2.1 as T
-import QtQuick.Layouts 1.3
+import QtQuick 2.12
+import QtQuick.Controls 2.12
+import QtQuick.Controls.impl 2.12
+import QtQuick.Templates 2.12 as T
 
 T.Button {
   id: control
 
-  Config { id: config }
+//  property QtObject colors: Theme.appColors
+  property QtObject properties  //: Theme.toolbarProperties
 
   // Initialization function to keep the buttons as simple as possible.
   // The function is called with a type which is declared in GlobalVariables.
   // When pushed to the extreme, the buttons are very clean and Types import
   // will not be necessary anymore in those modules.
   function init ( type ) {
-    //console.log("Fn init(" + type + ")");
-    if ( type === GlobalVariables.component.toolbar.button.type ) {
-      font.pixelSize = Theme.component.toolbar.button.pixelSize;
-      font.family = Theme.fontFamily;
-
-      Layout.preferredWidth = parent.height -
-          Theme.component.toolbar.button.leftMargin -
-          Theme.component.toolbar.button.rightMargin;
-      Layout.preferredHeight = parent.height -
-          Theme.component.toolbar.button.topMargin -
-          Theme.component.toolbar.button.bottomMargin;
-
-      Layout.minimumWidth = Layout.preferredWidth;
-      Layout.minimumHeight = Layout.preferredHeight;
-
-      Layout.alignment = Qt.AlignVCenter | Qt.AlignLeft;
-      Layout.fillWidth = false;
-      Layout.fillHeight = false;
-
-      btBackground.color = GlobalVariables.setComponentBgColor(Theme.component.toolbar.button);
-      textItem.color = GlobalVariables.setComponentFgColor(Theme.component.toolbar.button);
-      btBackground.radius = Theme.component.toolbar.button.radius;
-      btBackground.border.color = Theme.component.toolbar.button.border.color;
-      btBackground.border.width = Theme.component.toolbar.button.border.width;
+console.log("Fn button init(" + type + ")");
+    if ( type === GlobalVariables.ToolbarButton ) {
+      properties = Theme.toolbarProperties;
+      control.y = properties.buttonBorderWidth + properties.bottomMargin;
+      control.height = parent.height - properties.buttonTopPadding -
+          properties.buttonBorderWidth
+      control.width = textItem.contentWidth + properties.buttonLeftPadding +
+          properties.buttonRightPadding;
+//      control.textAlignment = Text.AlignHCenter;
     }
 
-    else if ( type === GlobalVariables.component.buttonrow.button.type ) {
-      font.pixelSize = Theme.component.buttonrow.button.pixelSize;
-      font.family = Theme.fontFamily;
-/*
-      width = textMetrics.boundingRect.width + 20;
-      height = Theme.component.buttonrow.button.height;
-      anchors.leftMargin = Theme.component.buttonrow.button.leftMargin;
-      anchors.rightMargin = Theme.component.buttonrow.button.rightMargin;
-      anchors.topMargin = Theme.component.buttonrow.button.topMargin;
-      anchors.bottomMargin = Theme.component.buttonrow.button.bottomMargin;
-*/
-      Layout.preferredWidth = textMetrics.boundingRect.width + config.pixels(parseFloat(0.5));
-      Layout.preferredHeight = parent.height -
-          Theme.component.toolbar.button.topMargin -
-          Theme.component.toolbar.button.bottomMargin;
-
-      Layout.minimumWidth = Layout.preferredWidth;
-      Layout.minimumHeight = Layout.preferredHeight;
-
-      Layout.alignment = Qt.AlignVCenter | Qt.AlignLeft;
-      Layout.fillWidth = false;
-      Layout.fillHeight = false;
-
-      btBackground.color = GlobalVariables.setComponentBgColor(Theme.component.buttonrow.button);
-      textItem.color = GlobalVariables.setComponentFgColor(Theme.component.buttonrow.button);
-      btBackground.radius = Theme.component.buttonrow.button.radius;
-      btBackground.border.color = Theme.component.buttonrow.button.border.color;
-      btBackground.border.width = Theme.component.buttonrow.button.border.width;
+    else if ( type === GlobalVariables.ButtonRowButton ) {
+      properties = Theme.buttonRowProperties;
+      control.y = properties.buttonBorderWidth + properties.bottomMargin;
+      control.height = parent.height - properties.buttonTopPadding -
+          properties.buttonBorderWidth
+      control.width = textItem.contentWidth + properties.buttonLeftPadding +
+          properties.buttonRightPadding;
+//      control.textAlignment = Text.AlignHCenter;
+//      control.anchors.right = parent.right;
     }
 
-    else if ( type === GlobalVariables.component.menu.button.type ) {
-      font.pixelSize = Theme.component.menu.button.pixelSize;
-      font.family = Theme.fontFamily;
-
-      width = Theme.component.menu.button.width;
-      height = Theme.component.menu.button.height;
-      anchors.left = parent.left;
-      anchors.leftMargin = Theme.component.menu.button.leftMargin;
-      anchors.rightMargin = Theme.component.menu.button.rightMargin;
-      anchors.topMargin = Theme.component.menu.button.topMargin;
-      anchors.bottomMargin = Theme.component.menu.button.bottomMargin;
-      textItem.horizontalAlignment = Text.AlignLeft
-      textItem.verticalAlignment = Text.AlignVCenter
-
-      btBackground.color = GlobalVariables.setComponentBgColor(Theme.component.menu.button);
-      textItem.color = GlobalVariables.setComponentFgColor(Theme.component.menu.button);
-      btBackground.radius = Theme.component.menu.button.radius;
-      btBackground.border.color = Theme.component.menu.button.border.color;
-      btBackground.border.width = Theme.component.menu.button.border.width;
+    else if ( type === GlobalVariables.MenuButton ) {
+      properties = Theme.menuProperties;
+      control.height = properties.height;
+      control.width = properties.width;
+      control.textItem.horizontalAlignment = Text.AlignLeft;
+      control.backgroundArea.anchors.leftMargin = 10;
     }
+  }
+
+  Component.onCompleted: {
+    console.log("Butt rect parent: " + parent.height + ', ' + height);
   }
 
   font {
-    bold: true
-    underline: false
-    //pixelSize: 14
-    //pointSize: Theme.largeBtPointSize
-    //family: Theme.fontFamily
+    pixelSize: properties.buttonFontPixelSize
+    family: properties.buttonFontFamily
   }
 
+  icon {
+    width: properties.buttonIconWidth
+    height: properties.buttonIconHeight
+    color: control.checked || control.highlighted
+              ? control.colors.brightText
+              : control.flat && !control.down
+                ? ( control.visualFocus
+                    ? control.colors.highlight
+                    : control.colors.windowText)
+                : control.colors.buttonText
 
-/*
-  leftPadding: 2
-  rightPadding: 2
-  topPadding: 2
-  bottomPadding: 2
-*/
-
-  property alias btBackground: btBackground
-  background: Rectangle {
-    id: btBackground
-
-    anchors.fill: parent
-    opacity: enabled ? 1 : 0.7
-
-/*
-    layer.effect: DropShadow {
-      horizontalOffset: 15
-      verticalOffset: 20
-      color: Theme.component.color.backgroundDark //control.visualFocus ? "#330066ff" : "#aaaaaa"
-      samples: 17
-      radius: 8
-      spread: 0.5
-    }
-*/
-/*
-    states: [
-      State {
-        name: "normal"
-        when: !control.down
-        PropertyChanges { target: btBackground}
-      },
-
-      State {
-        name: "down"
-        when: control.down
-        PropertyChanges {
-          target: btBackground
-          color: Theme.component.color.background
-        }
-
-        PropertyChanges {
-          target: g0
-          color: Theme.component.color.backgroundDark
-        }
-        PropertyChanges {
-          target: g1
-          color: Theme.component.color.backgroundLight
-        }
-
-      }
-    ]
-*/
-}
-
-  property alias textMetrics: textMetrics
-  TextMetrics {
-    id: textMetrics
-    //font.family: root.font.family
-    //font.pointSize: Theme.largeBtPointSize
-    font: control.font
-    elide: Text.ElideNone
-    //elideWidth: 100
-    text: control.text
   }
 
-  property color txtColor: Theme.component.color.foregroundLight
+  implicitWidth: textItem.contentWidth + properties.buttonLeftPadding + properties.buttonRightPadding
+  implicitHeight: properties.height
+          ? properties.height
+          : parent.height - properties.buttonTopPadding -
+            properties.buttonBorderWidth;
+
+/*
+  implicitWidth: Math.max(implicitBackgroundWidth + leftInset + rightInset,
+                          implicitContentWidth + leftPadding + rightPadding)
+  implicitHeight: Math.max(implicitBackgroundHeight + topInset + bottomInset,
+                           implicitContentHeight + topPadding + bottomPadding)
+*/
+  spacing: properties.buttonSpacing
+
   property alias textItem: textItem
   contentItem: Text {
     id: textItem
-    text: control.text
 
-    font: control.font
-    opacity: enabled ? 1.0 : 0.3
-    //color: GlobalVariables.setComponentFgColor(Theme.component.toolbar.button);
-    //Theme.component.color.foregroundLight
-    horizontalAlignment: Text.AlignHCenter
-    verticalAlignment: Text.AlignVCenter
-    //elide: Text.ElideRight
+    text: control.text
     textFormat: Text.RichText
-/*
-    states: [
-      State {
-        name: "normal"
-        when: !control.down
-      },
-      State {
-        name: "down"
-        when: control.down
-        PropertyChanges {
-          target: textItem
-          color: Theme.cmptFgColor
-        }
-      }
-    ]
-*/
+    font: control.font
+
+    horizontalAlignment: Text.AlignHCenter // control.textHAlignment //Text.AlignHCenter
+    verticalAlignment: Text.AlignBottom
+
+    //opacity: enabled ? 1.0 : 0.3
+    //color: "#ff8800" //properties.buttonIconLabelHighlight
+    //color: properties.buttonIconLabelHighlight
+
+    color: control.checked || control.highlighted
+           ? properties.buttonIconLabelBrightText
+           : control.flat && !control.down
+             ? ( control.visualFocus
+                 ? properties.buttonIconLabelHighlight
+                 : properties.buttonIconLabelWindowText)
+             : properties.buttonIconLabelButtonText
+  }
+
+  // Button background
+  property alias backgroundArea: backgroundArea
+  background: Rectangle {
+    id: backgroundArea
+//    implicitWidth: parent.width
+//    implicitHeight: parent.height
+//  implicitWidth: Math.max(implicitBackgroundWidth + leftInset + rightInset,
+//                          implicitContentWidth + leftPadding + rightPadding)
+//  implicitHeight: Math.max(implicitBackgroundHeight + topInset + bottomInset,
+//                           implicitContentHeight + topPadding + bottomPadding)
+
+    // height is within the button row (parent)
+    height: control.height
+    width: control.width
+    //y: control.y
+    radius: properties.buttonRadius
+
+    //anchors.fill: anchors.parent
+
+    visible: !control.flat || control.down || control.checked || control.highlighted
+    color: Color.blend( control.checked || control.highlighted
+                       ? properties.buttonDark : properties.buttonButton,
+                       properties.buttonMid, control.down ? 0.5 : 0.0)
+    opacity: enabled ? 1.0 : 0.3
+    border {
+      color: properties.buttonBorderColor
+      width: properties.buttonBorderWidth //control.visualFocus ? 2 : 0
+    }
   }
 }

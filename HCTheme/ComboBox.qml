@@ -1,30 +1,59 @@
-/* ----------------------------------------------------------------------------
-  This one is more complex. Take a copy from the sources and change that.
-  Location: /opt/Sources/QT/5.11.1/gcc_64/qml/QtQuick/Controls.2
-*/
-
-import QtQuick 2.8
-import QtQuick.Window 2.3
-import QtQuick.Controls 2.4
-import QtQuick.Controls.impl 2.4
-//import QtGraphicalEffects 1.0
-import QtQuick.Templates 2.1 as T
-
+/****************************************************************************
+**
+** Copyright (C) 2017 The Qt Company Ltd.
+** Contact: http://www.qt.io/licensing/
+**
+** This file is part of the Qt Quick Controls 2 module of the Qt Toolkit.
+**
+** $QT_BEGIN_LICENSE:LGPL3$
+** Commercial License Usage
+** Licensees holding valid commercial Qt licenses may use this file in
+** accordance with the commercial license agreement provided with the
+** Software or, alternatively, in accordance with the terms contained in
+** a written agreement between you and The Qt Company. For licensing terms
+** and conditions see http://www.qt.io/terms-conditions. For further
+** information use the contact form at http://www.qt.io/contact-us.
+**
+** GNU Lesser General Public License Usage
+** Alternatively, this file may be used under the terms of the GNU Lesser
+** General Public License version 3 as published by the Free Software
+** Foundation and appearing in the file LICENSE.LGPLv3 included in the
+** packaging of this file. Please review the following information to
+** ensure the GNU Lesser General Public License version 3 requirements
+** will be met: https://www.gnu.org/licenses/lgpl.html.
+**
+** GNU General Public License Usage
+** Alternatively, this file may be used under the terms of the GNU
+** General Public License version 2.0 or later as published by the Free
+** Software Foundation and appearing in the file LICENSE.GPL included in
+** the packaging of this file. Please review the following information to
+** ensure the GNU General Public License version 2.0 requirements will be
+** met: http://www.gnu.org/licenses/gpl-2.0.html.
+**
+** $QT_END_LICENSE$
+**
+****************************************************************************/
 import io.github.martimm.HikingCompanion.Theme 0.1
+import io.github.martimm.HikingCompanion.GlobalVariables 0.1
+//import io.github.martimm.HikingCompanion.Config 0.3
+
+import QtQuick 2.12
+import QtQuick.Window 2.12
+import QtQuick.Controls 2.12
+import QtQuick.Controls.impl 2.12
+import QtQuick.Templates 2.12 as T
 
 T.ComboBox {
   id: control
 
-  Component.onCompleted: {
-    console.log("CBX completed: " + model[0] + ", " + width + ", " + height);
-  }
+  property QtObject colors: Theme.appColors
+  property QtObject sizes: Theme.buttonSizes
 
-  implicitWidth: Math.max(background ? background.implicitWidth : 0,
-                                       contentItem.implicitWidth + leftPadding + rightPadding)
-  implicitHeight: Math.max(background ? background.implicitHeight : 0,
-                                        Math.max(contentItem.implicitHeight,
-                                                 indicator ? indicator.implicitHeight : 0) + topPadding + bottomPadding)
-  baselineOffset: contentItem.y + contentItem.baselineOffset
+  implicitWidth: Math.max(implicitBackgroundWidth + leftInset + rightInset,
+                          implicitContentWidth + leftPadding + rightPadding)
+  implicitHeight: Math.max(implicitBackgroundHeight + topInset + bottomInset,
+                           implicitContentHeight + topPadding + bottomPadding,
+                           implicitIndicatorHeight + topPadding + bottomPadding)
 
   leftPadding: padding + (!control.mirrored || !indicator || !indicator.visible ? 0 : indicator.width + spacing)
   rightPadding: padding + (control.mirrored || !indicator || !indicator.visible ? 0 : indicator.width + spacing)
@@ -32,6 +61,8 @@ T.ComboBox {
   delegate: ItemDelegate {
     width: parent.width
     text: control.textRole ? (Array.isArray(control.model) ? modelData[control.textRole] : model[control.textRole]) : modelData
+    palette.text: control.appColors.text
+    palette.highlightedText: control.appColors.highlightedText
     font.weight: control.currentIndex === index ? Font.DemiBold : Font.Normal
     highlighted: control.highlightedIndex === index
     hoverEnabled: control.hoverEnabled
@@ -40,7 +71,7 @@ T.ComboBox {
   indicator: ColorImage {
     x: control.mirrored ? control.padding : control.width - width - control.padding
     y: control.topPadding + (control.availableHeight - height) / 2
-    color: control.palette.dark
+    color: control.appColors.dark
     defaultColor: "#353637"
     source: "qrc:/qt-project.org/imports/QtQuick/Controls.2/images/double-arrow.png"
     opacity: enabled ? 1 : 0.3
@@ -61,16 +92,16 @@ T.ComboBox {
     validator: control.validator
 
     font: control.font
-    color: control.editable ? control.palette.text : control.palette.buttonText
-    selectionColor: Theme.component.color.selectionText //control.palette.highlight
-    selectedTextColor: Theme.component.color.selectedText //control.palette.highlightedText
+    color: control.editable ? control.appColors.text : control.appColors.buttonText
+    selectionColor: control.appColors.highlight
+    selectedTextColor: control.appColors.highlightedText
     verticalAlignment: Text.AlignVCenter
 
     background: Rectangle {
       visible: control.enabled && control.editable && !control.flat
       border.width: parent && parent.activeFocus ? 2 : 1
-      border.color: parent && parent.activeFocus ? control.palette.highlight : control.palette.button
-      color: "transparent" //control.palette.base
+      border.color: parent && parent.activeFocus ? control.appColors.highlight : control.appColors.button
+      color: control.appColors.base
     }
   }
 
@@ -78,8 +109,8 @@ T.ComboBox {
     implicitWidth: 140
     implicitHeight: 40
 
-    color: control.down ? control.palette.mid : control.palette.button
-    border.color: control.palette.highlight
+    color: control.down ? control.appColors.mid : control.appColors.button
+    border.color: control.appColors.highlight
     border.width: !control.editable && control.visualFocus ? 2 : 0
     visible: !control.flat || control.down
   }
@@ -103,76 +134,14 @@ T.ComboBox {
         width: parent.width
         height: parent.height
         color: "transparent"
-        border.color: control.palette.mid
+        border.color: control.appColors.mid
       }
 
       T.ScrollIndicator.vertical: ScrollIndicator { }
     }
 
-    background: Rectangle { }
-  }
-
-
-
-
-
-
-
-
-
-
-  //width: parent.width
-  //height: Theme.largeButtonHeight
-  //anchors.fill: parent
-
-  //opacity: enabled ? 1 : 0.7
-
-  //padding: 1
-  //z: 50
-  /*
-  font {
-    bold: true
-    underline: false
-    //pixelSize: 14
-    //pointSize: Theme.largeBtPointSize
-    family: Theme.fontFamily
-    pixelSize: Theme.cfgTextPixelSize
-  }
-
-  background: Rectangle {
-    //color: "#00000000"
-    color: Theme.cmptBgColor
-    border {
-      color: Theme.cmptFgColorL
-      width: 1
+    background: Rectangle {
+      color: control.appColors.window
     }
   }
-*/
-  //flat: false
-  /*
-  contentItem: Text {
-    text: control.textRole
-    color: Theme.cmptFgColorL
-    font {
-      family: Theme.fontFamily
-      bold: true
-      underline: false
-      pixelSize: Theme.cbxPixelSize
-    }
-  }
-*/
-  /*
-  style: ComboBoxStyle {
-    //control: selectItems
-    textColor: HCStyle.textColor
-    selectedTextColor: HCStyle.selectedTextColor
-    selectionColor: HCStyle.selectionTextColor
-  }
-*/
-  /*
-  background: Rectangle {
-    color: "#00000000"
-  }
-*/
-  /**/
 }
