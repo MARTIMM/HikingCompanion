@@ -44,8 +44,8 @@ linux:!android {
   # It is important to have a separate directory for this because referring them
   # from /usr/lib directly creates a lot of errors. This is caused by the
   # os installed qt libraries in /usr/lib and /usr/lib64
-#  LIBS += -L$$ProjectRoot/libsHack/Linux-lib-1.0.2o -lssl -lcrypto
-  LIBS += -lssl -lcrypto
+  LIBS += -L$$ProjectRoot/libsHack/Linux-lib-1.1.1d -lssl -lcrypto
+#  LIBS += -lssl -lcrypto
 }
 
 android {
@@ -76,10 +76,18 @@ android {
       ANDROID_EXTRA_LIBS = \
         $$ProjectRoot/libsHack/Android-armv7-r20b-lib-1.1.1d/libcrypto.so \
         $$ProjectRoot/libsHack/Android-armv7-r20b-lib-1.1.1d/libssl.so
-    }
+  }
+
+  contains(ANDROID_TARGET_ARCH,arm64-v8a) {
+      ANDROID_EXTRA_LIBS = \
+        $$ProjectRoot/libsHack/Android-armv64-r20b-lib-1.1.1d/libcrypto.so \
+        $$ProjectRoot/libsHack/Android-armv64-r20b-lib-1.1.1d/libssl.so
+  }
 
   ANDROID_PACKAGE_SOURCE_DIR = $$PWD/android
 }
 
+DISTFILES += \
+  Models/about-page.qmodel
 
 
