@@ -306,5 +306,27 @@
 
     "borderColor": "#88d0ee",
     "borderWidth": 0
+  },
+
+  "comboboxProperties": {
+    "background": "transparent",
+    "bgTransparency": 0.2,
+
+    "radius": 0,
+    "height": 4,
+
+    "leftMargin": 0.5,
+    "rightMargin": 0.5,
+    "topMargin": 0,
+    "bottomMargin": 0,
+
+    "textSelectedColor": "#88d0ee",
+    "textColor": "#2d73af",
+    "textFontPixelSize": 2.8,
+    "textFontFamily": "Symbola",
+    "textFontBold": false,
+
+    "borderColor": "#88d0ee",
+    "borderWidth": 0
   }
 }

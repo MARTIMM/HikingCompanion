@@ -31,6 +31,7 @@ Item {
     setProperties( c.titleTextProperties, titleTextProperties);
     setProperties( c.listTextProperties, listTextProperties);
     setProperties( c.labelTextProperties, labelTextProperties);
+    setProperties( c.comboboxProperties, comboboxProperties);
 
 /*
     setSubFieldSizes(
@@ -203,7 +204,7 @@ Item {
       }
 
       else {
-console.info("Dest field type of " + field + " is " + typeof source[field]);
+//console.info("Dest field type of " + field + " is " + typeof source[field]);
         if ( typeof destination[field] === 'number' ) {
           destination[field] = config.pixels(parseFloat(source[field]));
         }
@@ -652,6 +653,32 @@ console.info("Dest field type of " + field + " is " + typeof source[field]);
   property QtObject labelTextProperties: labelTextProperties
   QtObject {
     id: labelTextProperties
+
+    property color background
+    property real bgTransparency
+
+    property real radius
+    property real height
+
+    property color textSelectedColor
+    property color textColor
+    property color textLinkColor
+    property real textFontPixelSize
+    property string textFontFamily
+    property bool textFontBold
+
+    property real topMargin
+    property real bottomMargin
+    property real leftMargin
+    property real rightMargin
+
+    property color borderColor
+    property real borderWidth
+  }
+
+  property QtObject comboboxProperties: comboboxProperties
+  QtObject {
+    id: comboboxProperties
 
     property color background
     property real bgTransparency

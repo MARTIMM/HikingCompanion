@@ -4,10 +4,11 @@
         <file>Qml/Button/CurrentLocationTbButton.qml</file>
         <file>Qml/Button/CurrentTrackTbButton.qml</file>
         <file>Qml/Button/ExitAppButton.qml</file>
+        <file>Qml/Button/HikeSelectButton.qml</file>
         <file>Qml/Button/HomeTbButton.qml</file>
         <file>Qml/Button/MenuButton.qml</file>
         <file>Qml/Button/OpenMenuTbButton.qml</file>
-        <file>Qml/Button/SelectTrackButton.qml</file>
+        <file>Qml/Button/TrackSelectButton.qml</file>
         <file>Qml/Dialog/YesNoDialog.qml</file>
         <file>Qml/GlobalVariables.qml</file>
         <file>Qml/Main/Application.qml</file>
@@ -34,10 +35,14 @@
         <file>Qml/Parts/ConfigInputText.qml</file>
         <file>Qml/Parts/ConfigSwitch.qml</file>
         <file>Qml/Parts/InfoArea.qml</file>
+        <file>Qml/Parts/ListArea.qml</file>
         <file>Qml/Parts/MenuColumn.qml</file>
         <file>Qml/Parts/Toolbar.qml</file>
         <file>Qml/Tests/TestPage.qml</file>
         <file>Qml/Tests/TimedCoordinateGenerator.qml</file>
+        <file>Qml/Text/ScrolledText.qml</file>
         <file>Qml/Text/TextTypes.qml</file>
+        <file>Qml/Text/TitleText.qml</file>
+        <file>Qml/Parts/ToolbarButtonRow.qml</file>
     </qresource>
 </RCC>
