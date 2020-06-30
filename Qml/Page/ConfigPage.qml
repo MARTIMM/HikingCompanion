@@ -22,7 +22,7 @@ HCPage.Plain {
   anchors.fill: parent
 
   Component.onCompleted: {
-    backgroundImage.source = "file://" + config.getFilenameFromPart("Images/background.png");
+    //backgroundImage.source = "file://" + config.getFilenameFromPart("Images/background.png");
 
     // Define the list of languages after which the method will emit
     // the languageListChanged signal. Do the same for hikes and
@@ -116,12 +116,12 @@ HCPage.Plain {
     columns: 2
     spacing: 2
     width: parent.width
-    height: parent.height - pageToolbarRow.height - footerButtons.height
+    height: parent.height - toolbarButtons.height - footerButtons.height
 
     anchors {
       left: parent.left
       right: parent.right
-      top: pageToolbarRow.bottom
+      top: toolbarButtons.bottom
       bottom: footerButtons.top
 
       leftMargin: Theme.cfgFieldMargin
@@ -199,7 +199,7 @@ HCPage.Plain {
     Component.onCompleted: {
       init(GlobalVariables.FooterBar);
 //TODO 'Save config', 'Remove Hike' -> HikeSelectPage?
-//      addButton("qrc:Qml/Button/SelectTrackButton.qml");
+//      addButton("qrc:Qml/Button/TrackSelectButton.qml");
     }
 
     anchors.bottom: parent.bottom

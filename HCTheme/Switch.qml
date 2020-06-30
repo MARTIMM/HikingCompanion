@@ -45,29 +45,29 @@ T.Switch {
     id: control
 
     palette {
-      alternateBase: Theme.palette.alternateBase
-      base: Theme.palette.base
-      brightText: Theme.palette.brightText
-      button: Theme.palette.button
-      buttonText: Theme.palette.buttonText
+      //alternateBase: Theme.palette.alternateBase
+      //base: Theme.palette.base
+      //brightText: Theme.palette.brightText
+      //button: Theme.palette.button
+      //buttonText: Theme.palette.buttonText
       //placeholderText: Theme.palette.placeholderText
-      text: Theme.palette.text
-      toolTipBase: Theme.palette.toolTipBase
-      toolTipText: Theme.palette.toolTipText
-      window: Theme.palette.window
-      windowText: Theme.palette.windowText
+      //text: Theme.palette.text
+      //toolTipBase: Theme.palette.toolTipBase
+      //toolTipText: Theme.palette.toolTipText
+      //window: Theme.palette.window
+      //windowText: Theme.palette.windowText
 
-      dark: Theme.palette.dark
-      light: Theme.palette.light
-      mid: Theme.palette.mid
+      //dark: Theme.palette.dark
+      //light: Theme.palette.light
+      //mid: Theme.palette.mid
       //midLight: Theme.palette.midLight
-      shadow: Theme.palette.shadow
+      //shadow: Theme.palette.shadow
 
-      highlight: Theme.palette.highlight
-      highlightedText: Theme.palette.highlightedText
+      //highlight: Theme.palette.highlight
+      //highlightedText: Theme.palette.highlightedText
 
-      link: Theme.palette.link
-      linkVisited: Theme.palette.linkVisited
+      //link: Theme.palette.link
+      //linkVisited: Theme.palette.linkVisited
 
       //noRole: Theme.palette.noRole
     }

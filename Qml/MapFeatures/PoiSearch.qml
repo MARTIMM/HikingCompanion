@@ -7,7 +7,7 @@ import QtPositioning 5.12
 PlaceSearchModel {
   id: placeSearchModel
 
-  plugin: GlobalVariables.applicationWindow.mapPage.hikingCompanionMap.mapSourcePlugin
+  plugin: mapPage.hikingCompanionMap.mapSourcePlugin
 
   // searchTerm: Set from mapPage.pageToolbarRow.poiSearchChoice.onActivated()
   // searchArea; Set from mapPage.poiMap.onCenterChanged()

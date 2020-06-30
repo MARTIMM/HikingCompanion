@@ -12,7 +12,7 @@ T.TextField {
   id: control
 
   property QtObject colors: Theme.appColors
-  property QtObject sizes: Theme.buttonSizes
+  //property QtObject sizes: Theme.buttonSizes
 
   implicitWidth: implicitBackgroundWidth + leftInset + rightInset
                  || Math.max(contentWidth, placeholder.implicitWidth) + leftPadding + rightPadding
@@ -23,9 +23,9 @@ T.TextField {
   padding: 6
   leftPadding: padding + 4
 
-  color: control.appColors.text
-  selectionColor: control.appColors.highlight
-  selectedTextColor: control.appColors.highlightedText
+  //color: control.appColors.text
+  //selectionColor: control.appColors.highlight
+  //selectedTextColor: control.appColors.highlightedText
   placeholderTextColor: Color.transparent(control.color, 0.5)
   verticalAlignment: TextInput.AlignVCenter
 
@@ -49,7 +49,7 @@ T.TextField {
     implicitWidth: 200
     implicitHeight: 40
     border.width: control.activeFocus ? 2 : 1
-    color: control.appColors.base
-    border.color: control.activeFocus ? control.appColors.highlight : control.appColors.mid
+    //color: control.appColors.base
+    //border.color: control.activeFocus ? control.appColors.highlight : control.appColors.mid
   }
 }

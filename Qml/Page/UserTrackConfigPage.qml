@@ -240,7 +240,7 @@ HCPage.Plain {
     Component.onCompleted: {
       init(GlobalVariables.FooterBar);
 // TODO 'Save'
-//      addButton("qrc:Qml/Button/SelectTrackButton.qml");
+//      addButton("qrc:Qml/Button/TrackSelectButton.qml");
     }
 
     anchors.bottom: parent.bottom

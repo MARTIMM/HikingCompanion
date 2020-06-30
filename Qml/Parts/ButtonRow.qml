@@ -65,13 +65,15 @@ Rectangle {
 //leftMargin: 30//properties.leftMargin
     }
   }
-
+/*
   function ab ( buttonObject ) {
 console.log("Add button: " + buttonObject.text)
     buttonObject.createObject(buttonList);
 console.log("Add button: " + buttonObject.text)
   }
+*/
 
+/*
   function addButtons ( buttonObjects ) {
     for ( var buttonObject in buttonObjects ) {
 console.log("Add button: " + buttonObjects[buttonObject].text)
@@ -79,13 +81,15 @@ console.log("Add button: " + buttonObjects[buttonObject].text)
 console.log("Add button: " + buttonObjects[buttonObject].text)
     }
   }
+*/
 
+/*
   property var b;
   function addButton ( buttonPath ) {
-    //button.createObject(buttonList);
-console.log("Add button: " + buttonPath)
+ //   button.createObject(buttonList);
+console.info("Add button: " + buttonPath)
     b = Qt.createComponent(buttonPath);
-console.log("Add status 1: " + b.status + ", " + Component.Ready + ', ' + b.errorString())
+console.info("Add status 1: " + b.status + ", " + Component.Ready + ', ' + b.errorString())
     if ( b.status === Component.Ready )
       finishCreation();
     else
@@ -93,11 +97,38 @@ console.log("Add status 1: " + b.status + ", " + Component.Ready + ', ' + b.erro
   }
 
   function finishCreation ( ) {
-console.log("Add status 2: " + b.status)
+//console.log("Add status 2: " + b.status)
 
     if ( b.status === Component.Ready )
       b.createObject(buttonList);
     else if ( b.status === Component.Error )
       console.warn("Error loading object: " + b.errorString());
+  }
+*/
+
+  // Add buttons to the button row
+  property var _button;
+  property var _options;
+  function addButton ( path, o ) {
+    _options = Object(o);
+
+    _button = Qt.createComponent(path);
+//console.info("createComponent: " + _button.status + ' === ' + Component.Ready);
+    _finishCreation();
+  }
+
+  function _finishCreation ( ) {
+
+    if ( _button.status === Component.Ready ) {
+      _button.createObject( buttonList, _options);
+//      _button.menu = _options.menu;
+console.info("createObject: " + _options.type + ", " + _button.menu);
+    }
+
+    else if ( _button.status === Component.Error )
+      console.warn("Error loading object: " + _button.errorString());
+
+    else
+      _button.statusChanged.connect(_finishCreation);
   }
 }

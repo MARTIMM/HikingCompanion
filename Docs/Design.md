@@ -4,6 +4,7 @@
 ## Use case description
 
 ```plantuml
+scale 0.8
 title Global description of all that is involved
 
 'skinparam rectangle {
@@ -50,45 +51,119 @@ network2 -- emailServer
 
 ## Diagrams showing the relations of the classes
 
-Examples of certain classes are shown here: 1) Class inheriting from QObject 2) based on templates are drawn like
+### Types of classes
+1) Classes inheriting from QtObject. These are used as Qml templates for other Qml classes.
 ```plantuml
-class someClass1 << (O,yellow) >>
-class someClass2 << (T,lightblue) >>
-class someClass3 << (q,#ffee88) >>
+class SomeClass << (T,lightblue) >>
 ```
 
-### Basic structure
-The `ConfigData` is a singleton class which is used to keep all data alive and therefore it is not necessary to initialize all data again and again upon instantiation of an object. The `Config` class will become a hook to get to the data from QML.
+2) Qml classes to describe the graphical user interface.
+```plantuml
+class SomeClass << (Q,#ffcc00) >>
+```
+
+3) C++ classes used to get data from settings, config and external sites. Other actions are sorting, changing, etc to be handled by Qml.
+```plantuml
+class SomeClass << (C,yellow) >>
+```
+
+### Application structure
+
+The **ConfigData** is a singleton class which is used to keep all data alive and therefore it is not necessary to initialize all data again and again upon instantiation of an object. The **Config** class will is used as a hook to get to the data in and out of QML.
+
+### Top level structure
+
+The application qml pages are described separately. Some of the classes are repeated there when those pages directly or indirectly uses them.
 
 ```plantuml
-class "Singleton<ConfigData>" as ConfigData << (S,#FF7700) >>
-class Config << (O,yellow) >>
-class GpxFiles << (O,yellow) >>
-class GpxFile << (O,yellow) >>
 
-class "ApplicationPage" as ap << (q,#ffee88) >>
-class "MapPage" as mp << (q,#ffee88) >>
-class "TracksPage" as tp << (q,#ffee88) >>
-class "ConfigPage" as cp << (q,#ffee88) >>
+!include <tupadr3/common>
+!include <tupadr3/font-awesome/clone>
 
-class call_once << (T,lightblue) >>
-class Singleton << (T,lightblue) >>
+scale 0.8
+allowmixing
 
+class "ConfigData<Singleton>" as ConfigData << (C,yellow) >>
+class "Config<C++Interface>" as Config << (C,yellow) >>
+
+class "main<entry point>" as main << (C,yellow) >>
+
+class "Application" as ap << (Q,#ffcc00) >>
+
+class "call_once<template>" as call_once << (C,yellow) >>
+class "Singleton<template>" as Singleton << (C,yellow) >>
+
+FA_CLONE( AppPages, "application\nqml pages") #e0e0ff
 
 Config *- ConfigData
-'ConfigData *- GpxFiles
-GpxFiles *- GpxFile
 
 call_once -- Singleton
 Singleton -- ConfigData
 
-ap --> mp
-ap -> cp
-ap --> tp
+Config <-- ap
 
-cp -> Config
-tp -> GpxFiles
-tp --> mp
+main -> ap
+ap --> AppPages
+```
+
+### Background build up of a page
+
+The background image is set in the configuration of the selected hike. This is searched for using the **Config** hook.
+
+```plantuml
+
+!include <tupadr3/common>
+!include <tupadr3/font-awesome/clone>
+
+scale 0.8
+allowmixing
+
+FA_CLONE( AppPages, "application\nqml pages") #e0e0ff
+
+class "Frame" as TFrame << (T,lightblue) >>
+class Frame << (Q,#ffcc00) >>
+class Plain << (Q,#ffcc00) >>
+class "Image<background>" as Image << (Q,#ffcc00) >>
+
+TFrame <|-- Frame
+Plain -> Frame
+Frame -> Image
+AppPages -> Plain
+```
+
+```plantuml
+scale 0.8
+'class "Singleton<ConfigData>" as ConfigData << (S,#FF7700) >>
+class "ConfigData<Singleton>" as ConfigData << (C,yellow) >>
+'class Config << (C,yellow) >>
+class "Config<C++Interface>" as Config << (C,yellow) >>
+'class GpxFiles << (C,yellow) >>
+'class GpxFile << (C,yellow) >>
+
+class "Application" as ap << (Q,#ffcc00) >>
+'class "MapPage" as mp << (Q,#ffcc00) >>
+'class "TracksPage" as tp << (Q,#ffcc00) >>
+'class "ConfigPage" as cp << (Q,#ffcc00) >>
+
+'class call_once << (T,lightblue) >>
+'class Singleton << (T,lightblue) >>
+
+
+Config *- ConfigData
+'ConfigData *- GpxFiles
+'GpxFiles *- GpxFile
+
+'call_once -- Singleton
+'Singleton -- ConfigData
+
+Config <-- ap
+'ap --> mp
+'ap -> cp
+'ap --> tp
+
+'cp -> Config
+'tp -> GpxFiles
+'tp --> mp
 ```
 
 # Path settings

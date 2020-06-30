@@ -1,9 +1,11 @@
 import "." as HCPage
 import "../Button" as HCButton
 import "../Parts" as HCParts
+import "../Text" as HCText
 
+import io.github.martimm.HikingCompanion.Config 0.3
 import io.github.martimm.HikingCompanion.Theme 0.1
-import io.github.martimm.HikingCompanion.Textload 0.1
+//import io.github.martimm.HikingCompanion.Textload 0.1
 import io.github.martimm.HikingCompanion.GlobalVariables 0.1
 
 import QtQuick 2.9
@@ -13,18 +15,21 @@ import QtQuick.Layouts 1.3
 HCPage.Plain {
   id: exitPage
 
+  Config { id: config }
+//  TextLoad { id: textData }
+
   width: parent.width
   height: parent.height
   anchors.fill: parent
 
   Component.onCompleted: {
     // Info text
-    exitText.exitTextData.filename = config.getFilenameFromPart("exitText.html");
+    textData.filename = config.getFilenameFromPart("exitText.html");
 
     // headerMatch[0] is whole regex match
-    var text = exitText.exitTextData.text;
+    var text = textData.text;
     var headerMatch = text.match(/<h1>([^<]+)<\/h1>/i);
-    exitText.title = headerMatch[1];
+    title.title = headerMatch[1];
     exitText.text = text.split(headerMatch[0]).join('');
   }
 
@@ -33,30 +38,31 @@ HCPage.Plain {
 
     Component.onCompleted: {
       init(GlobalVariables.ToolbarButton);
-      addButton("qrc:Qml/Button/OpenMenuTbButton.qml");
-      addButton("qrc:Qml/Button/HomeTbButton.qml");
+      addButton( "qrc:Qml/Button/OpenMenuTbButton.qml",
+                { type: "tbb-menu", menu: pageMenu }
+                );
+      addButton( "qrc:Qml/Button/HomeTbButton.qml", { type: "tbb-home"});
     }
 
     anchors.top: parent.top
   }
 
   property alias exitText: exitText
-  HCParts.InfoArea {
+  HCText.TitleText {
+    id: title
+
+    width: parent.width
+    anchors.top: toolbarButtons.bottom
+  }
+
+  //  property alias aboutText: aboutText
+  HCText.ScrolledText {
     id: exitText
 
     width: parent.width
-
-    anchors {
-      left: parent.left
-      right: parent.right
-      top: toolbarButtons.bottom
-      bottom: footerButtons.top
-    }
-
-    property alias exitTextData: exitTextData
-    TextLoad {
-      id: exitTextData
-    }
+    height: parent.height - toolbarButtons.height - title.height
+    anchors.top: title.bottom
+    anchors.bottom: footerButtons.top //parent.bottom
   }
 
   HCParts.ButtonRow {

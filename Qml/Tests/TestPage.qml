@@ -22,11 +22,10 @@ ApplicationWindow {
 
   Component.onCompleted: {
     GlobalVariables.setApplicationWindow(this);
-
-    config.setWindowSize( width, height);
-
     //GlobalVariables.setCurrentPage(homePage);
     //GlobalVariables.setMenu(menu);
+
+    config.setWindowSize( width, height);
 
     // Get the hiking companion settings for default colors and
     // to specify sizes and other properties.
@@ -42,7 +41,8 @@ ApplicationWindow {
 
   Config { id: config }
 
-  HCPage.TrackSelectPage {
+  // Show the page to be tested
+  HCPage.HomePage {
     visible: true
   }
 }

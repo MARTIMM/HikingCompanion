@@ -46,8 +46,9 @@ import QtQuick.Templates 2.12 as T
 T.ComboBox {
   id: control
 
-  property QtObject colors: Theme.appColors
-  property QtObject sizes: Theme.buttonSizes
+  //property QtObject colors: Theme.appColors
+  //property QtObject sizes: Theme.buttonSizes
+  property QtObject properties: Theme.comboboxProperties
 
   implicitWidth: Math.max(implicitBackgroundWidth + leftInset + rightInset,
                           implicitContentWidth + leftPadding + rightPadding)
@@ -61,8 +62,8 @@ T.ComboBox {
   delegate: ItemDelegate {
     width: parent.width
     text: control.textRole ? (Array.isArray(control.model) ? modelData[control.textRole] : model[control.textRole]) : modelData
-    palette.text: control.appColors.text
-    palette.highlightedText: control.appColors.highlightedText
+//    palette.text: control.appColors.text
+//    palette.highlightedText: control.appColors.highlightedText
     font.weight: control.currentIndex === index ? Font.DemiBold : Font.Normal
     highlighted: control.highlightedIndex === index
     hoverEnabled: control.hoverEnabled
@@ -71,7 +72,7 @@ T.ComboBox {
   indicator: ColorImage {
     x: control.mirrored ? control.padding : control.width - width - control.padding
     y: control.topPadding + (control.availableHeight - height) / 2
-    color: control.appColors.dark
+    //color: control.appColors.dark
     defaultColor: "#353637"
     source: "qrc:/qt-project.org/imports/QtQuick/Controls.2/images/double-arrow.png"
     opacity: enabled ? 1 : 0.3
@@ -92,16 +93,16 @@ T.ComboBox {
     validator: control.validator
 
     font: control.font
-    color: control.editable ? control.appColors.text : control.appColors.buttonText
-    selectionColor: control.appColors.highlight
-    selectedTextColor: control.appColors.highlightedText
+    //color: control.editable ? control.appColors.text : control.appColors.buttonText
+    //selectionColor: control.appColors.highlight
+    //selectedTextColor: control.appColors.highlightedText
     verticalAlignment: Text.AlignVCenter
 
     background: Rectangle {
       visible: control.enabled && control.editable && !control.flat
       border.width: parent && parent.activeFocus ? 2 : 1
-      border.color: parent && parent.activeFocus ? control.appColors.highlight : control.appColors.button
-      color: control.appColors.base
+      //border.color: parent && parent.activeFocus ? control.appColors.highlight : control.appColors.button
+      //color: control.appColors.base
     }
   }
 
@@ -109,8 +110,8 @@ T.ComboBox {
     implicitWidth: 140
     implicitHeight: 40
 
-    color: control.down ? control.appColors.mid : control.appColors.button
-    border.color: control.appColors.highlight
+    //color: control.down ? control.appColors.mid : control.appColors.button
+    //border.color: control.appColors.highlight
     border.width: !control.editable && control.visualFocus ? 2 : 0
     visible: !control.flat || control.down
   }

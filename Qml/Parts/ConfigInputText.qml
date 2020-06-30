@@ -25,8 +25,8 @@ Item {
 
     // Show visible clue if input is right or wrong
     onTextChanged: {
-      color = inputText.acceptableInput
-      ? "#00ff00" : "#ff0000";
+      //color = inputText.acceptableInput
+      //? "#00ff00" : "#ff0000";
 //          ? Theme.colors.positive
 //          : Theme.colors.negative;
     }

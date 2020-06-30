@@ -5,10 +5,10 @@ import "../Text" as HCText
 import io.github.martimm.HikingCompanion.Theme 0.1
 import io.github.martimm.HikingCompanion.GlobalVariables 0.1
 
-import QtQuick 2.12
 //import QtQuick.Window 2.3
 import QtQuick.Controls 2.12
 import QtQuick.Controls.Styles 1.4
+import QtQuick 2.12
 import QtQuick.Layouts 1.12
 
 Rectangle {
@@ -77,7 +77,7 @@ Rectangle {
       id: pageText
 
       width: parent.width - 10 - 10 //Theme.sbWidth - 10
-      color: properties.textColor
+      //color: properties.textColor
 
       wrapMode: Text.WordWrap
       textFormat: Text.RichText

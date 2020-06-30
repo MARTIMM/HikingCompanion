@@ -19,135 +19,140 @@ constexpr double PI = 3.141592653589793;
 
 // ----------------------------------------------------------------------------
 class ConfigData : public QObject {
-  Q_OBJECT
+	Q_OBJECT
 
 public:
-  // This class is a singleton and the constructor should be private. Problem
-  // is when registering to be usable from qml it must be public. Possibly
-  // bypassing the singleton principle and create an object always.
-  static ConfigData *instance();
+	// This class is a singleton and the constructor should be private. Problem
+	// is when registering to be usable from qml it must be public. Possibly
+	// bypassing the singleton principle and create an object always.
+	static ConfigData *instance();
 
-  // language enumerations
-  enum Languages {
-    English, Nederlands
-  };
-  Q_ENUM(Languages)
+	// language enumerations
+	enum Languages {
+		English, Nederlands
+	};
+	Q_ENUM(Languages)
 
-  inline void defineHikeList() { _hikes->defineHikeList(); }
-  inline QStringList hikeList() { return _hikes->hikeList(); }
-  inline QVariantList trackList() { return _hikes->trackList(); }
-  inline void loadCoordinates(int index) {
-    return _hikes->loadCoordinates(index);
-  }
+	inline void defineHikeList() { _hikes->defineHikeList(); }
+	inline QStringList hikeList() { return _hikes->hikeList(); }
 
-  //inline QString description() { return _hikes->description(); }
+	inline void setHikeModel() { _hikes->setHikeModel(); }
+	inline QList<QObject *> hikeModel() { return _hikes->hikeModel(); }
 
-  inline QList<QObject *> gpxFileList() { return _hikes->gpxFileList(); }
-  inline QVariantList gpxTrackList() { return _hikes->gpxTrackList(); }
+	inline QVariantList trackList() { return _hikes->trackList(); }
+	inline void loadCoordinates(int index) {
+		return _hikes->loadCoordinates(index);
+	}
 
-  inline QGeoPath coordinateList() { return _hikes->coordinateList(); }
-  inline QGeoPath boundary() { return _hikes->boundary(); }
+	//inline QString description() { return _hikes->description(); }
 
-  inline QGeoCoordinate findClosestPointOnRoute(QGeoCoordinate c) {
-    return _hikes->findClosestPointOnRoute(c);
-  }
+	inline QList<QObject *> gpxFileList() { return _hikes->gpxFileList(); }
+	inline QVariantList gpxTrackList() { return _hikes->gpxTrackList(); }
 
-  inline double distanceToPointOnRoute( QGeoCoordinate c1, QGeoCoordinate c2) {
-    return _hikes->distanceToPointOnRoute( c1, c2);
-  }
+	inline QGeoPath coordinateList() { return _hikes->coordinateList(); }
+	inline QGeoPath boundary() { return _hikes->boundary(); }
 
-  inline QString dataDir() { return _dataDir; }
-  inline QString tileCacheDir() { return _dataDir + "/Cache/Tiles"; }
-  inline QString featureCacheDir() { return _dataDir + "/Cache/Features"; }
-  inline QString dataShareDir() { return _dataShareDir; }
+	inline QGeoCoordinate findClosestPointOnRoute(QGeoCoordinate c) {
+		return _hikes->findClosestPointOnRoute(c);
+	}
 
-  void cleanupTracks();
-  void cleanupHike();
+	inline double distanceToPointOnRoute( QGeoCoordinate c1, QGeoCoordinate c2) {
+		return _hikes->distanceToPointOnRoute( c1, c2);
+	}
 
-  void setSetting( QString name, QString value);
-  void setSetting( QString name, int value);
-  QString getSetting(QString name, QSettings *s = nullptr);
+	inline QString dataDir() { return _dataDir; }
+	inline QString tileCacheDir() { return _dataDir + "/Cache/Tiles"; }
+	inline QString featureCacheDir() { return _dataDir + "/Cache/Features"; }
+	inline QString dataShareDir() { return _dataShareDir; }
 
-  QStringList readKeys( QString group, QSettings *s = nullptr);
-  QString hikeEntryKey(QString hikeKey = "");
-  QString hikeTableName(QString hikeEntryKey);
-  QString tracksTableName( QString hikeTableName, int trackCount);
+	void cleanupTracks();
+	void cleanupHike();
 
-  void setGpxFileIndexSetting(int currentIndex);
-  int getGpxFileIndexSetting();
+	void setSetting( QString name, QString value);
+	void setSetting( QString name, int value);
+	QString getSetting(QString name, QSettings *s = nullptr);
 
-  QString getFilenameFromPart( QString partName );
+	QStringList readKeys( QString group, QSettings *s = nullptr);
+	QString hikeEntryKey(QString hikeKey = "");
+	QString hikeTableName(QString hikeEntryKey);
+	QString tracksTableName( QString hikeTableName, int trackCount);
 
-  QString getTheme( bool takeHCSettings );
+	void setGpxFileIndexSetting(int currentIndex);
+	int getGpxFileIndexSetting();
 
-  QString getHCVersion();
-  QString getOsVersion();
-  QStringList getHikeVersions();
-  QStringList getVersions();
+	QString getFilenameFromPart( QString partName );
+	QString getKeyedFilenameFromPart( QString hikeKey, QString partName );
 
-  inline int windowWidth() { return _width; }
-  inline int windowHeight() { return _height; }
-  double fysLength( int pixels );
-  int pixels( double fysLength );
-  void setWindowSize( int w, int h);
-  inline int getWindowWidth() { return _width; }
-  inline int getWindowHeight() { return _height; }
+	QString getTheme( bool takeHCSettings );
 
-  void saveUserTrackNames( QString hikeTitle, QString hikeDesc, QString hikeKey);
-  bool saveUserTrack(
-      QString hikeKey, QString trackTitle, QString trackDesc,
-      QString trackType, std::vector<Coord> coordinates
-      );
+	QString getHCVersion();
+	QString getOsVersion();
+	QStringList getHikeVersions();
+	QStringList getVersions();
 
-  inline QString thunderForestApiKey() { return _thunderForestApiKey; }
+	inline int windowWidth() { return _width; }
+	inline int windowHeight() { return _height; }
+	double fysLength( int pixels );
+	int pixels( double fysLength );
+	void setWindowSize( int w, int h);
+	inline int getWindowWidth() { return _width; }
+	inline int getWindowHeight() { return _height; }
+
+	void saveUserTrackNames( QString hikeTitle, QString hikeDesc, QString hikeKey);
+	bool saveUserTrack(
+	    QString hikeKey, QString trackTitle, QString trackDesc,
+	    QString trackType, std::vector<Coord> coordinates
+	    );
+
+	inline QString thunderForestApiKey() { return _thunderForestApiKey; }
 
 signals:
 
 public slots:
 
 private:
-  ConfigData(QObject *parent = nullptr);
-  static ConfigData *_createInstance();
+	ConfigData(QObject *parent = nullptr);
+	static ConfigData *_createInstance();
 
-  bool _checkForNewHikeData();
-  bool _checkHikeVersion();
+	bool _checkForNewHikeData();
+	bool _checkHikeVersion();
 //  void _mkNewTables();
 //  void _refreshData();
-  void _moveTable( QString fromTable, QString toTable);
-  bool _mkpath(QString path);
-  bool _copy( QString from, QString to );
-  void _dirCopy( QString from, QString to );
-  void _removeSettings(QString group);
-  bool _storeCoordinates(
-      QString hikeKey, QString hikeTableName, QString trackTitle,
-      QString trackDesc, QString trackType, std::vector<Coord> coordinates,
-      QString nTracks
-      );
-  void _loadThunderForestApiKey();
-  void _manageHCConfig();              // Hiking companion config
-  void _manageHikeConfig(bool check);  // Imported hike config
-  void _manageFeatures(bool check);
-  void _manageNotes(bool check);
-  void _managePages(bool check);
-  void _managePhotos(bool check);
-  void _manageTracks(bool check);
+	void _moveTable( QString fromTable, QString toTable);
+	bool _mkpath(QString path);
+	bool _copy( QString from, QString to );
+	void _dirCopy( QString from, QString to );
+	void _removeSettings(QString group);
+	bool _storeCoordinates(
+	    QString hikeKey, QString hikeTableName, QString trackTitle,
+	    QString trackDesc, QString trackType, std::vector<Coord> coordinates,
+	    QString nTracks
+	    );
+	void _loadThunderForestApiKey();
+	void _manageHCConfig();              // Hiking companion config
+	void _manageHikeConfig(bool check);  // Imported hike config
+	void _manageFeatures(bool check);
+	void _manageNotes(bool check);
+	void _managePages(bool check);
+	void _managePhotos(bool check);
+	void _manageTracks(bool check);
 
-  QString _programId;     // Program identification as reversed domainname
-  QString _platformName;  // Name of platform os
-  QString _dataDir;       // Location where all hikes are stored
-  QString _dataShareDir;  // Location where new data is placed to install
+	QString _programId;     // Program identification as reversed domainname
+	QString _platformName;  // Name of platform os
+	QString _dataDir;       // Location where all hikes are stored
+	QString _dataShareDir;  // Location where new data is placed to install
 
-  QString _thunderForestApiKey;
+	QString _thunderForestApiKey;
 
-  QSettings *_settings;     // Hiking companions config
-  QSettings *_hikeSettings; // Config of newly imported hike
-  QStringList _pages;       // Html pages
-  Hikes *_hikes;            // Available hikes
+	QSettings *_settings;     // Hiking companions config
+	QSettings *_hikeSettings; // Config of newly imported hike
+	QStringList _pages;       // Html pages
+	Hikes *_hikes;            // Available hikes
 
-  int _width;
-  int _height;
-  double _pixelRatio = -1.0;
-  double _pixelDensity = -1.0;
+	int _width;
+	int _height;
+	double _pixelRatio = -1.0;
+	double _pixelDensity = -1.0;
 };
 
 #endif // CONFIGDATA_H

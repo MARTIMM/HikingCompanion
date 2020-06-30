@@ -6,7 +6,7 @@ import QtLocation 5.9
 MapItemView {
   id: root
 
-  model: GlobalVariables.applicationWindow.mapPage.poiMap.poiSearch
+  model: mapPage.poiMap.poiSearch
   delegate: MapQuickItem {
     // place item on visible part of the map
     coordinate: place.location.coordinate
@@ -20,7 +20,7 @@ MapItemView {
       if ( typeof loc.longitude !== "undefined" &&
            typeof loc.latitude !== "undefined" ) {
 
-        var hcm = GlobalVariables.applicationWindow.mapPage.hikingCompanionMap;
+        var hcm = mapPage.hikingCompanionMap;
         var vr = hcm.visibleRegion.boundingGeoRectangle();
 
         var longMin = vr.topLeft.longitude;
@@ -47,7 +47,7 @@ MapItemView {
 
     anchorPoint.x: image.width * 0.5
     anchorPoint.y: image.height
-    zoomLevel: GlobalVariables.applicationWindow.mapPage.hikingCompanionMap.zoomLevel
+    zoomLevel: mapPage.hikingCompanionMap.zoomLevel
 
     sourceItem: Column {
       id: poiArea

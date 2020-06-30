@@ -51,7 +51,7 @@ HCPage.Plain {
 
     // Get the path of coordinates and show on map
     var path = config.coordinateList();
-    var mapPage = GlobalVariables.applicationWindow.mapPage;
+    //var mapPage = GlobalVariables.applicationWindow.mapPage;
     mapPage.featuresMap.trackCourse.setPath(path);
 
     // Get the boundaries of the set of coordinates to zoom in

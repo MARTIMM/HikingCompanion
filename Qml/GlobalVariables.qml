@@ -60,6 +60,7 @@ QtObject {
   property Column menu
   function setMenu ( newMenu ) {
     menu = newMenu;
+console.info('set menu to ' + menu);
   }
 }
 

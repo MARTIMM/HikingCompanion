@@ -61,6 +61,7 @@ console.log("Fn button init(" + type + ")");
   icon {
     width: properties.buttonIconWidth
     height: properties.buttonIconHeight
+/*
     color: control.checked || control.highlighted
               ? control.colors.brightText
               : control.flat && !control.down
@@ -68,7 +69,7 @@ console.log("Fn button init(" + type + ")");
                     ? control.colors.highlight
                     : control.colors.windowText)
                 : control.colors.buttonText
-
+*/
   }
 
   implicitWidth: textItem.contentWidth + properties.buttonLeftPadding + properties.buttonRightPadding
@@ -124,7 +125,7 @@ console.log("Fn button init(" + type + ")");
     height: control.height
     width: control.width
     //y: control.y
-    radius: properties.buttonRadius
+    radius: 7//properties.buttonRadius
 
     //anchors.fill: anchors.parent
 

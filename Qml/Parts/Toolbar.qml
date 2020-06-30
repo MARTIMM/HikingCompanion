@@ -56,7 +56,7 @@ console.log("Add button: " + buttonObjects[buttonObject].text)
     }
   }
 
-/**/
+/*
   property var b;
   function addButton ( buttonPath ) {
     //button.createObject(buttonList);
@@ -76,5 +76,30 @@ console.log("Add status 2: " + b.status)
       b.createObject(buttonList);
     else if ( b.status === Component.Error )
       console.warn("Error loading object: " + b.errorString());
+  }
+}
+*/
+
+  property var button;
+  property var options;
+  function addButton ( path, o ) {
+    options = Object(o);
+
+    button = Qt.createComponent(path);
+console.info("createComponent: " + button.status + ' === ' + Component.Ready);
+    finishCreation();
+  }
+
+  function finishCreation ( ) {
+
+    if ( button.status === Component.Ready ) {
+      button.createObject( buttonList, options);
+console.info("createObject: " + button.status + ", " + options);
+}
+    else if ( button.status === Component.Error )
+      console.warn("Error loading object: " + button.errorString());
+
+    else
+      button.statusChanged.connect(finishCreation);
   }
 }

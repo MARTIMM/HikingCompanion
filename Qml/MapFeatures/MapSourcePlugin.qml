@@ -66,8 +66,8 @@ Plugin {
   // Search for map type and set activeMapType with it
   function setMapSource ( mapType ) {
 
-    var mainWin = GlobalVariables.applicationWindow;
-    var suppMapTypes = mainWin.mapPage.hikingCompanionMap.supportedMapTypes;
+    //var mainWin = GlobalVariables.applicationWindow;
+    var suppMapTypes = mapPage.hikingCompanionMap.supportedMapTypes;
     for ( var mt in suppMapTypes ) {
 /*
       console.log("---");
@@ -92,7 +92,7 @@ From MapType QML component
       MapType.CustomMap - A custom map type.
 */
       if ( suppMapTypes[mt].style === mapType ) {
-        mainWin.mapPage.hikingCompanionMap.activeMapType = suppMapTypes[mt];
+        mapPage.hikingCompanionMap.activeMapType = suppMapTypes[mt];
         break;
       }
     }

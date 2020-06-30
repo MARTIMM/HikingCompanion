@@ -36,18 +36,18 @@ T.TextArea {
                            implicitBackgroundHeight + topInset + bottomInset,
                            placeholder.implicitHeight + topPadding + bottomPadding)
 
-  leftPadding: properties.leftPadding
-  rightPadding: properties.rightPadding
-  topPadding: properties.topPadding
-  bottomPadding: properties.bottomPadding
+  //leftPadding: properties.leftPadding
+  //rightPadding: properties.rightPadding
+  //topPadding: properties.topPadding
+  //bottomPadding: properties.bottomPadding
 
-  font.family: properties.textFontFamily
-  font.pixelSize: roperties.textFontPixelSize
+  //font.family: properties.textFontFamily
+  //font.pixelSize: properties.textFontPixelSize
 
-  color: "#aaa" //properties.textColor
+  //color: "#aaa" //properties.textColor
   placeholderTextColor: Color.transparent( control.color, 0.5)
-  selectionColor: properties.textSelectionColor
-  selectedTextColor: properties.textSelectedColor
+  //selectionColor: properties.textSelectionColor
+  //selectedTextColor: properties.textSelectedColor
 
   PlaceholderText {
     id: placeholder

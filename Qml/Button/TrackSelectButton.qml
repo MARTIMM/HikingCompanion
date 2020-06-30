@@ -44,6 +44,8 @@ Button {
 
   text: qsTr("Select")
   onClicked: {
+    // currentIndex is defined and set in TrackSelectPage and
+    // is visible here
     config.setGpxFileIndexSetting(currentIndex);
 
     // Get the coordinates of the selected track and emit a

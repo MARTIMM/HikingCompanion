@@ -28,7 +28,7 @@ Dialog {
     Component.onCompleted: {
       init(GlobalVariables.FooterBar);
 // TODO 'yes', 'no' or 'ok' depending on arguments to dialog
-//      addButton("qrc:Qml/Button/SelectTrackButton.qml");
+//      addButton("qrc:Qml/Button/TrackSelectButton.qml");
     }
 
     anchors.bottom: parent.bottom

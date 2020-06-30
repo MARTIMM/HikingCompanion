@@ -23,7 +23,7 @@ HCPage.Plain {
   // This function is called from other places too. Do not
   // move code to 'Component.onCompleted {}' above.
   function changeTrackList ( ) {
-    backgroundImage.source = "file://" + config.getFilenameFromPart("Images/background.png");
+    //backgroundImage.source = "file://" + config.getFilenameFromPart("Images/background.png");
 
     // Get the track list and check if empty. If empty, the select button
     // must be disabled. If not empty, set the previous selected entry
@@ -189,7 +189,7 @@ HCPage.Plain {
 
     Component.onCompleted: {
       init(GlobalVariables.FooterBar);
-      addButton("qrc:Qml/Button/SelectTrackButton.qml");
+      addButton("qrc:Qml/Button/TrackSelectButton.qml");
     }
 
     anchors.bottom: parent.bottom

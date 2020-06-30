@@ -2,6 +2,7 @@
 #include "gpxfile.h"
 #include "configdata.h"
 #include "cachedata.h"
+#include "hikemodelobject.h"
 
 //#include <QDebug>
 #include <QApplication>
@@ -23,22 +24,46 @@ void Hikes::defineHikeList() {
 	// Get all entries from the hike list
 	_hikeList.clear();
 	QStringList hikeKeys = cfg->readKeys("HikeList");
-	//qDebug() << "Hike keys:" << hikeKeys;
+	qDebug() << "Hike keys:" << hikeKeys;
 
 	for ( int hi = 0; hi < hikeKeys.count(); hi++) {
 		QString hikeKey = hikeKeys[hi];
 		QString hikeKeyTable = QString("h%1").arg(hi) +
 		    "." + cfg->getSetting("HikeList/" + hikeKey);
-		//qDebug() << "Key and table:" << hikeKey << hikeKeyTable;
+		qDebug() << "Key and table:" << hikeKey << hikeKeyTable;
 		_hikeList.append(cfg->getSetting(hikeKeyTable + "/title"));
 	}
 }
 
 // -----------------------------------------------------------------------------
-QStringList Hikes::hikeList() {
+void Hikes::setHikeModel( ) {
 
-	// Return the hike list
-	return _hikeList;
+	_hikeModelObjects.clear();
+	_hikeModelObjects.append(
+	      new HikeModelObject(
+	        "Sultans Trail",				// listTitle
+	        "Vienna to Istanbul",  	// listText
+	        "",									  	// listImage
+	        "",											// listTextFile
+	        "Sufitrail"							// listHikeKey
+	        )
+	);
+
+	_hikeModelObjects.append(
+	      new HikeModelObject(
+	        "Sufi Trail", "",
+	        "Images/popkijktindeverte-176x300.png",
+	        "hikeListText.html", "Sufitrail"
+	        )
+	);
+
+	_hikeModelObjects.append(
+	      new HikeModelObject(
+	        "Haarlem and surroundings",
+	        "Haarlem and surroundings in the Netherlands",
+	        "", "", "HaarlemNHTrips"
+	      )
+	);
 }
 
 // -----------------------------------------------------------------------------
@@ -293,3 +318,4 @@ void Hikes::_setGpxFiles() {
 	}
 }
 */
+

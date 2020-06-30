@@ -7,8 +7,17 @@ Rectangle {
   id: control
 
   property string text
+  property string textColor
+  property font textFont
+  property color textBorderColor
+  property int textBorderWidth
+  property color backgroundColor
 
+  property var halign
+  property var valign
+/*
   property QtObject properties
+
   function init ( type ) {
     if ( type === GlobalVariables.TitleText ) {
       properties = Theme.titleTextProperties;
@@ -21,51 +30,55 @@ Rectangle {
       textArea.horizontalAlignment = Text.AlignLeft;
     }
   }
-/*
+*//*
   implicitWidth: Math.max(implicitBackgroundWidth + leftInset + rightInset,
                           implicitContentWidth + leftPadding + rightPadding)
   implicitHeight: Math.max(implicitBackgroundHeight + topInset + bottomInset,
                            implicitContentHeight + topPadding + bottomPadding)
 */
   width: parent.width
-  height: properties.height
-  radius: properties.radius
+  height: 35 // properties.height
+  radius: 5 // properties.radius
 
   anchors {
     left: parent.left
     right: parent.right
     top: parent.top
 
-    leftMargin: properties.leftMargin
-    rightMargin: properties.rightMargin
-    topMargin: properties.topMargin
-    bottomMargin: properties.bottomMargin
+    leftMargin: 5 // properties.leftMargin
+    rightMargin: 5 // properties.rightMargin
+    topMargin: 2 // properties.topMargin
+    bottomMargin: 2 // properties.bottomMargin
   }
 
-  property color bg: properties.background
-  color: bg//Qt.rgba( bg.r, bg.g, bg.b, properties.bgTransparency)
+  //property color bg: properties.background
+  color: control.backgroundColor //Qt.rgba( bg.r, bg.g, bg.b, properties.bgTransparency)
 
   border {
-    color: properties.borderColor
-    width: properties.borderWidth
+    color: control.textBorderColor
+    width: control.textBorderWidth
   }
 
   property alias textArea: textArea
   Text {
     id: textArea
 
-    height: properties.height
+    // height: properties.height
     anchors.fill: parent
-    anchors.leftMargin: properties.leftMargin
+    anchors.leftMargin: 2 // properties.leftMargin
 
     text: control.text
+    horizontalAlignment: control.halign
+    verticalAlignment: control.valign
 
-    color: properties.textColor
-
+    color: control.textColor //properties.textColor
+    font: control.textFont
+/*
     font {
       pixelSize: properties.textFontPixelSize
       family: properties.textFontFamily
       bold: properties.textFontBold
     }
+*/
   }
 }

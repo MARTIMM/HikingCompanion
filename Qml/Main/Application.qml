@@ -5,27 +5,30 @@
 
   This is the main page where the root of the gui tree is described. This is
   mainly an empty page area wherein pages and a menu are created.
-*/
+---------------------------------------------------------------------------- */
 import "../../Qml/Page" as HCPage
 import "../../Qml/Parts" as HCParts
-import "../../Qml/Button" as HCButton
+//import "../../Qml/Button" as HCButton
 
 import io.github.martimm.HikingCompanion.Theme 0.1
-import io.github.martimm.HikingCompanion.GlobalVariables 0.1
+//import io.github.martimm.HikingCompanion.GlobalVariables 0.1
 import io.github.martimm.HikingCompanion.Config 0.3
+import io.github.martimm.HikingCompanion.Textload 0.1
 
-import QtQuick 2.11
-import QtQuick.Controls 2.4
+import QtQuick 2.12
+import QtQuick.Controls 2.12
 import QtQuick.Window 2.11
 
-
+// ----------------------------------------------------------------------------
 ApplicationWindow {
   id: root
 
+  property HCPage.Plain  currentPage
+  Config { id: config }
+  TextLoad { id: textData }
+
   Component.onCompleted: {
-    GlobalVariables.setApplicationWindow(this);
-    GlobalVariables.setCurrentPage(homePage);
-    GlobalVariables.setMenu(menu);
+    currentPage = homePage;
 
     config.setWindowSize( width, height);
 
@@ -41,10 +44,7 @@ ApplicationWindow {
     Theme.changeColors(JSON.parse(t));
   }
 
-  Config { id: config }
-
   title: qsTr("Your Hiking Companion")
-
   visible: true
 
   // Sizes are not important because on mobile devices it always scales
@@ -66,133 +66,79 @@ ApplicationWindow {
                 );
   }
 
-  property alias homePage: homePage
+  // Instantiate all pages of which only the first will be visible
   HCPage.HomePage { id: homePage; visible: true }
-
-  property alias hikeSelectPage: hikeSelectPage
-  HCPage.HikeSelectPage { id: hikeSelectPage }
-
-  property alias trackSelectPage: trackSelectPage
-  HCPage.TrackSelectPage { id: trackSelectPage }
-
-  property alias mapPage: mapPage
   HCPage.MapPage { id: mapPage; backgroundImage.visible: false }
-
-  property alias configPage: configPage
+/*
+  HCPage.HikeSelectPage { id: hikeSelectPage }
+  HCPage.TrackSelectPage { id: trackSelectPage }
   HCPage.ConfigPage { id: configPage }
-
-  property alias userTrackConfigPage: userTrackConfigPage
-  HCPage.UserTrackConfigPage { id: userTrackConfigPage }
-
-  property alias aboutPage: aboutPage
+  HCPage.UserTrackConfigPage { id: userConfigPage }
+*/
   HCPage.AboutPage { id: aboutPage }
-
-  property alias exitPage: exitPage
   HCPage.ExitPage { id: exitPage }
 
   // Menu
   HCParts.MenuColumn {
-    id: menu
+    id: pageMenu
+    Component.onCompleted: {
+      addButton( "qrc:Qml/Button/MenuButton.qml",
+                { type: "m-intro", page: homePage,
+                  menu: pageMenu, text: qsTr(" Home")
+//text: qsTr("⌂ Home")
+                }
+                );
 
-    property alias homeButton: homeButton
-    HCButton.MenuButton {
-      id: homeButton
-      //text: qsTr("⌂ Home")
-      text: qsTr(" Home")
-      onClicked: {
-        GlobalVariables.menu.menuEntryClicked(homePage);
-      }
-    }
+      addButton( "qrc:Qml/Button/MenuButton.qml",
+                { type: "m-map", page: mapPage,
+                  menu: pageMenu, text: qsTr(" Map")
+//text: qsTr("🌍 Map")
+//image: Image {source: "qrc:/Assets/Images/Icon/Buttons/Map.svg"}
+                }
+                );
 
-    property alias hikeSelectButton: hikeSelectButton
-    HCButton.MenuButton {
-      id: hikeSelectButton
-      //text: qsTr("🚶 Hikes")
-      text: qsTr(" Hikes")
-      onClicked: {
-        GlobalVariables.menu.menuEntryClicked(hikeSelectPage);
-      }
-    }
-
-    property alias tracksButton: tracksButton
-    HCButton.MenuButton {
-      id: tracksButton
-      //text: qsTr("🚶 Tracks")
-      text: qsTr(" Tracks")
-      onClicked: {
-        GlobalVariables.menu.menuEntryClicked(trackSelectPage);
-      }
-    }
-
-    property alias mapButton: mapButton
-    HCButton.MenuButton {
-      id: mapButton
-      //text: qsTr("🌍 Map")
 /*
-      Image {
-        source: "qrc:/Assets/Images/Icon/Buttons/Map.svg"
-      }
+      addButton( "qrc:Qml/Button/MenuButton.qml",
+                { type: "m-hikes", page: hikeSelectPage,
+                  menu: pageMenu, text: qsTr(" Hikes")
+//text: qsTr("🚶 Hikes")
+                }
+                );
+
+      addButton( "qrc:Qml/Button/MenuButton.qml",
+                { type: "m-tracks", page: trackSelectPage,
+                  menu: pageMenu, text: qsTr(" Tracks")
+//text: qsTr("🚶 Tracks")
+                }
+                );
+
+      addButton( "qrc:Qml/Button/MenuButton.qml",
+                { type: "m-config", page: configPage,
+                  menu: pageMenu, text: qsTr(" Config")
+//text: "🛠 " + qsTr("Config")
+                }
+                );
+
+      addButton( "qrc:Qml/Button/MenuButton.qml",
+                { type: "m-tracks-config", page: userTrackConfigPage,
+                  menu: pageMenu, text: qsTr(" Recording")
+//text: qsTr("📡 Recording")
+                }
+                );
 */
-      text: qsTr(" Map")
-      onClicked: {
-        GlobalVariables.menu.menuEntryClicked(mapPage);
-      }
-    }
+      addButton( "qrc:Qml/Button/MenuButton.qml",
+                { type: "m-about", page: aboutPage,
+                  menu: pageMenu, text: qsTr(" About")
+//text: qsTr("👥 About")
+                }
+                );
 
-    property alias configButton: configButton
-    HCButton.MenuButton {
-      id: configButton
-      //text: "🛠 " + qsTr("Config")
-      text: qsTr(" Config")
-      onClicked: {
-        GlobalVariables.menu.menuEntryClicked(configPage);
-      }
-    }
-
-    property alias userTrackConfigButton: userTrackConfigButton
-    HCButton.MenuButton {
-      id: userTrackConfigButton
-      //text: qsTr("📡 Recording")
-      text: qsTr(" Recording")
-
-      onClicked: {
-        GlobalVariables.menu.menuEntryClicked(userTrackConfigPage);
-      }
-    }
-
-    property alias aboutButton: aboutButton
-    HCButton.MenuButton {
-      id: aboutButton
-      //text: qsTr("👥 About")
-      text: qsTr(" About")
-      onClicked: {
-        GlobalVariables.menu.menuEntryClicked(aboutPage);
-      }
-    }
-
-    property alias exitButton: exitButton
-    HCButton.MenuButton {
-      id: exitButton
-/*
-      Component.onCompleted: {
-        if ( Qt.platform.os == "Android" ) {
-          txt = "■ ";
-        }
-
-        else {
-          txt = "⏻ ";
-        }
-        txt += qsTr("Exit");
-      }
-
-      property string txt
-      text: txt
-*/
-      //text: qsTr("⏻ Exit")
-      text: qsTr(" Exit")
-      onClicked: {
-        GlobalVariables.menu.menuEntryClicked(exitPage);
-      }
+      addButton( "qrc:Qml/Button/MenuButton.qml",
+                { type: "m-exit", page: exitPage,
+                  menu: pageMenu, text: qsTr(" Exit")
+//text: qsTr("⏻ Exit")
+                }
+                );
     }
   }
 }

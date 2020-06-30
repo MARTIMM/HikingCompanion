@@ -15,13 +15,13 @@ Timer {
   interval: 5000
 
   Component.onCompleted: {
-    var mainWin = GlobalVariables.applicationWindow;
-    root.running = mainWin.mapPage.coordinateGeneratorOnForTesting;
+    //var mainWin = GlobalVariables.applicationWindow;
+    root.running = mapPage.coordinateGeneratorOnForTesting;
     console.log("Timer running: " + root.running);
   }
 
   onTriggered: {
-    var mainWin = GlobalVariables.applicationWindow;
+    //var mainWin = GlobalVariables.applicationWindow;
 
     //if ( location.valid ) {
     //running = false;
@@ -30,7 +30,7 @@ Timer {
 
     //else {
     console.info( "Timed test coordinate: " + lon + ", " + lat);
-    mainWin.mapPage.location.coord = QtPositioning.coordinate( lat, lon);
+    mapPage.location.coord = QtPositioning.coordinate( lat, lon);
     location.processNewPosition();
 
     lon = lon + 0.00005 * (Math.random() - 0.2);
