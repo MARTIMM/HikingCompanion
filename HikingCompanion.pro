@@ -87,7 +87,6 @@ android {
   ANDROID_PACKAGE_SOURCE_DIR = $$PWD/android
 }
 
-DISTFILES += \
-  Models/about-page.qmodel
+DISTFILES +=
 
 
