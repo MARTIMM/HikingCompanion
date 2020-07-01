@@ -13,6 +13,7 @@ import "Page" as HCPage
 
 import QtQuick 2.9
 
+// moved to Application main page
 QtObject {
   // Button types. buttonType is set by the onCompletion() of a specific button
   // when created in a Toolbar or ButtonRow. The button template checks the type
@@ -39,7 +40,7 @@ QtObject {
 //  enum TrailType { Walk, Bike }
 
 
-
+/*
   // Currently displayed page.
   property HCPage.Plain currentPage
   function setCurrentPage ( newPage ) {
@@ -62,5 +63,7 @@ QtObject {
     menu = newMenu;
 console.info('set menu to ' + menu);
   }
+*/
+
 }
 
