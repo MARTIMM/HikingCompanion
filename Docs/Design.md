@@ -108,7 +108,7 @@ ap --> AppPages
 
 ### Background build up of a page
 
-The background image is set in the configuration of the selected hike. This is searched for using the **Config** hook.
+The background image is set in the configuration of the current selected hike. The image searched for using the **Config** hook and falls back to the image stored in the Hiking Companion configuration.
 
 ```plantuml
 
@@ -131,6 +131,256 @@ Frame -> Image
 AppPages -> Plain
 ```
 
+### Home page
+First page to show. It shows the description of the current selected hike.
+
+```plantuml
+scale 0.8
+
+class "ConfigData<Singleton>" as ConfigData << (C,yellow) >>
+class "Config<C++Interface>" as Config << (C,yellow) >>
+
+class Plain << (Q,#ffcc00) >>
+class "Textload<C++Interface>" as Textload << (C,yellow) >>
+class HomePage << (Q,#ffcc00) >>
+
+class ButtonRow << (Q,#ffcc00) >>
+class OpenMenuTbButton << (Q,#ffcc00) >>
+class HomeTbButton << (Q,#ffcc00) >>
+
+class TitleText << (Q,#ffcc00) >>
+
+
+Config <-- HomePage
+ConfigData --* Config
+
+Textload <-- HomePage
+
+HomePage --> Plain
+HomePage --> ButtonRow
+HomePage --> TitleText
+
+ButtonRow --> OpenMenuTbButton
+ButtonRow --> HomeTbButton
+```
+
+### Map page
+```plantuml
+scale 0.8
+'class "Singleton<ConfigData>" as ConfigData << (S,#FF7700) >>
+class "ConfigData<Singleton>" as ConfigData << (C,yellow) >>
+'class Config << (C,yellow) >>
+class "Config<C++Interface>" as Config << (C,yellow) >>
+'class GpxFiles << (C,yellow) >>
+'class GpxFile << (C,yellow) >>
+
+class "Application" as ap << (Q,#ffcc00) >>
+'class "MapPage" as mp << (Q,#ffcc00) >>
+'class "TracksPage" as tp << (Q,#ffcc00) >>
+'class "ConfigPage" as cp << (Q,#ffcc00) >>
+
+'class call_once << (T,lightblue) >>
+'class Singleton << (T,lightblue) >>
+
+
+Config *- ConfigData
+'ConfigData *- GpxFiles
+'GpxFiles *- GpxFile
+
+'call_once -- Singleton
+'Singleton -- ConfigData
+
+Config <-- ap
+'ap --> mp
+'ap -> cp
+'ap --> tp
+
+'cp -> Config
+'tp -> GpxFiles
+'tp --> mp
+```
+
+### Hike selection page
+```plantuml
+scale 0.8
+'class "Singleton<ConfigData>" as ConfigData << (S,#FF7700) >>
+class "ConfigData<Singleton>" as ConfigData << (C,yellow) >>
+'class Config << (C,yellow) >>
+class "Config<C++Interface>" as Config << (C,yellow) >>
+'class GpxFiles << (C,yellow) >>
+'class GpxFile << (C,yellow) >>
+
+class "Application" as ap << (Q,#ffcc00) >>
+'class "MapPage" as mp << (Q,#ffcc00) >>
+'class "TracksPage" as tp << (Q,#ffcc00) >>
+'class "ConfigPage" as cp << (Q,#ffcc00) >>
+
+'class call_once << (T,lightblue) >>
+'class Singleton << (T,lightblue) >>
+
+
+Config *- ConfigData
+'ConfigData *- GpxFiles
+'GpxFiles *- GpxFile
+
+'call_once -- Singleton
+'Singleton -- ConfigData
+
+Config <-- ap
+'ap --> mp
+'ap -> cp
+'ap --> tp
+
+'cp -> Config
+'tp -> GpxFiles
+'tp --> mp
+```
+
+### Track selection page
+```plantuml
+scale 0.8
+'class "Singleton<ConfigData>" as ConfigData << (S,#FF7700) >>
+class "ConfigData<Singleton>" as ConfigData << (C,yellow) >>
+'class Config << (C,yellow) >>
+class "Config<C++Interface>" as Config << (C,yellow) >>
+'class GpxFiles << (C,yellow) >>
+'class GpxFile << (C,yellow) >>
+
+class "Application" as ap << (Q,#ffcc00) >>
+'class "MapPage" as mp << (Q,#ffcc00) >>
+'class "TracksPage" as tp << (Q,#ffcc00) >>
+'class "ConfigPage" as cp << (Q,#ffcc00) >>
+
+'class call_once << (T,lightblue) >>
+'class Singleton << (T,lightblue) >>
+
+
+Config *- ConfigData
+'ConfigData *- GpxFiles
+'GpxFiles *- GpxFile
+
+'call_once -- Singleton
+'Singleton -- ConfigData
+
+Config <-- ap
+'ap --> mp
+'ap -> cp
+'ap --> tp
+
+'cp -> Config
+'tp -> GpxFiles
+'tp --> mp
+```
+
+### Configuration page
+```plantuml
+scale 0.8
+'class "Singleton<ConfigData>" as ConfigData << (S,#FF7700) >>
+class "ConfigData<Singleton>" as ConfigData << (C,yellow) >>
+'class Config << (C,yellow) >>
+class "Config<C++Interface>" as Config << (C,yellow) >>
+'class GpxFiles << (C,yellow) >>
+'class GpxFile << (C,yellow) >>
+
+class "Application" as ap << (Q,#ffcc00) >>
+'class "MapPage" as mp << (Q,#ffcc00) >>
+'class "TracksPage" as tp << (Q,#ffcc00) >>
+'class "ConfigPage" as cp << (Q,#ffcc00) >>
+
+'class call_once << (T,lightblue) >>
+'class Singleton << (T,lightblue) >>
+
+
+Config *- ConfigData
+'ConfigData *- GpxFiles
+'GpxFiles *- GpxFile
+
+'call_once -- Singleton
+'Singleton -- ConfigData
+
+Config <-- ap
+'ap --> mp
+'ap -> cp
+'ap --> tp
+
+'cp -> Config
+'tp -> GpxFiles
+'tp --> mp
+```
+
+### Users configuration page
+```plantuml
+scale 0.8
+'class "Singleton<ConfigData>" as ConfigData << (S,#FF7700) >>
+class "ConfigData<Singleton>" as ConfigData << (C,yellow) >>
+'class Config << (C,yellow) >>
+class "Config<C++Interface>" as Config << (C,yellow) >>
+'class GpxFiles << (C,yellow) >>
+'class GpxFile << (C,yellow) >>
+
+class "Application" as ap << (Q,#ffcc00) >>
+'class "MapPage" as mp << (Q,#ffcc00) >>
+'class "TracksPage" as tp << (Q,#ffcc00) >>
+'class "ConfigPage" as cp << (Q,#ffcc00) >>
+
+'class call_once << (T,lightblue) >>
+'class Singleton << (T,lightblue) >>
+
+
+Config *- ConfigData
+'ConfigData *- GpxFiles
+'GpxFiles *- GpxFile
+
+'call_once -- Singleton
+'Singleton -- ConfigData
+
+Config <-- ap
+'ap --> mp
+'ap -> cp
+'ap --> tp
+
+'cp -> Config
+'tp -> GpxFiles
+'tp --> mp
+```
+
+### About page
+```plantuml
+scale 0.8
+'class "Singleton<ConfigData>" as ConfigData << (S,#FF7700) >>
+class "ConfigData<Singleton>" as ConfigData << (C,yellow) >>
+'class Config << (C,yellow) >>
+class "Config<C++Interface>" as Config << (C,yellow) >>
+'class GpxFiles << (C,yellow) >>
+'class GpxFile << (C,yellow) >>
+
+class "Application" as ap << (Q,#ffcc00) >>
+'class "MapPage" as mp << (Q,#ffcc00) >>
+'class "TracksPage" as tp << (Q,#ffcc00) >>
+'class "ConfigPage" as cp << (Q,#ffcc00) >>
+
+'class call_once << (T,lightblue) >>
+'class Singleton << (T,lightblue) >>
+
+
+Config *- ConfigData
+'ConfigData *- GpxFiles
+'GpxFiles *- GpxFile
+
+'call_once -- Singleton
+'Singleton -- ConfigData
+
+Config <-- ap
+'ap --> mp
+'ap -> cp
+'ap --> tp
+
+'cp -> Config
+'tp -> GpxFiles
+'tp --> mp
+```
+
+### Exit page
 ```plantuml
 scale 0.8
 'class "Singleton<ConfigData>" as ConfigData << (S,#FF7700) >>
