@@ -149,6 +149,7 @@ class OpenMenuTbButton << (Q,#ffcc00) >>
 class HomeTbButton << (Q,#ffcc00) >>
 
 class TitleText << (Q,#ffcc00) >>
+class ScrolledText << (Q,#ffcc00) >>
 
 
 Config <-- HomePage
@@ -159,6 +160,7 @@ Textload <-- HomePage
 HomePage --> Plain
 HomePage --> ButtonRow
 HomePage --> TitleText
+HomePage --> ScrolledText
 
 ButtonRow --> OpenMenuTbButton
 ButtonRow --> HomeTbButton
@@ -168,13 +170,13 @@ ButtonRow --> HomeTbButton
 ```plantuml
 scale 0.8
 'class "Singleton<ConfigData>" as ConfigData << (S,#FF7700) >>
-class "ConfigData<Singleton>" as ConfigData << (C,yellow) >>
+'class "ConfigData<Singleton>" as ConfigData << (C,yellow) >>
 'class Config << (C,yellow) >>
-class "Config<C++Interface>" as Config << (C,yellow) >>
+'class "Config<C++Interface>" as Config << (C,yellow) >>
 'class GpxFiles << (C,yellow) >>
 'class GpxFile << (C,yellow) >>
 
-class "Application" as ap << (Q,#ffcc00) >>
+'class "Application" as ap << (Q,#ffcc00) >>
 'class "MapPage" as mp << (Q,#ffcc00) >>
 'class "TracksPage" as tp << (Q,#ffcc00) >>
 'class "ConfigPage" as cp << (Q,#ffcc00) >>
@@ -183,14 +185,14 @@ class "Application" as ap << (Q,#ffcc00) >>
 'class Singleton << (T,lightblue) >>
 
 
-Config *- ConfigData
+'Config *- ConfigData
 'ConfigData *- GpxFiles
 'GpxFiles *- GpxFile
 
 'call_once -- Singleton
 'Singleton -- ConfigData
 
-Config <-- ap
+'Config <-- ap
 'ap --> mp
 'ap -> cp
 'ap --> tp
@@ -204,13 +206,13 @@ Config <-- ap
 ```plantuml
 scale 0.8
 'class "Singleton<ConfigData>" as ConfigData << (S,#FF7700) >>
-class "ConfigData<Singleton>" as ConfigData << (C,yellow) >>
+'class "ConfigData<Singleton>" as ConfigData << (C,yellow) >>
 'class Config << (C,yellow) >>
-class "Config<C++Interface>" as Config << (C,yellow) >>
+'class "Config<C++Interface>" as Config << (C,yellow) >>
 'class GpxFiles << (C,yellow) >>
 'class GpxFile << (C,yellow) >>
 
-class "Application" as ap << (Q,#ffcc00) >>
+'class "Application" as ap << (Q,#ffcc00) >>
 'class "MapPage" as mp << (Q,#ffcc00) >>
 'class "TracksPage" as tp << (Q,#ffcc00) >>
 'class "ConfigPage" as cp << (Q,#ffcc00) >>
@@ -219,14 +221,14 @@ class "Application" as ap << (Q,#ffcc00) >>
 'class Singleton << (T,lightblue) >>
 
 
-Config *- ConfigData
+'Config *- ConfigData
 'ConfigData *- GpxFiles
 'GpxFiles *- GpxFile
 
 'call_once -- Singleton
 'Singleton -- ConfigData
 
-Config <-- ap
+'Config <-- ap
 'ap --> mp
 'ap -> cp
 'ap --> tp
@@ -240,13 +242,13 @@ Config <-- ap
 ```plantuml
 scale 0.8
 'class "Singleton<ConfigData>" as ConfigData << (S,#FF7700) >>
-class "ConfigData<Singleton>" as ConfigData << (C,yellow) >>
+'class "ConfigData<Singleton>" as ConfigData << (C,yellow) >>
 'class Config << (C,yellow) >>
-class "Config<C++Interface>" as Config << (C,yellow) >>
+'class "Config<C++Interface>" as Config << (C,yellow) >>
 'class GpxFiles << (C,yellow) >>
 'class GpxFile << (C,yellow) >>
 
-class "Application" as ap << (Q,#ffcc00) >>
+'class "Application" as ap << (Q,#ffcc00) >>
 'class "MapPage" as mp << (Q,#ffcc00) >>
 'class "TracksPage" as tp << (Q,#ffcc00) >>
 'class "ConfigPage" as cp << (Q,#ffcc00) >>
@@ -255,14 +257,14 @@ class "Application" as ap << (Q,#ffcc00) >>
 'class Singleton << (T,lightblue) >>
 
 
-Config *- ConfigData
+'Config *- ConfigData
 'ConfigData *- GpxFiles
 'GpxFiles *- GpxFile
 
 'call_once -- Singleton
 'Singleton -- ConfigData
 
-Config <-- ap
+'Config <-- ap
 'ap --> mp
 'ap -> cp
 'ap --> tp
@@ -276,13 +278,13 @@ Config <-- ap
 ```plantuml
 scale 0.8
 'class "Singleton<ConfigData>" as ConfigData << (S,#FF7700) >>
-class "ConfigData<Singleton>" as ConfigData << (C,yellow) >>
+'class "ConfigData<Singleton>" as ConfigData << (C,yellow) >>
 'class Config << (C,yellow) >>
-class "Config<C++Interface>" as Config << (C,yellow) >>
+'class "Config<C++Interface>" as Config << (C,yellow) >>
 'class GpxFiles << (C,yellow) >>
 'class GpxFile << (C,yellow) >>
 
-class "Application" as ap << (Q,#ffcc00) >>
+'class "Application" as ap << (Q,#ffcc00) >>
 'class "MapPage" as mp << (Q,#ffcc00) >>
 'class "TracksPage" as tp << (Q,#ffcc00) >>
 'class "ConfigPage" as cp << (Q,#ffcc00) >>
@@ -291,14 +293,14 @@ class "Application" as ap << (Q,#ffcc00) >>
 'class Singleton << (T,lightblue) >>
 
 
-Config *- ConfigData
+'Config *- ConfigData
 'ConfigData *- GpxFiles
 'GpxFiles *- GpxFile
 
 'call_once -- Singleton
 'Singleton -- ConfigData
 
-Config <-- ap
+'Config <-- ap
 'ap --> mp
 'ap -> cp
 'ap --> tp
@@ -312,13 +314,13 @@ Config <-- ap
 ```plantuml
 scale 0.8
 'class "Singleton<ConfigData>" as ConfigData << (S,#FF7700) >>
-class "ConfigData<Singleton>" as ConfigData << (C,yellow) >>
+'class "ConfigData<Singleton>" as ConfigData << (C,yellow) >>
 'class Config << (C,yellow) >>
-class "Config<C++Interface>" as Config << (C,yellow) >>
+'class "Config<C++Interface>" as Config << (C,yellow) >>
 'class GpxFiles << (C,yellow) >>
 'class GpxFile << (C,yellow) >>
 
-class "Application" as ap << (Q,#ffcc00) >>
+'class "Application" as ap << (Q,#ffcc00) >>
 'class "MapPage" as mp << (Q,#ffcc00) >>
 'class "TracksPage" as tp << (Q,#ffcc00) >>
 'class "ConfigPage" as cp << (Q,#ffcc00) >>
@@ -327,14 +329,14 @@ class "Application" as ap << (Q,#ffcc00) >>
 'class Singleton << (T,lightblue) >>
 
 
-Config *- ConfigData
+'Config *- ConfigData
 'ConfigData *- GpxFiles
 'GpxFiles *- GpxFile
 
 'call_once -- Singleton
 'Singleton -- ConfigData
 
-Config <-- ap
+'Config <-- ap
 'ap --> mp
 'ap -> cp
 'ap --> tp
@@ -345,75 +347,72 @@ Config <-- ap
 ```
 
 ### About page
+Purpose of this page is to show a bit of the work involved and people who have helped to complete the job. Additionally versions of the Hiking Companion and the current hike is displayed. Also a list attributions
+
 ```plantuml
 scale 0.8
-'class "Singleton<ConfigData>" as ConfigData << (S,#FF7700) >>
+
 class "ConfigData<Singleton>" as ConfigData << (C,yellow) >>
-'class Config << (C,yellow) >>
 class "Config<C++Interface>" as Config << (C,yellow) >>
-'class GpxFiles << (C,yellow) >>
-'class GpxFile << (C,yellow) >>
 
-class "Application" as ap << (Q,#ffcc00) >>
-'class "MapPage" as mp << (Q,#ffcc00) >>
-'class "TracksPage" as tp << (Q,#ffcc00) >>
-'class "ConfigPage" as cp << (Q,#ffcc00) >>
+class Plain << (Q,#ffcc00) >>
+class "Textload<C++Interface>" as Textload << (C,yellow) >>
+class AboutPage << (Q,#ffcc00) >>
 
-'class call_once << (T,lightblue) >>
-'class Singleton << (T,lightblue) >>
+class ButtonRow << (Q,#ffcc00) >>
+class OpenMenuTbButton << (Q,#ffcc00) >>
+class HomeTbButton << (Q,#ffcc00) >>
+
+class TitleText << (Q,#ffcc00) >>
+class ScrolledText << (Q,#ffcc00) >>
 
 
-Config *- ConfigData
-'ConfigData *- GpxFiles
-'GpxFiles *- GpxFile
+Config <-- AboutPage
+ConfigData --* Config
 
-'call_once -- Singleton
-'Singleton -- ConfigData
+Textload <-- AboutPage
 
-Config <-- ap
-'ap --> mp
-'ap -> cp
-'ap --> tp
+AboutPage --> Plain
+AboutPage --> ButtonRow
+AboutPage --> TitleText
+AboutPage --> ScrolledText
 
-'cp -> Config
-'tp -> GpxFiles
-'tp --> mp
+ButtonRow --> OpenMenuTbButton
+ButtonRow --> HomeTbButton
+
 ```
 
 ### Exit page
 ```plantuml
 scale 0.8
-'class "Singleton<ConfigData>" as ConfigData << (S,#FF7700) >>
+
 class "ConfigData<Singleton>" as ConfigData << (C,yellow) >>
-'class Config << (C,yellow) >>
 class "Config<C++Interface>" as Config << (C,yellow) >>
-'class GpxFiles << (C,yellow) >>
-'class GpxFile << (C,yellow) >>
 
-class "Application" as ap << (Q,#ffcc00) >>
-'class "MapPage" as mp << (Q,#ffcc00) >>
-'class "TracksPage" as tp << (Q,#ffcc00) >>
-'class "ConfigPage" as cp << (Q,#ffcc00) >>
+class Plain << (Q,#ffcc00) >>
+class "Textload<C++Interface>" as Textload << (C,yellow) >>
+class ExitPage << (Q,#ffcc00) >>
 
-'class call_once << (T,lightblue) >>
-'class Singleton << (T,lightblue) >>
+class ButtonRow << (Q,#ffcc00) >>
+class OpenMenuTbButton << (Q,#ffcc00) >>
+class HomeTbButton << (Q,#ffcc00) >>
+
+class TitleText << (Q,#ffcc00) >>
+class ScrolledText << (Q,#ffcc00) >>
 
 
-Config *- ConfigData
-'ConfigData *- GpxFiles
-'GpxFiles *- GpxFile
+Config <-- ExitPage
+ConfigData --* Config
 
-'call_once -- Singleton
-'Singleton -- ConfigData
+Textload <-- ExitPage
 
-Config <-- ap
-'ap --> mp
-'ap -> cp
-'ap --> tp
+ExitPage --> Plain
+ExitPage --> ButtonRow
+ExitPage --> TitleText
+ExitPage --> ScrolledText
 
-'cp -> Config
-'tp -> GpxFiles
-'tp --> mp
+ButtonRow --> OpenMenuTbButton
+ButtonRow --> HomeTbButton
 ```
 
 # Path settings
