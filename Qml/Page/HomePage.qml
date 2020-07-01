@@ -1,12 +1,14 @@
+/* ----------------------------------------------------------------------------
+  Author: Marcel Timmerman
+  License: Artistic 2.0
+  Copyright: © Marcel Timmerman 2018 .. ∞
+
+  This is the home page where the text for the current hike is displayed.
+  Many variables are set in the Application main page.
+---------------------------------------------------------------------------- */
 import "." as HCPage
-//import "../Button" as HCButton
 import "../Parts" as HCParts
 import "../Text" as HCText
-
-import io.github.martimm.HikingCompanion.Config 0.3
-import io.github.martimm.HikingCompanion.Theme 0.1
-//import io.github.martimm.HikingCompanion.Textload 0.1
-import io.github.martimm.HikingCompanion.GlobalVariables 0.1
 
 import QtQuick 2.11
 import QtQuick.Controls 2.4
@@ -14,13 +16,7 @@ import QtQuick.Controls 2.4
 HCPage.Plain {
   id: homePage
 
-//  Config { id: config }
-//  TextLoad { id: textData }
-
-  //property HCParts.MenuColumn
-
   Component.onCompleted: {
-    console.info("home page whz: " + width + ', ' + height + ', ' + z);
     // Info text
     textData.filename = config.getFilenameFromPart("homeText.html");
 
@@ -38,9 +34,11 @@ HCPage.Plain {
   HCParts.ButtonRow {
     id: toolbarButtons
 
+    // enums can only be referred to via QML
+    property int btype: ButtonType.ToolbarButton
     Component.onCompleted: {
-      init(GlobalVariables.ToolbarButton);
-//      console.info("buttonrow home page menu: " + pageMenu);
+      init(btype);
+
       addButton( "qrc:Qml/Button/OpenMenuTbButton.qml",
                 { type: "tbb-menu", menu: pageMenu }
                 );
@@ -50,16 +48,8 @@ HCPage.Plain {
     anchors.top: parent.top
   }
 
-//  property alias homeText: homeText
-
   HCText.TitleText {
     id: title
-
-/*
-    Component.onCompleted: {
-      console.info("WH home page title: " + width + ', ' + height);
-    }
-*/
 
     width: parent.width
     anchors.top: toolbarButtons.bottom
