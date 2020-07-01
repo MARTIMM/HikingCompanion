@@ -23,10 +23,35 @@ import QtQuick.Window 2.11
 ApplicationWindow {
   id: root
 
-  property HCPage.Plain  currentPage
+  // Button types. buttonType is set by the onCompletion() of a specific button
+  // when created in a Toolbar or ButtonRow. The button template checks the type
+  // and sets sizes or whatever.
+  enum ButtonType { ToolbarButton, ButtonRowButton, MenuButton }
+
+  // Likewise there are other types
+  enum TextType {
+    InfoAreaText,     // larger on page texts
+    MessageAreaText,  // small messages
+    WarningAreaText,  // warning text messages
+    SuccessAreaText,  // success text messages
+
+    LabelText,        // texts on labels, buttons, combo boxes etc.
+    EnabledText,      // enabled widgets === LabelText
+    DisabledText,     // disabled widgets
+
+    TitleText,        // titles
+    ListText          // list entries
+  }
+
+  enum ButtonBar { Toolbar, FooterBar, MenuBar }
+
+  // Much used objects from C++
   Config { id: config }
   TextLoad { id: textData }
 
+  // set the current page to the home page and store window size and
+  // load theme data
+  property HCPage.Plain  currentPage
   Component.onCompleted: {
     currentPage = homePage;
 
@@ -44,6 +69,7 @@ ApplicationWindow {
     Theme.changeColors(JSON.parse(t));
   }
 
+  // set some properties
   title: qsTr("Your Hiking Companion")
   visible: true
 
@@ -66,7 +92,7 @@ ApplicationWindow {
                 );
   }
 
-  // Instantiate all pages of which only the first will be visible
+  // Instantiate all pages of which only the home page will be visible
   HCPage.HomePage { id: homePage; visible: true }
   HCPage.MapPage { id: mapPage; backgroundImage.visible: false }
 /*
@@ -78,7 +104,7 @@ ApplicationWindow {
   HCPage.AboutPage { id: aboutPage }
   HCPage.ExitPage { id: exitPage }
 
-  // Menu
+  // Setup menu
   HCParts.MenuColumn {
     id: pageMenu
     Component.onCompleted: {
