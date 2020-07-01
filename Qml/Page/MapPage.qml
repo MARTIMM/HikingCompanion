@@ -118,7 +118,9 @@ HCPage.Plain {
 
     Component.onCompleted: {
       init(GlobalVariables.ToolbarButton);
-      addButton("qrc:Qml/Button/OpenMenuTbButton.qml");
+      addButton( "qrc:Qml/Button/OpenMenuTbButton.qml",
+                { type: "tbb-menu", menu: pageMenu }
+                );
       addButton("qrc:Qml/Button/CurrentLocationTbButton.qml");
       addButton("qrc:Qml/Button/CurrentTrackTbButton.qml");
     }
