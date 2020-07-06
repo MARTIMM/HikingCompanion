@@ -3,7 +3,7 @@
 ---
 # HikingCompanion Mobile Application
 
-Ok, done that, been there... This project will be abandoned because [the **Hiiker** app](https://hiiker.app/) does more less the same of what I had in mind. Even better, there are hikes available from all over the world!
+Ok, done that, been there... This project is abandoned because [the **Hiiker** app](https://hiiker.app/) does more less the same of what I had in mind. Even better, there are hikes available from all over the world!
 
 It was my first mobile experience so I had to learn many things and have started over a few times because of choosing the wrong developing tools. Now I have found my way into the matter I will focus myself on other apps.
 
