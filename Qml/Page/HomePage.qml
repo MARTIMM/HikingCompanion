@@ -35,10 +35,11 @@ HCPage.Plain {
     id: toolbarButtons
 
     // enums can only be referred to via QML
-    property int btype: ButtonType.ToolbarButton
+//    property int tbbtype: Application.ButtonType.ToolbarButton
+//    property int brbtype: Application.ButtonType.ButtonRowButton
     Component.onCompleted: {
-      init(btype);
-
+      init(toolbarButtonType);
+//console.info("brb type: " + brbtype);
       addButton( "qrc:Qml/Button/OpenMenuTbButton.qml",
                 { type: "tbb-menu", menu: pageMenu }
                 );

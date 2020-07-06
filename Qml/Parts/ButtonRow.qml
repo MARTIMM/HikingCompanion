@@ -10,6 +10,7 @@ Rectangle {
   property QtObject properties
 
   function init ( type ) {
+console.info("button row init: " + type)
     if ( type === GlobalVariables.Toolbar )
       properties = Theme.toolbarProperties;
     else if ( type === GlobalVariables.FooterBar )

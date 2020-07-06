@@ -8,7 +8,7 @@
 
 import io.github.martimm.HikingCompanion.Theme 0.1
 //import io.github.martimm.HikingCompanion.GlobalVariables 0.1
-import io.github.martimm.HikingCompanion.Config 0.3
+//import io.github.martimm.HikingCompanion.Config 0.3
 
 import QtQuick 2.12
 import QtQuick.Controls 2.12
@@ -21,7 +21,7 @@ Rectangle {
   property int menuClosedWidth: 0
   property real parentWidth: parent.width
 
-  Config { id: config }
+//  Config { id: config }
 
 /*
   Component.onCompleted: {
@@ -94,7 +94,7 @@ Rectangle {
 
 /*
     // Current page displayed.
-    property HCPage.Plain currentPage
+    //property HCPage.Plain currentPage
     function setCurrentPage ( newPage ) {
       currentPage = newPage;
     }
@@ -107,9 +107,9 @@ Rectangle {
 
     // Set page to map page. The map page will not have this button.
     function setMapPage() {
-      GlobalVariables.currentPage.visible = false;
-      GlobalVariables.applicationWindow.mapPage.visible = true;
-      GlobalVariables.setCurrentPage(GlobalVariables.applicationWindow.mapPage);
+      currentPage.visible = false;
+      mapPage.visible = true;
+      setCurrentPage(mapPage);
     }
 */
 

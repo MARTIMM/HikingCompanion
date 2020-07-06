@@ -26,7 +26,10 @@ ApplicationWindow {
   // Button types. buttonType is set by the onCompletion() of a specific button
   // when created in a Toolbar or ButtonRow. The button template checks the type
   // and sets sizes or whatever.
-  enum ButtonType { ToolbarButton, ButtonRowButton, MenuButton }
+//  enum ButtonType { ToolbarButton, ButtonRowButton, MenuButton }
+  property int toolbarButtonType
+  property int buttonRowButtonType
+  property int menuButtonType
 
   // Likewise there are other types
   enum TextType {
@@ -45,9 +48,10 @@ ApplicationWindow {
 
   enum ButtonBar { Toolbar, FooterBar, MenuBar }
 
-  // Much used objects from C++
+  // Much used objects from C++ and Qml
   Config { id: config }
   TextLoad { id: textData }
+  Theme { id: hiketheme }
 
   // set the current page to the home page and store window size and
   // load theme data

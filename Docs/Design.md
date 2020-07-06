@@ -51,29 +51,88 @@ network2 -- emailServer
 
 ## Diagrams showing the relations of the classes
 
-### Types of classes
-1) Classes inheriting from QtObject. These are used as Qml templates for other Qml classes.
+### Types
+
+Types of classes and other ways of denoting them is shown here. Qml file often look like a box in a box, nesting all types of Qml classes. For those classes it's particularly difficult to use UML symbols to show what the code is like.
+W'll start off with the symplest, a real C++ classes followed with a qml object and qml template.
+
+1) C++ classes used to get data from settings, config and external sites. Other actions are sorting, changing, etc to be handled by Qml. There exists only one object of a singleton class. The template is used to instantiate classes of different types with the same class description. The interface class is used here to connect Qml code with the C++ code.
+
 ```plantuml
-class SomeClass << (T,lightblue) >>
+scale 0.8
+
+class SomeClass
+class "ConfigData<singleton>" as a
+class "Config<template>" as b
+class "Textload<interface>" as c
 ```
 
-2) Qml classes to describe the graphical user interface.
+2) Qml classes to describe the graphical user interface. Qml has its own property system and uses Javascript for functions and callbacks for signals.
+A filename and the toplevel Qml class is shown at the top of the box. In the scheme below **Rectangle** is a Qml object with properties and functions. When an object is used from the library, the filename is used like e.g.**Plain** without the qml extention. When there are any props or subs, a classlike symbol is shown, below e.g. **ApplicationWindow**. The most general properties and functions are not shown like `width` and `height` properties or the init function `Component.onCompleted()`. Only those used by other objects are noted.
+
 ```plantuml
-class SomeClass << (Q,#ffcc00) >>
+scale 0.8
+allowmixing
+skinparam packageStyle Rectangle
+
+skinparam package {
+  FontSize 13
+  BackgroundColor<<qml file>> #f0ffff
+'  BorderColor<<Apache>> #FF6655
+  FontName Courier
+  BorderColor black
+  BackgroundColor gold
+'  ArrowFontName Impact
+'  ArrowColor #FF6655
+'  ArrowFontColor #777777
+}
+
+package Application.qml:ApplicationWindow as ap <<qml file>> {
+  class ApplicationWindow << (Q,#ffcc00) >> {
+    ...buttonTypes
+    ...textTypes
+    ...buttonBarTypes
+
+    setWindowSize()
+  }
+
+package Rectangle {}
 ```
 
-3) C++ classes used to get data from settings, config and external sites. Other actions are sorting, changing, etc to be handled by Qml.
+
+3) Classes used as Qml templates for other Qml classes. They all start with `T.` It is as if the objects are inheriting the template.
+
 ```plantuml
-class SomeClass << (C,yellow) >>
+
+scale 0.8
+allowmixing
+skinparam packageStyle Rectangle
+
+skinparam package {
+  FontSize 13
+  BackgroundColor<<qml file>> #f0ffff
+  FontName Courier
+  BorderColor black
+  BackgroundColor gold
+'  ArrowFontName Impact
+'  ArrowColor #FF6655
+'  ArrowFontColor #777777
+}
+
+package "T.Frame" as TFrame {}
+package Frame {}
+
+TFrame <|-- Frame
 ```
 
 ### Application structure
 
 The **ConfigData** is a singleton class which is used to keep all data alive and therefore it is not necessary to initialize all data again and again upon instantiation of an object. The **Config** class will is used as a hook to get to the data in and out of QML.
 
+<!-- ======================================================================= -->
 ### Top level structure
 
-The application qml pages are described separately. Some of the classes are repeated there when those pages directly or indirectly uses them.
+The application qml pages are described separately. Some of the classes are repeated there when those pages directly or indirectly uses them. The `application qml pages` shown below are the separate pages all contained in the **ApplicationWindow**.
 
 ```plantuml
 
@@ -82,33 +141,175 @@ The application qml pages are described separately. Some of the classes are repe
 
 scale 0.8
 allowmixing
+skinparam packageStyle Rectangle
 
-class "ConfigData<Singleton>" as ConfigData << (C,yellow) >>
-class "Config<C++Interface>" as Config << (C,yellow) >>
+skinparam package {
+  FontSize 13
+  BackgroundColor<<qml file>> #f0ffff
+  FontName Courier
+  BorderColor black
+  BackgroundColor gold
+}
 
-class "main<entry point>" as main << (C,yellow) >>
+class "ConfigData<Singleton>" as ConfigData
+class "Config<Interface>" as Config {
+  setWindowSize()
+  getTheme()
+  fysLength()
+}
 
-class "Application" as ap << (Q,#ffcc00) >>
+class "Textload<Interface>" as Textload
 
-class "call_once<template>" as call_once << (C,yellow) >>
-class "Singleton<template>" as Singleton << (C,yellow) >>
+class "main<entry point>" as main
+package HikingCompanionTheme as theme {}
+
+package Application.qml:ApplicationWindow as ap <<qml file>> {
+  class ApplicationWindow << (Q,#ffcc00) >> {
+    ...buttonTypes
+    ...textTypes
+    ...buttonBarTypes
+
+    properties
+
+    'Component.onCompleted()
+    setWindowSize()
+  }
+
+  package "MenuColumn" {}
+  node AppPages
+}
+
+class "call_once<template>" as call_once
+class "Singleton<template>" as Singleton
 
 FA_CLONE( AppPages, "application\nqml pages") #e0e0ff
 
 Config *- ConfigData
 
-call_once -- Singleton
-Singleton -- ConfigData
+call_once <-- Singleton
+Singleton <-- ConfigData
 
-Config <-- ap
+theme <---* ap
+main *---> ap
+ApplicationWindow *--> Config
+Textload <--* ApplicationWindow
 
-main -> ap
-ap --> AppPages
 ```
 
+<!-- ======================================================================= -->
+### Theming
+
+```plantuml
+scale 0.8
+allowmixing
+skinparam packageStyle Rectangle
+
+skinparam package {
+  BackgroundColor<<qml file>> #f0ffff
+  FontSize 13
+  FontName Courier
+  BorderColor black
+  BackgroundColor gold
+}
+
+class "Config<Interface>" as Config {
+  pixels()
+}
+
+package HikingCompanionTheme.qml:Item as mc <<qml file>> {
+  class Item << (Q,#ffcc00) >> {
+    toolbarProperties
+    buttonRowProperties
+    menuProperties
+    frameProperties
+    infoAreaProperties
+    titleTextProperties
+    listTextProperties
+    labelTextProperties
+    comboboxProperties
+
+    changeSettings()
+    changeColors()
+    setPaletteFields()
+    setSubFields()
+    setProperties()
+    setSubFieldSizes()
+  }
+}
+
+mc --> Config
+```
+
+
+<!-- ======================================================================= -->
+### The Menu
+The menu is from every page accessable. When it is opened, a larger field is spread out over the page which accepts mouse events. This is done to have
+
+```plantuml
+scale 0.8
+allowmixing
+skinparam packageStyle Rectangle
+
+skinparam package {
+  BackgroundColor<<qml file>> #f0ffff
+  FontSize 13
+  FontName Courier
+  BorderColor black
+  BackgroundColor gold
+}
+
+class "Config<Interface>" as Config {
+  pixels()
+}
+
+package MenuColumn.qml:Rectangle as mc <<qml file>> {
+  class Rectangle << (Q,#ffcc00) >> {
+    properties
+    menuOpenedWidth
+    menuClosedWidth
+    parentWidth
+
+    openMenu()
+    closeMenu()
+    addButton()
+    menuEntryClicked()
+  }
+
+  package MouseArea {
+    class MouseArea << (Q,#ffcc00) >> {
+      width
+      height
+      anchors.fill
+
+      onClicked()
+    }
+  }
+
+  package Column {
+    class Column << (Q,#ffcc00) >> {
+      width
+      height
+      z
+      clip
+      spacing
+      anchors.left
+      menuAnimateOpen
+      menuAnimateClose
+    }
+  }
+}
+
+mc --> Config
+```
+
+<!-- ======================================================================= -->
 ### Background build up of a page
 
-The background image is set in the configuration of the current selected hike. The image searched for using the **Config** hook and falls back to the image stored in the Hiking Companion configuration.
+All pages make use of the Plain qml object. Here, common things are defined like a background image. The MapPage uses this too but that page will show a map and goes over the background image.
+
+The background image is set in the configuration of the current selected hike. The image is searched using calls to **Config**. If not found it falls back to the image stored in the Hiking Companion configuration.
+
+The **Frame** in `Plain.qml` is inheriting from a template **T.Frame**.
 
 ```plantuml
 
@@ -117,303 +318,176 @@ The background image is set in the configuration of the current selected hike. T
 
 scale 0.8
 allowmixing
+skinparam packageStyle Rectangle
 
-FA_CLONE( AppPages, "application\nqml pages") #e0e0ff
+skinparam package {
+  BackgroundColor<<qml file>> #f0ffff
+  FontSize 13
+  FontName Courier
+  BorderColor black
+  BackgroundColor gold
+}
 
-class "Frame" as TFrame << (T,lightblue) >>
-class Frame << (Q,#ffcc00) >>
-class Plain << (Q,#ffcc00) >>
-class "Image<background>" as Image << (Q,#ffcc00) >>
 
-TFrame <|-- Frame
-Plain -> Frame
-Frame -> Image
-AppPages -> Plain
+class "Config<Interface>" as Config {
+  getFilenameFromPart()
+}
+
+package "T.Frame" as TFrame {
+}
+
+package Plain.qml:Frame as fr <<qml file>> {
+
+  class Frame << (Q,#ffcc00) >> {
+    visible
+  }
+
+  package Image {
+    class Image << (Q,#ffcc00) >> {
+      source
+      fillMode
+      horizontalAlignment
+      verticalAlignment
+    }
+  }
+
+  FA_CLONE( AppPage, "application\nqml page") #e0e0ff
+}
+
+TFrame <|--- fr
+Image --> Config
 ```
 
+<!-- ======================================================================= -->
+###
+
+All pages make use of the Plain qml object. Here, common things are defined like a background image. The MapPage uses this too but that page will show a map and goes over the background image.
+
+The background image is set in the configuration of the current selected hike. The image is searched using calls to **Config**. If not found it falls back to the image stored in the Hiking Companion configuration.
+
+The **Frame** in `Plain.qml` is inheriting from a template **T.Frame**.
+
+```plantuml
+
+scale 0.8
+allowmixing
+skinparam packageStyle Rectangle
+
+skinparam package {
+  BackgroundColor<<qml file>> #f0ffff
+  FontSize 13
+  FontName Courier
+  BorderColor black
+  BackgroundColor gold
+}
+
+
+class "Config<Interface>" as Config {
+  getFilenameFromPart()
+}
+
+package "T.Frame" as TFrame {
+}
+
+package Plain.qml:Frame as fr <<qml file>> {
+
+  class Frame << (Q,#ffcc00) >> {
+  }
+
+  package Image {
+    class Image << (Q,#ffcc00) >> {
+      source
+      fillMode
+      horizontalAlignment
+      verticalAlignment
+    }
+  }
+
+}
+
+TFrame <|--- fr
+Image --> Config
+```
+
+<!-- ======================================================================= -->
 ### Home page
 First page to show. It shows the description of the current selected hike.
 
 ```plantuml
 scale 0.8
+allowmixing
+skinparam packageStyle Rectangle
 
-class "ConfigData<Singleton>" as ConfigData << (C,yellow) >>
-class "Config<C++Interface>" as Config << (C,yellow) >>
-
-class Plain << (Q,#ffcc00) >>
-class "Textload<C++Interface>" as Textload << (C,yellow) >>
-class HomePage << (Q,#ffcc00) >>
-
-class ButtonRow << (Q,#ffcc00) >>
-class OpenMenuTbButton << (Q,#ffcc00) >>
-class HomeTbButton << (Q,#ffcc00) >>
-
-class TitleText << (Q,#ffcc00) >>
-class ScrolledText << (Q,#ffcc00) >>
+skinparam package {
+  BackgroundColor<<qml file>> #f0ffff
+  FontSize 13
+  FontName Courier
+  BorderColor black
+  BackgroundColor gold
+}
 
 
-Config <-- HomePage
-ConfigData --* Config
+class "Config<Interface>" as Config {
+  getFilenameFromPart()
+}
 
-Textload <-- HomePage
+class "Textload<Interface>" as Textload {
+  textData
+}
 
-HomePage --> Plain
-HomePage --> ButtonRow
-HomePage --> TitleText
-HomePage --> ScrolledText
+package HomePage:Plain <<qml file>> {
+  class Plain << (Q,#ffcc00) >> {
+  }
 
-ButtonRow --> OpenMenuTbButton
-ButtonRow --> HomeTbButton
+  package ButtonRow {
+
+    package OpenMenuTbButton {
+    }
+
+    package HomeTbButton {
+    }
+  }
+
+  package TitleText {
+  }
+
+  package ScrolledText {
+  }
+}
+
+Config <-- Plain
+Textload <-- Plain
 ```
 
-### Map page
-```plantuml
-scale 0.8
-'class "Singleton<ConfigData>" as ConfigData << (S,#FF7700) >>
-'class "ConfigData<Singleton>" as ConfigData << (C,yellow) >>
-'class Config << (C,yellow) >>
-'class "Config<C++Interface>" as Config << (C,yellow) >>
-'class GpxFiles << (C,yellow) >>
-'class GpxFile << (C,yellow) >>
-
-'class "Application" as ap << (Q,#ffcc00) >>
-'class "MapPage" as mp << (Q,#ffcc00) >>
-'class "TracksPage" as tp << (Q,#ffcc00) >>
-'class "ConfigPage" as cp << (Q,#ffcc00) >>
-
-'class call_once << (T,lightblue) >>
-'class Singleton << (T,lightblue) >>
+<!-- ======================================================================= -->
 
 
-'Config *- ConfigData
-'ConfigData *- GpxFiles
-'GpxFiles *- GpxFile
-
-'call_once -- Singleton
-'Singleton -- ConfigData
-
-'Config <-- ap
-'ap --> mp
-'ap -> cp
-'ap --> tp
-
-'cp -> Config
-'tp -> GpxFiles
-'tp --> mp
-```
-
+<!-- ======================================================================= -->
 ### Hike selection page
-```plantuml
-scale 0.8
-'class "Singleton<ConfigData>" as ConfigData << (S,#FF7700) >>
-'class "ConfigData<Singleton>" as ConfigData << (C,yellow) >>
-'class Config << (C,yellow) >>
-'class "Config<C++Interface>" as Config << (C,yellow) >>
-'class GpxFiles << (C,yellow) >>
-'class GpxFile << (C,yellow) >>
-
-'class "Application" as ap << (Q,#ffcc00) >>
-'class "MapPage" as mp << (Q,#ffcc00) >>
-'class "TracksPage" as tp << (Q,#ffcc00) >>
-'class "ConfigPage" as cp << (Q,#ffcc00) >>
-
-'class call_once << (T,lightblue) >>
-'class Singleton << (T,lightblue) >>
 
 
-'Config *- ConfigData
-'ConfigData *- GpxFiles
-'GpxFiles *- GpxFile
-
-'call_once -- Singleton
-'Singleton -- ConfigData
-
-'Config <-- ap
-'ap --> mp
-'ap -> cp
-'ap --> tp
-
-'cp -> Config
-'tp -> GpxFiles
-'tp --> mp
-```
-
+<!-- ======================================================================= -->
 ### Track selection page
-```plantuml
-scale 0.8
-'class "Singleton<ConfigData>" as ConfigData << (S,#FF7700) >>
-'class "ConfigData<Singleton>" as ConfigData << (C,yellow) >>
-'class Config << (C,yellow) >>
-'class "Config<C++Interface>" as Config << (C,yellow) >>
-'class GpxFiles << (C,yellow) >>
-'class GpxFile << (C,yellow) >>
-
-'class "Application" as ap << (Q,#ffcc00) >>
-'class "MapPage" as mp << (Q,#ffcc00) >>
-'class "TracksPage" as tp << (Q,#ffcc00) >>
-'class "ConfigPage" as cp << (Q,#ffcc00) >>
-
-'class call_once << (T,lightblue) >>
-'class Singleton << (T,lightblue) >>
 
 
-'Config *- ConfigData
-'ConfigData *- GpxFiles
-'GpxFiles *- GpxFile
-
-'call_once -- Singleton
-'Singleton -- ConfigData
-
-'Config <-- ap
-'ap --> mp
-'ap -> cp
-'ap --> tp
-
-'cp -> Config
-'tp -> GpxFiles
-'tp --> mp
-```
-
+<!-- ======================================================================= -->
 ### Configuration page
-```plantuml
-scale 0.8
-'class "Singleton<ConfigData>" as ConfigData << (S,#FF7700) >>
-'class "ConfigData<Singleton>" as ConfigData << (C,yellow) >>
-'class Config << (C,yellow) >>
-'class "Config<C++Interface>" as Config << (C,yellow) >>
-'class GpxFiles << (C,yellow) >>
-'class GpxFile << (C,yellow) >>
-
-'class "Application" as ap << (Q,#ffcc00) >>
-'class "MapPage" as mp << (Q,#ffcc00) >>
-'class "TracksPage" as tp << (Q,#ffcc00) >>
-'class "ConfigPage" as cp << (Q,#ffcc00) >>
-
-'class call_once << (T,lightblue) >>
-'class Singleton << (T,lightblue) >>
 
 
-'Config *- ConfigData
-'ConfigData *- GpxFiles
-'GpxFiles *- GpxFile
-
-'call_once -- Singleton
-'Singleton -- ConfigData
-
-'Config <-- ap
-'ap --> mp
-'ap -> cp
-'ap --> tp
-
-'cp -> Config
-'tp -> GpxFiles
-'tp --> mp
-```
-
+<!-- ======================================================================= -->
 ### Users configuration page
-```plantuml
-scale 0.8
-'class "Singleton<ConfigData>" as ConfigData << (S,#FF7700) >>
-'class "ConfigData<Singleton>" as ConfigData << (C,yellow) >>
-'class Config << (C,yellow) >>
-'class "Config<C++Interface>" as Config << (C,yellow) >>
-'class GpxFiles << (C,yellow) >>
-'class GpxFile << (C,yellow) >>
-
-'class "Application" as ap << (Q,#ffcc00) >>
-'class "MapPage" as mp << (Q,#ffcc00) >>
-'class "TracksPage" as tp << (Q,#ffcc00) >>
-'class "ConfigPage" as cp << (Q,#ffcc00) >>
-
-'class call_once << (T,lightblue) >>
-'class Singleton << (T,lightblue) >>
 
 
-'Config *- ConfigData
-'ConfigData *- GpxFiles
-'GpxFiles *- GpxFile
-
-'call_once -- Singleton
-'Singleton -- ConfigData
-
-'Config <-- ap
-'ap --> mp
-'ap -> cp
-'ap --> tp
-
-'cp -> Config
-'tp -> GpxFiles
-'tp --> mp
-```
-
+<!-- ======================================================================= -->
 ### About page
 Purpose of this page is to show a bit of the work involved and people who have helped to complete the job. Additionally versions of the Hiking Companion and the current hike is displayed. Also a list attributions
 
-```plantuml
-scale 0.8
 
-class "ConfigData<Singleton>" as ConfigData << (C,yellow) >>
-class "Config<C++Interface>" as Config << (C,yellow) >>
-
-class Plain << (Q,#ffcc00) >>
-class "Textload<C++Interface>" as Textload << (C,yellow) >>
-class AboutPage << (Q,#ffcc00) >>
-
-class ButtonRow << (Q,#ffcc00) >>
-class OpenMenuTbButton << (Q,#ffcc00) >>
-class HomeTbButton << (Q,#ffcc00) >>
-
-class TitleText << (Q,#ffcc00) >>
-class ScrolledText << (Q,#ffcc00) >>
-
-
-Config <-- AboutPage
-ConfigData --* Config
-
-Textload <-- AboutPage
-
-AboutPage --> Plain
-AboutPage --> ButtonRow
-AboutPage --> TitleText
-AboutPage --> ScrolledText
-
-ButtonRow --> OpenMenuTbButton
-ButtonRow --> HomeTbButton
-
-```
-
+<!-- ======================================================================= -->
 ### Exit page
-```plantuml
-scale 0.8
-
-class "ConfigData<Singleton>" as ConfigData << (C,yellow) >>
-class "Config<C++Interface>" as Config << (C,yellow) >>
-
-class Plain << (Q,#ffcc00) >>
-class "Textload<C++Interface>" as Textload << (C,yellow) >>
-class ExitPage << (Q,#ffcc00) >>
-
-class ButtonRow << (Q,#ffcc00) >>
-class OpenMenuTbButton << (Q,#ffcc00) >>
-class HomeTbButton << (Q,#ffcc00) >>
-
-class TitleText << (Q,#ffcc00) >>
-class ScrolledText << (Q,#ffcc00) >>
 
 
-Config <-- ExitPage
-ConfigData --* Config
 
-Textload <-- ExitPage
-
-ExitPage --> Plain
-ExitPage --> ButtonRow
-ExitPage --> TitleText
-ExitPage --> ScrolledText
-
-ButtonRow --> OpenMenuTbButton
-ButtonRow --> HomeTbButton
-```
 
 # Path settings
 

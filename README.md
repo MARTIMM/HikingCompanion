@@ -3,6 +3,11 @@
 ---
 # HikingCompanion Mobile Application
 
+Ok, done that, been there... This project will be abandoned because [the **Hiiker** app](https://hiiker.app/) does more less the same of what I had in mind. Even better, there are hikes available from all over the world!
+
+It was my first mobile experience so I had to learn many things and have started over a few times because of choosing the wrong developing tools. Now I have found my way into the matter I will focus myself on other apps.
+
+<!--
 ## Purpose
 Purpose of this app is to have a companion program suitable for showing tracks and additional information about those tracks. It is the intention to get those tracks from other app installations or from your own recorded tracks and added pictures and notes. So this program would become an all purpose vehicle for displaying external tracks. While its name would suggest that long walks are intended, a city walk showing the hot items of that place would equally be possible.
 
@@ -388,3 +393,4 @@ There must be a license which must describe the application in such a way that t
 
 Developer: Marcel Timmerman
 EMail: mt1957@gmail.com
+-->

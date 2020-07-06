@@ -24,6 +24,8 @@ Button {
   }
 
   onClicked: {
-    GlobalVariables.menu.setMapPage();
+    currentPage.visible = false;
+    mapPage.visible = true;
+    setCurrentPage(mapPage);
   }
 }
